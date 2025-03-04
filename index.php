@@ -220,15 +220,15 @@
 <meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" /> -->
 
 	<!-- CSS files -->
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-payments.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-vendors.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-payments.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
+	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
 	<link href="<?php echo INCLUDE_PATH; ?>assets/css/custom.css" rel="stylesheet">
 	<style>
 		@import url('https://rsms.me/inter/inter.css');

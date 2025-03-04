@@ -168,13 +168,13 @@
         <title>Floema Doar - Atualizar senha</title>
 
         <!-- CSS files -->
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-flags.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-socials.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-payments.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-vendors.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/tabler-marketing.min.css?1738096682" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>dist/css/demo.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-payments.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096682" rel="stylesheet"/>
         <style>
             @import url('https://rsms.me/inter/inter.css');
         </style>
@@ -188,7 +188,7 @@
         <?php endif; ?>
     </head>
     <body class=" d-flex flex-column">
-        <script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/demo-theme.min.js?1738096682"></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo-theme.min.js?1738096682"></script>
 
         <div class="page">
 
@@ -256,8 +256,8 @@
         </div>
 
         <!-- Tabler Core -->
-        <script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/tabler.min.js?1738096682" defer></script>
-        <script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/demo.min.js?1738096682" defer></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096682" defer></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096682" defer></script>
 
         <script>
             function validatePassword() {
