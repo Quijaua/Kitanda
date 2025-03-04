@@ -53,7 +53,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row my-3">
-                                <label for="pix_qr_code" class="col-3 col-form-label pt-0">QR Code</label>
+                                <label for="pix_qr_code" class="col-3 col-form-label pt-0">Imagem</label>
                                 <div class="col">
                                     <input type="file" name="logo" id="logo" 
                                         accept=".jpg, .jpeg, .png" value="<?php echo $logo; ?>" style="display: none;">
