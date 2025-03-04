@@ -14,6 +14,9 @@ $ composer install
 Criei um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaure o banco de dados que está no diretório ***sql***, via PHPmyAdmin ou conforme sua preferência.
 
 
+### Migrar banco de dados
+
+
 ### Configurando o sistema
 Antes de subir o ambiente é preciso configurá-lo. Para isso crie no servidor um arquivo `.env ` baseado no `.env_example` e preencha-o corretamente.
 
