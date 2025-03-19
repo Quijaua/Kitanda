@@ -1,3 +1,14 @@
+<?php
+    $read = verificaPermissao($_SESSION['user_id'], 'novidades', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+
+    $only_own = verificaPermissao($_SESSION['user_id'], 'novidades', 'only_own', $conn);
+    $disabledOnlyOwn = !$only_own ? 'disabled' : '';
+
+    $create = verificaPermissao($_SESSION['user_id'], 'novidades', 'create', $conn);
+    $disabledCreate = !$create ? 'disabled' : '';
+?>
+
 <style>
 .form-color {
     outline: none;
@@ -95,10 +106,18 @@
         }
     }
 
-    $tabela = 'tb_bulk_emails';
-    $sql = "SELECT * FROM $tabela ORDER BY date DESC";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    // Se o usuário possui somente a permissão only_own, filtramos os produtos criados por ele.
+    if ($read) {
+        $tabela = 'tb_bulk_emails';
+        $sql = "SELECT * FROM $tabela ORDER BY date DESC";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+    } else if ($only_own) {
+        $tabela = 'tb_bulk_emails';
+        $sql = "SELECT * FROM $tabela WHERE criado_por = ? ORDER BY date DESC";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$_SESSION['user_id']]);
+    }
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -114,7 +133,7 @@
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
-                <a href="<?php echo INCLUDE_PATH_ADMIN; ?>email_em_massa" class="btn btn-info btn-3">
+                <a href="<?= ($create) ? INCLUDE_PATH_ADMIN . "email_em_massa" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
                     <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2"><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
                     Novo email em massa
@@ -128,6 +147,13 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row justify-content-center">
+
+            <?php if (!$only_own && !$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <div class="col-8">
                 <div class="card">
                     <div class="card-body">
@@ -159,8 +185,8 @@
                             </div>
                             <?php endforeach; ?>
 
-                            <?php if (!$encontrouPagamento): ?>
-                                <h3 class="card-title">Você não possui nenhum envio de E-mail em massa registrado.</h3>
+                            <?php if (!$resultados): ?>
+                                <h3 class="card-title mb-0">Você não possui nenhum envio de E-mail em massa registrado.</h3>
                             <?php endif; ?>
 
                         </div>

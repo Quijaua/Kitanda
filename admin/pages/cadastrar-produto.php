@@ -1,3 +1,8 @@
+<?php
+    $create = verificaPermissao($_SESSION['user_id'], 'produtos', 'create', $conn);
+    $disabledCreate = !$create ? 'disabled' : '';
+?>
+
 <style>
     .dz-preview {
         position: relative;
@@ -60,6 +65,12 @@
     <div class="container-xl">
         <form id="createProduct" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/create-product.php" method="post" enctype="multipart/form-data">
             <div class="row">
+
+                <?php if (!$create): ?>
+                <div class="col-lg-12">
+                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                </div>
+                <?php exit; endif; ?>
 
                 <!-- Mensagem de erro -->
                 <?php if (isset($_SESSION['error_msg'])): ?>

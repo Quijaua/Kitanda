@@ -1,3 +1,8 @@
+<?php
+    $read = verificaPermissao($_SESSION['user_id'], 'financeiro', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+?>
+
 <style>
 .form-color {
     outline: none;
@@ -96,6 +101,13 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+
+            <?php if (!$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <div class="col-12">
                 <div class="card">
 

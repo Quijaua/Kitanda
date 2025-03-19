@@ -1,3 +1,8 @@
+<?php
+    $create = verificaPermissao($_SESSION['user_id'], 'novidades', 'create', $conn);
+    $disabledCreate = !$create ? 'disabled' : '';
+?>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -15,7 +20,14 @@
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <div class="row row-deck row-cards">
+        <div class="row row-cards">
+
+            <?php if (!$create): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <div class="col-lg-12">
                 <div class="card">
 

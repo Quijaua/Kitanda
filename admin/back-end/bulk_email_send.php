@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $title = $_POST['bulk_email_title'];
             $body = $_POST['bulk_email_body'];
+            $criado_por = $_SESSION['user_id'];
 
             $data = [
                 'title' => $title,
@@ -32,10 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Send emails and insert data into database
             if ( $service->sendEmail($data) ) {
                 $tabela_emails = 'tb_bulk_emails';
-                $sql_emails = "INSERT INTO $tabela_emails (title, body) VALUES (:title, :body)";
+                $sql_emails = "INSERT INTO $tabela_emails (title, body, criado_por) VALUES (:title, :body, :criado_por)";
                 $stmt_emails = $conn->prepare($sql_emails);
                 $stmt_emails->bindParam(':title', $title);
                 $stmt_emails->bindParam(':body', $body);
+                $stmt_emails->bindParam(':criado_por', $criado_por);
                 $stmt_emails->execute();
             }
 

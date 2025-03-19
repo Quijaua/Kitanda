@@ -12,10 +12,24 @@
     </div>
 </div>
 
+<?php
+    $update = verificaPermissao($_SESSION['user_id'], 'sobre', 'update', $conn);
+    $editorDisabled = !$update ? 'true' : 'false';
+    $disabled = $update ? 'disabled' : '';
+
+    if (!$update):
+?>
+<fieldset disabled>
+<?php endif; ?>
+
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-deck row-cards">
+
+            <?php if (!verificaPermissao($_SESSION['user_id'], 'sobre', 'read', $conn)): ?>
+            <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            <?php endif; exit; ?>
 
             <!-- Aviso da webhook -->
             <?php if ($webhook && (!$webhook['enabled'] || $webhook['interrupted'])): ?>
@@ -61,6 +75,7 @@
                                             selector: '#descricao',
                                             height: 300,
                                             menubar: false,
+                                            disabled: <?php echo $editorDisabled; ?>,
                                             statusbar: false,
                                                 license_key: 'gpl',
                                             plugins: [
@@ -542,6 +557,10 @@
         </div>
     </div>
 </div>
+
+<?php if (!verificaPermissao($_SESSION['user_id'], 'sobre', 'update', $conn)): ?>
+</fieldset>
+<?php endif; ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>

@@ -81,6 +81,12 @@
         $seo_nome = trim($_POST['seo_nome']);
         $seo_descricao = trim($_POST['seo_descricao']);
         $link = trim($_POST['link']);
+        $criado_por = $_SESSION['user_id'];
+
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Usuário não autenticado.']);
+            exit;
+        }
 
         // Validando o link (deve ser uma URL válida)
         if (!filter_var(INCLUDE_PATH . $link, FILTER_VALIDATE_URL)) {
@@ -109,8 +115,8 @@
             }
 
             // Inserindo o produto no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, seo_nome, seo_descricao, link) 
-                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :seo_nome, :seo_descricao, :link)");
+            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, seo_nome, seo_descricao, link, criado_por) 
+                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :seo_nome, :seo_descricao, :link, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
             $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
@@ -119,6 +125,7 @@
             $stmt->bindParam(':seo_nome', $seo_nome, PDO::PARAM_STR);
             $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
             $stmt->bindParam(':link', $link, PDO::PARAM_STR);
+            $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_INT);
             $stmt->execute();
             $product_id = $conn->lastInsertId();
 

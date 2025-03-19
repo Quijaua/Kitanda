@@ -40,6 +40,8 @@
         </div>
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'sobre', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('sobre'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>sobre" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -51,6 +53,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'produtos', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'produtos', 'only_own', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -62,6 +67,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'doadores', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('doadores'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>doadores" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -73,6 +81,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'financeiro', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('financeiro'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>financeiro" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -84,6 +95,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'captcha', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('captcha'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>captcha" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -95,6 +109,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'integracoes', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('integracoes'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>integracoes" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -106,6 +123,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'mensagens', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('mensagens'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>mensagens" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -117,6 +137,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'novidades', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('novidades'); ?> <?= activeSidebarLink('email_em_massa'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>novidades" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -128,6 +151,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'politica-de-privacidade', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('politica-de-privacidade'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>politica-de-privacidade" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -139,6 +165,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'aparencia', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('aparencia'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>aparencia" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -150,6 +179,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'cabecalho', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('cabecalho'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>cabecalho" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -161,6 +193,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'rodape', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('rodape'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>rodape" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -172,6 +207,9 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('webhook'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -183,6 +221,36 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'funcoes', 'read', $conn)): ?>
+                <li class="nav-item <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('criar-funcao'); ?> <?= activeSidebarLink('editar-funcao'); ?>">
+                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>funcoes" >
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-lock-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /><path d="M8 11m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z" /><path d="M10 11v-2a2 2 0 1 1 4 0v2" /></svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Funções
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'usuarios', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'usuarios', 'only_own', $conn)): ?>
+                <li class="nav-item <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('criar-usuario'); ?> <?= activeSidebarLink('editar-usuario'); ?>">
+                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>usuarios" >
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/user -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Usuários
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
+
                 <li class="nav-item <?= activeSidebarLink('editar-perfil'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>editar-perfil" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">

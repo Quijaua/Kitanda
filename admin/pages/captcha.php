@@ -1,3 +1,17 @@
+<?php
+    $read = verificaPermissao($_SESSION['user_id'], 'captcha', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+
+    $create = verificaPermissao($_SESSION['user_id'], 'captcha', 'create', $conn);
+    $disabledCreate = !$create ? 'disabled' : '';
+
+    $update = verificaPermissao($_SESSION['user_id'], 'captcha', 'update', $conn);
+    $disabledUpdate = !$update ? 'disabled' : '';
+
+    $delete = verificaPermissao($_SESSION['user_id'], 'captcha', 'delete', $conn);
+    $disabledDelete = !$delete ? 'disabled' : '';
+?>
+
 <style>
 .form-color {
     outline: none;
@@ -59,6 +73,13 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+
+            <?php if (!$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <div class="col-12">
                 <div class="card">
 
@@ -74,7 +95,7 @@
                                 <p class="card-subtitle">É uma plataforma de CAPTCHA que fornece uma camada de segurança adicional, protegendo sites contra bots e ataques automatizados, garantindo que apenas usuários humanos possam interagir com seu conteúdo. Ao implementar o hCaptcha, você pode melhorar a segurança do seu site de forma simples e eficaz.</p>
                             </div>
                             <div class="col-md-2 ms-auto d-print-none">
-                                <button class="mr-2 btn <?php echo ($hcaptcha_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100" data-bs-toggle="modal" data-bs-target="#modalHcaptcha"><?php echo ($hcaptcha_public) ? "Editar Chaves" : "Configurar"; ?></button>
+                                <button class="mr-2 btn <?php echo ($hcaptcha_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalHcaptcha" <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($hcaptcha_public) ? "Editar Chaves" : "Configurar"; ?></button>
                                 <a href="https://www.hcaptcha.com" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
                             </div>
                         </div>
@@ -86,7 +107,7 @@
                                 <p class="card-subtitle">É uma alternativa inovadora e sem CAPTCHA oferecida pela Cloudflare. Em vez de apresentar desafios tradicionais, Turnstile permite que você proteja seu site contra bots e fraudes de forma mais eficiente, sem a necessidade de interação do usuário. Ele é ideal para uma experiência de navegação mais fluida e menos intrusiva.</p>
                             </div>
                             <div class="col-md-2 ms-auto d-print-none">
-                                <button class="mr-2 btn <?php echo ($turnstile_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100" data-bs-toggle="modal" data-bs-target="#modalTurnstile"><?php echo ($turnstile_public) ? "Editar Chaves" : "Configurar"; ?></button>
+                                <button class="mr-2 btn <?php echo ($turnstile_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalTurnstile" <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($turnstile_public) ? "Editar Chaves" : "Configurar"; ?></button>
                                 <a href="https://www.cloudflare.com/pt-br/application-services/products/turnstile/" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
                             </div>
                         </div>
@@ -96,7 +117,6 @@
         </div>
     </div>
 </div>
-
 
 <?php
     // Função para buscar páginas associadas a um tipo de CAPTCHA
@@ -155,7 +175,16 @@
                     <h5 class="modal-title">Configurar hCaptcha</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <?php if (!$update && $hcaptcha['button']): ?>
+                <fieldset disabled>
+                <?php endif; ?>
+
                 <div class="modal-body">
+                    <?php if (!$create && !$hcaptcha['button']): ?>
+                    <div class="alert alert-danger">Você não tem permissão para configurar um CAPTCHA.</div>
+                    <?php endif; ?>
+
                     <div class="mb-3">
                         <label for="hcaptcha_site" class="form-label">Chave de Site</label>
                         <input id="hcaptcha_site" name="hcaptcha_site" type="text" class="form-control" required value="<?php echo $hcaptcha_public; ?>">
@@ -190,7 +219,7 @@
                         </label>
                         <label class="form-check">
                             <input id="loginHcaptcha" name="hcaptcha_pages[]" class="form-check-input" type="checkbox" value="login" <?= (isset($hcaptcha['pages']) && in_array('doacao', $hcaptcha['pages'])) ? 'checked' : ''; ?>>
-                            <span class="form-check-label">Página de Doação</span>
+                            <span class="form-check-label">Página de Login</span>
                         </label>
                         <label class="form-check">
                             <input id="enviar_emailHcaptcha" name="hcaptcha_pages[]" class="form-check-input" type="checkbox" value="enviar_email" <?= (isset($hcaptcha['pages']) && in_array('enviar_email', $hcaptcha['pages'])) ? 'checked' : ''; ?>>
@@ -202,14 +231,19 @@
                         </label>
                     </div>
                 </div>
+
+                <?php if (!$update && $hcaptcha['button']): ?>
+                </fieldset>
+                <?php endif; ?>
+
                 <div class="modal-footer">
                     <?php if ($hcaptcha['button']): ?>
-                        <button type="button" class="btn me-auto btn-ghost-danger" id="removehCaptchaBtn">Remover hCaptcha</button>
+                        <button type="button" class="btn me-auto btn-ghost-danger" id="removehCaptchaBtn" <?= $disabledDelete; ?>>Remover hCaptcha</button>
                     <?php else: ?>
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Fechar</button>
                     <?php endif; ?>
 
-                    <button type="submit" class="btn btn-primary" name="saveHcaptcha">Salvar</button>
+                    <button type="submit" class="btn btn-primary" name="saveHcaptcha" <?= ($hcaptcha['button']) ? $disabledUpdate : $disabledCreate; ?>>Salvar</button>
                 </div>
             </form>
         </div>
@@ -225,7 +259,16 @@
                     <h5 class="modal-title">Configurar Turnstile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <?php if (!$update && $turnstile['button']): ?>
+                <fieldset disabled>
+                <?php endif; ?>
+
                 <div class="modal-body">
+                    <?php if (!$create && !$turnstile['button']): ?>
+                    <div class="alert alert-danger">Você não tem permissão para configurar um CAPTCHA.</div>
+                    <?php endif; ?>
+
                     <div class="mb-3">
                         <label for="turnstile_site" class="form-label">Chave de Site</label>
                         <input id="turnstile_site" name="turnstile_site" type="text" class="form-control" required value="<?php echo $turnstile_public; ?>">
@@ -260,7 +303,7 @@
                         </label>
                         <label class="form-check">
                             <input id="loginTurnstile" name="turnstile_pages[]" class="form-check-input" type="checkbox" value="login" <?= (isset($turnstile['pages']) && in_array('doacao', $turnstile['pages'])) ? 'checked' : ''; ?>>
-                            <span class="form-check-label">Página de Doação</span>
+                            <span class="form-check-label">Página de Login</span>
                         </label>
                         <label class="form-check">
                             <input id="enviar_emailTurnstile" name="turnstile_pages[]" class="form-check-input" type="checkbox" value="enviar_email" <?= (isset($turnstile['pages']) && in_array('enviar_email', $turnstile['pages'])) ? 'checked' : ''; ?>>
@@ -272,14 +315,19 @@
                         </label>
                     </div>
                 </div>
+
+                <?php if (!$update && $turnstile['button']): ?>
+                </fieldset>
+                <?php endif; ?>
+
                 <div class="modal-footer">
                     <?php if ($turnstile['button']): ?>
-                        <button type="button" class="btn me-auto btn-ghost-danger" id="removeTurnstileBtn">Remover Turnstile</button>
+                        <button type="button" class="btn me-auto btn-ghost-danger" id="removeTurnstileBtn" <?= $disabledDelete; ?>>Remover Turnstile</button>
                     <?php else: ?>
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Fechar</button>
                     <?php endif; ?>
 
-                    <button type="submit" class="btn btn-primary" name="saveTurnstile">Salvar</button>
+                    <button type="submit" class="btn btn-primary" name="saveTurnstile" <?= ($turnstile['button']) ? $disabledUpdate : $disabledCreate; ?>>Salvar</button>
                 </div>
             </form>
         </div>

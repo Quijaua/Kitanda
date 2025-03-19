@@ -1,3 +1,12 @@
+<?php
+    $read = verificaPermissao($_SESSION['user_id'], 'politica-de-privacidade', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+
+    $update = verificaPermissao($_SESSION['user_id'], 'politica-de-privacidade', 'update', $conn);
+    $editorDisabled = !$update ? 'true' : 'false';
+    $disabledUpdate = !$update ? 'disabled' : '';
+?>
+
 <style>
 .form-color {
     outline: none;
@@ -55,10 +64,27 @@
     </div>
 </div>
 
+<?php if (!$update): ?>
+<fieldset disabled>
+<?php endif; ?>
+
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+
+            <?php if (!$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
+            <?php if (!$update): ?>
+            <div class="col-12">
+                <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
+            </div>
+            <?php endif; ?>
+
             <div class="col-lg-12">
                 <div class="card">
 
@@ -73,6 +99,7 @@
                                         selector: '#privacy_policy',
                                         height: 300,
                                         menubar: false,
+                                        disabled: <?php echo $editorDisabled; ?>,
                                         statusbar: false,
                                             license_key: 'gpl',
                                         plugins: [
@@ -110,3 +137,7 @@
         </div>
     </div>
 </div>
+
+<?php if (!$update): ?>
+</fieldset>
+<?php endif; ?>

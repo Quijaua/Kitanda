@@ -1,3 +1,11 @@
+<?php
+    $read = verificaPermissao($_SESSION['user_id'], 'integracoes', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+
+    $update = verificaPermissao($_SESSION['user_id'], 'integracoes', 'update', $conn);
+    $disabledUpdate = !$update ? 'disabled' : '';
+?>
+
 <style>
 .form-color {
     outline: none;
@@ -55,10 +63,27 @@
     </div>
 </div>
 
+<?php if (!$update): ?>
+<fieldset disabled>
+<?php endif; ?>
+
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+
+            <?php if (!$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
+            <?php if (!$update): ?>
+            <div class="col-lg-12">
+                <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
+            </div>
+            <?php endif; ?>
+
             <div class="col-12">
                 <div class="card">
 
@@ -87,3 +112,7 @@
         </div>
     </div>
 </div>
+
+<?php if (!$update): ?>
+</fieldset>
+<?php endif; ?>

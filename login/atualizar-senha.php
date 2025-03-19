@@ -175,6 +175,7 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096682" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
         <style>
             @import url('https://rsms.me/inter/inter.css');
         </style>
@@ -217,9 +218,8 @@
                                 <div class="input-group input-group-flat">
                                     <input name="password" id="password" type="password" class="form-control" placeholder="Sua nova senha" onblur="validatePassword()" required>
                                     <span class="input-group-text">
-                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip">
-                                            <!-- Download do ícone SVG de http://tabler.io/icons/icon/eye -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
+                                            <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
                                 </div>
@@ -229,9 +229,8 @@
                                 <div class="input-group input-group-flat">
                                     <input name="confirmPassword" id="confirmPassword" type="password" class="form-control" placeholder="Confirme sua senha" onblur="validatePassword()" required>
                                     <span class="input-group-text">
-                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip">
-                                            <!-- Download do ícone SVG de http://tabler.io/icons/icon/eye -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('confirmPassword', this); return false;">
+                                            <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
                                 </div>
@@ -259,15 +258,44 @@
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096682" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096682" defer></script>
 
+        <!-- Exibir/Ocultar Senha -->
+        <script>
+            function togglePassword(inputId, toggleLink) {
+                var input = document.getElementById(inputId);
+                var icon = toggleLink.querySelector('i');
+                if (input.type === "password") {
+                    input.type = "text";
+                    toggleLink.title = "Ocultar senha";
+                    toggleLink.setAttribute("aria-label", "Ocultar senha");
+                    toggleLink.setAttribute("data-bs-original-title", "Ocultar senha");
+                    // Altera o ícone para "eye-off"
+                    if (icon) {
+                        icon.classList.remove("ti-eye");
+                        icon.classList.add("ti-eye-off");
+                    }
+                } else {
+                    input.type = "password";
+                    toggleLink.title = "Mostrar senha";
+                    toggleLink.setAttribute("aria-label", "Mostrar senha");
+                    toggleLink.setAttribute("data-bs-original-title", "Mostrar senha");
+                    // Altera o ícone para "eye"
+                    if (icon) {
+                        icon.classList.remove("ti-eye-off");
+                        icon.classList.add("ti-eye");
+                    }
+                }
+            }
+        </script>
+
+        <!-- Validar Senha -->
         <script>
             function validatePassword() {
                 var password = document.getElementById("password").value;
                 var confirmPassword = document.getElementById("confirmPassword").value;
-                
                 var SendNewPassword = document.getElementById("SendNewPassword");
 
-                if (password.length  < 7) {
-                    document.getElementById("message").innerHTML = "A senha deve ter no minimo 8 caracteres";
+                if (password.length < 7) {
+                    document.getElementById("message").innerHTML = "A senha deve ter no mínimo 8 caracteres";
                     document.getElementById("message").style.color = "red";
                     SendNewPassword.disabled = true;
                 } else {

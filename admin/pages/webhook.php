@@ -1,4 +1,15 @@
 <?php
+    $read = verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn);
+    $disabledRead = !$read ? 'disabled' : '';
+
+    $update = verificaPermissao($_SESSION['user_id'], 'webhook', 'update', $conn);
+    $disabledUpdate = !$update ? 'disabled' : '';
+
+    $delete = verificaPermissao($_SESSION['user_id'], 'webhook', 'delete', $conn);
+    $disabledDelete = !$delete ? 'disabled' : '';
+?>
+
+<?php
     require '../vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable('../');
     $dotenv->load();
@@ -125,7 +136,7 @@
                 </h2>
                 <div class="text-secondary mt-1">Aqui você pode criar um evento webhook para seu projeto.</div>
             </div>
-            <?php if (isset($webhook_id)) { ?>
+            <?php if (isset($webhook_id) && $update) { ?>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <button type="button" class="btn btn-info btn-3" onclick="location.reload();">
@@ -139,10 +150,26 @@
     </div>
 </div>
 
+<?php if (!$update): ?>
+<fieldset disabled>
+<?php endif; ?>
+
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <div class="row row-deck row-cards">
+        <div class="row row-cards">
+
+            <?php if (!$read): ?>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
+            <?php if (!$update): ?>
+            <div class="col-12">
+                <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
+            </div>
+            <?php endif; ?>
 
             <!-- Aviso da webhook -->
             <?php if ($webhook && (!$webhook['enabled'] || $webhook['interrupted'])): ?>
@@ -228,7 +255,7 @@
                                 <?php } else { ?>
                                     <div class="ms-auto">
                                         <button type="submit" name="btnUpdWebhook" class="btn btn-primary me-2">Editar</button>
-                                        <button type="submit" name="btnDltWebhook" class="btn btn-danger">Deletar Webhook</button>
+                                        <button type="submit" name="btnDltWebhook" class="btn btn-danger <?= $disabledDelete; ?>" <?= $disabledDelete; ?>>Deletar Webhook</button>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -240,3 +267,7 @@
         </div>
     </div>
 </div>
+
+<?php if (!$update): ?>
+</fieldset>
+<?php endif; ?>

@@ -9,7 +9,7 @@
         exit();
     }
 
-    $url = isset($_GET['url']) ? $_GET['url'] : str_replace('/', '', $_SERVER['PATH_INFO']);
+    $url = isset($_GET['url']) ? $_GET['url'] : 'editar-perfil';
 
     // Tabela que sera feita a consulta
     $tabela = "tb_checkout";
@@ -21,14 +21,15 @@
     $tabela_7 = "tb_webhook";
 
     // ID que você deseja pesquisar
-    $id = $_SESSION['user_id'];
+    $id = 1;
+    $user_id = $_SESSION['user_id'];
 
     // Consulta SQL
     $sql = "SELECT nome, logo, title, descricao, doacoes, pix_tipo, pix_chave, pix_valor, pix_codigo, pix_imagem_base64, pix_identificador_transacao, pix_exibir, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, monthly_1, monthly_2, monthly_3, monthly_4, monthly_5, yearly_1, yearly_2, yearly_3, yearly_4, yearly_5, once_1, once_2, once_3, once_4, once_5 FROM $tabela WHERE id = :id";
     $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
     $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
     $sql_4 = "SELECT * FROM $tabela_4";
-    $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1";
+    $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
     /*$sql_6 = "SELECT * FROM $tabela_6";*/
     date_default_timezone_set('America/Sao_Paulo');
     $now = date("Y-m-d");
@@ -52,6 +53,7 @@
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt_2->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt_3->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt_5->bindParam(':id', $user_id, PDO::PARAM_INT);
 
     // Executar a consulta
     $stmt->execute();

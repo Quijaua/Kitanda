@@ -1,45 +1,45 @@
 <?php
-    $read = verificaPermissao($_SESSION['user_id'], 'produtos', 'read', $conn);
+    $read = verificaPermissao($_SESSION['user_id'], 'funcoes', 'read', $conn);
     $disabledRead = !$read ? 'disabled' : '';
 
-    $only_own = verificaPermissao($_SESSION['user_id'], 'produtos', 'only_own', $conn);
+    $only_own = verificaPermissao($_SESSION['user_id'], 'funcoes', 'only_own', $conn);
     $disabledOnlyOwn = !$only_own ? 'disabled' : '';
 
-    $create = verificaPermissao($_SESSION['user_id'], 'produtos', 'create', $conn);
+    $create = verificaPermissao($_SESSION['user_id'], 'funcoes', 'create', $conn);
     $disabledCreate = !$create ? 'disabled' : '';
 
-    $update = verificaPermissao($_SESSION['user_id'], 'produtos', 'update', $conn);
+    $update = verificaPermissao($_SESSION['user_id'], 'funcoes', 'update', $conn);
     $disabledUpdate = !$update ? 'disabled' : '';
 
-    $delete = verificaPermissao($_SESSION['user_id'], 'produtos', 'delete', $conn);
+    $delete = verificaPermissao($_SESSION['user_id'], 'funcoes', 'delete', $conn);
     $disabledDelete = !$delete ? 'disabled' : '';
 ?>
 
 <?php
     // Se o usuário possui somente a permissão only_own, filtramos os produtos criados por ele.
     if ($read) {
-        // Caso contrário, exibe todos os produtos
+        // Consulta para buscar as funções e contar o número de usuários vinculados a cada função
         $stmt = $conn->prepare("
-            SELECT p.*, pi.imagem 
-            FROM tb_produtos p
-            LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            GROUP BY p.id
-            ORDER BY p.id DESC
+            SELECT f.*, COUNT(pu.usuario_id) AS total_usuarios
+            FROM tb_funcoes f
+            LEFT JOIN tb_permissao_usuario pu ON f.id = pu.permissao_id
+            GROUP BY f.id
+            ORDER BY f.id DESC
         ");
         $stmt->execute();
     } else if ($only_own) {
+        // Consulta para buscar as funções e contar o número de usuários vinculados a cada função
         $stmt = $conn->prepare("
-            SELECT p.*, pi.imagem 
-            FROM tb_produtos p
-            LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            WHERE p.criado_por = ?
-            GROUP BY p.id
-            ORDER BY p.id DESC
+            SELECT f.*, COUNT(pu.usuario_id) AS total_usuarios
+            FROM tb_funcoes f
+            LEFT JOIN tb_permissao_usuario pu ON f.id = pu.permissao_id
+            WHERE f.criado_por = ?
+            GROUP BY f.id
+            ORDER BY f.id DESC
         ");
         $stmt->execute([$_SESSION['user_id']]);
     }
-
-    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $funcoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Modal de Confirmação -->
@@ -71,7 +71,7 @@
 </div>
 
 <style>
-    #produtos_filter, #produtos_length {
+    #funcoes_filter, #funcoes_length {
         display: none;
     }
 </style>
@@ -82,16 +82,16 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                    Produtos
+                    Funções
                 </h2>
-                <div class="text-secondary mt-1">Aqui estão os produtos do sistema.</div>
+                <div class="text-secondary mt-1">Aqui estão as funções do sistema.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
-                <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."cadastrar-produto" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
+                <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-funcao" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
                     <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2"><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-                    Criar Novo Produto
+                    Nova Função
                 </a>
             </div>
         </div>
@@ -104,27 +104,16 @@
         <div class="row row-cards">
 
             <?php if (!$only_own && !$read): ?>
-            <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            <div class="col-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
             <?php exit; endif; ?>
 
             <div class="col-12">
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Produtos</h4>
-                        <div class="ms-auto lh-1">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Exportar
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><button id="exportCSV" class="dropdown-item">Exportar CSV</button></li>
-                                    <li><button id="exportXLS" class="dropdown-item">Exportar XLS</button></li>
-                                    <li><button id="exportPDF" class="dropdown-item">Exportar PDF</button></li>
-                                    <li><button id="exportPrint" class="dropdown-item">Imprimir</button></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h4 class="card-title">Funções</h4>
                     </div>
 
                     <div class="card-body border-bottom py-3">
@@ -150,63 +139,33 @@
                         </div>
                     </div>
 
-                    <table id="produtos" class="table card-table table-vcenter text-nowrap datatable">
+                    <table id="funcoes" class="table card-table table-vcenter text-nowrap datatable">
                         <thead>
                             <tr>
-                                <th>Nome do Produto</th>
-                                <th>Título</th>
-                                <th>Preço</th>
-                                <th>Vitrine</th>
-                                <th>Data de Criação</th>
+                                <th class="w-100">Nome do Função</th>
+                                <th>Total de Usuários</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($produtos as $produto) : ?>
-                                <?php
-                                    $produto['imagem'] = !empty($produto['imagem'])
-                                                         ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['imagem'])
-                                                         : "https://placehold.co/1000";
-                                                         
-                                    $produto['preco'] = number_format($produto['preco'], 2, ',', '.');
-                                ?>
+                            <?php foreach($funcoes as $funcao) : ?>
                             <tr>
                                 <td class="more-info" data-label="Name">
-                                    <div class="d-flex py-1 align-items-center">
-                                        <span class="avatar avatar-2 me-2" style="background-image: url(<?php echo $produto['imagem']; ?>)"></span>
-                                        <?php echo $produto["nome"]; ?>
-                                    </div>
+                                    <?php echo $funcao["nome"]; ?>
                                 </td>
-                                <td><?php echo $produto["titulo"]; ?></td>
-                                <td><?php echo $produto["preco"]; ?></td>
-                                <td>
-                                    <label for="vitrine" class="form-check form-switch form-switch-3">
-                                        <input name="vitrine" type="checkbox" class="form-check-input toggle-vitrine"
-                                            data-id="<?php echo $produto['id']; ?>" data-nome="<?php echo $produto['nome']; ?>"
-                                            <?= ($produto['vitrine'] == 1) ? "checked" : "" ?>
-                                            <?= $disabledUpdate; ?>>
-                                        <span class="form-check-label form-check-label-on">Sim</span>
-                                        <span class="form-check-label form-check-label-off">Não</span>
-                                    </label>
-                                </td>
-                                <td><?php echo date("d/m/Y H:i", strtotime($produto["data_criacao"])); ?></td>
+                                <td><?php echo $funcao["total_usuarios"] ?? 0; ?></td>
                                 <td class="text-end">
                                     <span class="dropdown">
                                         <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH . "p/{$produto['link']}"; ?>" target="_blank">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/external-link -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
-                                                Visualizar
-                                            </a>
                                             <?php if ($update): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>">
+                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
                                                 Editar
                                             </a>
                                             <?php elseif ($only_own || $read): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>">
+                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
                                                 Detalhes
@@ -214,7 +173,7 @@
                                             <?php endif; ?>
                                             <?php if ($delete): ?>
                                             <div class="dropdown-divider"></div>
-                                            <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $produto['id']; ?>" data-name="<?php echo $produto['nome']; ?>">
+                                            <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $funcao['id']; ?>" data-name="<?php echo $funcao['nome']; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                                 Deletar
@@ -304,7 +263,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#produtos").before(`
+                        $("#funcoes").before(`
                             <div class="alert alert-danger" role="alert">
                                 Ocorreu um erro, tente novamente mais tarde.
                             </div>
@@ -366,7 +325,7 @@
 <!-- Listar Produtos -->
 <script>
     $(document).ready(function() {
-        var table = $('#produtos').DataTable({
+        var table = $('#funcoes').DataTable({
             "paging": false, // Desativa a paginação do DataTable
             "info": false, // Desativa a informação sobre o número de registros
             "responsive": true,
@@ -466,6 +425,6 @@
 
 <style>
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-        justify-content: revert;
+    justify-content: revert;
 }
 </style>
