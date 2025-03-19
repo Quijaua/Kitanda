@@ -203,7 +203,7 @@ async function donationOption(el, type, amount, showAddOnFee) {
         try {
             var feeAmount = await fetchFeeAmount(dadosDoacao);
 
-            $("#div-add-on-fee label").html("Adicione + <strong>R$ " + feeAmount.toFixed(2) + "</strong> para cobrir as tarifas bancárias");
+            $("#div-add-on-fee span.form-check-label").html("Adicione + <strong>R$ " + feeAmount.toFixed(2) + "</strong> para cobrir as tarifas bancárias");
 
             if ($('#field-add-on-fee').is(':checked')) {
                 amount += feeAmount;
@@ -280,7 +280,7 @@ async function donationOtherOption(el, type, showAddOnFee) {
             try {
                 feeAmount = await fetchFeeAmount(dadosDoacao);
 
-                $("#div-add-on-fee label").html("Adicione + <strong>R$ " + feeAmount.toFixed(2) + "</strong> para cobrir as tarifas bancárias");
+                $("#div-add-on-fee span.form-check-label").html("Adicione + <strong>R$ " + feeAmount.toFixed(2) + "</strong> para cobrir as tarifas bancárias");
 
                 // Check if the add-on fee is checked
                 var addOnFeeChecked = $('#field-add-on-fee').is(':checked');
