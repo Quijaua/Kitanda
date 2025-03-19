@@ -669,21 +669,23 @@
 			}
 		</script>
 		<script>
-			// Seleciona o elemento <html> (ou qualquer outro elemento de nível superior)
-			const root = document.documentElement;
-			const background = "<?php echo $background; ?>";
-			const textColor = "<?php echo $text_color; ?>";
-			const color = "<?php echo $color; ?>";
-			const hover = "<?php echo $hover; ?>";
-			const progress = "<?php echo $progress; ?>";
+			document.addEventListener('DOMContentLoaded', function() {
+				// Seleciona o elemento <html> (ou qualquer outro elemento de nível superior)
+				const root = document.documentElement;
+				const background = "<?php echo $background; ?>";
+				const textColor = "<?php echo $text_color; ?>";
+				const color = "<?php echo $color; ?>";
+				const hover = "<?php echo $hover; ?>";
+				const progress = "<?php echo $progress; ?>";
 
-			// Altera o valor da variável --background-color
-			root.style.setProperty('--background', background);
-			root.style.setProperty('--text-color', textColor);
+				// Altera o valor da variável --background-color
+				root.style.setProperty('--background', background);
+				root.style.setProperty('--text-color', textColor);
 
-			root.style.setProperty('--primary-color', color);
-			root.style.setProperty('--hover-color', hover);
-			root.style.setProperty('--progress-color', progress);
+				root.style.setProperty('--primary-color', color);
+				root.style.setProperty('--hover-color', hover);
+				root.style.setProperty('--progress-color', progress);
+			});
 		</script>
 		<script>
 			$(document).ready(function(){

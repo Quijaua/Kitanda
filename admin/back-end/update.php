@@ -256,16 +256,16 @@ if (isset($_POST['btnUpdColor'])) {
         $text_color = $_POST['text_color'];
         $color = $_POST['color'];
         $hover = $_POST['hover'];
-        $load_btn = $_POST['loadBtn'];
+        $load_btn = $_POST['load_btn'];
 
         // Atualize o item no banco de dados
-        $sql = "UPDATE $tabela SET background = :background, text_color = :text_color, color = :color, hover = :hover, load_btn = :loadBtn WHERE id = :id";
+        $sql = "UPDATE $tabela SET background = :background, text_color = :text_color, color = :color, hover = :hover, load_btn = :load_btn WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':background', $background);
         $stmt->bindParam(':text_color', $text_color);
         $stmt->bindParam(':color', $color);
         $stmt->bindParam(':hover', $hover);
-        $stmt->bindParam(':loadBtn', $load_btn);
+        $stmt->bindParam(':load_btn', $load_btn);
         $stmt->bindParam(':id', $id);
 
         try {
