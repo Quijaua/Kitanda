@@ -72,7 +72,7 @@
         <form id="editUser" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-user.php?id=<?php echo $usuario['id']; ?>" method="post">
             <div class="row">
 
-                <?php if ($only_own && $produto['criado_por'] !== $_SESSION['user_id']): ?>
+                <?php if ($only_own && $usuario['criado_por'] !== $_SESSION['user_id']): ?>
                 <div class="col-lg-12">
                     <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
                 </div>
@@ -165,6 +165,18 @@
                                                 }
                                                 ?>
                                                 <?php if ($usuario['status'] != 1): ?>
+                                                <button type="button" class="btn btn-icon copy-btn" 
+                                                    title="Copiar código para finalizar registro?" 
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                    data-link="<?= INCLUDE_PATH . "login/finalize-registration.php?token={$usuario['magic_link']}"; ?>">
+                                                    <!-- Ícone original -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                                        class="icon icon-1">
+                                                        <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667-2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1-2.667 2.667h-8.666a2.667 2.667 0 0 1-2.667-2.667z"></path>
+                                                        <path d="M4.012 16.737a2.005 2.005 0 0 1-1.012-1.737v-10c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"></path>
+                                                    </svg>
+                                                </button>
                                                 <a class="btn" href="<?= INCLUDE_PATH_ADMIN; ?>back-end/resend-code.php?id=<?= $usuario['id']; ?>" id="btnResendCode" title="Reenviar código para <?= htmlspecialchars($usuario['email']); ?>?" data-bs-toggle="tooltip" data-bs-placement="top">
                                                     <div id="resendCodeLoader" class="spinner-border spinner-border-sm text-secondary me-2 d-none" role="status"></div>
                                                     <span id="resendCodeText">Reenviar Código</span>
@@ -287,6 +299,74 @@
 </fieldset>
 <?php endif; ?>
 
+<!-- Botao para copiar codigo -->
+<script>
+    $(document).ready(function () {
+        // Inicializa o tooltip para os elementos que possuem data-bs-toggle="tooltip"
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        $('.copy-btn').on('click', function () {
+            var btn = $(this);
+            var link = btn.data('link');
+
+            // Copia o link para o clipboard
+            navigator.clipboard.writeText(link).then(function () {
+            // Altera o estilo do botão para exibir borda verde
+            btn.css('border-color', '#2fb344');
+            btn.css('box-shadow', '0 1px 1px rgba(24, 36, 51, .06);, 0 0 0 .25rem rgba(47, 179, 68, .25)');
+
+            // Atualiza o tooltip para "Copiado!"
+            btn.attr('title', 'Copiado!');
+            btn.attr('aria-label', 'Copiado!');
+            btn.attr('data-bs-original-title', 'Copiado!');
+            var tooltipInstance = bootstrap.Tooltip.getInstance(btn[0]);
+            if (tooltipInstance) {
+                tooltipInstance.hide();
+                // Recria o tooltip para refletir o novo title
+                tooltipInstance.dispose();
+                tooltipInstance = new bootstrap.Tooltip(btn[0]);
+            }
+
+            // Altera o ícone para um "check" (exemplo simples)
+            btn.find('svg').replaceWith(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" ' +
+                'stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">' +
+                '<polyline points="20 6 9 17 4 12"></polyline>' +
+                '</svg>'
+            );
+
+            // Reverte as alterações após 3 segundos
+            setTimeout(function () {
+                btn.css('border', '');
+                btn.attr('title', 'Copiar código para finalizar registro?');
+                btn.attr('aria-label', 'Copiar código para finalizar registro?');
+                btn.attr('data-bs-original-title', 'Copiar código para finalizar registro?');
+                if (tooltipInstance) {
+                    tooltipInstance.hide();
+                    tooltipInstance.dispose();
+                    tooltipInstance = new bootstrap.Tooltip(btn[0]);
+                }
+                // Restaura o ícone original
+                btn.find('svg').replaceWith(
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" ' +
+                    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">' +
+                        '<path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667-2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1-2.667 2.667h-8.666a2.667 2.667 0 0 1-2.667-2.667z"></path>' +
+                        '<path d="M4.012 16.737a2.005 2.005 0 0 1-1.012-1.737v-10c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"></path>' +
+                    '</svg>'
+                );
+            }, 3000);
+            }, function () {
+                // Caso ocorra algum erro na cópia
+                alert('Erro ao copiar o link! Tente copiar manualmente:\n<?= INCLUDE_PATH . "login/finalize-registration.php?token={$usuario['magic_link']}"; ?>');
+            });
+        });
+    });
+</script>
+
+<!-- Botao para reenviar codigo -->
 <script>
     $(document).ready(function(){
         $("#btnResendCode").on("click", function(e) {
