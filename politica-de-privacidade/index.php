@@ -317,7 +317,7 @@
 						echo "<a href=" . $privacidade . " rel='noopener noreferrer' target='_blank'>";
 					}
 				?>
-					PRIVACIDADE DOS DOADORES
+					PRIVACIDADE
 				</a>
 				 | 
 				<a href="<?php echo $faq; ?>" rel="noopener noreferrer" target="_blank">
@@ -331,8 +331,8 @@
 		</div>
 		<div class="col-md-3">
 		<p class="footer-linkd mt-5 footer-floema-doar font-weight-bold">
-				<a href="#" rel="noopener noreferrer" target="_blank">
-					Usamos Floema Doar | Open source
+				<a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
+					Usamos Kitanda | Open source
 				</a>
 			</p>
 		</div>
