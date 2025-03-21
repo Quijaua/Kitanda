@@ -17,7 +17,7 @@
      * Função para enviar o e-mail de confirmação do cadastro.
      * Ao clicar no link do e-mail, o usuário poderá concluir o cadastro do perfil.
      */
-    function sendConfirmationEmail($nome, $email, $token, $conn) {
+    function sendEmail($nome, $email, $subject, $message, $conn) {
         // Caminho para o diretório pai
         $parentDir = dirname(dirname(__DIR__));
 
@@ -25,13 +25,18 @@
         $dotenv = Dotenv\Dotenv::createImmutable($parentDir);
         $dotenv->load();
 
-        // Informacoes para PHPMailer
-        $smtp_host = $_ENV['SMTP_HOST'];
-        $smtp_from = $_ENV['SMTP_FROM'];
-        $smtp_username = $_ENV['SMTP_USERNAME'];
-        $smtp_password = $_ENV['SMTP_PASSWORD'];
-        $smtp_secure = $_ENV['SMTP_SECURE'];
-        $smtp_port = $_ENV['SMTP_PORT'];
+        // Dados de configuração do e-mail
+        $smtp_host     = $_ENV['SMTP_HOST']     ?? null;
+        $smtp_from     = $_ENV['SMTP_FROM']     ?? null;
+        $smtp_username = $_ENV['SMTP_USERNAME'] ?? null;
+        $smtp_password = $_ENV['SMTP_PASSWORD'] ?? null;
+        $smtp_secure   = $_ENV['SMTP_SECURE']   ?? null;
+        $smtp_port     = $_ENV['SMTP_PORT']     ?? null;
+    
+        // Verifica se os dados do e-mail estão configurados
+        if (!$smtp_host || !$smtp_from || !$smtp_username || !$smtp_password || !$smtp_port) {
+            return array("status" => "error", "message" => "Os dados de configuração do e-mail não estão completos.");
+        }
 
         // Crie uma nova instância do PHPMailer
         $mail = new PHPMailer(true);
@@ -46,22 +51,6 @@
         $result_instituicao->execute();
         
         $row_instituicao = $result_instituicao->fetch(PDO::FETCH_ASSOC);
-
-        
-
-
-
-        // Constroi o link de confirmação. Suponha que a página para finalizar o cadastro seja "finalize-registration.php"
-        $confirmLink = INCLUDE_PATH . "login/finalize-registration.php?token=" . $token;
-
-        $subject = "Finalize seu cadastro";
-        $message = "Olá $nome,<br><br>Para concluir o seu cadastro, clique no link abaixo:<br><br><a href='$confirmLink'>$confirmLink</a>";
-        $altMessage = "Olá $nome,\n\nPara concluir o seu cadastro, clique no link abaixo:\n\n<a href='$confirmLink'>$confirmLink</a>";
-
-
-
-
-
 
         try {
             /*$mail->SMTPDebug = SMTP::DEBUG_SERVER;*/
@@ -78,16 +67,16 @@
             $mail->addReplyTo($row_instituicao['email'], 'Atendimento - ' . $row_instituicao['nome']);
             $mail->addAddress($email, $nome);
 
-            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->isHTML(true); //Set email format to HTML
             $mail->Subject = $subject;
-            $mail->Body    = $message;
-            $mail->AltBody = $altMessage;
+            $mail->Body    = $message['message'];
+            $mail->AltBody = $message['alt'];
 
             $mail->send();
 
-            return "Enviado e-mail com instruções para recuperar a senha. Acesse a sua caixa de e-mail para recuperar a senha!";
+            return array("status" => "success", "message" => "Um e-mail foi enviado para o novo usuário");
         } catch (Exception $e) {
-            return "Erro: E-mail não enviado sucesso. Mailer Error: {$mail->ErrorInfo}";
+            return array("status" => "error", "message" => "Erro: E-mail não enviado sucesso. Mailer Error: {$mail->ErrorInfo}");
         }
     }
 
@@ -96,13 +85,18 @@
         // Captura e sanitiza os dados enviados
         $nome       = trim($_POST['nome']);
         $telefone   = trim($_POST['telefone']);
-        $email      = trim($_POST['email']);
         $funcao_id  = intval($_POST['funcao_id']);
+        $email      = trim($_POST['email']);
+        $senha      = ($_POST['passwordMethod'] == 'set') ? trim($_POST['senha']) : null;
         $instagram  = trim($_POST['instagram']);
         $site       = trim($_POST['site']);
         $facebook   = trim($_POST['facebook']);
         $tiktok     = trim($_POST['tiktok']);
         $descricao  = trim($_POST['descricao']);
+
+        // Gerar o hash da senha utilizando o algoritmo padrão (geralmente bcrypt)
+        $senhaToHash = $senha;
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
         // Verifica se o e-mail já está em uso
         $stmt = $conn->prepare("SELECT id FROM tb_clientes WHERE email = :email");
@@ -122,16 +116,17 @@
             $conn->beginTransaction();
 
             // Insere o novo usuário na tabela tb_clientes
-            // Supondo que a tabela possua as colunas: nome, phone, email, instagram, site, facebook, tiktok, descricao, magic_link e status (0 = inativo, aguardando confirmação)
+            // Supondo que a tabela possua as colunas: nome, phone, email, senha, instagram, site, facebook, tiktok, descricao, magic_link e status (0 = inativo, aguardando confirmação)
             $stmtInsert = $conn->prepare("
                 INSERT INTO tb_clientes 
-                (nome, phone, email, instagram, site, facebook, tiktok, descricao, magic_link, status) 
+                (nome, phone, email, password, instagram, site, facebook, tiktok, descricao, magic_link, status) 
                 VALUES 
-                (:nome, :phone, :email, :instagram, :site, :facebook, :tiktok, :descricao, :magic_link, 0)
+                (:nome, :phone, :email, :senha, :instagram, :site, :facebook, :tiktok, :descricao, :magic_link, 0)
             ");
             $stmtInsert->bindParam(':nome', $nome);
             $stmtInsert->bindParam(':phone', $telefone);
             $stmtInsert->bindParam(':email', $email);
+            $stmtInsert->bindParam(':senha', $senhaHash);
             $stmtInsert->bindParam(':instagram', $instagram);
             $stmtInsert->bindParam(':site', $site);
             $stmtInsert->bindParam(':facebook', $facebook);
@@ -157,10 +152,53 @@
             // Finaliza a transação
             $conn->commit();
 
-            // Envia o e-mail de confirmação para finalizar o cadastro
-            sendConfirmationEmail($nome, $email, $token, $conn);
+            if (isset($_POST['email_boas_vindas']) || isset($_POST['email_senha'])) {
+                $loginLink = INCLUDE_PATH . "login";
 
-            $_SESSION['msg'] = "Usuário cadastrado com sucesso! Um e-mail foi enviado para que o usuário finalize o cadastro.";
+                $subject = "Seja bem-vindo ao {$project['name']}";
+                $message['message'] = "Olá {$nome},<br><br>Você foi adicionado como membro do {$project['name']}.<br><br>";
+                $message['alt'] = "Olá {$nome},\n\nVocê foi adicionado como membro do {$project['name']}.\n\n";
+
+                if ($_POST['passwordMethod'] == 'set' && isset($_POST['email_senha'])) {
+                    $message['message'] .= "Utilize as seguintes credenciais para acessar sua conta:<br><b>E-mail:</b> {$email}<br><b>Senha:</b> {$senha}<br><br>";
+                    $message['alt'] .= "Utilize as seguintes credenciais para acessar sua conta:\n\nE-mail: {$email}\nSenha: {$senha}\n\n";
+                }
+
+                $message['message'] .= "Clique <a href='{$loginLink}'>aqui</a> para acessar o painel ou copie e cole o link abaixo no seu navegador:<br>{$loginLink}";
+                $message['alt'] .= "Acesse o painel através do seguinte link: {$loginLink}";
+
+                // Envia o e-mail de boas-vindas
+                $returnWelcomeEmail = sendEmail($nome, $email, $subject, $message, $conn);
+            }
+
+            if ($_POST['passwordMethod'] == 'email') {
+                // Constrói o link de confirmação para que o usuário finalize o cadastro definindo sua senha
+                $confirmLink = INCLUDE_PATH . "login/finalize-registration.php?token=" . $token;
+
+                $subject = "Finalize seu cadastro no {$project['name']}";
+                $message['message'] = "Olá {$nome},<br><br>Para concluir seu cadastro, clique no link abaixo:<br><br>"
+                         . "<a href='{$confirmLink}'>{$confirmLink}</a><br><br>"
+                         . "Caso não consiga clicar, copie e cole o link no seu navegador.";
+                $message['alt'] = "Olá {$nome},\n\nPara concluir seu cadastro, acesse o seguinte link:\n\n{$confirmLink}\n\n";
+
+                // Envia o e-mail de confirmação para finalizar o cadastro
+                $returnPasswordEmail = sendEmail($nome, $email, $subject, $message, $conn);
+            }
+
+            $emailMessage = '';
+
+            if (isset($returnWelcomeEmail) && isset($returnPasswordEmail) && $returnWelcomeEmail == $returnPasswordEmail) {
+                $emailMessage = "<br><small class='text-reset'>Obs.: {$returnWelcomeEmail['message']}</small>";
+            }if (isset($returnWelcomeEmail) && isset($returnPasswordEmail)) {
+                $emailMessage = "<br><br><small class='text-reset'>Obs.: <br>{$returnWelcomeEmail['message']}; <br>{$returnPasswordEmail['message']}</small>";
+            } else if (isset($returnWelcomeEmail)) {
+                $emailMessage = "<br><small class='text-reset'>Obs.: {$returnWelcomeEmail['message']}</small>";
+            } else if (isset($returnPasswordEmail)) {
+                $emailMessage = "<br><small class='text-reset'>Obs.: {$returnPasswordEmail['message']}</small>";
+            }
+
+            $_SESSION['msg'] = "Usuário cadastrado com sucesso! $emailMessage";
+
             header('Location: ' . INCLUDE_PATH_ADMIN . 'usuarios');
             exit;
         } catch (Exception $e) {

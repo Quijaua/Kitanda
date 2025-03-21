@@ -90,6 +90,16 @@
                                                 <input id="telefone" name="telefone" type="text" class="form-control">
                                             </div>
                                         </div>
+                                        <!-- Função -->
+                                        <div class="mb-3">
+                                            <label for="funcao" class="form-label required">Função</label>
+                                            <select id="funcao" name="funcao_id" class="form-select" required>
+                                                <option value="">Selecione a função</option>
+                                                <?php foreach($funcoes as $funcao): ?>
+                                                <option value="<?php echo $funcao['id']; ?>"><?php echo htmlspecialchars($funcao['nome']); ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
                                         <!-- E-mail -->
                                         <div class="mb-3">
                                             <label for="email" class="form-label required">E-mail</label>
@@ -102,15 +112,38 @@
                                             </div>
                                             <small class="form-hint">Uma mensagem será enviada para este e-mail para concluir o registro do usuário.</small>
                                         </div>
-                                        <!-- Função -->
+                                        <!-- Opções para definição de senha -->
                                         <div class="mb-3">
-                                            <label for="funcao" class="form-label required">Função</label>
-                                            <select id="funcao" name="funcao_id" class="form-select" required>
-                                                <option value="">Selecione a função</option>
-                                                <?php foreach($funcoes as $funcao): ?>
-                                                <option value="<?php echo $funcao['id']; ?>"><?php echo htmlspecialchars($funcao['nome']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <label class="form-label">Forma de cadastro de senha</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="passwordMethod" id="setPassword" value="set" checked>
+                                                <label class="form-check-label" for="setPassword">
+                                                    Cadastrar senha agora
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="passwordMethod" id="emailPassword" value="email">
+                                                <label class="form-check-label" for="emailPassword">
+                                                    Enviar email para cadastro de senha
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!-- Campo de senha (visível apenas se "Cadastrar senha agora" estiver selecionado) -->
+                                        <div class="mb-3" id="passwordFields">
+                                            <label for="senha" class="form-label required">Senha</label>
+                                            <input id="senha" name="senha" type="password" class="form-control" required>
+                                            <label class="form-check form-switch form-switch-2 mt-2">
+                                                <input id="email_senha" name="email_senha" class="form-check-input" type="checkbox" value="1" checked>
+                                                <span class="form-check-label">Enviar senha para o e-mail do novo usuário?</span>
+                                            </label>
+                                        </div>
+                                        <!-- Notificação de Boas-Vindas por E-mail -->
+                                        <div>
+                                            <div class="form-label">Notificações por E-mail</div>
+                                            <label class="form-check form-switch form-switch-2">
+                                                <input id="email_boas_vindas" name="email_boas_vindas" class="form-check-input" type="checkbox" value="1" checked>
+                                                <span class="form-check-label">Enviar mensagem de boas-vindas para o novo usuário?</span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -185,3 +218,63 @@
         </form>
     </div>
 </div>
+
+<!-- Selecionar metodo de criacao de senha -->
+<script>
+    $(document).ready(function(){
+        // Verifica a seleção ao carregar a página
+        togglePasswordFields();
+
+        // Monitora mudanças nos radio buttons
+        $('input[name="passwordMethod"]').on('change', function(){
+            togglePasswordFields();
+        });
+
+        function togglePasswordFields() {
+            if ($('#setPassword').is(':checked')) {
+                // Se "Cadastrar senha agora" estiver selecionado, mostra o campo e marca como obrigatório
+                $('#passwordFields').show();
+                $('#senha').prop('required', true);
+                $('#email_senha').prop('disabled', false);
+            } else {
+                // Se "Enviar email para cadastro de senha" estiver selecionado, oculta o campo e retira a obrigatoriedade
+                $('#passwordFields').hide();
+                $('#senha').prop('required', false);
+                $('#email_senha').prop('disabled', true);
+            }
+        }
+    });
+</script>
+
+<!-- Ativar e desabilitar checkbox enviar email boas-vindas -->
+<script>
+    $(document).ready(function(){
+        function updateEmailBoasVindas() {
+            // Se o método de senha selecionado for 'email', habilita o checkbox
+            if ($('input[name="passwordMethod"]:checked').val() === 'email') {
+                $('#email_boas_vindas').prop('disabled', false);
+            }
+            // Caso contrário, se o checkbox "email_senha" estiver ativo, força o checkbox de boas-vindas a ficar checado e desabilitado
+            else if ($('#email_senha').is(':checked')) {
+                $('#email_boas_vindas').prop('checked', true).prop('disabled', true);
+            }
+            // Em outras situações, permite alteração no checkbox
+            else {
+                $('#email_boas_vindas').prop('disabled', false);
+            }
+        }
+
+        // Atualiza no carregamento da página
+        updateEmailBoasVindas();
+
+        // Atualiza sempre que o checkbox "email_senha" for alterado
+        $('#email_senha').on('change', function(){
+            updateEmailBoasVindas();
+        });
+        
+        // Atualiza sempre que o radio button "passwordMethod" for alterado
+        $('input[name="passwordMethod"]').on('change', function(){
+            updateEmailBoasVindas();
+        });
+    });
+</script>
