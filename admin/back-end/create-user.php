@@ -119,9 +119,9 @@
             // Supondo que a tabela possua as colunas: nome, phone, email, senha, instagram, site, facebook, tiktok, descricao, magic_link e status (0 = inativo, aguardando confirmação)
             $stmtInsert = $conn->prepare("
                 INSERT INTO tb_clientes 
-                (nome, phone, email, password, instagram, site, facebook, tiktok, descricao, magic_link, status) 
+                (roles, nome, phone, email, password, instagram, site, facebook, tiktok, descricao, magic_link, status) 
                 VALUES 
-                (:nome, :phone, :email, :senha, :instagram, :site, :facebook, :tiktok, :descricao, :magic_link, 0)
+                (2, :nome, :phone, :email, :senha, :instagram, :site, :facebook, :tiktok, :descricao, :magic_link, 0)
             ");
             $stmtInsert->bindParam(':nome', $nome);
             $stmtInsert->bindParam(':phone', $telefone);
