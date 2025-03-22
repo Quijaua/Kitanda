@@ -386,22 +386,22 @@
 										echo "<a href=" . $privacidade . " rel='noopener noreferrer' target='_blank'>";
 									}
 								?>
-									PRIVACIDADE DOS DOADORES
+									PRIVACIDADE
 								</a> | 
 								<a href="<?php echo INCLUDE_PATH; ?>login" rel="noopener noreferrer" target="_blank">
-									ÁREA DE DOADOR(A)
+									ÁREA DE CLIENTE
 								</a><br />
 								<?php
 									if($use_faq) {
-										echo "<a href='<?php echo $faq; ?>' rel='noopener noreferrer' target='_blank'>PERGUNTAS FREQUENTES</a>";
+										echo "<a href='$faq' rel='noopener noreferrer' target='_blank'>PERGUNTAS FREQUENTES</a>";
 									}
 								?>
 							</p>
 						</div>
 						<div class="col-md-3">
 						<p class="footer-linkd mt-5 footer-floema-doar font-weight-bold">
-								<a href="https://floema-doar.org" rel="noopener noreferrer" target="_blank">
-									Usamos Floema Doar | Open source
+								<a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
+									Usamos Kitanda | Open source
 								</a>
 							</p>
 						</div>

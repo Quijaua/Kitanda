@@ -12,10 +12,10 @@ class InsertInitialData extends AbstractSeed
         $checkoutData = [
             [
                 'id' => 1,
-                'nome' => 'Floema',
+                'nome' => 'Kitanda',
                 'logo' => 'floema-logo.png',
-                'title' => 'Faça uma doação',
-                'descricao' => 'Doações para o projeto Floema',
+                'title' => 'Minha Loja',
+                'descricao' => 'Loja de produtos artesanais',
                 'privacidade' => 'https://seusite.com.br/politica-de-privacidade',
                 'faq' => 'https://seusite.com.br/faq',
                 'use_faq' => 1,
