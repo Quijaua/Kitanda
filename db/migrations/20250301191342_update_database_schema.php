@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
+use Phinx\Db\Adapter\MysqlAdapter;
 
 final class UpdateDatabaseSchema extends AbstractMigration
 {
@@ -14,7 +15,7 @@ final class UpdateDatabaseSchema extends AbstractMigration
             ->update();
 
         // Criar a tabela tb_bulk_emails
-        $this->table('tb_bulk_emails', ['id' => false, 'primary_key' => ['title']])
+        $this->table('tb_bulk_emails', ['id' => false])
             ->addColumn('title', 'string', ['limit' => 100, 'null' => true])
             ->addColumn('body', 'string', ['limit' => 100, 'null' => true])
             ->addColumn('date', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => true])
@@ -33,7 +34,7 @@ final class UpdateDatabaseSchema extends AbstractMigration
             ->addColumn('pix_chave', 'string', ['limit' => 255, 'null' => true])
             ->addColumn('pix_valor', 'string', ['limit' => 255, 'null' => true])
             ->addColumn('pix_codigo', 'string', ['limit' => 255, 'null' => true])
-            ->addColumn('pix_imagem_base64', 'text', ['null' => true])
+            ->addColumn('pix_imagem_base64', 'text', ['limit' => MysqlAdapter::TEXT_LONG, 'null' => true])
             ->addColumn('pix_identificador_transacao', 'string', ['limit' => 255, 'null' => true])
             ->addColumn('pix_exibir', 'boolean', ['default' => 0])
             ->addColumn('pix_tipo', 'string', ['limit' => 255, 'null' => true])
