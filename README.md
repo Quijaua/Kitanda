@@ -15,8 +15,10 @@ Criei um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaur
 
 
 ### Migrar banco de dados
+```sh
 vendor/bin/phinx migrate
 vendor/bin/phinx seed:run
+```
 
 ### Configurando o sistema
 Antes de subir o ambiente é preciso configurá-lo. Para isso crie no servidor um arquivo `.env ` baseado no `.env_example` e preencha-o corretamente.
