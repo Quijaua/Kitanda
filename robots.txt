@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /login/
+Disallow: /login/recuperar-senha.php
+Disallow: /admin/
+Disallow: /admin/back-end/magic-link.php
