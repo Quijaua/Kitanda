@@ -155,7 +155,7 @@
 <meta property="og:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
 <meta property="og:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@FloemaDoar" />
+<meta name="twitter:site" content="@Kitanda" />
 <meta name="twitter:title" value="<?php echo $title; ?>"/>
 <meta name="twitter:url" value="<?php echo INCLUDE_PATH; ?>"/>
 <meta name="twitter:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
@@ -330,7 +330,7 @@
 			</p>
 		</div>
 		<div class="col-md-3">
-		<p class="footer-linkd mt-5 footer-floema-doar font-weight-bold">
+		<p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
 				<a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
 					Usamos Kitanda | Open source
 				</a>
