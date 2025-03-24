@@ -1,0 +1,136 @@
+body
+{
+/*    padding-top: 8.5rem; */
+    background-color: var(--background);
+    color: var(--text-color);
+}
+h1.highlight{
+    font-family: 'TIActuBeta-Heavy_web', Helvetica, Arial, sans-serif;
+}
+input{
+    font-family: 'SwiftNeueLTW01', Georgia, serif;
+}
+.form-control:focus::placeholder {
+    color: #000 !important;
+    opacity: .65 !important;
+}
+/* .btn:hover{
+    color: var(--bs-btn-hover-color) !important;
+    background-color: var(--hover-color);
+    border-color: var(--hover-color);
+} */
+.btn:focus-visible {
+    background-color: var(--hover-color) !important;
+}
+.active
+{
+    border: var(--bs-btn-border-width) solid var(--primary-color) !important;
+    background-color: var(--primary-color) !important;
+}
+.progress-active {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--progress-color),var(--bs-bg-opacity))!important;
+}
+.text-block
+{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1.4em;
+}
+.text-block2
+{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: normal;
+}
+/*.text-block:before {
+    border-style: solid;
+    border-top-width: 22px;
+    content: ' ';
+    display: block;
+    float: left;
+    margin: 5px 15px 0 0;
+    width: 60px;
+}*/
+.text-default
+{
+    font-family: 'TIActuBeta-ExBold_web', Tahoma, sans-serif;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: normal;
+}
+.button-options
+{
+    /*font-family: 'SwiftNeueLTW01', Georgia, serif;*/
+    font-family: 'TIActuBeta-ExBold_web', Tahoma, sans-serif;
+    font-size: 19px;
+    line-height: normal;
+    /*flex: 1;*/
+    width: 33%;
+    height: 60px;
+    margin: 3px;
+    border-radius: 0px;
+}
+.payment-button-options
+{
+    /*font-family: 'SwiftNeueLTW01', Georgia, serif;*/
+    font-family: 'TIActuBeta-ExBold_web', Tahoma, sans-serif;
+    font-size: 17px;
+    line-height: normal;
+}
+.button-confirm-payment
+{
+    font-family: 'TIActuBeta-ExBold_web', Tahoma, sans-serif;
+    font-size: 20px
+}
+
+.footer-link, .footer-link a
+{
+    color: #000;
+    font-weight: normal;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    line-height: 22px;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.footer-kitanda {
+float: right;
+}
+
+.footer-kitanda a {
+color: #127622;
+text-decoration: none;
+font-weight: 500;
+font-size: 12px;
+}
+
+#div-errors-price
+{
+    border: 1px solid #ff0000;
+    padding: 4px;
+    margin-top: 10px;
+    color: #ff0000;
+    font-size: 14px;
+    text-align: center;
+}
+.custom-amount-option-text
+{
+    font-size: 14px;
+    text-align: center!important;
+    overflow: visible!important;
+}
+
+
+/* Honeypot */
+#email {
+    display: none;
+}
+
+.form-check-input[type="radio"] {
+	border: 1px #000 solid;
+}

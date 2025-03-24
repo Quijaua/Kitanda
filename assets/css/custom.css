@@ -1,0 +1,26 @@
+.navbar-brand-image {
+  height: 4rem !important;
+  max-height: 120px !important;
+}
+
+body {
+  background-color: var(--background) !important;
+  color: var(--text-color) !important;
+}
+.btn:hover{
+  color: var(--bs-btn-hover-color) !important;
+  background-color: var(--hover-color) !important;
+  border-color: var(--hover-color) !important;
+}
+.btn:focus-visible {
+  background-color: var(--hover-color) !important;
+}
+.active
+{
+  border: var(--bs-btn-border-width) solid var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+}
+.progress-active {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--progress-color),var(--bs-bg-opacity))!important;
+}
