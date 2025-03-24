@@ -230,9 +230,6 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096682" rel="stylesheet"/>
-        <style>
-            @import url('https://rsms.me/inter/inter.css');
-        </style>
 
         <?php if (isset($hcaptcha)): ?>
             <!-- hCaptcha -->
