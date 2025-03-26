@@ -257,7 +257,7 @@
 <meta property="og:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
 <meta property="og:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@FloemaDoar" />
+<meta name="twitter:site" content="@Kitanda" />
 <meta name="twitter:title" value="<?php echo $title; ?>"/>
 <meta name="twitter:url" value="<?php echo INCLUDE_PATH; ?>"/>
 <meta name="twitter:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
@@ -326,7 +326,7 @@
 				<div class="container-xl">
 					<div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
 						<a href=".">
-							<img class="navbar-brand-image" src="assets/img/<?php echo $logo; ?>" alt="Logo da Instituição">
+							<img class="navbar-brand-image" src="assets/img/<?php echo $logo; ?>" alt="Logo da Loja">
 						</a>
 					</div>
 					<h1 class="text-dark mb-0"><?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?></h1>
@@ -401,7 +401,7 @@
 							</p>
 						</div>
 						<div class="col-md-3">
-						<p class="footer-linkd mt-5 footer-floema-doar font-weight-bold">
+						<p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
 								<a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
 									Usamos Kitanda | Open source
 								</a>

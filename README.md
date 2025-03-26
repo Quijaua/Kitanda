@@ -1,4 +1,4 @@
-# Floema Doar
+# Kitanda
 Solução para recebimentos de doações
 
 ## Instalação

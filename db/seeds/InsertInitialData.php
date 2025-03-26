@@ -13,7 +13,7 @@ class InsertInitialData extends AbstractSeed
             [
                 'id' => 1,
                 'nome' => 'Kitanda',
-                'logo' => 'floema-logo.png',
+                'logo' => 'kitanda-logo.png',
                 'title' => 'Minha Loja',
                 'descricao' => 'Loja de produtos artesanais',
                 'privacidade' => 'https://seusite.com.br/politica-de-privacidade',

@@ -210,7 +210,7 @@
                                 <label for="webhookName" class="col-3 col-form-label required">Nome do Webhook</label>
                                 <div class="col">
                                     <input name="webhook_name" id="webhookName"
-                                        type="text" class="form-control" value="<?php echo (isset($webhook_name)) ? $webhook_name : "Floema Doar"; ?>" required>
+                                        type="text" class="form-control" value="<?php echo (isset($webhook_name)) ? $webhook_name : "Kitanda"; ?>" required>
                                     <small class="form-hint">No máximo 50 caracteres.</small>
                                 </div>
                             </div>
