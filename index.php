@@ -20,7 +20,7 @@
 		$link = substr($url, 2); // Remove "p/" e guarda o restante em $link
 		$url = 'produto'; // Define a página como "produto"
 	} else if ($_GET['link']) {
-		$link = $_GET['link'];
+		$link = isset($_GET['url']) ? $_GET['url'] : null;
 	}
 
     $query = "SELECT captcha_type AS type FROM tb_page_captchas WHERE page_name = :page_name";
