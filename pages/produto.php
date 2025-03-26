@@ -55,7 +55,7 @@
     <div class="container-xl">
         <div class="row g-4">
 
-            <?php if ((isset($usuario) && $usuario['roles'] == 1) && $produto['vitrine'] == 0): ?>
+            <?php if (isset($usuario) && is_array($usuario) && isset($usuario['roles']) && $usuario['roles'] == 1 && $produto['vitrine'] == 0): ?>
 
                 <div class="col-12">
                     <div class="alert alert-info w-100" role="alert">
