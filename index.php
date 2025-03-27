@@ -19,8 +19,6 @@
 	if (strpos($url, 'p/') === 0) {
 		$link = substr($url, 2); // Remove "p/" e guarda o restante em $link
 		$url = 'produto'; // Define a página como "produto"
-	} else if (isset($_GET['link']) && $_GET['link']) {
-		$link = isset($_GET['link']) ? $_GET['link'] : null;
 	}
 
     $query = "SELECT captcha_type AS type FROM tb_page_captchas WHERE page_name = :page_name";
@@ -232,9 +230,6 @@
 	<link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
 	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
 	<link href="<?php echo INCLUDE_PATH; ?>assets/css/custom.css" rel="stylesheet">
-	<style>
-		@import url('https://rsms.me/inter/inter.css');
-	</style>
 	<script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
 
 <?php if (isset($hcaptcha)): ?>
