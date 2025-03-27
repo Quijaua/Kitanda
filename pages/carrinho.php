@@ -1,0 +1,245 @@
+<?php
+// Verifica se o usuário está logado ou se há um cookie
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT c.*, p.link AS produto_link, p.nome AS produto_nome, pi.imagem AS produto_imagem, p.preco AS produto_preco, u.nome AS empreendedora
+                            FROM tb_carrinho c
+                            JOIN tb_produtos p ON c.produto_id = p.id
+                            LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
+                            JOIN tb_clientes u ON p.criado_por = u.id
+                            WHERE c.usuario_id = ?");
+    $stmt->execute([$userId]);
+} elseif (isset($_COOKIE['cart_id'])) {
+    $cookieId = $_COOKIE['cart_id'];
+    $stmt = $conn->prepare("SELECT c.*, p.nome AS produto_nome, pi.imagem AS produto_imagem, p.preco AS produto_preco, u.nome AS empreendedora
+                            FROM tb_carrinho c
+                            JOIN tb_produtos p ON c.produto_id = p.id
+                            LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
+                            JOIN tb_clientes u ON p.criado_por = u.id
+                            WHERE c.cookie_id = ?");
+    $stmt->execute([$cookieId]);
+} else {
+    // Caso não exista usuário logado nem cookie, o carrinho estará vazio.
+    $stmt = false;
+}
+
+$cartItems = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
+?>
+
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <ol class="breadcrumb breadcrumb-muted">
+                    <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH; ?>">Home</a></li>
+                    <li class="breadcrumb-item active">Meu Carrinho</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row g-4">
+
+            <div class="col-md-12">
+                <h3 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">Meu Carrinho</h3>
+            </div>
+
+            <div class="col-md-8">
+                <?php if(count($cartItems) > 0): ?>
+                    <?php foreach($cartItems as $item): ?>
+                        <?php
+                            $item['produto_imagem'] = !empty($item['produto_imagem'])
+                                                    ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $item['produto_id'] . "/" . $item['produto_imagem'])
+                                                    : "https://placehold.co/1000";
+                        ?>
+                        <div class="card bg-dark-lt p-5 mb-3" id="item-<?= $item['id']; ?>">
+                            <div class="row align-items-center mt-0">
+                                <div class="col-3 row g-2 g-md-3 mt-0">
+                                    <div class="col-12 mt-0">
+                                        <a data-fslightbox="gallery" href="<?= $item['produto_imagem']; ?>">
+                                            <!-- Photo -->
+                                            <div class="img-responsive img-responsive-1x1 rounded-3 border" style="background-image: url(<?= $item['produto_imagem']; ?>)"></div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-9 row align-items-center ms-auto">
+                                    <div class="col-10">
+                                        <div>
+                                            <a href="<?= INCLUDE_PATH . "p/" . htmlspecialchars($item['produto_link']); ?>" class="text-body">
+                                                <h3 class="h2 mb-0"><?= htmlspecialchars($item['produto_nome']); ?></h3>
+                                            </a>
+                                            <div class="text-secondary mb-3">
+                                                Produzido por: 
+                                                <a href="#" class="text-muted">
+                                                    <?= htmlspecialchars($item['empreendedora']); ?>
+                                                </a>
+                                            </div>
+                                            <h3 class="h2 mb-4">R$ <?= number_format($item['produto_preco'], 2, ',', '.'); ?></h3>
+                                            <!-- Link de exclusão com classes e data attributes -->
+                                            <a href="#" class="text-muted remove-item" data-item-id="<?= $item['id']; ?>" data-produto-id="<?= $item['produto_id']; ?>">Excluir</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <!-- Input de quantidade com data attributes -->
+                                        <input type="number" class="form-control quantidade-produto" 
+                                               value="<?= $item['quantidade']; ?>" min="1" 
+                                               data-price="<?= $item['produto_preco']; ?>"
+                                               data-produto-id="<?= $item['produto_id']; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Seu carrinho está vazio.</p>
+                <?php endif; ?>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-dark-lt">
+                    <div class="card-body">
+                        <h3 class="card-title">Resumo do pedido</h3>
+
+                        <?php 
+                        // Calcula o total dos itens do carrinho
+                        $total = 0;
+                        foreach ($cartItems as $item) {
+                            $total += $item['produto_preco'] * $item['quantidade'];
+                        }
+                        ?>
+                        <table class="table table-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>Itens do carrinho</td>
+                                    <!-- id "cart-total" para atualização dinâmica -->
+                                    <td id="cart-total" class="w-10 fw-bold text-end">R$ <?= number_format($total, 2, ',', '.'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Desconto</td>
+                                    <td class="w-10 fw-bold text-end">R$ 0,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <hr class="my-2">
+
+                        <table class="table table-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">TOTAL</td>
+                                    <td id="cart-total-final" class="w-10 fw-bold text-end">R$ <?= number_format($total, 2, ',', '.'); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="text-center">
+                            <a href="<?= INCLUDE_PATH; ?>checkout" class="btn btn-6 btn-dark btn-pill w-100 mb-3"> Finalizar compra </a>
+                            <a href="<?= INCLUDE_PATH; ?>produtos" class="text-muted"> Continuar comprando </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Função para formatar o valor em reais
+    function formatarReais(valor) {
+        return 'R$ ' + Number(valor).toFixed(2).replace('.', ',');
+    }
+    
+    // Função para recalcular o total do carrinho
+    function atualizarTotalCarrinho() {
+        var total = 0;
+        $('.quantidade-produto').each(function() {
+            var quantidade = parseInt($(this).val(), 10);
+            var preco = parseFloat($(this).data('price'));
+            total += quantidade * preco;
+        });
+        $('#cart-total').text(formatarReais(total));
+        $('#cart-total-final').text(formatarReais(total));
+    }
+    
+    // Atualiza o carrinho quando o input de quantidade perde o foco
+    $('.quantidade-produto').on('blur', function() {
+        var input = $(this);
+        var quantidade = parseInt(input.val(), 10);
+        if (isNaN(quantidade) || quantidade < 1) {
+            input.val(1);
+            quantidade = 1;
+        }
+        atualizarTotalCarrinho();
+        var produtoId = input.data('produto-id');
+        $.ajax({
+            url: "<?= INCLUDE_PATH; ?>back-end/carrinho/adicionar.php",
+            method: 'POST',
+            data: {
+                produto_id: produtoId,
+                quantidade: quantidade
+            },
+            success: function(response) {
+                try {
+                    var res = JSON.parse(response);
+                    if (res.status === 'sucesso') {
+                        console.log("Atualização: " + res.mensagem);
+                    } else {
+                        alert("Erro: " + res.mensagem);
+                    }
+                } catch(e) {
+                    console.log("Resposta inválida: " + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Erro AJAX: " + error);
+            }
+        });
+    });
+    
+    // Ao clicar no botão de excluir
+    $('.remove-item').on('click', function(e) {
+        e.preventDefault();
+        var btn = $(this);
+        // Confirmação simples (opcional)
+        if(!confirm("Tem certeza que deseja remover este item?")) {
+            return;
+        }
+        // Obtém o id do item no carrinho (registro no banco)
+        var itemId = btn.data('item-id');
+        $.ajax({
+            url: "<?= INCLUDE_PATH; ?>back-end/carrinho/remover.php",
+            method: "POST",
+            data: {
+                item_id: itemId
+            },
+            success: function(response) {
+                try {
+                    var res = JSON.parse(response);
+                    if (res.status === "sucesso") {
+                        // Remove o card do item da tela
+                        $("#item-" + itemId).fadeOut(300, function() {
+                            $(this).remove();
+                            atualizarTotalCarrinho();
+                        });
+                        console.log("Remoção: " + res.mensagem);
+                    } else {
+                        alert("Erro: " + res.mensagem);
+                    }
+                } catch(e) {
+                    console.log("Resposta inválida: " + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Erro AJAX: " + error);
+            }
+        });
+    });
+});
+</script>

@@ -52,9 +52,7 @@ $total = $subtotal + $frete - $desconto;
     <div class="container-xl">
         <div class="row g-4">
 
-            <!-- CHECKOUT ETAPA 1 - Informações Gerais -->
-
-            <div class="col-md-8" id="step-1">
+            <div class="col-md-8">
                 <div class="card bg-dark-lt">
                     <div class="card-body row">
                         <div class="col-md-6">
@@ -205,120 +203,6 @@ $total = $subtotal + $frete - $desconto;
                 </div>
             </div>
 
-            <!-- CHECKOUT ETAPA 2 - Pagamento -->
-
-            <div class="col-md-8 d-none" id="step-2">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card bg-dark-lt">
-                            <div class="card-body row">
-                                <h3 class="card-title">Informações pessoais</h3>
-        
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-control-plaintext">Nome do Usuário</div>
-                                </div>
-        
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-floating">
-                                        <input type="disabled-email" class="form-control" name="disabled-email" id="disabled-field-email" placeholder="nome@exemplo.com" value="nome@exemplo.com" disabled>
-                                        <label for="disabled-email">Seu e-mail</label>
-                                    </div>
-                                </div>
-        
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label mb-0">CPF/CNPJ</label>
-                                            <div class="form-control-plaintext">Input value</div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label mb-0">Nascimento</label>
-                                            <div class="form-control-plaintext">Input value</div>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label mb-0">Telefone</label>
-                                    <div class="form-control-plaintext">Input value</div>
-                                </div>
-        
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label mb-0">Endereço</label>
-                                    <div class="form-control-plaintext">Input value</div>
-                                </div>
-        
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-4 mb-3">
-                                            <label class="form-label mb-0">CEP</label>
-                                            <div class="form-control-plaintext">Input value</div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label class="form-label mb-0">Cidade</label>
-                                            <div class="form-control-plaintext">Input value</div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label class="form-label mb-0">UF</label>
-                                            <div class="form-control-plaintext">Input value</div>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <button type="button" id="btn-edit-info" class="btn btn-secondary">Alterar informações</button>
-                                    <a href="#" id="link-not-me" class="text-muted">Não sou eu</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="col-md-6">
-                        <div class="row g-4">
-                            <div class="col-md-12">
-                                <div class="card bg-dark-lt">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Cupom</h3>
-        
-                                        <div class="col-md-12 mb-3">
-                                            <div class="form-floating">
-                                                <input type="coupon" class="form-control" name="coupon" id="field-coupon" placeholder="Código do Cupom">
-                                                <label for="coupon">Código do Cupom</label>
-                                            </div>
-                                        </div>
-        
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="col-md-12">
-                                <div class="card bg-dark-lt">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Forma de pagamento</h3>
-        
-                                        <div>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-credit-card" type="radio" value="100">
-                                                <span class="form-check-label">Cartão de Crédito</span>
-                                            </label>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-bank-slip" type="radio" value="101">
-                                                <span class="form-check-label">Boleto Bancário</span>
-                                            </label>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-pix" type="radio" value="102">
-                                                <span class="form-check-label">PIX</span>
-                                            </label>
-                                        </div>
-        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-md-4">
                 <div class="card bg-dark-lt">
                     <div class="card-body">
@@ -403,9 +287,7 @@ $total = $subtotal + $frete - $desconto;
                             </tbody>
                         </table>
 
-                        <!-- <button type="button" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout"> Confirmar </button> -->
-                        <!-- Botão para avançar para a etapa 2 -->
-                        <button type="button" id="btn-step1-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout">Continuar</button>
+                        <a href="#" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout"> Confirmar </a>
                     </div>
                 </div>
             </div>
@@ -471,93 +353,11 @@ $(document).ready(function() {
             }
         });
     });
-});
-</script>
 
-<script>
-$(document).ready(function() {
-
-    // Exibe a etapa 1 e oculta as demais ao carregar
-    $('#step-1').removeClass('d-none');
-    $('#step-2').addClass('d-none');
-
-    // Ao clicar no botão "Continuar" da Etapa 1
-    $('#btn-step1-continue').on('click', function() {
-        // Coleta os dados do formulário da Etapa 1
-        var dados = {
-            email: $('#field-email').val(),
-            name: $('#field-name').val(),
-            zipcode: $('#field-zipcode').val()
-            // Adicione os demais campos conforme necessário
-        };
-
-        // Validação simples: verifica se os campos obrigatórios estão preenchidos
-        if (!dados.email || !dados.name) {
-            alert('Por favor, preencha os campos obrigatórios.');
-            return;
-        }
-
-        // Envia os dados via AJAX para salvar (pode ser em cookie ou em banco de dados)
-        $.ajax({
-            url: '<?= INCLUDE_PATH; ?>back-end/carrinho/salvar_dados.php',
-            type: 'POST',
-            data: dados,
-            success: function(response) {
-                try {
-                    var res = JSON.parse(response);
-                    if (res.status === 'sucesso') {
-                        // Preenche os campos da Etapa 2 com os dados salvos
-                        $('#saved-email').text(dados.email);
-                        $('#saved-name').text(dados.name);
-                        // Caso queira preencher outros campos, faça aqui
-
-                        // Oculta a Etapa 1 e exibe a Etapa 2
-                        $('#step-1').addClass('d-none');
-                        $('#step-2').removeClass('d-none');
-                    } else {
-                        alert("Erro ao salvar dados: " + res.mensagem);
-                    }
-                } catch (e) {
-                    console.log("Resposta inválida: " + response);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log("Erro AJAX: " + error);
-            }
-        });
-    });
-
-    // Ao clicar em "Alterar informações" na Etapa 2, volta para a Etapa 1 com os dados preenchidos
-    $('#btn-edit-info').on('click', function() {
-        // Exibe a Etapa 1
-        $('#step-1').removeClass('d-none');
-        // Oculta a Etapa 2
-        $('#step-2').addClass('d-none');
-        // (Opcional) Preenche os campos da Etapa 1 com os dados salvos exibidos na Etapa 2
-        $('#field-email').val($('#saved-email').text());
-        $('#field-name').val($('#saved-name').text());
-    });
-
-    // Ao clicar em "Não sou eu", limpa os campos e volta para a Etapa 1 vazia
-    $('#link-not-me').on('click', function(e) {
+    // Ação do botão confirmar
+    $('.confirm-checkout').on('click', function(e) {
         e.preventDefault();
-        // Limpa os campos da Etapa 1
-        $('#field-email').val('');
-        $('#field-name').val('');
-        $('#field-zipcode').val('');
-        // (Opcional) Limpe outros campos conforme necessário
-
-        // Oculta a Etapa 2 e exibe a Etapa 1
-        $('#step-2').addClass('d-none');
-        $('#step-1').removeClass('d-none');
-    });
-
-    // Ao clicar no botão "Continuar para confirmação" na Etapa 2
-    $('#btn-step2-continue').on('click', function() {
-        // Aqui você pode, por exemplo, salvar a opção de pagamento selecionada
-        // e redirecionar para uma página de confirmação ou avançar para outra etapa.
-        // Exemplo simples: redirecionar para a página de confirmação:
-        window.location.href = 'confirmacao.php';
+        window.location.href = '<?= INCLUDE_PATH; ?>checkout/confirmacao.php';
     });
 });
 </script>

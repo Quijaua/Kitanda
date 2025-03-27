@@ -42,6 +42,7 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <ol class="breadcrumb breadcrumb-muted">
+                    <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH; ?>">Home</a></li>
                     <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH; ?>">Produtos</a></li>
                     <li class="breadcrumb-item active"><?= $produto['nome']; ?></li>
                 </ol>
@@ -116,12 +117,17 @@
                 <hr>
 
                 <!-- Botão de Compra -->
-                <div class="mb-6">
-                    <a href="#" class="btn btn-primary" rel="noopener">
-                        <!-- Download SVG icon from http://tabler.io/icons/icon/shopping-bag -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler-shopping-bag"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" /><path d="M9 11v-5a3 3 0 0 1 6 0v5" /></svg>
-                        Comprar
-                    </a>
+                <div class="row row-cards mb-6">
+                    <div class="col-sm-4 col-md-2">
+                        <input type="number" class="form-control quantidade-produto" value="1" min="1">
+                    </div>
+                    <div class="col-sm-8 col-md-10">
+                        <button type="button" class="btn btn-primary btn-pill w-100 add-to-cart" data-produto-id="<?= $produto['id']; ?>">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/shopping-bag -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler-shopping-bag"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" /><path d="M9 11v-5a3 3 0 0 1 6 0v5" /></svg>
+                            Comprar
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Descrição -->
@@ -248,3 +254,34 @@
     <?php endif; ?>
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        $(".add-to-cart").on("click", function(e) {
+            e.preventDefault();
+
+            var produtoId = $(this).data("produto-id");
+            var quantidadeInput = $(this).closest(".row-cards").find(".quantidade-produto");
+            var quantidade = parseInt(quantidadeInput.val(), 10);
+
+            // Verifica se a quantidade é inválida (menor ou igual a 0, ou não numérico)
+            if (isNaN(quantidade) || quantidade <= 0) {
+                alert("Por favor, insira uma quantidade válida!");
+                quantidadeInput.val(1); // Define como 1 caso seja inválido
+                return;
+            }
+
+            $.ajax({
+                url: "<?= INCLUDE_PATH; ?>back-end/carrinho/adicionar.php",
+                method: "POST",
+                data: {
+                    produto_id: produtoId,
+                    quantidade: quantidade
+                },
+                success: function(response) {
+                    alert("Produto adicionado ao carrinho!");
+                }
+            });
+        });
+    });
+</script>
