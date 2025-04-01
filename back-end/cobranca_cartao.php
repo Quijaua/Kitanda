@@ -6,7 +6,7 @@ function asaas_CriarCobrancaCartao($customer_id, $dataForm, $config) {
     date_default_timezone_set('America/Sao_Paulo');
     $date = date("Y-m-d"); // Obtém a data atual no formato "aaaa-mm-dd"
 
-	$expiry = explode("/", $dataForm["card-expiry"]);
+	$expiry = explode("/", $dataForm["card_expiry"]);
 
     $curl = curl_init();
 
@@ -16,11 +16,11 @@ function asaas_CriarCobrancaCartao($customer_id, $dataForm, $config) {
         "dueDate" => date("Y-m-d"),
         "value" => $dataForm["value"],
         "creditCard" => [
-            "holderName" => $dataForm["card-name"],
-            "number" => $dataForm["card-number"],
+            "holderName" => $dataForm["card_name"],
+            "number" => $dataForm["card_number"],
             "expiryMonth" => trim($expiry[0]),
             "expiryYear" => trim($expiry[1]),
-            "ccv" => $dataForm["card-ccv"]
+            "ccv" => $dataForm["card_ccv"]
         ],
         "creditCardHolderInfo" => [
             "name" => $dataForm["name"],
