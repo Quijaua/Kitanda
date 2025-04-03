@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id'])) {
     $stmt->execute([$userId]);
 } elseif (isset($_COOKIE['cart_id'])) {
     $cookieId = $_COOKIE['cart_id'];
-    $stmt = $conn->prepare("SELECT c.*, p.nome AS produto_nome, pi.imagem AS produto_imagem, p.preco AS produto_preco, u.nome AS empreendedora
+    $stmt = $conn->prepare("SELECT c.*, p.link AS produto_link, p.nome AS produto_nome, pi.imagem AS produto_imagem, p.preco AS produto_preco, u.nome AS empreendedora
                             FROM tb_carrinho c
                             JOIN tb_produtos p ON c.produto_id = p.id
                             LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id

@@ -16,15 +16,15 @@
             $newsletter = 0;
         }
 
-		// Armazena a opção private
-        if (isset($dataForm['private']) && $dataForm['private'] == '1') {
-            $private = $dataForm['private'];
+		// Armazena a opção foreignCustomer
+        if (isset($dataForm['foreignCustomer']) && $dataForm['foreignCustomer'] == '1') {
+            $foreignCustomer = $dataForm['foreignCustomer'];
         } else {
-            $private = 0;
+            $foreignCustomer = 0;
         }
 
 		// Consulta SQL
-		$sql = "SELECT asaas_id FROM $tabela WHERE email = :email";
+		$sql = "SELECT id, asaas_id FROM $tabela WHERE email = :email";
 
 		// Preparar a consulta
 		$stmt = $conn->prepare($sql);
@@ -43,6 +43,8 @@
 			// Verificar se o resultado foi encontrado
 			if ($resultado) {
 				// Atribuir o valor da coluna à variável, ex.: "nome" = $nome
+				$_SESSION['user_id'] = $resultado['id'];
+
 				$retorno['id'] = $resultado['asaas_id'];
 				return $retorno['id'];
 			}
@@ -73,8 +75,8 @@
 
 				$tabela = 'tb_clientes';
 
-				$stmt = $conn->prepare("INSERT INTO $tabela (roles, nome, email, phone, cpf, cep, endereco, numero, complemento, municipio, cidade, uf, asaas_id, newsletter, private) VALUES (
-					:roles, :name, :email, :phone, :cpfCnpj, :postalCode, :address, :addressNumber, :complement, :province, :city, :state, :id, :newsletter, :private)");
+				$stmt = $conn->prepare("INSERT INTO $tabela (roles, nome, email, phone, cpf, cep, endereco, numero, complemento, municipio, cidade, uf, pais, estrangeiro, asaas_id, newsletter) VALUES (
+					:roles, :name, :email, :phone, :cpfCnpj, :postalCode, :address, :addressNumber, :complement, :province, :city, :state, :country, :foreign, :id, :newsletter)");
 
 				$roles = 0;
 
@@ -91,12 +93,17 @@
 				$stmt->bindParam(':province', $retorno['province'], PDO::PARAM_STR);
 				$stmt->bindParam(':city', $dataForm['city'], PDO::PARAM_STR);
 				$stmt->bindParam(':state', $retorno['state'], PDO::PARAM_STR);
+				$stmt->bindParam(':country', $country, PDO::PARAM_STR);
+				$stmt->bindParam(':foreign', $foreignCustomer, PDO::PARAM_INT);
 				$stmt->bindParam(':id', $retorno['id'], PDO::PARAM_STR);
 				$stmt->bindParam(':newsletter', $newsletter, PDO::PARAM_INT);
-				$stmt->bindParam(':private', $private, PDO::PARAM_INT);
 
 				// Executando o update
 				$stmt->execute();
+				$usuario_id = $conn->lastInsertId();
+
+				// Atribuir o valor da coluna à variável, ex.: "nome" = $nome
+				$_SESSION['user_id'] = $usuario_id;
 
 				return $retorno['id'];
 			} else {

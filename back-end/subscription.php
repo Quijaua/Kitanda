@@ -137,6 +137,7 @@ return json_encode($response);
 
 function makeDonation($dataForm, $config){
     include('config.php');
+    session_start();
 
     if(isset($_POST)) {
         // Passando valor do email
@@ -205,6 +206,18 @@ function makeDonation($dataForm, $config){
             'compra' => $compra
         ];
 
+
+
+
+
+
+
+
+
+
+
+
+
         $dataForm['value'] = $compra['total'];
 
 
@@ -217,24 +230,28 @@ function makeDonation($dataForm, $config){
         include_once('listar_cobranca_assinatura.php');
         include_once('qr_code.php');
         include_once('linha_digitavel.php');
+        include_once('salvar_pedido.php');
     
         switch($_POST["method"]) {
             case '100':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                $payment_id = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
-                echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
+                $payment = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
+                $pedido_id = salvarPedido($customer_id, null, $payment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '101':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                $payment_id = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
-                asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment_id, $config);
-                echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
+                $payment = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
+                $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
+                $pedido_id = salvarPedido($customer_id, $boleto, $payment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '102':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                $payment_id = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
-                asaas_ObterQRCodePix($subscription_id, $payment_id, $config);
-                echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
+                $payment = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
+                $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
+                $pedido_id = salvarPedido($customer_id, $pix, $payment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             default:
                 echo json_encode(['status' => 404, 'message' => 'Método de pagamento inválido!']);

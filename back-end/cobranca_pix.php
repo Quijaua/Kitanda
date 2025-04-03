@@ -62,7 +62,7 @@ function asaas_CriarCobrancaPix($customer_id, $dataForm, $config) {
         // Executando o update
         $stmt->execute();
         
-        return $retorno['id'];
+        return $retorno;
     } else {
         echo $response;
         exit();

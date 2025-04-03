@@ -7,7 +7,6 @@
     $name         = trim($_POST['name'] ?? '');
     $cpf          = trim($_POST['cpf'] ?? '');
     $birthDate    = trim($_POST['birthDate'] ?? '');
-    $ddd          = trim($_POST['ddd'] ?? '');
     $phone        = trim($_POST['phone'] ?? '');
     $zipcode      = trim($_POST['zipcode'] ?? '');
     $street       = trim($_POST['street'] ?? '');
@@ -16,9 +15,10 @@
     $district     = trim($_POST['district'] ?? '');
     $city         = trim($_POST['city'] ?? '');
     $state        = trim($_POST['state'] ?? '');
-    $private      = isset($_POST['private']) ? 1 : 0;
-    $newsletter   = isset($_POST['newsletter']) ? 1 : 0;
-    $terms        = isset($_POST['terms']) ? 1 : 0;
+    $country      = trim($_POST['country'] ?? '');
+    $foreign      = isset($_POST['foreign']) && !empty($_POST['foreign']) ? 1 : 0;
+    $newsletter   = isset($_POST['newsletter']) && !empty($_POST['newsletter']) ? 1 : 0;
+    $terms        = isset($_POST['terms']) && !empty($_POST['terms']) ? 1 : 0;
 
     // Validação básica (exemplo: email e nome são obrigatórios)
     if (empty($email) || empty($name)) {
@@ -32,7 +32,6 @@
         'name'         => $name,
         'cpf'          => $cpf,
         'birthDate'    => $birthDate,
-        'ddd'          => $ddd,
         'phone'        => $phone,
         'zipcode'      => $zipcode,
         'street'       => $street,
@@ -41,7 +40,8 @@
         'district'     => $district,
         'city'         => $city,
         'state'        => $state,
-        'private'      => $private,
+        'country'      => $country,
+        'foreign'      => $foreign,
         'newsletter'   => $newsletter,
         'terms'        => $terms
     ];
@@ -51,17 +51,16 @@
     setcookie('checkout_data', $cookieData, time() + 3600, "/");
 
     // // Opção 3: Salvar no banco de dados (certifique-se de ter a tabela tb_checkout)
-    // // Exemplo: a tabela tb_checkout possui as colunas: email, name, cpf, birthDate, ddd, phone, zipcode, street, streetNumber, complement, district, city, state, private, newsletter, terms
+    // // Exemplo: a tabela tb_checkout possui as colunas: email, name, cpf, birthDate, phone, zipcode, street, streetNumber, complement, district, city, state, private, newsletter, terms
     // try {
     //     $stmt = $conn->prepare("INSERT INTO tb_checkout 
-    //         (email, name, cpf, birthDate, ddd, phone, zipcode, street, streetNumber, complement, district, city, state, private, newsletter, terms)
-    //         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    //         (email, name, cpf, birthDate, phone, zipcode, street, streetNumber, complement, district, city, state, private, newsletter, terms)
+    //         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     //     $stmt->execute([
     //         $email,
     //         $name,
     //         $cpf,
     //         $birthDate,
-    //         $ddd,
     //         $phone,
     //         $zipcode,
     //         $street,

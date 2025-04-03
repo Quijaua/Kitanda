@@ -59,6 +59,8 @@ function asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment_id, $config)
         // Executando o update
         $stmt->execute();
 
+        return $retorno;
+
     } else {
         echo $response;
         exit();
