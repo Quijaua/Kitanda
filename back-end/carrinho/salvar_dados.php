@@ -15,8 +15,6 @@
     $district     = trim($_POST['district'] ?? '');
     $city         = trim($_POST['city'] ?? '');
     $state        = trim($_POST['state'] ?? '');
-    $country      = trim($_POST['country'] ?? '');
-    $foreign      = isset($_POST['foreign']) && !empty($_POST['foreign']) ? 1 : 0;
     $newsletter   = isset($_POST['newsletter']) && !empty($_POST['newsletter']) ? 1 : 0;
     $terms        = isset($_POST['terms']) && !empty($_POST['terms']) ? 1 : 0;
 
@@ -40,8 +38,6 @@
         'district'     => $district,
         'city'         => $city,
         'state'        => $state,
-        'country'      => $country,
-        'foreign'      => $foreign,
         'newsletter'   => $newsletter,
         'terms'        => $terms
     ];
