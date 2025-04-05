@@ -51,7 +51,6 @@ if ($pedido) {
         'city'         => $usuario['cidade'],
         'state'        => $usuario['uf'],
         'country'      => $usuario['pais'],
-        'foreign'      => $usuario['estrangeiro'],
         'newsletter'   => $usuario['newsletter'],
         'terms'        => 1
     ];
@@ -178,7 +177,7 @@ if ($pedido) {
 									</div>
 								</div>
 
-								<div class="col-md-12 mb-3" id="div-cpf-field" <?= (@$_SESSION['checkout_data']['foreign']) ? 'style="display: none;"' : ''; ?>>
+								<div class="col-md-12 mb-3" id="div-cpf-field">
 									<div class="form-floating">
 										<input type="text" class="form-control" name="cpfCnpj" id="field-cpf" placeholder="CPF" value="<?= @$_SESSION['checkout_data']['cpf'] ?? null; ?>">
 										<label for="field-cpf">CPF/CNPJ</label>
@@ -207,7 +206,7 @@ if ($pedido) {
 
 							<div class="row">
 
-                                <div class="col-md-12 mb-3" id="div-cep-field" <?= (@$_SESSION['checkout_data']['foreign']) ? 'style="display: none;"' : ''; ?>>
+                                <div class="col-md-12 mb-3" id="div-cep-field">
                                     <div class="form-floating">
                                         <input onblur="getCepData()" type="text" class="form-control" name="postalCode" id="field-zipcode" placeholder="CEP endereço" value="<?= @$_SESSION['checkout_data']['zipcode'] ?? null; ?>">
                                         <label for="field-zipcode">CEP</label>
@@ -244,14 +243,14 @@ if ($pedido) {
                                 <div class="col-md-12">
                                     <div class="row">
 
-                                        <div class="<?= (!@$_SESSION['checkout_data']['foreign']) ? 'col-md-12' : 'col-md-6'; ?> mb-3 country-brasil" id="div-district-field">
+                                        <div class="col-md-12 mb-3 country-brasil" id="div-district-field">
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" name="province" id="field-district" placeholder="Bairro endereço" value="<?= @$_SESSION['checkout_data']['district'] ?? null; ?>">
                                                 <label for="field-district">Bairro</label>
                                             </div>
                                         </div>
 
-                                        <div class="<?= (!@$_SESSION['checkout_data']['foreign']) ? 'col-md-8' : 'col-md-6'; ?> mb-3 country-brasil" id="div-city-field">
+                                        <div class="col-md-8 mb-3 country-brasil" id="div-city-field">
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" name="city" id="field-city" placeholder="Cidade endereço" value="<?= @$_SESSION['checkout_data']['city'] ?? null; ?>">
                                                 <label for="field-city">Cidade</label>
@@ -265,14 +264,6 @@ if ($pedido) {
                                             </div>
                                         </div>
 
-                                        <!-- Campo para País, inicialmente oculto -->
-                                        <div class="col-md-8 mb-3 <?= (!@$_SESSION['checkout_data']['foreign']) ? 'd-none' : ''; ?>" id="div-country-field">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" name="country" id="field-country" placeholder="País" value="<?= @$_SESSION['checkout_data']['country'] ?? null; ?>">
-                                                <label for="field-country">País</label>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
 
@@ -282,10 +273,6 @@ if ($pedido) {
 
                         <div class="row">
                             <div class="col-12">
-                                <label class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="foreign" name="foreign" <?= (isset($_SESSION['checkout_data']['foreign']) && $_SESSION['checkout_data']['foreign'] == 1) ? 'checked' : null; ?>>
-                                    <span class="form-check-label">Sou estrageiro(a) estou fora do Brasil</span>
-                                </label>
                                 <label class="form-check">
                                     <input class="form-check-input" type="checkbox" value="1" id="newsletter" name="newsletter" <?= (isset($_SESSION['checkout_data']['newsletter']) && $_SESSION['checkout_data']['newsletter'] == 1) ? 'checked' : null; ?>>
                                     <span class="form-check-label">Quero receber as novidades das Mulheres Empreendedoras da Amazônia.</span>
@@ -411,7 +398,7 @@ if ($pedido) {
                                         </div>
 
                                         <button type="button" id="btn-step2-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3 d-none">
-                                            Avançar
+                                            <span>Avançar</span>
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/arrow-narrow-right -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
                                         </button>
@@ -466,9 +453,7 @@ if ($pedido) {
                                                     <div class="form-floating">
                                                         <select class="form-select" name="installments" id="card-installments" aria-label="Floating label select">
                                                             <option selected="">Selecione uma parcela</option>
-                                                            <option value="1">A vista 1x - R$256,00</option>
-                                                            <option value="2">2x - R$123,00</option>
-                                                            <option value="3">3x - R$85,33</option>
+                                                            <option value="1">A vista 1x - R$ <?= number_format($total, 2, ',', '.'); ?></option>
                                                         </select>
                                                         <label for="card-installments">Número de parcelas</label>
                                                     </div>
@@ -681,30 +666,6 @@ if ($pedido) {
 
 <script>
     $(document).ready(function(){
-        $("#foreign").on("change", function(){
-            if($(this).is(":checked")){
-                $("#div-cpf-field").slideUp();
-                $("#div-cep-field").slideUp();
-                $("#div-country-field").removeClass("d-none")
-
-                // Alterar classes de colunas para estrangeiro
-                $("#div-district-field").removeClass("col-md-12").addClass("col-md-6");
-                $("#div-city-field").removeClass("col-md-8").addClass("col-md-6");
-            } else {
-                $("#div-cpf-field").slideDown();
-                $("#div-cep-field").slideDown();
-                $("#div-country-field").addClass("d-none")
-
-                // Restaurar classes de colunas para Brasil
-                $("#div-district-field").removeClass("col-md-6").addClass("col-md-12");
-                $("#div-city-field").removeClass("col-md-6").addClass("col-md-8");
-            }
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function(){
         $("#boleto-text").on("click", function(){
             // Seleciona todo o conteúdo do textarea
             $(this).select();
@@ -767,6 +728,8 @@ if ($pedido) {
 
 <script>
     $(document).ready(function(){
+        $('#card-expiry').mask('00 / 00');
+
         // Inicializa o Card.js
         var card = new Card({
             form: '#payment-form', // Seletor do formulário
@@ -810,9 +773,45 @@ $(document).ready(function() {
         var total = subtotal + frete - desconto;
         // Atualiza o TOTAL na tabela
         $('#total_valor').text('R$ ' + total.toFixed(2).replace('.', ','));
+
+        // Após recalcular o total, atualiza as opções de parcelamento
+        atualizarParcelas(total);
     }
 
-    // Remover item do checkout via AJAX
+    // Função para gerar as opções de parcelamento com base no total
+    function gerarParcelas(total) {
+        var minParcela = 5.00; // Valor mínimo por parcela
+        var maxParcelas = 6;  // Máximo de parcelas
+        var parcelas = [];
+        for (var i = 1; i <= maxParcelas; i++) {
+            var valorParcela = total / i;
+            if (valorParcela >= minParcela) {
+                parcelas.push({ parcela: i, valor: valorParcela });
+            } else {
+                break; // Interrompe se o valor da parcela for menor que o mínimo
+            }
+        }
+        return parcelas;
+    }
+
+    // Função para atualizar o select de parcelamento com as opções geradas
+    function atualizarParcelas(total) {
+        var parcelas = gerarParcelas(total);
+        var $select = $('#card-installments');
+        $select.empty();
+        $.each(parcelas, function(index, item) {
+            var optionText = "";
+            if (item.parcela == 1) {
+                optionText = "À vista 1x - R$ " + item.valor.toFixed(2).replace('.', ',');
+            } else {
+                optionText = item.parcela + "x de R$ " + item.valor.toFixed(2).replace('.', ',') + " sem juros";
+            }
+            $select.append($('<option>', { value: item.parcela, text: optionText }));
+        });
+        window.numParcelasDisponiveis = parcelas.length;
+    }
+
+    // Exemplo: Remover item do checkout via AJAX (já existente)
     $('.remove-checkout-item').on('click', function(e) {
         e.preventDefault();
         var btn = $(this);
@@ -845,6 +844,16 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Se necessário, inicialize as opções de parcelamento ao carregar a página
+    // Exemplo: Se já existir um total definido
+    var totalText = $('#total_valor').text().trim(); // Ex: "R$ 123,45"
+    if(totalText) {
+        var total = parseFloat(totalText.replace("R$", "").replace(/\./g, "").replace(",", "."));
+        if(!isNaN(total)) {
+            atualizarParcelas(total);
+        }
+    }
 });
 </script>
 
@@ -971,18 +980,16 @@ $(document).ready(function() {
         var dados = {
             email: $('#field-eee').val(),
             name: $('#field-name').val(),
-            cpf: $("#foreign").is(":checked") ? "" : $('#field-cpf').val(),
+            cpf: $('#field-cpf').val(),
             birthDate: $('#field-birth-date').val(),
             phone: $('#field-phone').val(),
-            zipcode: $("#foreign").is(":checked") ? "" : $('#field-zipcode').val(),
+            zipcode: $('#field-zipcode').val(),
             street: $('#field-street').val(),
             streetNumber: $('#field-street-number').val(),
             complement: $('#field-complement').val(),
             district: $('#field-district').val(),
             city: $('#field-city').val(),
             state: $('#field-state').val(),
-            country: $("#foreign").is(":checked") ? $('#field-country').val() : "Brasil",
-            foreign: $("#foreign").is(":checked") ? 1 : '',
             newsletter: $("#newsletter").is(":checked") ? 1 : '',
             terms: $("#terms").is(":checked") ? 1 : '',
         };
@@ -1008,11 +1015,11 @@ $(document).ready(function() {
                         // Preenche os campos da Etapa 2 com os dados salvos
                         $('#saved-email').val(dados.email);
                         $('#saved-name').text(dados.name);
-                        $('#saved-cpf').text($("#foreign").is(":checked") ? "-" : dados.cpf);
+                        $('#saved-cpf').text(dados.cpf);
                         $('#saved-birth-date').text(birthDateFormatted);
                         $('#saved-phone').text(dados.phone);
                         $('#saved-street').text(address);
-                        $('#saved-zipcode').text($("#foreign").is(":checked") ? "-" : dados.zipcode);
+                        $('#saved-zipcode').text(dados.zipcode);
                         $('#saved-city').text(dados.city);
                         $('#saved-state').text(dados.state);
 
@@ -1094,8 +1101,6 @@ $(document).ready(function() {
         $('#field-district').val('');
         $('#field-city').val('');
         $('#field-state').val('');
-        $('#field-country').val('');
-        $('#foreign').prop('checked', false);
         $('#newsletter').prop('checked', false);
         $('#terms').prop('checked', false);
 
@@ -1117,10 +1122,17 @@ $(document).ready(function() {
 
     // Quando qualquer input radio do grupo "payment" for selecionado,
     // remove a classe "d-none" do botão de continuar
-    $('input[name="payment"]').on('change', function() {
-        $('#btn-step2-continue').removeClass('d-none');
-        // Se o botão estivesse desabilitado via atributo, desabilite-o assim:
-        // $('#btn-step2-continue').prop('disabled', false);
+    $(document).ready(function(){
+        $('input[name="payment"]').on('change', function() {
+            var method = $(this).val(); // valor do método de pagamento
+            $('#btn-step2-continue').removeClass('d-none');
+
+            if(method === "102" || method.toUpperCase() === "PIX"){
+                $('#btn-step2-continue span').html('Pagar via PIX');
+            } else {
+                $('#btn-step2-continue span').html('Avançar');
+            }
+        });
     });
 
 
@@ -1179,19 +1191,17 @@ $(document).ready(function() {
             var paramsData = {
                 email: $('#field-email').val(),
                 eee: $('#field-eee').val(),
-                cpfCnpj: $("#foreign").is(":checked") ? null : $('#field-cpf').val(),
+                cpfCnpj: $('#field-cpf').val(),
                 name: $('#field-name').val(),
                 birth_date: $('#field-birth-date').val(),
                 phone: $('#field-phone').val(),
-                postalCode: $("#foreign").is(":checked") ? null : $('#field-zipcode').val(),
+                postalCode: $('#field-zipcode').val(),
                 address: $('#field-street').val(),
                 addressNumber: $('#field-street-number').val(),
                 complement: $('#field-complement').val(),
                 province: $('#field-district').val(),
                 city: $('#field-city').val(),
                 state: $('#field-state').val(),
-                country: $('#field-country').val(),
-                foreignCustomer: $("#foreign").is(":checked") ? 1 : 0,
 
                 card_name: "",         // Não se aplica
                 card_number: "",       // Não se aplica
@@ -1225,6 +1235,8 @@ $(document).ready(function() {
             .done(function(response) {
                 if (response.status == 200) {
                     removeDeleteItemColumn();
+
+                    $(".alert").remove();
 
                     $('#step-item-2').removeClass('active');
                     $('#step-item-3').addClass('active');
@@ -1409,6 +1421,8 @@ $(document).ready(function() {
         .done(function(response) {
             if (response.status == 200) {
                 removeDeleteItemColumn();
+
+                $(".alert").remove();
 
                 $('#step-item-2').removeClass('active');
                 $('#step-item-3').addClass('active');

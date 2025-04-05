@@ -219,6 +219,9 @@ function makeDonation($dataForm, $config){
 
 
         $dataForm['value'] = $compra['total'];
+        if (isset($dataForm['card_installments']) && !empty($dataForm['card_installments']) && $dataForm['card_installments'] !== 1) {
+            $dataForm['installmentCount'] = $compra['total'];
+        }
 
 
 
