@@ -39,14 +39,52 @@
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		// Verifica se a consulta retornou algum resultado
-		if ($stmt->rowCount() > 0) {
-			// Verificar se o resultado foi encontrado
-			if ($resultado) {
-				// Atribuir o valor da coluna à variável, ex.: "nome" = $nome
-				$_SESSION['user_id'] = $resultado['id'];
+		if ($stmt->rowCount() > 0 && $resultado) {
+			// Cliente encontrado
+			if (!empty($resultado['asaas_id'])) {
+				// Já tem asaas_id, retorna direto
+				return $resultado['asaas_id'];
+			} else {
+				// Cliente existe mas não tem asaas_id, criar no Asaas e atualizar
+				$curl = curl_init();
+				curl_setopt_array($curl, array(
+					CURLOPT_URL => $config['asaas_api_url'].'customers',
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_ENCODING => '',
+					CURLOPT_MAXREDIRS => 10,
+					CURLOPT_TIMEOUT => 0,
+					CURLOPT_FOLLOWLOCATION => true,
+					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+					CURLOPT_CUSTOMREQUEST => 'POST',
+					CURLOPT_POSTFIELDS => json_encode($dataForm),
+					CURLOPT_HTTPHEADER => array(
+						'Content-Type: application/json',
+						'access_token: '.$config['asaas_api_key'],
+						'User-Agent: '.$application_name
+					)
+				));
+				$response = curl_exec($curl);
+				curl_close($curl);
 
-				$retorno['id'] = $resultado['asaas_id'];
-				return $retorno['id'];
+				$retorno = json_decode($response, true);
+
+				if ($retorno['object'] == 'customer') {
+					// Atualizar cliente existente com o novo asaas_id
+					$update = $conn->prepare("
+						UPDATE $tabela SET 
+						asaas_id = :asaas_id
+						WHERE id = :id
+					");
+
+					$update->bindParam(':asaas_id', $retorno['id'], PDO::PARAM_STR);
+					$update->bindParam(':id', $resultado['id'], PDO::PARAM_INT);
+					$update->execute();
+
+					return $retorno['id'];
+				} else {
+					echo $response;
+					exit();
+				}
 			}
 		} else {
 			$curl = curl_init();
