@@ -6,7 +6,8 @@
         </button>
         <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="<?= INCLUDE_PATH_USER; ?>" class="pe-0 pe-md-3">
-                <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;">
+		Kitanda
+<!--                <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
             </a>
             <div class="nav-item d-none d-md-flex me-3">
                 <div class="btn-list">
