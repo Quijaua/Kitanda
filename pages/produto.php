@@ -36,6 +36,34 @@
     }
 ?>
 
+<!-- Modal Sucesso -->
+<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3>Salvo com sucesso!</h3>
+                <div class="text-secondary">O produto foi adicionado ao seu carrinho.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal"> Continuar comprando </a>
+                        </div>
+                        <div class="col">
+                            <a href="<?= INCLUDE_PATH; ?>carrinho" class="btn btn-success btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -264,10 +292,10 @@
             var quantidadeInput = $(this).closest(".row-cards").find(".quantidade-produto");
             var quantidade = parseInt(quantidadeInput.val(), 10);
 
-            // Verifica se a quantidade é inválida (menor ou igual a 0, ou não numérico)
+            // Verifica se a quantidade é inválida
             if (isNaN(quantidade) || quantidade <= 0) {
                 alert("Por favor, insira uma quantidade válida!");
-                quantidadeInput.val(1); // Define como 1 caso seja inválido
+                quantidadeInput.val(1);
                 return;
             }
 
@@ -279,7 +307,12 @@
                     quantidade: quantidade
                 },
                 success: function(response) {
-                    alert("Produto adicionado ao carrinho!");
+                    // Exibe o modal de sucesso
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                    myModal.show();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro na requisição AJAX: " + error);
                 }
             });
         });
