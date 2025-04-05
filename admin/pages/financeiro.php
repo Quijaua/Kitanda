@@ -166,7 +166,7 @@
                         <tbody>
                             <?php foreach($pedidos as $pedido) : ?>
                             <tr>
-				<td><a href="user/compra?pedido=<?php echo $pedido['pedido_id']; ?>"><?php echo $pedido['pedido_id']; ?></a></td>
+				<td><a href="compra?pedido=<?php echo $pedido['pedido_id']; ?>"><?php echo $pedido['pedido_id']; ?></a></td>
 				<td><?php echo $pedido['nome_cliente']; ?></td>
                                 <td><?php echo $pedido['email_cliente']; ?></td> 
                                 <td><?php echo $pedido['status']; ?></td>
