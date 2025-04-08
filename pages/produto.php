@@ -55,7 +55,7 @@
                             <a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal"> Continuar comprando </a>
                         </div>
                         <div class="col">
-                            <a href="<?= INCLUDE_PATH; ?>carrinho" class="btn btn-success btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a>
+                            <a href="<?= INCLUDE_PATH; ?>carrinho" class="btn btn-success btn-4 w-100" > Ir para o carrinho </a>
                         </div>
                     </div>
                 </div>
