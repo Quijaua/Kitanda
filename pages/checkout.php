@@ -124,6 +124,63 @@ if ($pedido) {
 }
 ?>
 
+<!-- Modal Sucesso -->
+<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3>Tem certeza?</h3>
+                <div class="text-secondary">Deseja remover o produto do seu carrinho?</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 btn-success w-100" data-bs-dismiss="modal"> Não, manter </a>
+                        </div>
+                        <div class="col">
+                            <!--a href="<?= INCLUDE_PATH; ?>carrinho" class="btn btn-success btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a-->
+                            <button id="remove-item" type="button" class="btn btn-warning btn-4 w-100" data-bs-dismiss="modal" id="btn-modal-success"> Sim, remover </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Validar -->
+<div class="modal modal-blur fade" id="modal-validar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3>Quase lá...</h3>
+                <div class="text-secondary">Por favor, preencha os campos obrigatórios.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 btn-success w-100" data-bs-dismiss="modal"> Ok </a>
+                        </div>
+                        <!--div class="col">
+                            <button id="remove-item" type="button" class="btn btn-warning btn-4 w-100" data-bs-dismiss="modal" id="btn-modal-success"> Sim, remover </button>
+                        </div-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -767,6 +824,12 @@ $(document).ready(function() {
                 subtotal += valor;
             }
         });
+
+        if (subtotal === 0) {
+            $('#frete_valor').data('value', 0);
+            $('#frete_valor').text('R$ 0,00');
+        }
+
         // Pega frete e desconto dos atributos data
         var frete = parseFloat($('#frete_valor').data('value')) || 0;
         var desconto = parseFloat($('#desconto_valor').data('value')) || 0;
@@ -816,10 +879,41 @@ $(document).ready(function() {
         e.preventDefault();
         var btn = $(this);
         var itemId = btn.data('item-id');
-        if (!confirm("Tem certeza que deseja remover este item?")) {
+        /*if (!confirm("Tem certeza que deseja remover este item?")) {
             return;
-        }
-        $.ajax({
+        }*/
+        // Exibe o modal de confirmação
+        var myModal = new bootstrap.Modal(document.getElementById('modal-delete'));
+        myModal.show();
+
+        $('#remove-item').on('click', function() {
+                $.ajax({
+                url: '<?= INCLUDE_PATH; ?>back-end/carrinho/remover.php',
+                method: 'POST',
+                data: { item_id: itemId },
+                success: function(response) {
+                    try {
+                        var res = JSON.parse(response);
+                        if (res.status === "sucesso") {
+                            // Remove a linha do item e recalcule os totais
+                            $("#checkout-item-" + itemId).fadeOut(300, function() {
+                                $(this).remove();
+                                recalcularTotais();
+                            });
+                        } else {
+                            alert("Erro: " + res.mensagem);
+                        }
+                    } catch(e) {
+                        console.log("Resposta inválida: " + response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Erro AJAX: " + error);
+                }
+            });
+        });
+
+        /*$.ajax({
             url: '<?= INCLUDE_PATH; ?>back-end/carrinho/remover.php',
             method: 'POST',
             data: { item_id: itemId },
@@ -842,7 +936,7 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
                 console.log("Erro AJAX: " + error);
             }
-        });
+        });*/
     });
 
     // Se necessário, inicialize as opções de parcelamento ao carregar a página
@@ -996,7 +1090,9 @@ $(document).ready(function() {
 
         // Validação simples
         if (!dados.email || !dados.name) {
-            alert('Por favor, preencha os campos obrigatórios.');
+            // Exibe o modal de confirmação
+            var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+            myModal.show();
             return;
         }
 
