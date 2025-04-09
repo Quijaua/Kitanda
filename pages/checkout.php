@@ -171,9 +171,6 @@ if ($pedido) {
                         <div class="col">
                             <a href="#" class="btn btn-3 btn-success w-100" data-bs-dismiss="modal"> Ok </a>
                         </div>
-                        <!--div class="col">
-                            <button id="remove-item" type="button" class="btn btn-warning btn-4 w-100" data-bs-dismiss="modal" id="btn-modal-success"> Sim, remover </button>
-                        </div-->
                     </div>
                 </div>
             </div>
@@ -213,25 +210,28 @@ if ($pedido) {
 
 							<div class="row">
 
-								<div class="col-md-12 mb-3 d-none">
+								<!--div class="col-md-12 mb-3 d-none">
 									<div class="form-floating">
 										<input type="email" class="form-control" name="email" id="field-email" placeholder="nome@exemplo.com">
 										<label for="field-email">Seu e-mail</label>
 									</div>
-								</div>
+								</div-->
 
 								<div class="col-md-12 mb-3">
 									<div class="form-floating">
-										<input type="email" class="form-control" name="eee" id="field-eee" placeholder="nome@exemplo.com" value="<?= @$_SESSION['checkout_data']['email'] ?? null; ?>">
-										<label for="field-eee">Seu e-mail</label>
+										<input type="email" class="form-control" name="email" id="field-email" placeholder="nome@exemplo.com" value="<?= @$_SESSION['checkout_data']['email'] ?? null; ?>" required>
+										<label for="field-email">Seu e-mail</label>
 									</div>
+                                    <div id="input-email-error" class="text-danger d-none"><small>O campo email é obrigatório</small></div>
+                                    <div id="input-emailFormat-error" class="text-danger d-none"><small>Email inválido</small></div>
 								</div>
 
 								<div class="col-md-12 mb-3">
 									<div class="form-floating">
-										<input type="text" class="form-control" name="name" id="field-name" placeholder="Primeiro nome" value="<?= @$_SESSION['checkout_data']['name'] ?? null; ?>">
+										<input type="text" class="form-control" name="name" id="field-name" placeholder="Primeiro nome" value="<?= @$_SESSION['checkout_data']['name'] ?? null; ?>" required>
 										<label for="field-name">Nome completo</label>
 									</div>
+                                    <div id="input-name-error" class="text-danger d-none"><small>O campo nome é obrigatório</small></div>
 								</div>
 
 								<div class="col-md-12 mb-3" id="div-cpf-field">
@@ -239,6 +239,7 @@ if ($pedido) {
 										<input type="text" class="form-control" name="cpfCnpj" id="field-cpf" placeholder="CPF" value="<?= @$_SESSION['checkout_data']['cpf'] ?? null; ?>">
 										<label for="field-cpf">CPF/CNPJ</label>
 									</div>
+                                    <div id="input-cpf-error" class="text-danger d-none"><small>O campo CPF é obrigatório</small></div>
 								</div>
 
 								<div class="col-md-12 mb-3">
@@ -246,6 +247,7 @@ if ($pedido) {
 										<input type="date" class="form-control" name="birth-date" id="field-birth-date" placeholder="(99) 99999-9999" maxlength="15" value="<?= @$_SESSION['checkout_data']['birthDate'] ?? null; ?>">
 										<label for="birth-date">Data de Nascimento</label>
 									</div>
+                                    <div id="input-birthDate-error" class="text-danger d-none"><small>O campo data de nascimento é obrigatório</small></div>
 								</div>
 
                                 <div class="col-md-12 mb-3">
@@ -253,6 +255,7 @@ if ($pedido) {
                                         <input type="tel" class="form-control" name="phone" id="field-phone" placeholder="(99) 99999-9999" maxlength="15" value="<?= @$_SESSION['checkout_data']['phone'] ?? null; ?>">
                                         <label for="phone">Telefone</label>
                                     </div>
+                                    <div id="input-phone-error" class="text-danger d-none"><small>O campo telefone é obrigatório</small></div>
                                 </div>
 
                             </div>
@@ -268,6 +271,7 @@ if ($pedido) {
                                         <input onblur="getCepData()" type="text" class="form-control" name="postalCode" id="field-zipcode" placeholder="CEP endereço" value="<?= @$_SESSION['checkout_data']['zipcode'] ?? null; ?>">
                                         <label for="field-zipcode">CEP</label>
                                     </div>
+                                    <div id="input-zipcode-error" class="text-danger d-none"><small>O campo CEP é obrigatório</small></div>
                                 </div>
 
                                 <div class="col-md-12 mb-3 country-brasil">
@@ -275,6 +279,7 @@ if ($pedido) {
                                         <input type="text" class="form-control" name="address" id="field-street" placeholder="Endereço" value="<?= @$_SESSION['checkout_data']['street'] ?? null; ?>">
                                         <label for="field-street">Endereço</label>
                                     </div>
+                                    <div id="input-street-error" class="text-danger d-none"><small>O campo endereço é obrigatório</small></div>
                                 </div>
 
                                 <div class="col-md-12">
@@ -285,6 +290,7 @@ if ($pedido) {
                                                 <input type="text" class="form-control text-center" name="addressNumber" id="field-street-number" placeholder="Número endereço" value="<?= @$_SESSION['checkout_data']['streetNumber'] ?? null; ?>">
                                                 <label for="field-street-number">Número</label>
                                             </div>
+                                            <div id="input-streetNumber-error" class="text-danger d-none"><small>O campo número é obrigatório</small></div>
                                         </div>
 
                                         <div class="col-md-8 mb-3 country-brasil">
@@ -305,6 +311,7 @@ if ($pedido) {
                                                 <input type="text" class="form-control" name="province" id="field-district" placeholder="Bairro endereço" value="<?= @$_SESSION['checkout_data']['district'] ?? null; ?>">
                                                 <label for="field-district">Bairro</label>
                                             </div>
+                                            <div id="input-district-error" class="text-danger d-none"><small>O campo bairro é obrigatório</small></div>
                                         </div>
 
                                         <div class="col-md-8 mb-3 country-brasil" id="div-city-field">
@@ -312,6 +319,7 @@ if ($pedido) {
                                                 <input type="text" class="form-control" name="city" id="field-city" placeholder="Cidade endereço" value="<?= @$_SESSION['checkout_data']['city'] ?? null; ?>">
                                                 <label for="field-city">Cidade</label>
                                             </div>
+                                            <div id="input-city-error" class="text-danger d-none"><small>O campo cidade é obrigatório</small></div>
                                         </div>
 
                                         <div class="col-md-4 mb-3 country-brasil" id="div-state-field">
@@ -319,6 +327,7 @@ if ($pedido) {
                                                 <input type="text" class="form-control" name="state" id="field-state" placeholder="UF" value="<?= @$_SESSION['checkout_data']['state'] ?? null; ?>">
                                                 <label for="field-state">UF</label>
                                             </div>
+                                            <div id="input-state-error" class="text-danger d-none"><small>O campo estado é obrigatório</small></div>
                                         </div>
 
                                     </div>
@@ -1105,7 +1114,7 @@ $(document).ready(function() {
     // Função que envia os dados do formulário via AJAX
     function enviarDadosEtapa1() {
         var dados = {
-            email: $('#field-eee').val(),
+            email: $('#field-email').val(),
             name: $('#field-name').val(),
             cpf: $('#field-cpf').val(),
             birthDate: $('#field-birth-date').val(),
@@ -1121,16 +1130,50 @@ $(document).ready(function() {
             terms: $("#terms").is(":checked") ? 1 : '',
         };
 
-        // Validação simples
-        if (!dados.email || !dados.name) {
+        function validate(campos) {
 
-            // Exibe o modal de confirmação
-            var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
-            $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Quase lá...');
-            $('#modal-validar .modal-body #msg-modal-validar').text('Por favor, preencha todos os campos obrigatórios.');
-            myModal.show();
-            return;
+            Object.entries(campos).forEach(([key, value]) => {
+
+                if (!value && $('#field-'+key).prop('required')) {
+
+                    $('#field-'+key).addClass('is-invalid');
+                    $('#input-'+key+'-error').removeClass('d-none');
+                    $('#field-'+key).on('blur', function() {
+
+                        if (key === 'email' && $('#field-'+key).val() !== '') {
+
+                            const emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+                            if (!emailReg.test($('#field-'+key).val())) {
+                                $('#input-emailFormat-error').removeClass('d-none');
+                                return false;
+                            } else {
+                                $('#input-emailFormat-error').addClass('d-none');
+                            }
+                        }
+
+                        if ($('#field-'+key).val() != '') {
+                            $('#field-'+key).removeClass('is-invalid');
+                            $('#input-'+key+'-error').addClass('d-none');
+                            $('input-emailFormat-error').addClass('d-none');
+                        }
+                    });
+
+                    return false;
+                } else {
+
+                    $('#field-'+key).removeClass('is-invalid');
+                    $('#input-'+key+'-error').addClass('d-none');
+
+                    return true;
+                }
+            })
         }
+
+        // Validação de campos obrigatórios
+        if (!validate(dados)) {
+            return;
+        };
 
         $.ajax({
             url: '<?= INCLUDE_PATH; ?>back-end/carrinho/salvar_dados.php',
