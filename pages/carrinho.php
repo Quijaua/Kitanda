@@ -197,8 +197,8 @@ $(document).ready(function() {
         $('#cart-total-final').text(formatarReais(total));
     }
     
-    // Atualiza o carrinho quando o input de quantidade perde o foco
-    $('.quantidade-produto').on('blur', function() {
+    // Atualiza o carrinho quando o input de quantidade é alterado
+    $('.quantidade-produto').on('click', function() {
         var input = $(this);
         var quantidade = parseInt(input.val(), 10);
         if (isNaN(quantidade) || quantidade < 1) {
@@ -236,11 +236,6 @@ $(document).ready(function() {
     $('.remove-item').on('click', function(e) {
         e.preventDefault();
         var btn = $(this);
-        // Confirmação simples (opcional)
-        /*if(!confirm("Tem certeza que deseja remover este item?")) {
-            console.log('Confirmação simples: ', Swal);
-            return;
-        }*/
 
         // Exibe o modal de confirmação
         var myModal = new bootstrap.Modal(document.getElementById('modal-delete'));
