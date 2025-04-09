@@ -124,9 +124,10 @@ $cartItems = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
                             </div>
                         </div>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Seu carrinho está vazio.</p>
                 <?php endif; ?>
+                <div id="cart-empty" <?php if(count($cartItems) > 0) echo 'style="display: none;"'; ?> >
+                    <h2>Seu carrinho está vazio :(</h2>
+                </div>
             </div>
 
             <div class="col-md-4">
@@ -167,8 +168,14 @@ $cartItems = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
                         </table>
 
                         <div class="text-center">
-                            <a href="<?= INCLUDE_PATH; ?>checkout" class="btn btn-6 btn-dark btn-pill w-100 mb-3"> Finalizar compra </a>
-                            <a href="<?= INCLUDE_PATH; ?>produtos" class="text-muted"> Continuar comprando </a>
+                            <div id="bloco-checkout" <?php if(count($cartItems) == 0) echo('style="display: none;"'); ?> >
+                                <a href="<?= INCLUDE_PATH; ?>checkout" class="btn btn-6 btn-dark btn-pill w-100 mb-3"> Finalizar compra </a>
+                                <a href="<?= INCLUDE_PATH; ?>produtos" class="text-muted"> Continuar comprando </a>
+                            </div>
+
+                            <div id="bloco-empty" <?php if(count($cartItems) > 0) echo('style="display: none;"'); ?> >
+                                <a href="<?= INCLUDE_PATH; ?>produtos" class="btn btn-6 btn-dark btn-pill w-100 mb-3"> VOLTAR AS COMPRAS </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +202,12 @@ $(document).ready(function() {
         });
         $('#cart-total').text(formatarReais(total));
         $('#cart-total-final').text(formatarReais(total));
+
+        if (total === 0) {
+            $('#bloco-checkout').hide();
+            $('#bloco-empty').show();
+            $('#cart-empty').show();
+        }
     }
     
     // Atualiza o carrinho quando o input de quantidade é alterado
