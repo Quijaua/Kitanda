@@ -162,8 +162,8 @@ if ($pedido) {
             <div class="modal-body text-center py-4">
                 <!-- Ícone de sucesso -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
-                <h3>Quase lá...</h3>
-                <div class="text-secondary">Por favor, preencha os campos obrigatórios.</div>
+                <h3 id="msg-modal-validar-titulo"></h3>
+                <div id="msg-modal-validar" class="text-secondary"></div>
             </div>
             <div class="modal-footer">
                 <div class="w-100">
@@ -731,10 +731,20 @@ if ($pedido) {
                 var successful = document.execCommand('copy');
                 if(successful){
                 } else {
-                    alert("Não foi possível copiar o código.");
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
                 }
             } catch (err) {
-                alert("Erro ao copiar: " + err);
+
+                // Exibe o modal de validação
+                var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + err);
+                myModal.show();
             }
         });
 
@@ -746,10 +756,20 @@ if ($pedido) {
                 var successful = document.execCommand('copy');
                 if(successful){
                 } else {
-                    alert("Não foi possível copiar o código.");
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
                 }
             } catch (err) {
-                alert("Erro ao copiar: " + err);
+
+                // Exibe o modal de validação
+                var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + err);
+                myModal.show();
             }
         });
 
@@ -774,10 +794,20 @@ if ($pedido) {
                         $btn.find("svg").fadeOut(200);
                     }, 3000);
                 } else {
-                    alert("Não foi possível copiar o código.");
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
                 }
             } catch(e) {
-                alert("Erro ao copiar: " + e);
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + e);
+                    myModal.show();
             }
         });
     });
@@ -879,9 +909,7 @@ $(document).ready(function() {
         e.preventDefault();
         var btn = $(this);
         var itemId = btn.data('item-id');
-        /*if (!confirm("Tem certeza que deseja remover este item?")) {
-            return;
-        }*/
+
         // Exibe o modal de confirmação
         var myModal = new bootstrap.Modal(document.getElementById('modal-delete'));
         myModal.show();
@@ -901,7 +929,12 @@ $(document).ready(function() {
                                 recalcularTotais();
                             });
                         } else {
-                            alert("Erro: " + res.mensagem);
+
+                            // Exibe o modal de validação
+                            var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                            $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                            $('#modal-validar .modal-body #msg-modal-validar').text(res.mensagem);
+                            myModal.show();
                         }
                     } catch(e) {
                         console.log("Resposta inválida: " + response);
@@ -1090,8 +1123,11 @@ $(document).ready(function() {
 
         // Validação simples
         if (!dados.email || !dados.name) {
+
             // Exibe o modal de confirmação
             var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+            $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Quase lá...');
+            $('#modal-validar .modal-body #msg-modal-validar').text('Por favor, preencha todos os campos obrigatórios.');
             myModal.show();
             return;
         }
@@ -1133,7 +1169,12 @@ $(document).ready(function() {
 
                         $('#btn-step1-continue').addClass('d-none');
                     } else {
-                        alert("Erro ao salvar dados: " + res.mensagem);
+
+                        // Exibe o modal de validação
+                        var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                        $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                        $('#modal-validar .modal-body #msg-modal-validar').text(res.mensagem);
+                        myModal.show();
                     }
                 } catch(e) {
                     console.log("Resposta inválida: " + response);
