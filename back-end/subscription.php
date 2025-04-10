@@ -31,11 +31,12 @@ if (!empty($dataForm['email'])) {
     // Honeypot preenchido, retorna status 200 sem fazer alterações
     $response = array(
         'status' => 200,
-        'message' => 'Requisição processada com sucesso.'
+        'message' => 'Requisição processada com sucesso.',
+        'data' => $dataForm
     );
 
-    echo json_encode($response);
-    exit; // Encerra o script aqui para evitar processamento adicional
+    //echo json_encode($response);
+    //exit; // Encerra o script aqui para evitar processamento adicional
 }
 
 // Consulta à tabela tb_page_captchas para verificar qual captcha usar
@@ -141,7 +142,7 @@ function makeDonation($dataForm, $config){
 
     if(isset($_POST)) {
         // Passando valor do email
-        $dataForm['email'] = $dataForm['eee'];
+        //$dataForm['email'] = $dataForm['eee'];
 
         // Passa o group se ouver
         $dataForm['groupName'] = $_ENV['GROUPNAME'];
