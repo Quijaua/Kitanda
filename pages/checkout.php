@@ -345,8 +345,9 @@ if ($pedido) {
                                 </label>
                                 <hr class="my-3">
                                 <label class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="terms" name="terms" <?= (isset($_SESSION['checkout_data']['terms']) && $_SESSION['checkout_data']['terms'] == 1) ? 'checked' : null; ?>>
+                                    <input class="form-check-input" type="checkbox" value="1" id="terms" name="terms" <?= (isset($_SESSION['checkout_data']['terms']) && $_SESSION['checkout_data']['terms'] == 1) ? 'checked' : null; ?> required>
                                     <span class="form-check-label">Declaro que li e aceito, as <a href="#">condições de compra</a>, <a href="#">políticas de cancelamento</a> e os <a href="#">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos pelas Mulheres Empreendedoras da Amazônia.</span>
+                                    <div id="input-terms-error" class="text-danger d-none"><small>Por favor, aceite os termos de uso para prosseguir</small></div>
                                 </label>
                             </div>
                         </div>
@@ -1138,7 +1139,7 @@ $(document).ready(function() {
 
                 key = key.replace(/([a-zA-Z])(?=[A-Z])/g,'$1-').toLowerCase()
 
-                if (!value && $('#field-'+key).prop('required')) {
+                if (!value && ($('#field-'+key).prop('required') || $('#'+key).prop('required'))) {
 
                     $('#field-'+key).addClass('is-invalid');
                     $('#input-'+key+'-error').removeClass('d-none');
@@ -1153,6 +1154,10 @@ $(document).ready(function() {
                             } else {
                                 $('#input-email-format-error').addClass('d-none');
                             }
+                        }
+
+                        if (key == 'terms') {
+                            $('#input-terms-error').removeClass('d-none');
                         }
 
                         if ($('#field-'+key).val() != '') {

@@ -220,7 +220,7 @@
 <meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" /> -->
 
 	<!-- CSS files -->
-	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/>
+	<!--link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/ -->
 	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
 	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
 	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
@@ -510,7 +510,7 @@
 			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
 			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
 			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script>
+			<!--script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script -->
 
 			<!-- Tabler Core -->
 			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/tabler.min.js?1738096685" defer></script>
