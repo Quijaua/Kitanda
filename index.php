@@ -199,6 +199,30 @@
 		"minOnceDonation" => $minOnceDonation,
 	);
 ?>
+<?php
+	// Determina o campo e valor para filtro (usuário ou cookie)
+	if (isset($_SESSION['user_id'])) {
+		$field = 'usuario_id';
+		$value = $_SESSION['user_id'];
+	} elseif (isset($_COOKIE['cart_id'])) {
+		$field = 'cookie_id';
+		$value = $_COOKIE['cart_id'];
+	} else {
+		// Sem usuário nem cookie => carrinho vazio
+		$cartCount = 0;
+		return;
+	}
+
+	// Prepara e executa a query que soma todas as quantidades
+	$sql = "SELECT COALESCE(SUM(quantidade),0) AS total_items 
+			FROM tb_carrinho 
+			WHERE {$field} = ?";
+	$stmt = $conn->prepare($sql);
+	$stmt->execute([$value]);
+
+	// Pega o total (0 caso não existam registros)
+	$cartCount = (int) $stmt->fetchColumn();
+?>
 <!DOCTYPE html><html lang="pt-BR">
 
 <head>
@@ -368,10 +392,20 @@
 						</div>
 						<div class="d-none d-md-flex">
 							<div class="nav-item dropdown d-none d-md-flex me-3">
-								<a href="<?= INCLUDE_PATH; ?>carrinho" class="nav-link px-0">
-									<!-- Download SVG icon from http://tabler.io/icons/icon/shopping-cart -->
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 me-2 icon-tabler icons-tabler-outline icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
-									<!-- <span class="badge bg-red"></span> -->
+								<a href="<?= INCLUDE_PATH; ?>carrinho" class="nav-link px-0 position-relative">
+									<!-- ícone do carrinho -->
+									<?php if ($cartCount > 0): ?>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 me-2 icon-tabler icons-tabler-outline icon-tabler-shopping-cart-copy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M11.5 17h-5.5v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /><path d="M15 19l2 2l4 -4" /></svg>
+									<?php else: ?>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 me-2 icon-tabler icons-tabler-outline icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17h-11v-14h-2"/><path d="M6 5l14 1l-1 7h-13"/></svg>
+									<?php endif; ?>
+
+									<span id="cart-count" class="badge bg-red badge-notification text-red-fg position-absolute"
+											style="top: 0; right: 0; transform: translate(50%,-50%);<?= ($cartCount <= 0) ? "display: none;" : ""; ?>">
+										<?= $cartCount > 9 ? '9+' : $cartCount; ?>
+										<span class="visually-hidden">itens no carrinho</span>
+									</span>
+
 									Meu Carrinho
 								</a>
 							</div>

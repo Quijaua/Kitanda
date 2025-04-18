@@ -231,6 +231,8 @@ $(document).ready(function() {
                 try {
                     var res = JSON.parse(response);
                     if (res.status === 'sucesso') {
+                        // Atualiza ou remove o contador do carrinho
+                        $("#cart-count").text(res.numero_itens);
                         console.log("Atualização: " + res.mensagem);
                     } else {
                         alert("Erro: " + res.mensagem);
@@ -272,6 +274,12 @@ $(document).ready(function() {
                                 $(this).remove();
                                 atualizarTotalCarrinho();
                             });
+                            // Atualiza ou remove o contador do carrinho
+                            if (res.numero_itens > 0) {
+                                $("#cart-count").text(res.numero_itens).show();
+                            } else {
+                                $("#cart-count").fadeOut();
+                            }
                             console.log("Remoção: " + res.mensagem);
                         } else {
                             alert("Erro: " + res.mensagem);

@@ -938,8 +938,13 @@ $(document).ready(function() {
                                 $(this).remove();
                                 recalcularTotais();
                             });
+                            // Atualiza ou remove o contador do carrinho
+                            if (res.numero_itens > 0) {
+                                $("#cart-count").text(res.numero_itens).show();
+                            } else {
+                                $("#cart-count").fadeOut();
+                            }
                         } else {
-
                             // Exibe o modal de validação
                             var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
                             $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');

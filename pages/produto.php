@@ -64,6 +64,31 @@
     </div>
 </div>
 
+<!-- Modal Error -->
+<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg"><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path><path d="M12 16h.01"></path></svg>
+                <h3>Erro ao salvar o produto no carrinho!</h3>
+                <div class="text-secondary">Ocorreu um erro ao tentar adicionar o item ao seu carrinho. Por favor, tente novamente mais tarde.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal"> Continuar comprando </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -302,14 +327,24 @@
             $.ajax({
                 url: "<?= INCLUDE_PATH; ?>back-end/carrinho/adicionar.php",
                 method: "POST",
+                dataType: 'json',
                 data: {
                     produto_id: produtoId,
                     quantidade: quantidade
                 },
                 success: function(response) {
-                    // Exibe o modal de sucesso
-                    var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
-                    myModal.show();
+                    if (response.status == "sucesso") {
+                        // atualiza badge de quantidade
+                        $("#cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
+                        
+                        // Exibe o modal de sucesso
+                        var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                        myModal.show();
+                    } else {
+                        // Exibe o modal de erro
+                        var myErrorModal = new bootstrap.Modal(document.getElementById('modal-error'));
+                        myErrorModal.show();
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error("Erro na requisição AJAX: " + error);
