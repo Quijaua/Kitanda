@@ -84,7 +84,7 @@ $cartItems = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
                         <?php
                             $item['produto_imagem'] = !empty($item['produto_imagem'])
                                                     ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $item['produto_id'] . "/" . $item['produto_imagem'])
-                                                    : "https://placehold.co/1000";
+                                                    : INCLUDE_PATH . "assets/preview-image/product.jpg";
                         ?>
                         <div class="card bg-dark-lt p-5 mb-3" id="item-<?= $item['id']; ?>">
                             <div class="row align-items-center mt-0">
