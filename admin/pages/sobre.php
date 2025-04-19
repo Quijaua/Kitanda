@@ -1,3 +1,10 @@
+<?php
+    $update = verificaPermissao($_SESSION['user_id'], 'sobre', 'update', $conn);
+    $editorDisabled = !$update ? 'true' : 'false';
+    $disabledUpdate = !$update ? 'disabled' : '';
+    $disabled = $update ? 'disabled' : '';
+?>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -12,13 +19,7 @@
     </div>
 </div>
 
-<?php
-    $update = verificaPermissao($_SESSION['user_id'], 'sobre', 'update', $conn);
-    $editorDisabled = !$update ? 'true' : 'false';
-    $disabled = $update ? 'disabled' : '';
-
-    if (!$update):
-?>
+<?php if (!$update): ?>
 <fieldset disabled>
 <?php endif; ?>
 
@@ -27,9 +28,11 @@
     <div class="container-xl">
         <div class="row row-deck row-cards">
 
-            <?php if (!verificaPermissao($_SESSION['user_id'], 'sobre', 'read', $conn)): ?>
-            <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            <?php endif; exit; ?>
+            <?php if (!$update): ?>
+            <div class="col-12">
+                <div class="alert alert-info">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php endif; ?>
 
             <!-- Aviso da webhook -->
             <?php if ($webhook && (!$webhook['enabled'] || $webhook['interrupted'])): ?>
