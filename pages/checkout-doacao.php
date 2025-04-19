@@ -625,3 +625,259 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.social-net a {color:#000}
+	.bi {font-size:32px}
+</style>
+
+<link rel="stylesheet" href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/1.10.5/font/bootstrap-icons.css">
+
+
+
+<script src="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo INCLUDE_PATH; ?>assets/js/main.js" defer></script>
+
+<script>
+$(document).ready(function () {
+	//$('.option-default-monthly').trigger('click');
+	$('#field-zipcode').mask('00000-000');
+	$('#field-cpf').mask('000.000.000-00');
+	$('#field-card-number').mask('0000 0000 0000 0000');
+	$('#field-card-expiration').mask('00/00');
+	$('#field-card-cvc').mask('0000');
+
+	$('#field-other-monthly').mask("R$ 0#");
+	$('#field-other-yearly').mask("R$ 0#");
+	$('#field-other-once').mask("R$ 0#");
+
+	config = <?php echo json_encode($jsonData, JSON_PRETTY_PRINT); ?>;
+
+	minOnceDonationCreditCard = config.minOnceDonation.creditCard;
+	minOnceDonationBankSlip = config.minOnceDonation.bankSlip;
+	minOnceDonationPix = config.minOnceDonation.pix;
+
+	$("#text-block1-title").html(config.textBlock1.title);
+	$("#text-block1-content").html(config.textBlock1.content);
+	$("#text-block2-title").html(config.textBlock2.title);
+	$("#text-block2-content").html(config.textBlock2.content);
+
+	let htmlFooter = "";
+	for (let i = 0; i < config.footerLinks.length; i++) {
+		htmlFooter += "<a href='" + config.footerLinks[i].link + "' target='" + config.footerLinks[i].target + "' rel='noopener noreferrer'>" + config.footerLinks[i].name + "</a>" + (i + 1 < config.footerLinks.length ? " | " : "");
+	}
+	$("#footer-links").html(htmlFooter);
+
+
+	$("#button-monthly1")
+		.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton1.amount + "," + config.donationMonthlyButton1.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationMonthlyButton1.amount)
+		.text(config.donationMonthlyButton1.display);
+	$("#button-monthly2")
+		.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton2.amount + "," + config.donationMonthlyButton2.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationMonthlyButton2.amount)
+		.text(config.donationMonthlyButton2.display);
+	$("#button-monthly3")
+		.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton3.amount + "," + config.donationMonthlyButton3.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationMonthlyButton3.amount)
+		.text(config.donationMonthlyButton3.display);
+	$("#button-monthly4")
+		.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton4.amount + "," + config.donationMonthlyButton4.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationMonthlyButton4.amount)
+		.text(config.donationMonthlyButton4.display);
+	$("#button-monthly5")
+		.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton5.amount + "," + config.donationMonthlyButton5.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationMonthlyButton5.amount)
+		.text(config.donationMonthlyButton5.display);
+
+	$("#button-yearly1")
+		.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton1.amount + "," + config.donationYearlyButton1.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationYearlyButton1.amount)
+		.text(config.donationYearlyButton1.display);
+	$("#button-yearly2")
+		.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton2.amount + "," + config.donationYearlyButton2.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationYearlyButton2.amount)
+		.text(config.donationYearlyButton2.display);
+	$("#button-yearly3")
+		.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton3.amount + "," + config.donationYearlyButton3.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationYearlyButton3.amount)
+		.text(config.donationYearlyButton3.display);
+	$("#button-yearly4")
+		.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton4.amount + "," + config.donationYearlyButton4.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationYearlyButton4.amount)
+		.text(config.donationYearlyButton4.display);
+	$("#button-yearly5")
+		.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton5.amount + "," + config.donationYearlyButton5.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationYearlyButton5.amount)
+		.text(config.donationYearlyButton5.display);
+
+	$("#button-once1")
+		.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton1.amount + "," + config.donationOnceButton1.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationOnceButton1.amount)
+		.text(config.donationOnceButton1.display);
+	$("#button-once2")
+		.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton2.amount + "," + config.donationOnceButton2.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationOnceButton2.amount)
+		.text(config.donationOnceButton2.display);
+	$("#button-once3")
+		.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton3.amount + "," + config.donationOnceButton3.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationOnceButton3.amount)
+		.text(config.donationOnceButton3.display);
+	$("#button-once4")
+		.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton4.amount + "," + config.donationOnceButton4.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationOnceButton4.amount)
+		.text(config.donationOnceButton4.display);
+	$("#button-once5")
+		.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton5.amount + "," + config.donationOnceButton5.showAddOnFee + ")")
+		.attr("data-amount-for-selection", config.donationOnceButton5.amount)
+		.text(config.donationOnceButton5.display);
+
+	$('.option-default-monthly').trigger('click');
+});
+</script>
+
+<script>
+	// Aguarde o carregamento do documento e, em seguida, chame a função
+	$(document).ready(function () {
+		donationOption('#button-monthly2', 'monthly', <?php echo $monthly_2; ?>, true);
+	});
+</script>
+
+<script>
+	// Função para copiar o código do Boleto para a área de transferência
+	function copyPixCodeToClipboard(element) {
+		var $temp = $("<input>");
+		$("body").append($temp);
+		$temp.val($(element).text()).select();
+		document.execCommand("copy");
+		$temp.remove();
+
+		// Alterar texto do botão para "Copiado!" e depois voltar para o texto original
+		var originalText = $('#pix-copy-codigo-btn').text();
+		$('#pix-copy-codigo-btn').text('Copiado!');
+
+		setTimeout(function() {
+			$('#pix-copy-codigo-btn').text(originalText);
+		}, 2000);  // O texto volta ao normal após 2 segundos
+	}
+</script>
+
+<script>
+
+	// Captura do evento de submit do formulário
+	$('#form-checkout').submit(function(event) {
+		event.preventDefault();
+		
+		//Botão carregando
+		$(".progress-subscription").addClass('d-flex').removeClass('d-none');
+		$(".button-confirm-payment").addClass('d-none').removeClass('d-block');
+
+		// // Bloquear o submit do formulário
+		// $(this).find('button[type="submit"]').prop('disabled', true);
+
+		// if(!validateFields()) {
+		//     // Desbloquear o submit do formulário se a validação falhar
+		//     $(this).find('button[type="submit"]').prop('disabled', false);
+		//     return;
+		// }
+
+		var dataForm = this;
+
+		// Chama a função processForm sem passar o token do reCAPTCHA
+		processForm(dataForm);
+	});
+
+	function processForm(dataForm) {
+		var typePayment = $('input[name="payment"]:checked').val();
+		localStorage.setItem("method", typePayment);
+		method = localStorage.getItem("method");
+
+		// Adicionar valor ao input valor
+		document.getElementById('value').value = donationAmount;
+
+		// Criação do objeto de dados para a requisição AJAX
+		var ajaxData = {
+			method: method,
+			params: btoa($(dataForm).serialize())
+		};
+
+		// Requisição AJAX para o arquivo de criação do cliente
+		$.ajax({
+			url: '<?php echo INCLUDE_PATH; ?>back-end/subscription.php',
+			method: 'POST',
+			data: ajaxData,
+			dataType: 'JSON',
+			success: function(response) {
+				window.respostaGlobal = response.id; // Atribui a resposta à propriedade global do objeto window
+				// Outras ações que você queira fazer com a resposta
+			}
+		})
+		.done(function(response) {
+			if (response.status == 200) {
+				//Remove botão carregando
+				$(".progress-subscription").addClass('d-none').removeClass('d-flex');
+				$(".button-confirm-payment").addClass('d-block').removeClass('d-none');
+
+				var encodedCode = btoa(response.code);
+				var customerId = btoa(response.id);
+
+				$.ajax({
+					url: '<?php echo INCLUDE_PATH; ?>back-end/sql.php',
+					method: 'POST',
+					data: {encodedCode: encodedCode},
+					dataType: 'JSON'
+				})
+				.done(function(data) {
+					printPaymentData(data);
+				})
+
+				$.ajax({
+					url: '<?php echo INCLUDE_PATH_ADMIN; ?>back-end/magic-link.php',
+					method: 'POST',
+					data: {customerId: customerId},
+					dataType: 'JSON'
+				})
+				.done(function(data) {
+					console.log(data.msg);
+				})
+			} else if (response.status == 400) {
+				$("#div-errors-price").html(response.message).slideDown('fast').effect("shake");
+				$('html, body').animate({scrollTop : 0});
+
+				//Remove botão carregando
+				$(".progress-subscription").addClass('d-none').removeClass('d-flex');
+				$(".button-confirm-payment").addClass('d-block').removeClass('d-none');
+			}
+		})
+	}
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Seleciona o elemento <html> (ou qualquer outro elemento de nível superior)
+		const root = document.documentElement;
+		const background = "<?php echo $background; ?>";
+		const textColor = "<?php echo $text_color; ?>";
+		const color = "<?php echo $color; ?>";
+		const hover = "<?php echo $hover; ?>";
+		const progress = "<?php echo $progress; ?>";
+
+		// Altera o valor da variável --background-color
+		root.style.setProperty('--background', background);
+		root.style.setProperty('--text-color', textColor);
+
+		root.style.setProperty('--primary-color', color);
+		root.style.setProperty('--hover-color', hover);
+		root.style.setProperty('--progress-color', progress);
+	});
+</script>
+<script>
+	$(document).ready(function(){
+		const header = $("nav")
+		const footer = $("footer")
+
+		if ( self !== top ) {
+			header.hide()
+			footer.hide()
+		}
+	})
+</script>
