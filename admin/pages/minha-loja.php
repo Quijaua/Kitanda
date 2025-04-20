@@ -39,7 +39,7 @@
                         <div class="list-group list-group-transparent">
                             <a href="<?= INCLUDE_PATH_ADMIN; ?>minha-loja" class="list-group-item list-group-item-action d-flex align-items-center active">Minha loja</a>
                             <a href="<?= INCLUDE_PATH_ADMIN; ?>meu-endereco" class="list-group-item list-group-item-action d-flex align-items-center">Meu endereço</a>
-                            <a href="<?= INCLUDE_PATH_ADMIN; ?>asaas" class="list-group-item list-group-item-action d-flex align-items-center">Asaas</a>
+                            <a href="<?= INCLUDE_PATH_ADMIN; ?>configurar-asaas" class="list-group-item list-group-item-action d-flex align-items-center">Asaas</a>
                         </div>
                     </div>
                 </div>
@@ -208,7 +208,9 @@
             if (!confirm('Deseja realmente excluir a foto de perfil?')) {
                 return;
             }
+            <?php if ($loja): ?>
             var lojaId = <?= json_encode($loja['id']); ?>;
+            <?php endif; ?>
             $.ajax({
                 url: '<?= INCLUDE_PATH_ADMIN; ?>back-end/update-store.php',
                 type: 'POST',

@@ -16,7 +16,7 @@ final class CreateStoreTable extends AbstractMigration
             $table = $this->table('tb_lojas');
             $table
                 ->addColumn('vendedora_id', 'integer', ['null' => false])
-                ->addColumn('nome', 'string', ['limit' => 255, 'null' => false])
+                ->addColumn('nome', 'string', ['limit' => 255, 'null' => true])
                 ->addColumn('imagem', 'string', ['limit' => 255, 'null' => true, 'default' => null])
                 ->addColumn('mini_bio', 'text', ['null' => true, 'default' => null])
                 ->addColumn('asaas_email', 'string', ['limit' => 100, 'null' => true, 'default' => null])

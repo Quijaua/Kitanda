@@ -728,6 +728,7 @@ if ($pedido) {
     </div>
 </div>
 
+<script src="<?php echo INCLUDE_PATH; ?>assets/js/main.js" defer></script>
 <!-- Inclusão do Card.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.js"></script>
 
@@ -1003,6 +1004,8 @@ $(document).ready(function() {
 var pedidoExiste = <?= $pedido ? 'true' : 'false'; ?>;
 
 $(document).ready(function() {
+	$('#field-zipcode').mask('00000-000');
+
     function removeDeleteItemColumn() {
         $("#usuario-info").remove();
 
