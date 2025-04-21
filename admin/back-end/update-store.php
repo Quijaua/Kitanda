@@ -74,8 +74,13 @@ function uploadImagem($loja_id, $conn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'atualizar-loja') {
     $loja_id = $_POST['loja_id'] ?? null;
     $vendedora_id = $_SESSION['user_id'];
-    $nome = trim($_POST['nome']);
-    $mini_bio = trim($_POST['mini_bio']);
+    $nome       = trim($_POST['nome']);
+    $telefone   = trim($_POST['telefone']);
+    $site       = trim($_POST['site']);
+    $instagram  = trim($_POST['instagram']);
+    $facebook   = trim($_POST['facebook']);
+    $tiktok     = trim($_POST['tiktok']);
+    $mini_bio   = trim($_POST['mini_bio']);
 
     try {
         if (!$conn) {
@@ -86,15 +91,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         if ($loja_id) {
             // Edita a loja ja existente
-            $stmt = $conn->prepare("UPDATE tb_lojas SET nome = :nome, mini_bio = :mini_bio WHERE id = :loja_id AND vendedora_id = :vendedora_id");
+            $stmt = $conn->prepare("UPDATE tb_lojas SET nome = :nome, telefone = :telefone, instagram = :instagram, site = :site, facebook = :facebook, tiktok = :tiktok, mini_bio = :mini_bio WHERE id = :loja_id AND vendedora_id = :vendedora_id");
 
             $stmt->bindParam(':loja_id', $loja_id, PDO::PARAM_INT);
         } else {
             // Cria uma loja para essa vendedora
-            $stmt = $conn->prepare("INSERT INTO tb_lojas (vendedora_id, nome, mini_bio) VALUES (:vendedora_id, :nome, :mini_bio)");
+            $stmt = $conn->prepare("INSERT INTO tb_lojas (vendedora_id, nome, telefone, site, instagram, facebook, tiktok, mini_bio) 
+                                    VALUES (:vendedora_id, :nome, :telefone, :site, :instagram, :facebook, :tiktok, :mini_bio)");
         }
         $stmt->bindParam(':vendedora_id', $vendedora_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindParam(':telefone', $telefone, PDO::PARAM_STR);
+        $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+        $stmt->bindParam(':instagram', $instagram, PDO::PARAM_STR);
+        $stmt->bindParam(':facebook', $facebook, PDO::PARAM_STR);
+        $stmt->bindParam(':tiktok', $tiktok, PDO::PARAM_STR);
         $stmt->bindParam(':mini_bio', $mini_bio, PDO::PARAM_STR);
         $stmt->execute();
         if (!$loja_id) {

@@ -68,12 +68,71 @@
 
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <label class="form-label">Nome da Loja</label>
+                                    <label class="form-label required">Nome da Loja</label>
                                     <input type="text" class="form-control" name="nome" value="<?= htmlspecialchars($loja['nome'] ?? '') ?>" required>
                                 </div>
+
+                                <div class="col-md-12 row g-3 mt-0">
+                                    <!-- Instagram -->
+                                    <div class="col-md-4">
+                                        <label for="instagram" class="form-label">Instagram</label>
+                                        <div class="input-icon">
+                                            <span class="input-icon-addon">
+                                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-instagram -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-brand-instagram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
+                                            </span>
+                                            <input id="instagram" name="instagram" type="text" class="form-control" value="<?= htmlspecialchars($loja['instagram'] ?? '') ?>">
+                                        </div>
+                                    </div>
+                                    <!-- Facebook -->
+                                    <div class="col-md-4">
+                                        <label for="facebook" class="form-label">Facebook</label>
+                                        <div class="input-icon">
+                                            <span class="input-icon-addon">
+                                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-facebook -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-brand-facebook"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg>
+                                            </span>
+                                            <input id="facebook" name="facebook" type="text" class="form-control" value="<?= htmlspecialchars($loja['facebook'] ?? '') ?>">
+                                        </div>
+                                    </div>
+                                    <!-- Tiktok -->
+                                    <div class="col-md-4">
+                                        <label for="tiktok" class="form-label">Tiktok</label>
+                                        <div class="input-icon">
+                                            <span class="input-icon-addon">
+                                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-tiktok -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-brand-tiktok"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z" /></svg>
+                                            </span>
+                                            <input id="tiktok" name="tiktok" type="text" class="form-control" value="<?= htmlspecialchars($loja['tiktok'] ?? '') ?>">
+                                        </div>
+                                    </div>
+                                    <!-- Telefone -->
+                                    <div class="col-md-6">
+                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <div class="input-icon">
+                                            <span class="input-icon-addon">
+                                                <!-- Download SVG icon from http://tabler.io/icons/icon/phone -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                            </span>
+                                            <input id="telefone" name="telefone" type="text" class="form-control" value="<?= htmlspecialchars($loja['telefone'] ?? '') ?>">
+                                        </div>
+                                    </div>
+                                    <!-- Site -->
+                                    <div class="col-md-6">
+                                        <label for="site" class="form-label">Site</label>
+                                        <div class="input-icon">
+                                            <span class="input-icon-addon">
+                                                <!-- Download SVG icon from http://tabler.io/icons/icon/world -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-world"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M3.6 9h16.8" /><path d="M3.6 15h16.8" /><path d="M11.5 3a17 17 0 0 0 0 18" /><path d="M12.5 3a17 17 0 0 1 0 18" /></svg>
+                                            </span>
+                                            <input id="site" name="site" type="text" class="form-control" value="<?= htmlspecialchars($loja['site'] ?? '') ?>">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
-                                    <label class="form-label">Mini Bio <small>(máx. 300 caracteres)</small></label>
-                                    <textarea class="form-control" name="mini_bio" rows="3" maxlength="300"><?= htmlspecialchars($loja['mini_bio'] ?? '') ?></textarea>
+                                    <label class="form-label required">Mini Bio <small>(máx. 300 caracteres)</small></label>
+                                    <textarea class="form-control" name="mini_bio" rows="3" maxlength="300" required><?= htmlspecialchars($loja['mini_bio'] ?? '') ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -92,8 +151,11 @@
 
 <!-- jQuery Validation, Input Mask, and Validation Script -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="<?php echo INCLUDE_PATH; ?>assets/ajax/1.14.16/jquery.mask.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#telefone').mask('(00) 00000-0000');
+
         // Preview da imagem da loja ao selecionar novo arquivo
         $("#avatar-input").on("change", function () {
             const file = this.files[0];

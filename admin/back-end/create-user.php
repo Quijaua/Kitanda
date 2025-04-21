@@ -84,15 +84,9 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnAddUser'])) {
         // Captura e sanitiza os dados enviados
         $nome       = trim($_POST['nome']);
-        $telefone   = trim($_POST['telefone']);
         $funcao_id  = intval($_POST['funcao_id']);
         $email      = trim($_POST['email']);
         $senha      = ($_POST['passwordMethod'] == 'set') ? trim($_POST['senha']) : null;
-        $instagram  = trim($_POST['instagram']);
-        $site       = trim($_POST['site']);
-        $facebook   = trim($_POST['facebook']);
-        $tiktok     = trim($_POST['tiktok']);
-        $descricao  = trim($_POST['descricao']);
 
         // Gerar o hash da senha utilizando o algoritmo padrão (geralmente bcrypt)
         $senhaToHash = $senha;
@@ -116,22 +110,16 @@
             $conn->beginTransaction();
 
             // Insere o novo usuário na tabela tb_clientes
-            // Supondo que a tabela possua as colunas: nome, phone, email, senha, instagram, site, facebook, tiktok, descricao, magic_link e status (0 = inativo, aguardando confirmação)
+            // Supondo que a tabela possua as colunas: nome, email, senha, magic_link e status (0 = inativo, aguardando confirmação)
             $stmtInsert = $conn->prepare("
                 INSERT INTO tb_clientes 
-                (roles, nome, phone, email, password, instagram, site, facebook, tiktok, descricao, magic_link, status) 
+                (roles, nome, email, password, magic_link, status) 
                 VALUES 
-                (2, :nome, :phone, :email, :senha, :instagram, :site, :facebook, :tiktok, :descricao, :magic_link, 0)
+                (2, :nome, :email, :senha, :magic_link, 0)
             ");
             $stmtInsert->bindParam(':nome', $nome);
-            $stmtInsert->bindParam(':phone', $telefone);
             $stmtInsert->bindParam(':email', $email);
             $stmtInsert->bindParam(':senha', $senhaHash);
-            $stmtInsert->bindParam(':instagram', $instagram);
-            $stmtInsert->bindParam(':site', $site);
-            $stmtInsert->bindParam(':facebook', $facebook);
-            $stmtInsert->bindParam(':tiktok', $tiktok);
-            $stmtInsert->bindParam(':descricao', $descricao);
             $stmtInsert->bindParam(':magic_link', $token);
             $stmtInsert->execute();
 
