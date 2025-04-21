@@ -171,18 +171,19 @@
 	} else {
 		// Sem usuário nem cookie => carrinho vazio
 		$cartCount = 0;
-		return;
 	}
 
-	// Prepara e executa a query que soma todas as quantidades
-	$sql = "SELECT COALESCE(SUM(quantidade),0) AS total_items 
-			FROM tb_carrinho 
-			WHERE {$field} = ?";
-	$stmt = $conn->prepare($sql);
-	$stmt->execute([$value]);
-
-	// Pega o total (0 caso não existam registros)
-	$cartCount = (int) $stmt->fetchColumn();
+	if (isset($_SESSION['user_id']) || isset($_COOKIE['cart_id'])) {
+		// Prepara e executa a query que soma todas as quantidades
+		$sql = "SELECT COALESCE(SUM(quantidade),0) AS total_items 
+				FROM tb_carrinho 
+				WHERE {$field} = ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute([$value]);
+	
+		// Pega o total (0 caso não existam registros)
+		$cartCount = (int) $stmt->fetchColumn();
+	}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
