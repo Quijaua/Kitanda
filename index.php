@@ -301,6 +301,67 @@
 
 		<div class="page">
 
+			<!-- Modal Sucesso -->
+			<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<div class="modal-status bg-success"></div>
+						<div class="modal-body text-center py-4">
+							<!-- Download SVG icon from http://tabler.io/icons/icon/circle-check -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+							<h3>Sucesso!</h3>
+							<div class="text-secondary">
+								<?php
+									if(isset($_SESSION['msg'])){
+										echo $_SESSION['msg'];
+									}
+								?>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="w-100">
+								<div class="row">
+									<div class="col">
+										<a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">Fechar</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<div class="modal-status bg-danger"></div>
+						<div class="modal-body text-center py-4">
+							<!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg"><path d="M12 9v4" /><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" /><path d="M12 16h.01" /></svg>
+							<h3>Erro!</h3>
+							<div class="text-secondary">
+								<?php
+									if(isset($_SESSION['error_msg'])){
+										echo $_SESSION['error_msg'];
+									}
+								?>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="w-100">
+								<div class="row">
+									<div class="col">
+										<a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">Fechar</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Navbar -->
 			<!-- <header class="navbar navbar-expand-md d-print-none" style="background-color: <?php echo $nav_background; ?>; color: <?php echo $nav_color; ?>;">
 				<div class="container-xl">
@@ -382,7 +443,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?= INCLUDE_PATH; ?>">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>empreendedoras">
 										<span class="nav-link-title"> EMPREENDEDORAS </span>
 									</a>
 								</li>
@@ -539,5 +600,25 @@
 				}
 			})
 		</script>
+
+        <?php if (isset($_SESSION['msg'])): ?>
+        <script>
+            // Espera o carregamento da página
+            document.addEventListener("DOMContentLoaded", function () {
+                var successModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                successModal.show(); // Abre o modal automaticamente
+            });
+        </script>
+        <?php endif; unset($_SESSION['msg']); ?>
+
+        <?php if (isset($_SESSION['error_msg'])): ?>
+        <script>
+            // Espera o carregamento da página
+            document.addEventListener("DOMContentLoaded", function () {
+                var errorModal = new bootstrap.Modal(document.getElementById('modal-error'));
+                errorModal.show(); // Abre o modal automaticamente
+            });
+        </script>
+        <?php endif; unset($_SESSION['error_msg']); ?>
 	</body>
 </html>

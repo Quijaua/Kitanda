@@ -25,7 +25,7 @@
 
     $loja['imagem_path'] = !empty($loja['imagem'])
                            ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$loja['id']}/perfil/{$loja['imagem']}")
-                           : INCLUDE_PATH . "assets/preview-image/product.jpg";
+                           : INCLUDE_PATH . "assets/preview-image/profile.jpg";
 ?>
 
 <!-- Page body -->

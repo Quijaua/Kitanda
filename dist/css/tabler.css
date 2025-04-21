@@ -18004,6 +18004,18 @@ a.avatar {
   height: 1rem;
 }
 
+.avatar-xxl {
+  --tblr-avatar-size: 10rem;
+  --tblr-avatar-status-size: 1rem;
+  --tblr-avatar-font-size: 2rem;
+  --tblr-avatar-icon-size: 3rem;
+}
+
+.avatar-xxl .badge:empty {
+  width: 1rem;
+  height: 1rem;
+}
+
 .avatar-2xl {
   --tblr-avatar-size: 7rem;
   --tblr-avatar-status-size: 1rem;
@@ -22863,6 +22875,7 @@ Markdown
  */
 .markdown {
   line-height: 1.7142857143;
+  font-size: 1rem;
 }
 .markdown > :first-child {
   margin-top: 0;

@@ -13,7 +13,7 @@
 
         if (empty($produto)) {
             $_SESSION['error_msg'] = 'Produto não encontrado.';
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'produtos');
+            header('Location: ' . INCLUDE_PATH . 'produtos');
             exit;
         }
 
