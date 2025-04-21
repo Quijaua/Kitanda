@@ -70,20 +70,6 @@
                 </li>
                 <?php endif; ?>
 
-                <?php if (verificaPermissao($_SESSION['user_id'], 'doadores', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('doadores'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>doadores" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-chart-bar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 20h14" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Pedidos
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
                 <?php if (verificaPermissao($_SESSION['user_id'], 'financeiro', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('financeiro'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>financeiro" >
@@ -98,29 +84,29 @@
                 </li>
                 <?php endif; ?>
 
-                <?php if (verificaPermissao($_SESSION['user_id'], 'captcha', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('captcha'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>captcha" >
+                <?php if (verificaPermissao($_SESSION['user_id'], 'doadores', 'read', $conn)): ?>
+                <li class="nav-item <?= activeSidebarLink('doadores'); ?>">
+                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>doadores" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-lock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-chart-bar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 20h14" /></svg>
                         </span>
                         <span class="nav-link-title">
-                            CAPTCHA
+                            Pedidos
                         </span>
                     </a>
                 </li>
                 <?php endif; ?>
 
-                <?php if (verificaPermissao($_SESSION['user_id'], 'integracoes', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('integracoes'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>integracoes" >
+                <?php if (verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn)): ?>
+                <li class="nav-item <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('cabecalho'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
+                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/settings -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
                         </span>
                         <span class="nav-link-title">
-                            Integrações
+                            Administração
                         </span>
                     </a>
                 </li>
@@ -154,104 +140,6 @@
                 </li>
                 <?php endif; ?>
 
-                <?php if (verificaPermissao($_SESSION['user_id'], 'politica-de-privacidade', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('politica-de-privacidade'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>politica-de-privacidade" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-info-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Privacidade e Termo
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'aparencia', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('aparencia'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>aparencia" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-paint"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2" /><path d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Aparência
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'cabecalho', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('cabecalho'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>cabecalho" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-layout-navbar-inactive"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M4 9h1" /><path d="M19 9h1" /><path d="M9 9h1" /><path d="M14 9h1" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Cabeçalho
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'rodape', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('rodape'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>rodape" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-layout-bottombar-inactive"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M4 15h1" /><path d="M19 15h1" /><path d="M9 15h1" /><path d="M14 15h1" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Rodapé
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('webhook'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-webhook"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4.876 13.61a4 4 0 1 0 6.124 3.39h6" /><path d="M15.066 20.502a4 4 0 1 0 1.934 -7.502c-.706 0 -1.424 .179 -2 .5l-3 -5.5" /><path d="M16 8a4 4 0 1 0 -8 0c0 1.506 .77 2.818 2 3.5l-3 5.5" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Webhook
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'funcoes', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('criar-funcao'); ?> <?= activeSidebarLink('editar-funcao'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>funcoes" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-lock-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /><path d="M8 11m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z" /><path d="M10 11v-2a2 2 0 1 1 4 0v2" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Funções
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'usuarios', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'usuarios', 'only_own', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('criar-usuario'); ?> <?= activeSidebarLink('editar-usuario'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>usuarios" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/user -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Usuários
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
                 <li class="nav-item <?= activeSidebarLink('minha-loja'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>minha-loja" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -271,7 +159,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-id"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" /><path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M15 8l2 0" /><path d="M15 12l2 0" /><path d="M7 16l10 0" /></svg>
                         </span>
                         <span class="nav-link-title">
-                            Senha
+                            Perfil
                         </span>
                     </a>
                 </li>

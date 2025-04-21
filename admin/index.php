@@ -89,6 +89,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
     if ($resultado) {
         // Atribuir o valor da coluna à variável, ex.: "nome" = $nome
         $nome = $resultado['nome'];
+        $permissao = getNomePermissao($_SESSION['user_id'], $conn);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
         $descricao = $resultado['descricao'];
@@ -174,6 +175,20 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         header("Location: " . INCLUDE_PATH . "login/");
         exit;
     }
+
+    // Consulta para buscar o produto selecionado
+    $stmt = $conn->prepare("
+        SELECT * 
+        FROM tb_lojas
+        WHERE vendedora_id = ? 
+        LIMIT 1
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $usuario['imagem'] = !empty($usuario['imagem'])
+                         ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$usuario['id']}/perfil/{$usuario['imagem']}")
+                         : INCLUDE_PATH . "assets/preview-image/profile.jpg";
 
     $doacoes = $resultado_4;
     $clientes = $resultado_5;
