@@ -117,7 +117,7 @@ if ($pedido) {
     }
 
     // Valores do frete e desconto (podem ser dinâmicos)
-    $frete = 10.00;
+    $frete = 0.00;
     $desconto = 0.00;
     $total = $subtotal + $frete - $desconto;
 
@@ -443,8 +443,26 @@ if ($pedido) {
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-12" id="shipping-step">
+                                <div class="card bg-dark-lt">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Método de Envio</h3>
+                                        <!-- container onde os radios serão inseridos -->
+                                        <div id="shipping-options" class="d-flex flex-column gap-2">
+                                            <!-- radios serão gerados aqui -->
+                                            <div class="text-muted">Carregando opções...</div>
+                                        </div>
+                                        <!-- Botão para avançar para a etapa de pagamento -->
+                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
+                                        <div id="change-shipping-button" class="d-none text-center">
+                                            <a href="#" id="change-shipping-option" class="text-muted">Alterar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
         
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-none" id="payment-section-form">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
                                         <h3 class="card-title">Forma de pagamento</h3>
@@ -717,9 +735,11 @@ if ($pedido) {
                             </tbody>
                         </table>
 
+                        <?php if (!$pedido): ?>
                         <!-- <button type="button" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout"> Confirmar </button> -->
                         <!-- Botão para avançar para a etapa 2 -->
                         <button type="button" id="btn-step1-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3">Continuar</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -731,6 +751,117 @@ if ($pedido) {
 <script src="<?php echo INCLUDE_PATH; ?>assets/js/main.js" defer></script>
 <!-- Inclusão do Card.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.js"></script>
+
+<script>
+function loadShippingOptions(cep, pesoEmGramas) {
+  $.ajax({
+    url: '<?= INCLUDE_PATH; ?>back-end/carrinho/frete.php',
+    method: 'POST',
+    data: { cep: cep, weight: pesoEmGramas },
+    success: function(response) {
+      var res = (typeof response === 'string') ? JSON.parse(response) : response;
+      var $opts = $('#shipping-options').empty();
+
+      if (res.status === 'sucesso') {
+        // filtra apenas sem erro
+        var valid = res.options.filter(function(opt) { return !opt.error; });
+
+        if (valid.length === 0) {
+          $opts.append('<div class="text-danger">Nenhuma opção de frete disponível.</div>');
+          return;
+        }
+
+        valid.forEach(function(opt, i) {
+          // formata preço em R$
+          var priceText = Number(opt.price)
+            .toLocaleString('pt-BR',{ style:'currency', currency:'BRL' });
+          // formato do prazo (ex: de 1 a 6 dias úteis)
+          var deadlineText = 'de ' + opt.delivery_range.min + ' a ' + opt.delivery_range.max + ' dias úteis';
+
+          // cria radio + label
+          var radioId = 'shipping-' + opt.id;
+          var $radio = $(
+            '<div class="form-check">'+
+              '<input class="form-check-input" '+
+                     'type="radio" '+
+                     'name="shipping_method" '+
+                     'id="'+ radioId +'" '+
+                     'value="'+ opt.id +'" '+
+                     'data-price="'+ opt.price +'">'+
+              '<label class="form-check-label" for="'+ radioId +'">'+
+                priceText + ' - ' + opt.company.name + ' - ' + deadlineText +
+              '</label>'+
+            '</div>'
+          );
+          $opts.append($radio);
+        });
+
+        // ao mudar, atualiza o TD do frete
+        $opts.find('input[type=radio]').on('change', function() {
+          var price = parseFloat($(this).data('price'));
+          var priceText = price.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' });
+
+          // atualiza o texto e o atributo data-value
+          $('#frete_valor')
+            .text(priceText)
+            .attr('data-value', price);
+
+          // Quando qualquer input radio do grupo "shipping_method" for selecionado,
+          // remove a classe "d-none" do botão de continuar
+          $('#btn-step-shipping-continue').removeClass('d-none');
+        });
+
+      } else {
+        $opts.append('<div class="text-danger">'+
+                     (res.mensagem||'Não foi possível calcular o frete.')+
+                     '</div>');
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('Erro AJAX:', error);
+      $('#shipping-options').empty()
+        .append('<div class="text-danger">Erro ao carregar frete.</div>');
+    }
+  });
+}
+
+// dispara após usuário clicar em “continuar” da etapa 1
+$('#btn-step1-continue').on('click', function() {
+  var cep  = $('#field-zipcode').val().replace(/\D/g, '');
+  var peso = 3; // substitua pelo peso real
+  loadShippingOptions(cep, peso);
+});
+
+$('#btn-step-shipping-continue').on('click', function() {
+    // Oculta o botão "Continuar"
+    $(this).addClass("d-none");
+    $('#change-shipping-button').removeClass("d-none");
+    $('#payment-section-form').removeClass("d-none");
+
+    // Obtém o input radio selecionado
+    var selected = $('input[name="shipping_method"]:checked');
+
+    if (selected.length === 0) {
+        $(".alert").remove();
+        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        return;
+    }
+
+    // Oculta todas as opções, exceto a selecionada
+    $('input[name="shipping_method"]').not(':checked').closest('.form-check').hide();
+});
+
+$('#change-shipping-option').on('click', function() {
+    // Oculta o botão "Continuar"
+    $('#change-shipping-button').addClass("d-none");
+    $('#payment-section-form').addClass("d-none");
+    $('#btn-step-shipping-continue').removeClass("d-none");
+
+    // Exibe todas as opções
+    $('input[name="shipping_method"]').closest('.form-check').show();
+});
+
+</script>
 
 <script>
     $(document).ready(function(){
@@ -1008,6 +1139,7 @@ $(document).ready(function() {
 
     function removeDeleteItemColumn() {
         $("#usuario-info").remove();
+        $("#btn-step-shipping-continue, #change-shipping-button").remove();
 
         // Remove a coluna de remoção do cabeçalho da tabela
         $("thead tr th:last-child").remove();
@@ -1369,6 +1501,13 @@ $(document).ready(function() {
             localStorage.setItem("method", typePayment);
             var method = localStorage.getItem("method");
 
+            // Salva os dados do frete
+            var shipping = {
+                valor: $('#frete_valor').data('value'),
+                cep: $('#field-zipcode').val(),
+                shipping_method: $('input[name="shipping_method"]:checked').val()
+            }
+
             // Cria o array com os itens do carrinho
             var cartItems = [];
             $('#checkout-items tr').each(function(){
@@ -1411,6 +1550,7 @@ $(document).ready(function() {
             // Cria o objeto de dados para a requisição AJAX
             var ajaxData = {
                 method: method,
+                shipping: shipping,
                 params: btoa(JSON.stringify(paramsData)),
                 cart: cartItems
             };
@@ -1553,6 +1693,13 @@ $(document).ready(function() {
         localStorage.setItem("method", typePayment);
         method = localStorage.getItem("method");
 
+        // Salva os dados do frete
+        var shipping = {
+            valor: $('#frete_valor').data('value'),
+            cep: $('#field-zipcode').val(),
+            shipping_method: $('input[name="shipping_method"]:checked').val()
+        }
+
         // Exemplo de array com os itens do carrinho
         var cartItems = [];
         $('#checkout-items tr').each(function(){
@@ -1599,6 +1746,7 @@ $(document).ready(function() {
         // Criação do objeto de dados para a requisição AJAX
         var ajaxData = {
             method: method,
+            shipping: shipping,
             params: btoa(JSON.stringify(paramsData)),
             cart: cartItems
         };

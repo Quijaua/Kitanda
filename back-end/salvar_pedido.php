@@ -1,5 +1,5 @@
 <?php
-function salvarPedido($customer_id, $dados_pagamento = null, $payment, $dataForm, $compra, $produtos, $config) {
+function salvarPedido($customer_id, $dados_pagamento = null, $payment, $shipment, $dataForm, $compra, $produtos, $config) {
 	include('config.php');
 
     // echo "Data Form";
@@ -46,31 +46,33 @@ function salvarPedido($customer_id, $dados_pagamento = null, $payment, $dataForm
     $desconto = isset($compra['desconto']) ? $compra['desconto'] : 0;
 
     // Geral
-    $status                         = isset($payment['status'])                     ? $payment['status']                        : null;
-    $link_pagamento                 = isset($payment['invoiceUrl'])             ? $payment['invoiceUrl']                : null;
-    $forma_pagamento                = isset($payment['billingType'])            ? $payment['billingType']               : null;
-    $data_criacao                   = isset($payment['dateCreated'])               ? $payment['dateCreated']                  : null;
-    $data_pagamento                 = isset($payment['paymentDate'])             ? $payment['paymentDate']                : null;
+    $status                         = isset($payment['status']) ? $payment['status'] : null;
+    $link_pagamento                 = isset($payment['invoiceUrl']) ? $payment['invoiceUrl'] : null;
+    $forma_pagamento                = isset($payment['billingType']) ? $payment['billingType'] : null;
+    $data_criacao                   = isset($payment['dateCreated']) ? $payment['dateCreated'] : null;
+    $data_pagamento                 = isset($payment['paymentDate']) ? $payment['paymentDate'] : null;
 
     // Cartao de credito
-    $cartao_numero                  = isset($payment['creditCard']['creditCardNumber'])              ? $payment['creditCard']['creditCardNumber']                 : null;
-    $cartao_bandeira                = isset($payment['creditCard']['creditCardBrand'])            ? $payment['creditCard']['creditCardBrand']               : null;
+    $cartao_numero                  = isset($payment['creditCard']['creditCardNumber']) ? $payment['creditCard']['creditCardNumber'] : null;
+    $cartao_bandeira                = isset($payment['creditCard']['creditCardBrand']) ? $payment['creditCard']['creditCardBrand'] : null;
 
     // Boleto
-    $link_boleto                    = isset($payment['bankSlipUrl'])                ? $payment['bankSlipUrl']                   : null;
-    $boleto_barCode                 = isset($dados_pagamento['barCode'])             ? $dados_pagamento['barCode']                : null;
-    $boleto_nossoNumero             = isset($dados_pagamento['nossoNumero'])         ? $dados_pagamento['nossoNumero']            : null;
-    $boleto_identificationField     = isset($dados_pagamento['identificationField']) ? $dados_pagamento['identificationField']    : null;
+    $link_boleto                    = isset($payment['bankSlipUrl']) ? $payment['bankSlipUrl'] : null;
+    $boleto_barCode                 = isset($dados_pagamento['barCode']) ? $dados_pagamento['barCode'] : null;
+    $boleto_nossoNumero             = isset($dados_pagamento['nossoNumero']) ? $dados_pagamento['nossoNumero'] : null;
+    $boleto_identificationField     = isset($dados_pagamento['identificationField']) ? $dados_pagamento['identificationField'] : null;
 
     // Pix
-    $pix_encodedImage               = isset($dados_pagamento['encodedImage'])           ? $dados_pagamento['encodedImage']              : null;
-    $pix_payload                    = isset($dados_pagamento['payload'])                ? $dados_pagamento['payload']                   : null;
-    $pix_expirationDate             = isset($dados_pagamento['expirationDate'])         ? $dados_pagamento['expirationDate']            : null;
+    $pix_encodedImage               = isset($dados_pagamento['encodedImage']) ? $dados_pagamento['encodedImage'] : null;
+    $pix_payload                    = isset($dados_pagamento['payload']) ? $dados_pagamento['payload'] : null;
+    $pix_expirationDate             = isset($dados_pagamento['expirationDate']) ? $dados_pagamento['expirationDate'] : null;
 
     // Pix/Boleto
-    $data_vencimento                = isset($payment['dueDate'])            ? $payment['dueDate']               : null;
+    $data_vencimento                = isset($payment['dueDate']) ? $payment['dueDate'] : null;
 
-
+    // Rastreamento
+    $tracking                       = isset($shipment['tracking']) ? $shipment['tracking'] : null;
+    $initial_state                  = isset($shipment['initial_state']) ? $shipment['initial_state'] : null;
 
 
 
@@ -102,10 +104,12 @@ function salvarPedido($customer_id, $dados_pagamento = null, $payment, $dataForm
         boleto_identificationField,
         cartao_numero,
         cartao_bandeira,
+        codigo_rastreamento,
+        rastreamento_status,
         created_at,
         updated_at
     ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
     )");
 
     $stmt->execute([
@@ -131,7 +135,9 @@ function salvarPedido($customer_id, $dados_pagamento = null, $payment, $dataForm
         $boleto_nossoNumero,
         $boleto_identificationField,
         $cartao_numero,
-        $cartao_bandeira
+        $cartao_bandeira,
+        $tracking,
+        $initial_state
     ]);
     $pedidoId = $conn->lastInsertId();
 

@@ -11,6 +11,9 @@ $client = new GuzzleHttp\Client();
 $config['asaas_api_url'] = $_ENV['ASAAS_API_URL'];
 $config['asaas_api_key'] = $_ENV['ASAAS_API_KEY'];
 
+$config['melhor_envio_url'] = $_ENV['MELHOR_ENVIO_URL'];
+$config['melhor_envio_token'] = $_ENV['MELHOR_ENVIO_TOKEN'];
+
 $hcaptcha_secret = $_ENV['HCAPTCHA_CHAVE_SECRETA'];
 $turnstile_secret = $_ENV['TURNSTILE_CHAVE_SECRETA'];
 
@@ -189,7 +192,7 @@ function makeDonation($dataForm, $config){
         }
 
         // Define um valor fixo para o frete (por exemplo, 10 reais)
-        $frete = 10.00;
+        $frete = $_POST['shipping']['valor'];
 
         // Calcula o total da compra
         $total = $subtotal + $frete;
@@ -234,27 +237,31 @@ function makeDonation($dataForm, $config){
         include_once('listar_cobranca_assinatura.php');
         include_once('qr_code.php');
         include_once('linha_digitavel.php');
+        include_once('rastreamento.php');
         include_once('salvar_pedido.php');
     
         switch($_POST["method"]) {
             case '100':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
                 $payment = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
-                $pedido_id = salvarPedido($customer_id, null, $payment, $dataForm, $compra, $produtos, $config);
+                $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '101':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
                 $payment = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
                 $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
-                $pedido_id = salvarPedido($customer_id, $boleto, $payment, $dataForm, $compra, $produtos, $config);
+                $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '102':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
                 $payment = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
                 $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
-                $pedido_id = salvarPedido($customer_id, $pix, $payment, $dataForm, $compra, $produtos, $config);
+                $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             default:
