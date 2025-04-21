@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $conn->commit();
 
         echo json_encode(['status' => 'success', 'message' => 'Loja atualizada com sucesso.']);
+        $_SESSION['msg'] = 'Loja atualizada com sucesso.';
         exit;
 
     } catch (PDOException $e) {
@@ -141,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     // Retorna JSON de sucesso
     echo json_encode(['status'=>'success','message'=>'Imagem removida com sucesso.']);
+    $_SESSION['msg'] = 'Imagem removida com sucesso.';
     exit;
 }
 
@@ -194,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $conn->commit();
 
         echo json_encode(['status' => 'success', 'message' => 'Endereço atualizado com sucesso.']);
+        $_SESSION['msg'] = 'Endereço atualizado com sucesso.';
         exit;
 
     } catch (PDOException $e) {
@@ -235,6 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $conn->commit();
 
         echo json_encode(['status' => 'success', 'message' => 'Configurações do Asaas atualizadas com sucesso.']);
+        $_SESSION['msg'] = 'Configurações do Asaas atualizadas com sucesso.';
         exit;
 
     } catch (PDOException $e) {

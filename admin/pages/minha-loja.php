@@ -162,7 +162,7 @@
                 var formData = new FormData(form);
 
                 // Adiciona um novo campo
-                <?php if ($loja): ?>
+                <?php if (isset($loja['id'])): ?>
                 formData.append("loja_id", <?= $loja['id']; ?>);
                 <?php endif; ?>
                 formData.append("action", "atualizar-loja");
@@ -208,7 +208,7 @@
             if (!confirm('Deseja realmente excluir a foto de perfil?')) {
                 return;
             }
-            <?php if ($loja): ?>
+            <?php if (isset($loja['id'])): ?>
             var lojaId = <?= json_encode($loja['id']); ?>;
             <?php endif; ?>
             $.ajax({
