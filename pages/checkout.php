@@ -428,7 +428,7 @@ if ($pedido) {
         
                     <div class="col-md-6 <?= $pedido ? "d-none" : ""; ?>" id="payment-section">
                         <div class="row g-4">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-none">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
                                         <h3 class="card-title">Cupom</h3>
