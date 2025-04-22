@@ -303,7 +303,7 @@
 		<div class="page">
 
 			<!-- Modal Sucesso -->
-			<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal modal-blur fade" id="modal-status-success" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -333,7 +333,7 @@
 				</div>
 			</div>
 
-			<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal modal-blur fade" id="modal-status-error" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -606,7 +606,7 @@
         <script>
             // Espera o carregamento da página
             document.addEventListener("DOMContentLoaded", function () {
-                var successModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                var successModal = new bootstrap.Modal(document.getElementById('modal-status-success'));
                 successModal.show(); // Abre o modal automaticamente
             });
         </script>
@@ -616,7 +616,7 @@
         <script>
             // Espera o carregamento da página
             document.addEventListener("DOMContentLoaded", function () {
-                var errorModal = new bootstrap.Modal(document.getElementById('modal-error'));
+                var errorModal = new bootstrap.Modal(document.getElementById('modal-status-error'));
                 errorModal.show(); // Abre o modal automaticamente
             });
         </script>
