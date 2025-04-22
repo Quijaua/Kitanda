@@ -728,7 +728,7 @@ if ($pedido) {
                             <tbody>
                                 <tr>
                                     <td class="fs-3 fw-bold">TOTAL</td>
-                                    <td id="total_valor" class="fs-3 w-10 fw-bold text-end">
+                                    <td id="total_valor" class="fs-3 w-10 fw-bold text-end" data-value="<?= $total; ?>">
                                         R$ <?= number_format($total, 2, ',', '.'); ?>
                                     </td>
                                 </tr>
@@ -798,17 +798,36 @@ function loadShippingOptions(cep, pesoEmGramas) {
 
         // ao mudar, atualiza o TD do frete
         $opts.find('input[type=radio]').on('change', function() {
-          var price = parseFloat($(this).data('price'));
-          var priceText = price.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' });
+            // novo frete
+            var newFrete = parseFloat($(this).data('price'));
+            var newFreteText = newFrete.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
 
-          // atualiza o texto e o atributo data-value
-          $('#frete_valor')
-            .text(priceText)
-            .attr('data-value', price);
+            // valores antigos
+            var oldFrete  = parseFloat($('#frete_valor').attr('data-value'));
+            var oldTotal  = parseFloat($('#total_valor').attr('data-value'));
+            var desconto  = parseFloat($('#desconto_valor').attr('data-value'));
 
-          // Quando qualquer input radio do grupo "shipping_method" for selecionado,
-          // remove a classe "d-none" do botão de continuar
-          $('#btn-step-shipping-continue').removeClass('d-none');
+            // recalcula total: tira o frete antigo e adiciona o novo
+            var newTotal = oldTotal - oldFrete + newFrete;
+            var newTotalText = newTotal.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            // aplica no DOM
+            $('#frete_valor')
+                .text(newFreteText)
+                .attr('data-value', newFrete);
+
+            $('#total_valor')
+                .text(newTotalText)
+                .attr('data-value', newTotal);
+
+            // libera o botão continuar
+            $('#btn-step-shipping-continue').removeClass('d-none');
         });
 
       } else {
