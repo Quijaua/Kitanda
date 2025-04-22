@@ -72,6 +72,38 @@
                     <p><?= htmlspecialchars($e['mini_bio']); ?></p>
                 </div>
 
+                <div class="d-flex align-items-center mt-5">
+                    <p class="text-secondary mb-0 me-4">Links</p>
+                    <div class="d-flex align-items-center">
+                        <?php if (!empty($e['facebook'])): ?>
+                            <a href="<?= htmlspecialchars($e['facebook']); ?>" target="_blank" class="text-dark me-3">
+                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-facebook -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler-brand-facebook"><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path></svg>
+                            </a>
+                        <?php endif; ?>
+    
+                        <?php if (!empty($e['instagram'])): ?>
+                            <a href="<?= htmlspecialchars($e['instagram']); ?>" target="_blank" class="text-dark me-3">
+                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-instagram -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler-brand-instagram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
+                            </a>
+                        <?php endif; ?>
+    
+                        <?php if (!empty($e['tiktok'])): ?>
+                            <a href="<?= htmlspecialchars($e['tiktok']); ?>" target="_blank" class="text-dark me-3">
+                                <!-- Download SVG icon from http://tabler.io/icons/icon/brand-tiktok -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler-brand-tiktok"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z" /></svg>
+                            </a>
+                        <?php endif; ?>
+    
+                        <?php if (!empty($e['site'])): ?>
+                            <a href="<?= htmlspecialchars($e['site']); ?>" target="_blank" class="text-dark me-3">
+                                <!-- Download SVG icon from http://tabler.io/icons/icon/world -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler-world"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M3.6 9h16.8" /><path d="M3.6 15h16.8" /><path d="M11.5 3a17 17 0 0 0 0 18" /><path d="M12.5 3a17 17 0 0 1 0 18" /></svg>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
 
             <?php
