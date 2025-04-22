@@ -83,7 +83,8 @@
                         FROM tb_produto_imagens 
                         GROUP BY produto_id
                     ) pi ON p.id = pi.produto_id
-                    WHERE p.criado_por = ? AND p.vitrine = 1 
+                    WHERE p.criado_por = ?
+                    ORDER BY vitrine DESC, nome ASC
                     LIMIT 6
                 ");
                 $stmt->execute([$e['vendedora_id']]);
