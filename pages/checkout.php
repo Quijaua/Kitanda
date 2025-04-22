@@ -818,7 +818,7 @@ function loadShippingOptions(cep, pesoEmGramas) {
       }
     },
     error: function(xhr, status, error) {
-      console.error('Erro AJAX:', error);
+      console.error('Erro AJAX:', xhr.responseJSON.mensagem);
       $('#shipping-options').empty()
         .append('<div class="text-danger">Erro ao carregar frete.</div>');
     }

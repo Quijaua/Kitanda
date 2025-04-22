@@ -85,9 +85,9 @@ $data = json_decode($response, true);
 // print_r($data);
 // echo "</pre>";
 // exit;
-if (isset($data['errors'])) {
+if (isset($data['message'])) {
     http_response_code(500);
-    $msg = $data['errors'][0]['message'] ?? 'Erro desconhecido na API';
+    $msg = $data['message'] ?? 'Erro desconhecido na API';
     echo json_encode(['status' => 'erro', 'mensagem' => $msg]);
     exit;
 }
