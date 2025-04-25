@@ -11,15 +11,6 @@ Execute o comando composer para instalar as bibliotecas
 $ composer install
 ```
 
-Criei um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaure o banco de dados que está no diretório ***sql***, via PHPmyAdmin ou conforme sua preferência.
-
-
-### Migrar banco de dados
-```sh
-vendor/bin/phinx migrate
-vendor/bin/phinx seed:run
-```
-
 ### Configurando o sistema
 Antes de subir o ambiente é preciso configurá-lo. Para isso crie no servidor um arquivo `.env ` baseado no `.env_example` e preencha-o corretamente.
 
@@ -29,6 +20,14 @@ $ cp .env_example .env
 
 # editando o arquivo (utilize o seu editor preferido)
 $ nano .env
+```
+
+Crie um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaure o banco de dados que está no diretório ***sql***, via PHPmyAdmin ou conforme sua preferência.
+
+### Migrar banco de dados
+```sh
+vendor/bin/phinx migrate
+vendor/bin/phinx seed:run
 ```
 
 ### Usuário administrador

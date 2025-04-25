@@ -256,7 +256,7 @@
                         <div class="card card-sm">
                             <div class="d-block">
                                 <span class="badge bg-light text-light-fg preview-product">Prévia do Produto</span>
-                                <img src="https://placehold.co/1000" class="card-img-top" id="card-img-preview">
+                                <img src="<?= INCLUDE_PATH . "assets/preview-image/product.jpg"; ?>" class="card-img-top" id="card-img-preview">
                             </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -359,7 +359,7 @@
         }
 
         function resetPreviewImage() {
-            document.getElementById("card-img-preview").src = "https://placehold.co/1000"; // Substitua pelo caminho da imagem padrão
+            document.getElementById("card-img-preview").src = "<?= INCLUDE_PATH . "assets/preview-image/product.jpg"; ?>"; // Substitua pelo caminho da imagem padrão
             firstImageSet = false;
         }
 
@@ -669,7 +669,7 @@
     //     }
 
     //     function resetPreviewImage() {
-    //         document.getElementById("card-img-preview").src = "https://placehold.co/1000"; // Substitua pelo caminho da imagem padrão
+    //         document.getElementById("card-img-preview").src = "<?= INCLUDE_PATH . "assets/preview-image/product.jpg"; ?>"; // Substitua pelo caminho da imagem padrão
     //         firstImageSet = false;
     //     }
     // });

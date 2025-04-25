@@ -11,23 +11,35 @@ $client = new GuzzleHttp\Client();
 $config['asaas_api_url'] = $_ENV['ASAAS_API_URL'];
 $config['asaas_api_key'] = $_ENV['ASAAS_API_KEY'];
 
+$config['melhor_envio_url'] = $_ENV['MELHOR_ENVIO_URL'];
+$config['melhor_envio_token'] = $_ENV['MELHOR_ENVIO_TOKEN'];
+
 $hcaptcha_secret = $_ENV['HCAPTCHA_CHAVE_SECRETA'];
 $turnstile_secret = $_ENV['TURNSTILE_CHAVE_SECRETA'];
 
 //Decodificando base64 e passando para $dataForm
-$dataForm = [];
-parse_str(base64_decode($_POST['params']), $dataForm);
+$dataFormBase64 = base64_decode($_POST['params']);
+
+// Converte de ISO-8859-1 para UTF-8, ignorando caracteres inválidos
+$dataFormBase64 = iconv("ISO-8859-1", "UTF-8//TRANSLIT//IGNORE", $dataFormBase64);
+
+$dataForm = json_decode($dataFormBase64, true);
+
+if (json_last_error() !== JSON_ERROR_NONE) {
+    die("JSON Error: " . json_last_error_msg());
+}
 
 // Verifica se o honeypot está vazio antes de processar a solicitação
 if (!empty($dataForm['email'])) {
     // Honeypot preenchido, retorna status 200 sem fazer alterações
     $response = array(
         'status' => 200,
-        'message' => 'Requisição processada com sucesso.'
+        'message' => 'Requisição processada com sucesso.',
+        'data' => $dataForm
     );
 
-    echo json_encode($response);
-    exit; // Encerra o script aqui para evitar processamento adicional
+    //echo json_encode($response);
+    //exit; // Encerra o script aqui para evitar processamento adicional
 }
 
 // Consulta à tabela tb_page_captchas para verificar qual captcha usar
@@ -128,12 +140,12 @@ $response = array(
 return json_encode($response);
 
 function makeDonation($dataForm, $config){
+    include('config.php');
+    session_start();
 
     if(isset($_POST)) {
-        $dataForm['name'] = $dataForm['name'] . " " . $dataForm['surname'];
-
         // Passando valor do email
-        $dataForm['email'] = $dataForm['eee'];
+        //$dataForm['email'] = $dataForm['eee'];
 
         // Passa o group se ouver
         $dataForm['groupName'] = $_ENV['GROUPNAME'];
@@ -141,57 +153,119 @@ function makeDonation($dataForm, $config){
         // Iniciando variavel "$subscription_id"
         $subscription_id = null;
 
+
+
+        
+        // Recebe os dados do carrinho enviados pelo AJAX (por exemplo, via método POST)
+        // Espera que os dados estejam no formato: cart[0][id], cart[0][quantity], etc.
+        $cartItemsPost = $_POST['cart'] ?? [];
+
+        // Array que armazenará os produtos com os dados do banco
+        $produtos = [];
+        $subtotal = 0;
+
+        // Percorre os itens enviados
+        foreach ($cartItemsPost as $item) {
+            // Certifique-se de que os índices existem e que a quantidade é válida
+            if (!isset($item['id']) || !isset($item['quantity']) || $item['quantity'] <= 0) {
+                continue;
+            }
+            
+            $id = $item['id'];
+            $quantity = (int)$item['quantity'];
+
+            // Busca os dados reais do produto no banco
+            $stmt = $conn->prepare("SELECT id, nome, preco FROM tb_produtos WHERE id = ?");
+            $stmt->execute([$id]);
+            $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Se o produto for encontrado, monta os dados do item
+            if ($produto) {
+                // Adiciona a quantidade e calcula o subtotal para esse item
+                $produto['quantidade'] = $quantity;
+                $produto['preco_total'] = $produto['preco'] * $quantity;
+                $subtotal += $produto['preco_total'];
+                
+                // Adiciona o produto ao array de produtos
+                $produtos[] = $produto;
+            }
+        }
+
+        // Define um valor fixo para o frete (por exemplo, 10 reais)
+        $frete = $_POST['shipping']['valor'];
+
+        // Calcula o total da compra
+        $total = $subtotal + $frete;
+
+        // Monta o array da compra com os valores calculados
+        $compra = [
+            'subtotal' => $subtotal,
+            'frete' => $frete,
+            'total' => $total
+        ];
+
+        // Cria o array final que contém os produtos e os dados da compra
+        $resultado = [
+            'produtos' => $produtos,
+            'compra' => $compra
+        ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $dataForm['value'] = $compra['total'];
+        if (isset($dataForm['card_installments']) && !empty($dataForm['card_installments']) && $dataForm['card_installments'] !== 1) {
+            $dataForm['installmentCount'] = $compra['total'];
+        }
+
+
+
         include('config.php');
         include_once('criar_cliente.php');
-        include_once('assinatura_cartao.php');
-        include_once('assinatura_pix.php');
-        include_once('assinatura_boleto.php');
         include_once('cobranca_cartao.php');
         include_once('cobranca_pix.php');
         include_once('cobranca_boleto.php');
         include_once('listar_cobranca_assinatura.php');
         include_once('qr_code.php');
         include_once('linha_digitavel.php');
+        // include_once('rastreamento.php');
+        include_once('salvar_pedido.php');
+
+        // Define variavel como nula para evitar erros
+        $shipment = null;
     
         switch($_POST["method"]) {
             case '100':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                if($dataForm['inlineRadioOptions'] == "MONTHLY" || $dataForm['inlineRadioOptions'] == "YEARLY"){
-                    $payment_id = asaas_CriarAssinaturaCartao($customer_id, $dataForm, $config);
-                }else if($dataForm['inlineRadioOptions'] == "ONLY"){
-                    $payment_id = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
-                }
-                echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
+                $payment = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
+                // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '101':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                if($dataForm['inlineRadioOptions'] == "MONTHLY" || $dataForm['inlineRadioOptions'] == "YEARLY"){
-                    $subscription_id = asaas_CriarAssinaturaBoleto($customer_id, $dataForm, $config);
-                    $payment_id = asaas_ObterIdPagamento($subscription_id, $config);
-                } else {
-                    $payment_id = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
-                }
-                asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment_id, $config);
-                if($dataForm['inlineRadioOptions'] == "MONTHLY" || $dataForm['inlineRadioOptions'] == "YEARLY"){
-                    echo json_encode(["status"=>200, "code"=>$subscription_id, "id"=>$customer_id]);
-                } else {
-                    echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
-                }
+                $payment = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
+                $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
+                // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             case '102':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
-                if($dataForm['inlineRadioOptions'] == "MONTHLY" || $dataForm['inlineRadioOptions'] == "YEARLY"){
-                    $subscription_id = asaas_CriarAssinaturaPix($customer_id, $dataForm, $config);
-                    $payment_id = asaas_ObterIdPagamento($subscription_id, $config);
-                } else {
-                    $payment_id = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
-                }
-                asaas_ObterQRCodePix($subscription_id, $payment_id, $config);
-                if($dataForm['inlineRadioOptions'] == "MONTHLY" || $dataForm['inlineRadioOptions'] == "YEARLY"){
-                    echo json_encode(["status"=>200, "code"=>$subscription_id, "id"=>$customer_id]);
-                } else {
-                    echo json_encode(["status"=>200, "code"=>$payment_id, "id"=>$customer_id]);
-                }
+                $payment = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
+                $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
+                // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
+                $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
                 break;
             default:
                 echo json_encode(['status' => 404, 'message' => 'Método de pagamento inválido!']);

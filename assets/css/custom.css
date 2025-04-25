@@ -7,15 +7,18 @@ body {
   background-color: var(--background) !important;
   color: var(--text-color) !important;
 }
-.btn:hover{
-  color: var(--bs-btn-hover-color) !important;
+.btn.btn-primary{
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.btn.btn-primary:hover{
   background-color: var(--hover-color) !important;
   border-color: var(--hover-color) !important;
 }
-.btn:focus-visible {
+.btn.btn-primary:focus-visible {
   background-color: var(--hover-color) !important;
 }
-.active
+.btn.btn-primary.active
 {
   border: var(--bs-btn-border-width) solid var(--primary-color) !important;
   background-color: var(--primary-color) !important;

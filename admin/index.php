@@ -12,71 +12,84 @@
     $url = isset($_GET['url']) ? $_GET['url'] : 'editar-perfil';
 
     // Tabela que sera feita a consulta
-    $tabela = "tb_checkout";
-    $tabela_2 = "tb_integracoes";
-    $tabela_3 = "tb_mensagens";
-    $tabela_4 = "tb_doacoes";
-    $tabela_5 = "tb_clientes";
-    $tabela_6 = "tb_transacoes";
-    $tabela_7 = "tb_webhook";
+// Tabela que sera feita a consulta
+$tabela = "tb_checkout";
+$tabela_2 = "tb_integracoes";
+$tabela_3 = "tb_mensagens";
+$tabela_4 = "tb_doacoes";
+$tabela_5 = "tb_clientes";
+$tabela_6 = "tb_transacoes";
+$tabela_7 = "tb_webhook";
+$tabela_8 = "tb_pedidos";
 
-    // ID que você deseja pesquisar
-    $id = 1;
-    $user_id = $_SESSION['user_id'];
+// ID que você deseja pesquisar
+$id = 1;
+$user_id = $_SESSION['user_id'];
 
-    // Consulta SQL
-    $sql = "SELECT nome, logo, title, descricao, doacoes, pix_tipo, pix_chave, pix_valor, pix_codigo, pix_imagem_base64, pix_identificador_transacao, pix_exibir, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, monthly_1, monthly_2, monthly_3, monthly_4, monthly_5, yearly_1, yearly_2, yearly_3, yearly_4, yearly_5, once_1, once_2, once_3, once_4, once_5 FROM $tabela WHERE id = :id";
-    $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
-    $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
-    $sql_4 = "SELECT * FROM $tabela_4";
-    $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
-    /*$sql_6 = "SELECT * FROM $tabela_6";*/
-    date_default_timezone_set('America/Sao_Paulo');
-    $now = date("Y-m-d");
-    $start_date = new DateTime($now);
-    $st_date_str = date_format($start_date, "Y-m-d");
-    $end_date = date_sub($start_date, date_interval_create_from_date_string("90 days"));
-    $ed_date_str = date_format($end_date, "Y-m-d");
-    $sql_6 = "SELECT * FROM $tabela_6 as t6 JOIN $tabela_5 as t5 ON t6.customer_id = t5.asaas_id WHERE payment_date_created > $ed_date_str AND roles != 1";
-    $sql_7 = "SELECT * FROM $tabela_7 LIMIT 1";
+// Consulta SQL
+$sql = "SELECT nome, logo, title, descricao, doacoes, pix_tipo, pix_chave, pix_valor, pix_codigo, pix_imagem_base64, pix_identificador_transacao, pix_exibir, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, monthly_1, monthly_2, monthly_3, monthly_4, monthly_5, yearly_1, yearly_2, yearly_3, yearly_4, yearly_5, once_1, once_2, once_3, once_4, once_5 FROM $tabela WHERE id = :id";
+$sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
+$sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
+$sql_4 = "SELECT * FROM $tabela_4";
+$sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
+date_default_timezone_set('America/Sao_Paulo');
+$now = date("Y-m-d");
+$start_date = new DateTime($now);
+$st_date_str = date_format($start_date, "Y-m-d");
+$end_date = date_sub($start_date, date_interval_create_from_date_string("90 days"));
+$ed_date_str = date_format($end_date, "Y-m-d");
+$sql_6 = "SELECT * FROM $tabela_6 as t6 JOIN $tabela_5 as t5 ON t6.customer_id = t5.asaas_id WHERE payment_date_created > $ed_date_str AND roles != 1";
+$sql_7 = "SELECT * FROM $tabela_7 LIMIT 1";
+//$sql_8 = "SELECT * FROM $tabela_8 ORDER BY id DESC";
+//$sql_8 = "SELECT p.*, u.nome as nome_usuario FROM $tabela_8 p LEFT JOIN tb_clientes u ON p.user_id = u.id ORDER BY p.data_pedido DESC";
+$sql_8 = "SELECT p.*, c.nome as nome_cliente, c.email as email_cliente
+          FROM $tabela_8 p
+          LEFT JOIN tb_clientes c ON p.usuario_id = c.id 
+          ORDER BY p.id DESC";
 
-    // Preparar a consulta
-    $stmt = $conn->prepare($sql);
-    $stmt_2 = $conn->prepare($sql_2);
-    $stmt_3 = $conn->prepare($sql_3);
-    $stmt_4 = $conn->prepare($sql_4);
-    $stmt_5 = $conn->prepare($sql_5);
-    $stmt_6 = $conn->prepare($sql_6);
-    $stmt_7 = $conn->prepare($sql_7);
+// Preparar a consulta
+$stmt = $conn->prepare($sql);
+$stmt_2 = $conn->prepare($sql_2);
+$stmt_3 = $conn->prepare($sql_3);
+$stmt_4 = $conn->prepare($sql_4);
+$stmt_5 = $conn->prepare($sql_5);
+$stmt_6 = $conn->prepare($sql_6);
+$stmt_7 = $conn->prepare($sql_7);
+$stmt_8 = $conn->prepare($sql_8);
 
-    // Vincular o valor do parâmetro
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt_2->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt_3->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt_5->bindParam(':id', $user_id, PDO::PARAM_INT);
+// Vincular o valor do parâmetro
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt_2->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt_3->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt_5->bindParam(':id', $user_id, PDO::PARAM_INT);
 
-    // Executar a consulta
-    $stmt->execute();
-    $stmt_2->execute();
-    $stmt_3->execute();
-    $stmt_4->execute();
-    $stmt_5->execute();
-    $stmt_6->execute();
-    $stmt_7->execute();
+// Executar a consulta
+$stmt->execute();
+$stmt_2->execute();
+$stmt_3->execute();
+$stmt_4->execute();
+$stmt_5->execute();
+$stmt_6->execute();
+$stmt_7->execute();
+$stmt_8->execute();
 
-    // Obter o resultado como um array associativo
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-    $resultado_2 = $stmt_2->fetch(PDO::FETCH_ASSOC);
-    $resultado_3 = $stmt_3->fetch(PDO::FETCH_ASSOC);
-    $resultado_4 = $stmt_4->fetchAll(PDO::FETCH_ASSOC);
-    $resultado_5 = $stmt_5->fetchAll(PDO::FETCH_ASSOC);
-    $resultado_6 = $stmt_6->fetchAll(PDO::FETCH_ASSOC);
-    $resultado_7 = $stmt_7->fetch(PDO::FETCH_ASSOC);
+// Obter o resultado como um array associativo
+$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+$resultado_2 = $stmt_2->fetch(PDO::FETCH_ASSOC);
+$resultado_3 = $stmt_3->fetch(PDO::FETCH_ASSOC);
+$resultado_4 = $stmt_4->fetchAll(PDO::FETCH_ASSOC);
+$resultado_5 = $stmt_5->fetchAll(PDO::FETCH_ASSOC);
+$resultado_6 = $stmt_6->fetchAll(PDO::FETCH_ASSOC);
+$resultado_7 = $stmt_7->fetch(PDO::FETCH_ASSOC);
+$resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
+
+
 
     // Verificar se o resultado foi encontrado
     if ($resultado) {
         // Atribuir o valor da coluna à variável, ex.: "nome" = $nome
         $nome = $resultado['nome'];
+        $permissao = getNomePermissao($_SESSION['user_id'], $conn);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
         $descricao = $resultado['descricao'];
@@ -163,10 +176,25 @@
         exit;
     }
 
+    // Consulta para buscar o produto selecionado
+    $stmt = $conn->prepare("
+        SELECT * 
+        FROM tb_lojas
+        WHERE vendedora_id = ? 
+        LIMIT 1
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $usuario['imagem'] = !empty($usuario['imagem'])
+                         ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$usuario['id']}/perfil/{$usuario['imagem']}")
+                         : INCLUDE_PATH . "assets/preview-image/profile.jpg";
+
     $doacoes = $resultado_4;
     $clientes = $resultado_5;
     $transacoes = $resultado_6;
     $webhook = $resultado_7;
+    $pedidos = $resultado_8;
 
     $hcaptcha_public = $_ENV['HCAPTCHA_CHAVE_DE_SITE'];
     $hcaptcha_secret = $_ENV['HCAPTCHA_CHAVE_SECRETA'];
@@ -203,9 +231,6 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH_ADMIN; ?>styles/css/custom.css" rel="stylesheet">
-        <style>
-            @import url('https://rsms.me/inter/inter.css');
-        </style>
         <script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
     </head>
     <body>

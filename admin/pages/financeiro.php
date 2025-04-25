@@ -89,9 +89,9 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                    Financeiro
+                    Vendas
                 </h2>
-                <div class="text-secondary mt-1">Aqui estão os relatórios financeiros do sistema.</div>
+                <div class="text-secondary mt-1">Suas vendas e relatórios financeiros</div>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Doações</h4>
+                        <h4 class="card-title">Informações</h4>
                         <div class="ms-auto lh-1">
                             <div class="dropdown">
                                 <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -154,69 +154,25 @@
                     <table id="doacoes" class="table card-table table-vcenter text-nowrap datatable">
                         <thead>
                             <tr>
-                                <th>Tipo</th>
-                                <th>Doador</th>
-                                <th>Transação</th>
-                                <th>Data Criação</th>
-                                <th>Assinatura</th>
+                                <th>Pedido ID</th>
+                                <th>Nome do produto</th>
+                                <th>Email</th>
+                                <th>Status</th>
                                 <th>Valor</th>
-                                <th>Valor Líquido</th>
-                                <th>Descrição</th>
-                                <th>Método</th>
+				<th>Método</th>
                                 <th>Data Crédito</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($transacoes as $transacao) : ?>
+                            <?php foreach($pedidos as $pedido) : ?>
                             <tr>
-                                <?php
-                                    switch ($transacao["event"]) {
-                                        case "PAYMENT_CONFIRMED":
-                                            $type = "Pago";
-                                            $class = "success";
-                                            break;
-                                        case "PAYMENT_RECEIVED":
-                                            $type = "Recebido";
-                                            $class = "success";
-                                            break;
-                                        case "PAYMENT_DELETED":
-                                            $type = "Cancelado";
-                                            $class = "warning";
-                                            break;
-                                        case "PAYMENT_OVERDUE":
-                                            $type = "Vencido";
-                                            $class = "danger";
-                                            break;
-                                        case "PAYMENT_REFUNDED":
-                                            $type = "Estornado";
-                                            $class = "info";
-                                            break;
-                                        case "PAYMENT_CREATED":
-                                            $type = "Criado";
-                                            $class = "primary";
-                                            break;
-                                        default:
-                                            $type = "Desconhecido";
-                                            $class = "dark";
-                                            break;
-                                    };
-
-                                    $created_date = date_create($transacao["payment_date_created"]);
-                                    $payment_date = date_create($transacao["confirmed_date"]);
-                                    $credit_date = date_create($transacao["credit_date"]);
-                                    $estimated_date = date_create($transacao["estimated_credit_date"]);
-                                ?>
-                                <td><span class="badge badge-<?php echo $class; ?>"><?php echo $type; ?></span></td>
-                                <td><?php echo $transacao["nome"]; ?></td>
-                                <td><?php echo $transacao["payment_id"]; ?></td>
-                                <td><?php echo date_format($created_date, "d/m/Y"); ?></td>
-
-                                <td><?php echo $transacao["subscription_id"]; ?></td>
-                                <td><?php echo $transacao["value"]; ?></td>
-                                <td><?php echo $transacao["net_value"]; ?></td>
-                                <td><?php echo $transacao["description"] ? $transacao["description"] : "Doação única"; ?></td>
-                                <td><?php echo $transacao["billing_type"]; ?></td>
-                                <td><?php echo date_format($credit_date, "d/m/Y"); ?></td>
+				<td><a href="compra?pedido=<?php echo $pedido['pedido_id']; ?>"><?php echo $pedido['pedido_id']; ?></a></td>
+				<td><?php echo $pedido['nome_cliente']; ?></td>
+                                <td><?php echo $pedido['email_cliente']; ?></td> 
+                                <td><?php echo $pedido['status']; ?></td>
+                                <td>R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></td>
+                                <td><?php echo $pedido['forma_pagamento']; ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($pedido['data_pedido'])); ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

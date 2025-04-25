@@ -166,7 +166,7 @@
                                 <?php
                                     $produto['imagem'] = !empty($produto['imagem'])
                                                          ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['imagem'])
-                                                         : "https://placehold.co/1000";
+                                                         : INCLUDE_PATH . "assets/preview-image/product.jpg";
                                                          
                                     $produto['preco'] = number_format($produto['preco'], 2, ',', '.');
                                 ?>

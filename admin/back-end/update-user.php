@@ -79,14 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditUser'])) {
 
     // Captura e sanitiza os dados enviados
     $nome       = trim($_POST['nome']);
-    $telefone   = trim($_POST['telefone']);
     $submitted_email = trim($_POST['email']);
     $funcao_id  = intval($_POST['funcao_id']);
-    $instagram  = trim($_POST['instagram']);
-    $site       = trim($_POST['site']);
-    $facebook   = trim($_POST['facebook']);
-    $tiktok     = trim($_POST['tiktok']);
-    $descricao  = trim($_POST['descricao']);
 
     // Carrega os dados atuais do usuário
     $stmt = $conn->prepare("SELECT * FROM tb_clientes WHERE id = :id");
@@ -133,25 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditUser'])) {
         $stmtUpdate = $conn->prepare("
             UPDATE tb_clientes SET 
                 nome = :nome,
-                phone = :telefone,
                 email = :email,
-                instagram = :instagram,
-                site = :site,
-                facebook = :facebook,
-                tiktok = :tiktok,
-                descricao = :descricao,
                 magic_link = :token,
                 status = :status
             WHERE id = :id
         ");
         $stmtUpdate->bindParam(':nome', $nome);
-        $stmtUpdate->bindParam(':telefone', $telefone);
         $stmtUpdate->bindParam(':email', $submitted_email);
-        $stmtUpdate->bindParam(':instagram', $instagram);
-        $stmtUpdate->bindParam(':site', $site);
-        $stmtUpdate->bindParam(':facebook', $facebook);
-        $stmtUpdate->bindParam(':tiktok', $tiktok);
-        $stmtUpdate->bindParam(':descricao', $descricao);
         $stmtUpdate->bindParam(':token', $token);
         $stmtUpdate->bindParam(':status', $newStatus, PDO::PARAM_INT);
         $stmtUpdate->bindParam(':id', $user_id, PDO::PARAM_INT);

@@ -161,166 +161,210 @@
 	}
 ?>
 <?php
-	$donationButtons = array(
-		"donationMonthlyButton1" => array("amount" => $monthly_1, "display" => "R$ $monthly_1", "showAddOnFee" => true),
-		"donationMonthlyButton2" => array("amount" => $monthly_2, "display" => "R$ $monthly_2", "showAddOnFee" => true),
-		"donationMonthlyButton3" => array("amount" => $monthly_3, "display" => "R$ $monthly_3", "showAddOnFee" => true),
-		"donationMonthlyButton4" => array("amount" => $monthly_4, "display" => "R$ $monthly_4", "showAddOnFee" => true),
-		"donationMonthlyButton5" => array("amount" => $monthly_5, "display" => "R$ $monthly_5", "showAddOnFee" => true),
+	// Determina o campo e valor para filtro (usuário ou cookie)
+	if (isset($_SESSION['user_id'])) {
+		$field = 'usuario_id';
+		$value = $_SESSION['user_id'];
+	} elseif (isset($_COOKIE['cart_id'])) {
+		$field = 'cookie_id';
+		$value = $_COOKIE['cart_id'];
+	} else {
+		// Sem usuário nem cookie => carrinho vazio
+		$cartCount = 0;
+	}
+
+	if (isset($_SESSION['user_id']) || isset($_COOKIE['cart_id'])) {
+		// Prepara e executa a query que soma todas as quantidades
+		$sql = "SELECT COALESCE(SUM(quantidade),0) AS total_items 
+				FROM tb_carrinho 
+				WHERE {$field} = ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute([$value]);
 	
-		"donationYearlyButton1" => array("amount" => $yearly_1, "display" => "R$ $yearly_1", "showAddOnFee" => true),
-		"donationYearlyButton2" => array("amount" => $yearly_2, "display" => "R$ $yearly_2", "showAddOnFee" => true),
-		"donationYearlyButton3" => array("amount" => $yearly_3, "display" => "R$ $yearly_3", "showAddOnFee" => true),
-		"donationYearlyButton4" => array("amount" => $yearly_4, "display" => "R$ $yearly_4", "showAddOnFee" => true),
-		"donationYearlyButton5" => array("amount" => $yearly_5, "display" => "R$ $yearly_5", "showAddOnFee" => true),
-	
-		"donationOnceButton1" => array("amount" => $once_1, "display" => "R$ $once_1", "showAddOnFee" => true),
-		"donationOnceButton2" => array("amount" => $once_2, "display" => "R$ $once_2", "showAddOnFee" => true),
-		"donationOnceButton3" => array("amount" => $once_3, "display" => "R$ $once_3", "showAddOnFee" => true),
-		"donationOnceButton4" => array("amount" => $once_4, "display" => "R$ $once_4", "showAddOnFee" => true),
-		"donationOnceButton5" => array("amount" => $once_5, "display" => "R$ $once_5", "showAddOnFee" => true),
-	);
-	
-	$addOnFeeValues = array(
-		"creditCard" => array("fix" => 0, "percent" => 5),
-		"bankSlip" => array("fix" => 3, "percent" => 5),
-		"pix" => array("fix" => 0, "percent" => 5),
-	);
-	
-	$minOnceDonation = array(
-		"creditCard" => 10,
-		"bankSlip" => 10,
-		"pix" => 10,
-	);
-	
-	$jsonData = array(
-		"donationButtons" => $donationButtons,
-		"addOnFeeValues" => $addOnFeeValues,
-		"minOnceDonation" => $minOnceDonation,
-	);
+		// Pega o total (0 caso não existam registros)
+		$cartCount = (int) $stmt->fetchColumn();
+	}
 ?>
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8">
+		<title><?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?></title>
 
-<head>
-	<meta charset="utf-8">
-	<title><?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?></title>
-
-	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<!-- 
-	<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/open-sans" rel="stylesheet" type="text/css">
-	<link href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"
-		  type="text/css">
-
-
-	<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/newsreader" rel="stylesheet">
-
-<link rel="icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" sizes="32x32" />
-<link rel="apple-touch-icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" />
-<meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" /> -->
-
-	<!-- CSS files -->
-	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-payments.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
-	<link href="<?php echo INCLUDE_PATH; ?>assets/css/custom.css" rel="stylesheet">
-	<style>
-		@import url('https://rsms.me/inter/inter.css');
-	</style>
-	<script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
-
-<?php if (isset($hcaptcha)): ?>
-	<!-- hCaptcha -->
-	<script src="https://hcaptcha.com/1/api.js" async defer></script>
-<?php elseif (isset($turnstile)): ?>
-	<!-- Turnstile -->
-	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<?php endif; ?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<!-- 
+			<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/open-sans" rel="stylesheet" type="text/css">
+			<link href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"
+				type="text/css">
 
 
-<link rel="canonical" href="<?php echo INCLUDE_PATH; ?>" />
-<meta property="og:locale" content="pt_BR" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="<?php echo $title; ?>"/>
-<meta property="og:description" name="description" content="<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>" />
-<meta property="og:url" value="<?php echo INCLUDE_PATH; ?>"/>
-<meta property="og:site_name" content="<?php echo $nome; ?>" />
-<meta property="article:modified_time" content="2022-12-01T18:38:06+00:00" />
-<meta property="og:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
-<meta property="og:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@Kitanda" />
-<meta name="twitter:title" value="<?php echo $title; ?>"/>
-<meta name="twitter:url" value="<?php echo INCLUDE_PATH; ?>"/>
-<meta name="twitter:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
-<meta name="twitter:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
-<meta name="twitter:description" value="<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>"/>
+			<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/newsreader" rel="stylesheet">
 
-<script type="application/ld+json">{
-	"@context": "https://schema.org",
-	"@graph": [
-		{
-			"@type": "WebSite",
-			"@id": "<?php echo INCLUDE_PATH; ?>",
-			"url": "<?php echo INCLUDE_PATH; ?>",
-			"name": "<?php echo $title; ?>",
-			"isPartOf": {
-				"@id": "<?php echo INCLUDE_PATH; ?>#website"
-			},
-			"datePublished": "2023-03-02T19:50:30+00:00",
-			"dateModified": "2023-03-21T12:51:52+00:00",
-			"description": "<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>",
-			"inLanguage": "pt-BR",
-			"interactAction": [
+		<link rel="icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" sizes="32x32" />
+		<link rel="apple-touch-icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" />
+		<meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" /> -->
+
+		<!-- CSS files -->
+		<!--link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/ -->
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-payments.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
+		<link href="<?php echo INCLUDE_PATH; ?>assets/css/custom.css" rel="stylesheet">
+		<script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
+
+		<?php if (isset($hcaptcha)): ?>
+			<!-- hCaptcha -->
+			<script src="https://hcaptcha.com/1/api.js" async defer></script>
+		<?php elseif (isset($turnstile)): ?>
+			<!-- Turnstile -->
+			<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+		<?php endif; ?>
+
+
+		<link rel="canonical" href="<?php echo INCLUDE_PATH; ?>" />
+		<meta property="og:locale" content="pt_BR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="<?php echo $title; ?>"/>
+		<meta property="og:description" name="description" content="<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>" />
+		<meta property="og:url" value="<?php echo INCLUDE_PATH; ?>"/>
+		<meta property="og:site_name" content="<?php echo $nome; ?>" />
+		<meta property="article:modified_time" content="2022-12-01T18:38:06+00:00" />
+		<meta property="og:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
+		<meta property="og:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Kitanda" />
+		<meta name="twitter:title" value="<?php echo $title; ?>"/>
+		<meta name="twitter:url" value="<?php echo INCLUDE_PATH; ?>"/>
+		<meta name="twitter:image" value="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
+		<meta name="twitter:image" content="<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>"/>
+		<meta name="twitter:description" value="<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>"/>
+
+		<script type="application/ld+json">{
+			"@context": "https://schema.org",
+			"@graph": [
 				{
-					"@type": "SubscribeAction",
-					"target": [
-						"<?php echo INCLUDE_PATH; ?>"
+					"@type": "WebSite",
+					"@id": "<?php echo INCLUDE_PATH; ?>",
+					"url": "<?php echo INCLUDE_PATH; ?>",
+					"name": "<?php echo $title; ?>",
+					"isPartOf": {
+						"@id": "<?php echo INCLUDE_PATH; ?>#website"
+					},
+					"datePublished": "2023-03-02T19:50:30+00:00",
+					"dateModified": "2023-03-21T12:51:52+00:00",
+					"description": "<?php echo mb_strimwidth($descricao, 3, 120, '...'); ?>",
+					"inLanguage": "pt-BR",
+					"interactAction": [
+						{
+							"@type": "SubscribeAction",
+							"target": [
+								"<?php echo INCLUDE_PATH; ?>"
+							]
+						}
 					]
+				},
+				{
+					"@type": "Organization",
+					"@id": "<?php echo INCLUDE_PATH; ?>#organization",
+					"name": "<?php echo $nome; ?>",
+					"url": "<?php echo INCLUDE_PATH; ?>",
+					"logo": {
+						"@type": "ImageObject",
+						"inLanguage": "pt-BR",
+						"@id": "<?php echo INCLUDE_PATH; ?>#/schema/logo/image/",
+						"url": "<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>",
+						"contentUrl": "<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>",
+						"width": 140,
+						"height": 64,
+						"caption": "<?php echo $nome; ?>"
+					},
+					"image": {
+						"@id": "<?php echo INCLUDE_PATH; ?>#/schema/logo/image/"
+					}
 				}
 			]
-		},
-		{
-			"@type": "Organization",
-			"@id": "<?php echo INCLUDE_PATH; ?>#organization",
-			"name": "<?php echo $nome; ?>",
-			"url": "<?php echo INCLUDE_PATH; ?>",
-			"logo": {
-				"@type": "ImageObject",
-				"inLanguage": "pt-BR",
-				"@id": "<?php echo INCLUDE_PATH; ?>#/schema/logo/image/",
-				"url": "<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>",
-				"contentUrl": "<?php echo INCLUDE_PATH; ?>assets/img/<?php echo $logo; ?>",
-				"width": 140,
-				"height": 64,
-				"caption": "<?php echo $nome; ?>"
-			},
-			"image": {
-				"@id": "<?php echo INCLUDE_PATH; ?>#/schema/logo/image/"
-			}
-		}
-	]
-}</script>
+		}</script>
 
-	<?php echo $fb_pixel; ?>
+		<?php echo $fb_pixel; ?>
 
-	<?php echo $gtm; ?>
-	
-	<?php echo $g_analytics; ?>
-</head>
+		<?php echo $gtm; ?>
+		
+		<?php echo $g_analytics; ?>
+	</head>
 	<body>
-		<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/demo-theme.min.js?1738096685"></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/js/demo-theme.min.js?1738096685"></script>
 
 		<div class="page">
 
+			<!-- Modal Sucesso -->
+			<div class="modal modal-blur fade" id="modal-status-success" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<div class="modal-status bg-success"></div>
+						<div class="modal-body text-center py-4">
+							<!-- Download SVG icon from http://tabler.io/icons/icon/circle-check -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+							<h3>Sucesso!</h3>
+							<div class="text-secondary">
+								<?php
+									if(isset($_SESSION['msg'])){
+										echo $_SESSION['msg'];
+									}
+								?>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="w-100">
+								<div class="row">
+									<div class="col">
+										<a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">Fechar</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal modal-blur fade" id="modal-status-error" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<div class="modal-status bg-danger"></div>
+						<div class="modal-body text-center py-4">
+							<!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg"><path d="M12 9v4" /><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" /><path d="M12 16h.01" /></svg>
+							<h3>Erro!</h3>
+							<div class="text-secondary">
+								<?php
+									if(isset($_SESSION['error_msg'])){
+										echo $_SESSION['error_msg'];
+									}
+								?>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="w-100">
+								<div class="row">
+									<div class="col">
+										<a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">Fechar</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Navbar -->
-			<header class="navbar navbar-expand-md d-print-none" style="background-color: <?php echo $nav_background; ?>; color: <?php echo $nav_color; ?>;">
+			<!-- <header class="navbar navbar-expand-md d-print-none" style="background-color: <?php echo $nav_background; ?>; color: <?php echo $nav_color; ?>;">
 				<div class="container-xl">
 					<div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
 						<a href=".">
@@ -328,6 +372,96 @@
 						</a>
 					</div>
 					<h1 class="text-dark mb-0"><?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?></h1>
+				</div>
+			</header> -->
+
+			<!-- BEGIN NAVBAR -->
+			<header class="navbar navbar-expand-md d-print-none">
+				<div class="container-xl py-3">
+					<!-- BEGIN NAVBAR TOGGLER -->
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<!-- END NAVBAR TOGGLER -->
+					<!-- BEGIN NAVBAR LOGO -->
+					<div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+						<a href=".">
+							<?php if (!empty($logo)): ?>
+							<img class="navbar-brand-image" src="assets/img/<?php echo $logo; ?>" alt="Logo da Loja">
+							<?php else: ?>
+							<h1 class="mb-0">Kitanda</h1>
+							<?php endif; ?>
+						</a>
+					</div>
+					<!-- END NAVBAR LOGO -->
+					<div class="navbar-nav flex-row order-md-last">
+						<div class="nav-item dropdown">
+							<a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
+								<!-- <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span> -->
+								<!-- Download SVG icon from http://tabler.io/icons/icon/user-circle -->
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-user-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" /></svg>
+								<div class="d-none d-xl-block ps-2">
+									<div> Minha Conta </div>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+								<a href="#" class="dropdown-item">Status</a>
+								<a href="./profile.html" class="dropdown-item">Profile</a>
+								<a href="#" class="dropdown-item">Feedback</a>
+								<div class="dropdown-divider"></div>
+								<a href="./settings.html" class="dropdown-item">Settings</a>
+								<a href="./sign-in.html" class="dropdown-item">Logout</a>
+							</div>
+						</div>
+						<div class="d-none d-md-flex">
+							<div class="nav-item dropdown d-none d-md-flex me-3">
+								<a href="<?= INCLUDE_PATH; ?>carrinho" class="nav-link px-0 position-relative">
+									<!-- ícone do carrinho -->
+									<?php if ($cartCount > 0): ?>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 me-2 icon-tabler icons-tabler-outline icon-tabler-shopping-cart-copy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M11.5 17h-5.5v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /><path d="M15 19l2 2l4 -4" /></svg>
+									<?php else: ?>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 me-2 icon-tabler icons-tabler-outline icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17h-11v-14h-2"/><path d="M6 5l14 1l-1 7h-13"/></svg>
+									<?php endif; ?>
+
+									<span id="cart-count" class="badge bg-red badge-notification text-red-fg position-absolute"
+											style="top: 0; right: 0; transform: translate(50%,-50%);<?= ($cartCount <= 0) ? "display: none;" : ""; ?>">
+										<?= $cartCount > 9 ? '9+' : $cartCount; ?>
+										<span class="visually-hidden">itens no carrinho</span>
+									</span>
+
+									Meu Carrinho
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="collapse navbar-collapse" id="navbar-menu">
+						<div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center justify-content-center">
+							<!-- BEGIN NAVBAR MENU -->
+							<ul class="navbar-nav">
+								<li class="nav-item">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>">
+										<span class="nav-link-title"> PRODUTOS </span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>empreendedoras">
+										<span class="nav-link-title"> EMPREENDEDORAS </span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>">
+										<span class="nav-link-title"> SOBRE NÓS </span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>">
+										<span class="nav-link-title"> BLOG </span>
+									</a>
+								</li>
+							</ul>
+							<!-- END NAVBAR MENU -->
+						</div>
+					</div>
 				</div>
 			</header>
 
@@ -413,261 +547,30 @@
 				.social-net a {color:#000}
 				.bi {font-size:32px}
 			</style>
-
-
-
-
-
-
-
-
-
-			<!-- Libs JS -->
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/apexcharts/dist/apexcharts.min.js?1738096685" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/jsvectormap/dist/jsvectormap.min.js?1738096685" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/jsvectormap/dist/maps/world.js?1738096685" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/jsvectormap/dist/maps/world-merc.js?1738096685" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/dropzone/dist/dropzone-min.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/fslightbox/index.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/tinymce/tinymce.min.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script>
-
-			<!-- Tabler Core -->
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/tabler.min.js?1738096685" defer></script>
-			<script src="<?php echo INCLUDE_PATH_ADMIN; ?>dist/js/demo.min.js?1738096685" defer></script>
 		</div>
 
-		<style>
-			.social-net a {color:#000}
-			.bi {font-size:32px}
-		</style>
-
-		<link rel="stylesheet" href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/1.10.5/font/bootstrap-icons.css">
-
-
-
-		<script src="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+		<!-- jQuery -->
 		<script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
 		<script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery-ui.js"></script>
 		<script src="<?php echo INCLUDE_PATH; ?>assets/ajax/1.14.16/jquery.mask.min.js"></script>
-		<script src="<?php echo INCLUDE_PATH; ?>assets/js/main.js" defer></script>
 
-		<script>
-		$(document).ready(function () {
-			//$('.option-default-monthly').trigger('click');
-			$('#field-zipcode').mask('00000-000');
-			$('#field-cpf').mask('000.000.000-00');
-			$('#field-card-number').mask('0000 0000 0000 0000');
-			$('#field-card-expiration').mask('00/00');
-			$('#field-card-cvc').mask('0000');
+		<!-- Libs JS -->
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/apexcharts/dist/apexcharts.min.js?1738096685" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/jsvectormap/dist/jsvectormap.min.js?1738096685" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/jsvectormap/dist/maps/world.js?1738096685" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/jsvectormap/dist/maps/world-merc.js?1738096685" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone-min.js?1738096684" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/fslightbox/index.js?1738096684" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/tinymce/tinymce.min.js?1738096684" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
+		<!--script src="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script -->
 
-			$('#field-other-monthly').mask("R$ 0#");
-			$('#field-other-yearly').mask("R$ 0#");
-			$('#field-other-once').mask("R$ 0#");
+		<!-- Tabler Core -->
+		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
 
-			config = <?php echo json_encode($jsonData, JSON_PRETTY_PRINT); ?>;
-
-			minOnceDonationCreditCard = config.minOnceDonation.creditCard;
-			minOnceDonationBankSlip = config.minOnceDonation.bankSlip;
-			minOnceDonationPix = config.minOnceDonation.pix;
-
-			$("#text-block1-title").html(config.textBlock1.title);
-			$("#text-block1-content").html(config.textBlock1.content);
-			$("#text-block2-title").html(config.textBlock2.title);
-			$("#text-block2-content").html(config.textBlock2.content);
-
-			let htmlFooter = "";
-			for (let i = 0; i < config.footerLinks.length; i++) {
-				htmlFooter += "<a href='" + config.footerLinks[i].link + "' target='" + config.footerLinks[i].target + "' rel='noopener noreferrer'>" + config.footerLinks[i].name + "</a>" + (i + 1 < config.footerLinks.length ? " | " : "");
-			}
-			$("#footer-links").html(htmlFooter);
-
-
-			$("#button-monthly1")
-				.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton1.amount + "," + config.donationMonthlyButton1.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationMonthlyButton1.amount)
-				.text(config.donationMonthlyButton1.display);
-			$("#button-monthly2")
-				.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton2.amount + "," + config.donationMonthlyButton2.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationMonthlyButton2.amount)
-				.text(config.donationMonthlyButton2.display);
-			$("#button-monthly3")
-				.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton3.amount + "," + config.donationMonthlyButton3.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationMonthlyButton3.amount)
-				.text(config.donationMonthlyButton3.display);
-			$("#button-monthly4")
-				.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton4.amount + "," + config.donationMonthlyButton4.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationMonthlyButton4.amount)
-				.text(config.donationMonthlyButton4.display);
-			$("#button-monthly5")
-				.attr("onclick", "donationOption(this,'monthly'," + config.donationMonthlyButton5.amount + "," + config.donationMonthlyButton5.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationMonthlyButton5.amount)
-				.text(config.donationMonthlyButton5.display);
-
-			$("#button-yearly1")
-				.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton1.amount + "," + config.donationYearlyButton1.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationYearlyButton1.amount)
-				.text(config.donationYearlyButton1.display);
-			$("#button-yearly2")
-				.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton2.amount + "," + config.donationYearlyButton2.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationYearlyButton2.amount)
-				.text(config.donationYearlyButton2.display);
-			$("#button-yearly3")
-				.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton3.amount + "," + config.donationYearlyButton3.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationYearlyButton3.amount)
-				.text(config.donationYearlyButton3.display);
-			$("#button-yearly4")
-				.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton4.amount + "," + config.donationYearlyButton4.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationYearlyButton4.amount)
-				.text(config.donationYearlyButton4.display);
-			$("#button-yearly5")
-				.attr("onclick", "donationOption(this,'yearly'," + config.donationYearlyButton5.amount + "," + config.donationYearlyButton5.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationYearlyButton5.amount)
-				.text(config.donationYearlyButton5.display);
-
-			$("#button-once1")
-				.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton1.amount + "," + config.donationOnceButton1.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationOnceButton1.amount)
-				.text(config.donationOnceButton1.display);
-			$("#button-once2")
-				.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton2.amount + "," + config.donationOnceButton2.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationOnceButton2.amount)
-				.text(config.donationOnceButton2.display);
-			$("#button-once3")
-				.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton3.amount + "," + config.donationOnceButton3.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationOnceButton3.amount)
-				.text(config.donationOnceButton3.display);
-			$("#button-once4")
-				.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton4.amount + "," + config.donationOnceButton4.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationOnceButton4.amount)
-				.text(config.donationOnceButton4.display);
-			$("#button-once5")
-				.attr("onclick", "donationOption(this,'once'," + config.donationOnceButton5.amount + "," + config.donationOnceButton5.showAddOnFee + ")")
-				.attr("data-amount-for-selection", config.donationOnceButton5.amount)
-				.text(config.donationOnceButton5.display);
-
-			$('.option-default-monthly').trigger('click');
-		});
-		</script>
-
-		<script>
-			// Aguarde o carregamento do documento e, em seguida, chame a função
-			$(document).ready(function () {
-				donationOption('#button-monthly2', 'monthly', <?php echo $monthly_2; ?>, true);
-			});
-		</script>
-
-		<script>
-			// Função para copiar o código do Boleto para a área de transferência
-			function copyPixCodeToClipboard(element) {
-				var $temp = $("<input>");
-				$("body").append($temp);
-				$temp.val($(element).text()).select();
-				document.execCommand("copy");
-				$temp.remove();
-
-				// Alterar texto do botão para "Copiado!" e depois voltar para o texto original
-				var originalText = $('#pix-copy-codigo-btn').text();
-				$('#pix-copy-codigo-btn').text('Copiado!');
-
-				setTimeout(function() {
-					$('#pix-copy-codigo-btn').text(originalText);
-				}, 2000);  // O texto volta ao normal após 2 segundos
-			}
-		</script>
-
-		<script>
-
-			// Captura do evento de submit do formulário
-			$('#form-checkout').submit(function(event) {
-				event.preventDefault();
-				
-				//Botão carregando
-				$(".progress-subscription").addClass('d-flex').removeClass('d-none');
-				$(".button-confirm-payment").addClass('d-none').removeClass('d-block');
-
-				// // Bloquear o submit do formulário
-				// $(this).find('button[type="submit"]').prop('disabled', true);
-
-				// if(!validateFields()) {
-				//     // Desbloquear o submit do formulário se a validação falhar
-				//     $(this).find('button[type="submit"]').prop('disabled', false);
-				//     return;
-				// }
-
-				var dataForm = this;
-
-				// Chama a função processForm sem passar o token do reCAPTCHA
-				processForm(dataForm);
-			});
-
-			function processForm(dataForm) {
-				var typePayment = $('input[name="payment"]:checked').val();
-				localStorage.setItem("method", typePayment);
-				method = localStorage.getItem("method");
-
-				// Adicionar valor ao input valor
-				document.getElementById('value').value = donationAmount;
-
-				// Criação do objeto de dados para a requisição AJAX
-				var ajaxData = {
-					method: method,
-					params: btoa($(dataForm).serialize())
-				};
-
-				// Requisição AJAX para o arquivo de criação do cliente
-				$.ajax({
-					url: '<?php echo INCLUDE_PATH; ?>back-end/subscription.php',
-					method: 'POST',
-					data: ajaxData,
-					dataType: 'JSON',
-					success: function(response) {
-						window.respostaGlobal = response.id; // Atribui a resposta à propriedade global do objeto window
-						// Outras ações que você queira fazer com a resposta
-					}
-				})
-				.done(function(response) {
-					if (response.status == 200) {
-						//Remove botão carregando
-						$(".progress-subscription").addClass('d-none').removeClass('d-flex');
-						$(".button-confirm-payment").addClass('d-block').removeClass('d-none');
-
-						var encodedCode = btoa(response.code);
-						var customerId = btoa(response.id);
-
-						$.ajax({
-							url: '<?php echo INCLUDE_PATH; ?>back-end/sql.php',
-							method: 'POST',
-							data: {encodedCode: encodedCode},
-							dataType: 'JSON'
-						})
-						.done(function(data) {
-							printPaymentData(data);
-						})
-
-						$.ajax({
-							url: '<?php echo INCLUDE_PATH_ADMIN; ?>back-end/magic-link.php',
-							method: 'POST',
-							data: {customerId: customerId},
-							dataType: 'JSON'
-						})
-						.done(function(data) {
-							console.log(data.msg);
-						})
-					} else if (response.status == 400) {
-						$("#div-errors-price").html(response.message).slideDown('fast').effect("shake");
-						$('html, body').animate({scrollTop : 0});
-
-						//Remove botão carregando
-						$(".progress-subscription").addClass('d-none').removeClass('d-flex');
-						$(".button-confirm-payment").addClass('d-block').removeClass('d-none');
-					}
-				})
-			}
-		</script>
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				// Seleciona o elemento <html> (ou qualquer outro elemento de nível superior)
@@ -698,5 +601,25 @@
 				}
 			})
 		</script>
+
+        <?php if (isset($_SESSION['msg'])): ?>
+        <script>
+            // Espera o carregamento da página
+            document.addEventListener("DOMContentLoaded", function () {
+                var successModal = new bootstrap.Modal(document.getElementById('modal-status-success'));
+                successModal.show(); // Abre o modal automaticamente
+            });
+        </script>
+        <?php endif; unset($_SESSION['msg']); ?>
+
+        <?php if (isset($_SESSION['error_msg'])): ?>
+        <script>
+            // Espera o carregamento da página
+            document.addEventListener("DOMContentLoaded", function () {
+                var errorModal = new bootstrap.Modal(document.getElementById('modal-status-error'));
+                errorModal.show(); // Abre o modal automaticamente
+            });
+        </script>
+        <?php endif; unset($_SESSION['error_msg']); ?>
 	</body>
 </html>

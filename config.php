@@ -89,4 +89,37 @@
 
         return ($resultado['total'] > 0);
     }
+
+    /**
+     * Retorna o nome da permissão que um usuário tem
+     * para uma dada página e ação, ou null se não houver.
+     *
+     * @param int    $usuarioId
+     * @param string $link      — URL ou identificador da página
+     * @param string $acaoTipo  — ex: 'read', 'create', 'update', 'delete'
+     * @param PDO    $conn
+     * @return string|null      — nome da permissão, ou null se não existir
+     */
+    function getNomePermissao(int $usuarioId, PDO $conn): ?string {
+        $stmt = $conn->prepare("SELECT roles FROM tb_clientes WHERE id = ?");
+        $stmt->execute([$usuarioId]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($usuario['roles'] == 1) {
+            return 'Administrador';
+        }
+
+        $stmt = $conn->prepare("
+            SELECT f.nome
+            FROM tb_funcoes f
+            INNER JOIN tb_permissao_usuario pu 
+                ON f.id = pu.permissao_id
+            WHERE pu.usuario_id = :usuario_id
+            ORDER BY f.nome ASC
+        ");
+        $stmt->bindParam(':usuario_id', $usuarioId, PDO::PARAM_INT);
+        $stmt->execute();
+        $permissao = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $permissao['nome'];
+    }
 ?>

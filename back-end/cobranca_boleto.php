@@ -63,7 +63,7 @@ function asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config) {
 		// Executando o update
 		$stmt->execute();
 
-		return $retorno['id'];
+		return $retorno;
 	} else {
 		echo $response;
 		exit();

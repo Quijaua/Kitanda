@@ -60,6 +60,8 @@ function asaas_ObterQRCodePix($subscription_id, $payment_id, $config) {
         // Executando o update
         $stmt->execute();
 
+        return $retorno;
+
     } else {
         echo $response;
         exit();
