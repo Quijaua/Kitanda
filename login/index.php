@@ -129,7 +129,7 @@
                             <?php endif; ?>
                             <div class="form-footer mt-4">
                                 <button type="submit" class="btn btn-primary w-100">Entrar</button>
-                                <a href="<?php echo INCLUDE_PATH; ?>" class="btn btn-link w-100"><?php echo $_SESSION['project_name']; ?></a>
+                                <a href="<?php echo INCLUDE_PATH; ?>" class="btn btn-link w-100">← Ir para loja <?php echo $_SESSION['project_name']; ?></a>
                             </div>
                         </form>
                     </div>
