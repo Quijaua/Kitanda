@@ -571,6 +571,22 @@
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
 
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-a11y.min.css" rel="stylesheet"/>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler-a11y.min.js" defer></script>
+		<script>
+		window.addEventListener('DOMContentLoaded', () => {
+			new TablerA11y({
+				position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
+			});
+		});
+		</script>
+
+<!-- <style>
+.btn.btn-floating.btn-icon.btn-primary.bottom-right {
+	height: 32px;
+}
+</style> -->
+
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				// Seleciona o elemento <html> (ou qualquer outro elemento de nível superior)
