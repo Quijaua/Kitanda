@@ -396,7 +396,7 @@
 					<!-- END NAVBAR LOGO -->
 					<div class="navbar-nav flex-row order-md-last">
 						<div class="nav-item dropdown">
-							<a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
+							<a href="/admin/painel" class="nav-link d-flex lh-1 p-0 px-2">
 								<!-- <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span> -->
 								<!-- Download SVG icon from http://tabler.io/icons/icon/user-circle -->
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-user-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" /></svg>
@@ -404,14 +404,6 @@
 									<div> Minha Conta </div>
 								</div>
 							</a>
-							<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-								<a href="#" class="dropdown-item">Status</a>
-								<a href="./profile.html" class="dropdown-item">Profile</a>
-								<a href="#" class="dropdown-item">Feedback</a>
-								<div class="dropdown-divider"></div>
-								<a href="./settings.html" class="dropdown-item">Settings</a>
-								<a href="./sign-in.html" class="dropdown-item">Logout</a>
-							</div>
 						</div>
 						<div class="d-none d-md-flex">
 							<div class="nav-item dropdown d-none d-md-flex me-3">
@@ -570,6 +562,22 @@
 		<!-- Tabler Core -->
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
+
+		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-a11y.min.css" rel="stylesheet"/>
+		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler-a11y.min.js" defer></script>
+		<script>
+		window.addEventListener('DOMContentLoaded', () => {
+			new TablerA11y({
+				position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
+			});
+		});
+		</script>
+
+<!-- <style>
+.btn.btn-floating.btn-icon.btn-primary.bottom-right {
+	height: 32px;
+}
+</style> -->
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {

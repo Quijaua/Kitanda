@@ -285,7 +285,7 @@
                     </div>
                 </form>
                 <div class="text-center text-secondary mt-3">
-                    Esqueceu? <a href="<?php echo INCLUDE_PATH; ?>login/">Voltar para a tela de login</a>.
+                    <a href="<?php echo INCLUDE_PATH; ?>login/">Voltar para a tela de login</a>.
                 </div>
             </div>
 

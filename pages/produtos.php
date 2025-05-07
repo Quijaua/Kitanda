@@ -189,8 +189,8 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
 
                 <!-- Paginação -->
                 <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <form method="GET" class="d-flex">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <!-- <form method="GET" class="d-flex">
                             <input type="number" name="pagina" class="form-control me-2" value="<?= $pagina_atual ?>" min="1" max="<?= $total_paginas ?>" placeholder="Página">
                             <select name="limite" class="form-select me-2" onchange="this.form.submit()">
                                 <option value="10" <?= $limite == 10 ? 'selected' : '' ?>>10</option>
@@ -199,7 +199,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
                                 <option value="100" <?= $limite == 100 ? 'selected' : '' ?>>100</option>
                             </select>
                             <button type="submit" class="btn btn-primary">Ir</button>
-                        </form>
+                        </form> -->
                         <!-- Paginação no final -->
                         <?= criarPaginacao($pagina_atual, $total_paginas, $limite); ?>
                 </div>

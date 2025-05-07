@@ -134,7 +134,7 @@
                         } else {
                             $_SESSION['user_id'] = $resultado['id']; // Você pode definir informações do usuário aqui
                             //header("Location: " . INCLUDE_PATH_ADMIN);
-                            header('Location: ' . INCLUDE_PATH_ADMIN . 'sobre');
+                            header('Location: ' . INCLUDE_PATH_ADMIN . 'painel');
                             exit();
                         }
                     } else {
