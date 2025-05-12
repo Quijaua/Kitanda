@@ -24,7 +24,7 @@
         }
 
 		// Consulta SQL
-		$sql = "SELECT id, asaas_id FROM $tabela WHERE email = :email";
+		$sql = "SELECT id, email, asaas_id FROM $tabela WHERE email = :email";
 
 		// Preparar a consulta
 		$stmt = $conn->prepare($sql);
@@ -42,6 +42,9 @@
 		if ($stmt->rowCount() > 0 && $resultado) {
 			// Cliente encontrado
 			if (!empty($resultado['asaas_id'])) {
+				$_SESSION['user_id'] = $resultado['id'];
+				$_SESSION['email'] = $resultado['email'];
+
 				// Já tem asaas_id, retorna direto
 				return $resultado['asaas_id'];
 			} else {
@@ -79,6 +82,9 @@
 					$update->bindParam(':asaas_id', $retorno['id'], PDO::PARAM_STR);
 					$update->bindParam(':id', $resultado['id'], PDO::PARAM_INT);
 					$update->execute();
+
+					$_SESSION['user_id'] = $resultado['id'];
+					$_SESSION['email'] = $resultado['email'];
 
 					return $retorno['id'];
 				} else {
@@ -142,6 +148,7 @@
 
 				// Atribuir o valor da coluna à variável, ex.: "nome" = $nome
 				$_SESSION['user_id'] = $usuario_id;
+				$_SESSION['email'] = $retorno['email'];
 
 				return $retorno['id'];
 			} else {

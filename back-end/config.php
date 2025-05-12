@@ -38,4 +38,16 @@
         // Tratamento de erros
         //echo 'Erro de conexão com o banco de dados: ' . $e->getMessage();
     }
+
+    // Consulta para obter o nome da aplicação
+    $stmt = $conn->query("SELECT nome, email, logo FROM tb_checkout LIMIT 1");
+    $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Projeto
+	$project = [
+        'name' =>  $projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
+        'email' =>  $projeto['email'],
+        'logo' => !empty($projeto['logo']) ? INCLUDE_PATH . "assets/img/{$projeto['logo']}" : "",
+        'version' => $_ENV['PROJECT_VERSION'],
+    ];
 ?>

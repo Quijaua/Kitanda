@@ -25,15 +25,24 @@
         //echo 'Erro de conexão com o banco de dados: ' . $e->getMessage();
     }
     
-    // Projeto
-	$project = [
-        'name' => $_ENV['PROJECT_NAME'],
-        'version' => $_ENV['PROJECT_VERSION']
-    ];
-    
     define('INCLUDE_PATH', $_ENV['URL']);
     define('INCLUDE_PATH_ADMIN',INCLUDE_PATH.'admin/');
     define('INCLUDE_PATH_USER',INCLUDE_PATH.'user/');
+
+    // Consulta para obter o nome da aplicação
+    $stmt = $conn->query("SELECT nome, email, logo FROM tb_checkout LIMIT 1");
+    $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Projeto
+	$project = [
+        'name' =>  $projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
+        'email' =>  $projeto['email'],
+        'logo' => !empty($projeto['logo']) ? INCLUDE_PATH . "assets/img/{$projeto['logo']}" : "",
+        'version' => $_ENV['PROJECT_VERSION'],
+    ];
+
+    // Incluir codigo de funcionalidades
+    include('back-end/mensagerias/mail.php');
 
     /**
      * Verifica se o usuário tem permissão para realizar uma ação em uma página.

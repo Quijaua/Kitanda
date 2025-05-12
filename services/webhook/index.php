@@ -72,8 +72,61 @@ function getCustomerDataFromAsaas($customer_id, $config) {
  * Função para processar os dados do pagamento e inseri-los no banco de dados
  */
 function processPaymentData($data, $conn) {
+    include('../../back-end/config.php');
+
     $event = $data["event"] ?? NULL;
     $payment_id = $data["payment"]["id"] ?? NULL;
+
+    if ($event == "PAYMENT_RECEIVED") {
+        $stmt = $conn->prepare("SELECT * FROM tb_pedidos WHERE transacao_id = ?");
+        $stmt->execute([$payment_id]);
+        $pedido = $stmt->fetch(PDO::FETCH_ASSOC);
+        $pedido['data_pagamento'] = $data["payment"]["paymentDate"];
+
+        $stmt = $conn->prepare("SELECT * FROM tb_clientes WHERE id = ?");
+        $stmt->execute([$pedido['usuario_id']]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $usuario['endereco'] = $usuario['endereco'] . ', ' . $usuario['numero'];
+        if (!empty($usuario['complemento'])) {
+            $usuario['endereco'] .= ' - ' . $usuario['complemento'];
+        }
+        $usuario['endereco'] .= ', ' . $usuario['municipio'] . ' - ' . $usuario['cidade'] . '/' . $usuario['uf'] . ' - ' . $usuario['cep'];
+
+        $stmt = $conn->prepare("SELECT p.*, pi.imagem AS produto_imagem FROM tb_pedido_itens p LEFT JOIN tb_produto_imagens pi ON p.produto_id = pi.produto_id WHERE p.pedido_id = ?");
+        $stmt->execute([$pedido['id']]);
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($produtos as &$produto) {
+            $produto['imagem'] = !empty($produto['produto_imagem'])
+                                 ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['produto_id'] . "/" . $produto['produto_imagem'])
+                                 : INCLUDE_PATH . "assets/preview-image/product.jpg";
+        }
+        unset($produto);
+
+        // Link do pedido
+        $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido['pedido_id'];
+
+        // Enviar e-mail para finalizar o pagamento
+        $subject = "Recebemos o pagamento do seu pedido #{$pedido['pedido_id']}";
+        $content = array("layout" => "pagamento-recebido", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
+        sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
+
+        $pedido['codigo_rastreio'] = 'RD123456789PT';
+        $pedido['transportadora'] = 'Correios';
+        $pedido['data_envio'] = $content['content']['pedido']['data_pagamento'];
+        $pedido['prazo_entrega'] = date('d/m/Y', strtotime($content['content']['pedido']['data_pagamento'] . ' +8 days'));
+
+        // Enviar e-mail para finalizar o pagamento
+        $subject = "Seu pedido #{$pedido['pedido_id']} está a caminho";
+        $content = array("layout" => "produto-enviado", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
+        sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
+
+        // Enviar e-mail para finalizar o pagamento
+        $subject = "Seu pedido #{$pedido['pedido_id']} foi entregue";
+        $content = array("layout" => "pedido-entregue", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
+        sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
+    }
+
     $payment_date_created = $data["payment"]["dateCreated"] ?? NULL;
     $customer_id = $data["payment"]["customer"] ?? NULL;
     $subscription_id = $data["payment"]["subscription"] ?? NULL;

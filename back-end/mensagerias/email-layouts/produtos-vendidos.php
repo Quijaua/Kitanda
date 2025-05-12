@@ -1,0 +1,1 @@
+<?php $message = $content['content']['table']; ?>

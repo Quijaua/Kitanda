@@ -175,13 +175,16 @@ function makeDonation($dataForm, $config){
             $quantity = (int)$item['quantity'];
 
             // Busca os dados reais do produto no banco
-            $stmt = $conn->prepare("SELECT id, nome, preco FROM tb_produtos WHERE id = ?");
+            $stmt = $conn->prepare("SELECT p.id, p.nome, p.preco, pi.imagem AS produto_imagem FROM tb_produtos p LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id WHERE p.id = ?");
             $stmt->execute([$id]);
             $produto = $stmt->fetch(PDO::FETCH_ASSOC);
             
             // Se o produto for encontrado, monta os dados do item
             if ($produto) {
                 // Adiciona a quantidade e calcula o subtotal para esse item
+                $produto['imagem'] = !empty($produto['produto_imagem'])
+                                   ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['produto_imagem'])
+                                   : INCLUDE_PATH . "assets/preview-image/product.jpg";
                 $produto['quantidade'] = $quantity;
                 $produto['preco_total'] = $produto['preco'] * $quantity;
                 $subtotal += $produto['preco_total'];
@@ -189,6 +192,102 @@ function makeDonation($dataForm, $config){
                 // Adiciona o produto ao array de produtos
                 $produtos[] = $produto;
             }
+        }
+
+        // Primeiro agrupamos os produtos por vendedora
+        $vendedoras = [];
+
+        foreach ($cartItemsPost as $item) {
+            if (!isset($item['id']) || !isset($item['quantity']) || $item['quantity'] <= 0) {
+                continue;
+            }
+            
+            $id = $item['id'];
+            $quantity = (int)$item['quantity'];
+
+            // Busca dados do produto incluindo a vendedora
+            $stmt = $conn->prepare("SELECT 
+                p.id, 
+                p.nome, 
+                p.preco, 
+                c.nome AS vendedora_nome,
+                c.email AS vendedora_email,
+                pi.imagem AS produto_imagem 
+                FROM tb_produtos p 
+                LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id 
+                LEFT JOIN tb_clientes c ON p.criado_por = c.id 
+                WHERE p.id = ?");
+            
+            $stmt->execute([$id]);
+            $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($produto && !empty($produto['vendedora_email'])) {
+                // Prepara os dados do item
+                $produto['imagem'] = !empty($produto['produto_imagem'])
+                    ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['produto_imagem'])
+                    : INCLUDE_PATH . "assets/preview-image/product.jpg";
+                
+                $produto['quantidade'] = $quantity;
+                $produto['preco_total'] = $produto['preco'] * $quantity;
+
+                // Agrupa por email da vendedora
+                $nomeVendedora = $produto['vendedora_nome'];
+                $emailVendedora = $produto['vendedora_email'];
+                
+                if (!isset($vendedoras[$emailVendedora])) {
+                    $vendedoras[$emailVendedora] = [
+                        'nome' => $nomeVendedora,
+                        'email' => $emailVendedora,
+                        'produtos' => [],
+                        'total' => 0
+                    ];
+                }
+                
+                $vendedoras[$emailVendedora]['produtos'][] = $produto;
+                $vendedoras[$emailVendedora]['total'] += $produto['preco_total'];
+            }
+        }
+
+        // Agora envia um e-mail único para cada vendedora
+        foreach ($vendedoras as $vendedora) {
+            // Monta o corpo do e-mail
+            $table = "
+                <h2>Novos Pedidos dos Seus Produtos</h2>
+                <p>Você tem novos pedidos em sua loja na {$project['name']}. Segue detalhes:</p>
+                
+                <table border='1' cellpadding='10' style='border-collapse: collapse; width: 100%;'>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+
+            foreach ($vendedora['produtos'] as $produto) {
+                $table .= "
+                        <tr>
+                            <td>{$produto['nome']}</td>
+                            <td>{$produto['quantidade']}</td>
+                            <td>R$ " . number_format($produto['preco'], 2, ',', '.') . "</td>
+                            <td>R$ " . number_format($produto['preco_total'], 2, ',', '.') . "</td>
+                        </tr>";
+            }
+
+            $table .= "
+                        <tr>
+                            <td colspan='3' style='text-align: right;'><strong>Total Geral:</strong></td>
+                            <td><strong>R$ " . number_format($vendedora['total'], 2, ',', '.') . "</strong></td>
+                        </tr>
+                    </tbody>
+                </table>";
+
+            // Configuração do e-mail
+            $subject = "Novos Pedidos - " . date('d/m/Y') . " - " . $project['name'];
+            $content = array("layout" => "produtos-vendidos", "content" => array("name" => $vendedora['nome'], "table" => $table));
+            sendMail($vendedora['nome'], $vendedora['email'], $project, $subject, $content);
         }
 
         // Define um valor fixo para o frete (por exemplo, 10 reais)
@@ -249,7 +348,28 @@ function makeDonation($dataForm, $config){
                 $payment = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
+
+                $resultado['compra']['data'] = date('d/m/Y');
+                $resultado['compra']['id'] = $pedido_id;
+                $resultado['compra']['pagamento'] = 'Crédito';
+
+                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                if (!empty($dataForm['complement'])) {
+                    $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
+                }
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+
+
+
+                // Enviar e-mail de verificação
+                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
+                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+
                 break;
             case '101':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
@@ -257,7 +377,28 @@ function makeDonation($dataForm, $config){
                 $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
+
+                $resultado['compra']['data'] = date('d/m/Y');
+                $resultado['compra']['id'] = $pedido_id;
+                $resultado['compra']['pagamento'] = 'Boleto';
+
+                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                if (!empty($dataForm['complement'])) {
+                    $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
+                }
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+
+
+
+                // Enviar e-mail de verificação
+                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
+                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+
                 break;
             case '102':
                 $customer_id = asaas_CriarCliente($dataForm, $config);
@@ -265,7 +406,33 @@ function makeDonation($dataForm, $config){
                 $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+
                 echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
+
+                $resultado['compra']['data'] = date('d/m/Y');
+                $resultado['compra']['id'] = $pedido_id;
+                $resultado['compra']['pagamento'] = 'PIX';
+        
+                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                if (!empty($dataForm['complement'])) {
+                    $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
+                }
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+        
+        
+
+
+                // Enviar e-mail de verificação
+                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
+                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+                // Enviar e-mail para finalizar o pagamento
+                $subject = "Seu código Pix está disponível para pagamento";
+                $content = array("layout" => "finalizar-pagamento", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
+                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
                 break;
             default:
                 echo json_encode(['status' => 404, 'message' => 'Método de pagamento inválido!']);
