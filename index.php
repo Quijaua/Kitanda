@@ -195,18 +195,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<!-- 
 			<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/open-sans" rel="stylesheet" type="text/css">
-			<link href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"
-				type="text/css">
+			<link href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
 
 
 			<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/newsreader" rel="stylesheet">
 
 		<link rel="icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" sizes="32x32" />
 		<link rel="apple-touch-icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" />
-		<meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" /> -->
+		<meta name="msapplication-TileImage" content="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" />
 
 		<!-- CSS files -->
 		<!--link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/ -->
+
 		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096684" rel="stylesheet"/>
 		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-flags.min.css?1738096685" rel="stylesheet"/>
 		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-socials.min.css?1738096685" rel="stylesheet"/>
@@ -387,7 +387,7 @@
 					<div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
 						<a href=".">
 							<?php if (!empty($logo)): ?>
-							<img class="navbar-brand-image" src="assets/img/<?php echo $logo; ?>" alt="Logo da Loja">
+							<img class="navbar-brand-image-disable" src="/assets/img/<?php echo $logo; ?>" alt="Logo da Loja">
 							<?php else: ?>
 							<h1 class="mb-0">Kitanda</h1>
 							<?php endif; ?>
