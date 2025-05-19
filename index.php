@@ -446,7 +446,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?= INCLUDE_PATH; ?>">
+									<a class="nav-link" href="<?= INCLUDE_PATH; ?>blog">
 										<span class="nav-link-title"> BLOG </span>
 									</a>
 								</li>

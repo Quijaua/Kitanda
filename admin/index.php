@@ -230,6 +230,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/libs/tagify/dist/tagify.css" rel="stylesheet" />
         <link href="<?php echo INCLUDE_PATH_ADMIN; ?>styles/css/custom.css" rel="stylesheet">
         <script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
     </head>
