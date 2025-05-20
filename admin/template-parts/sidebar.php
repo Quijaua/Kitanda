@@ -7,6 +7,15 @@
             echo "active";
         }
     }
+
+    //Funcao '.show' Sidebar
+    function showSidebarLink($par) {
+        $url = explode('/',@$_GET['url'])[0];
+        if ($url == $par)
+        {
+            echo "show";
+        }
+    }
 ?>
 <!-- Sidebar -->
 <aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
@@ -150,6 +159,38 @@
                         </span>
                     </a>
                 </li>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'posts', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'posts', 'only_own', $conn)): ?>
+                <li class="nav-item 
+                    <?= activeSidebarLink('posts'); ?>
+                    <?= activeSidebarLink('criar-post'); ?>
+                    <?= activeSidebarLink('editar-post'); ?>
+                    <?= activeSidebarLink('categorias'); ?>
+                    <?= activeSidebarLink('criar-categoria'); ?>
+                    <?= activeSidebarLink('editar-categoria'); ?>
+                ">
+                    <a class="nav-link dropdown-toggle" href="#navbar-addons" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/news -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-news"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" /><path d="M8 8l4 0" /><path d="M8 12l4 0" /><path d="M8 16l4 0" /></svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Posts
+                        </span>
+                    </a>
+                    <div class="dropdown-menu 
+                        <?= showSidebarLink('posts'); ?>
+                        <?= showSidebarLink('criar-post'); ?>
+                        <?= showSidebarLink('editar-post'); ?>
+                        <?= showSidebarLink('categorias'); ?>
+                        <?= showSidebarLink('criar-categoria'); ?>
+                        <?= showSidebarLink('editar-categoria'); ?>
+                    " data-bs-popper="static">
+                    <a class="dropdown-item <?= activeSidebarLink('categorias'); ?> <?= activeSidebarLink('criar-categoria'); ?> <?= activeSidebarLink('editar-categoria'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias"> Categorias </a>
+                        <a class="dropdown-item <?= activeSidebarLink('posts'); ?> <?= activeSidebarLink('criar-post'); ?> <?= activeSidebarLink('editar-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>posts"> Posts </a>
+                    </div>
+                </li>
+                <?php endif; ?>
 
                 <li class="nav-item <?= activeSidebarLink('editar-perfil'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>editar-perfil" >
