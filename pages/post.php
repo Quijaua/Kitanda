@@ -64,11 +64,11 @@
     <div class="container-xl">
         <div class="row g-4">
             <div class="col-12">
-                <h3 style="font-size: 2rem; line-height: normal;"><?= $post['titulo']; ?></h3>
+                <h3 style="font-size: 2.5rem; line-height: normal;"><?= $post['titulo']; ?></h3>
                 <?php if ($categorias): ?>
                     <div class="mb-3">
                     <?php foreach ($categorias as $categoria): ?>
-                        <span class="badge badge-outline text-dark bg-light badge-lg"><?= $categoria['nome']; ?></span>
+                        <a href="<?= INCLUDE_PATH . "categoria?id={$categoria['id']}"; ?>" class="btn btn-outline-dark btn-pill me-2"><?= $categoria['nome']; ?></a>
                     <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
