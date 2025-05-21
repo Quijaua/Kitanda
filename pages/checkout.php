@@ -1552,10 +1552,10 @@ $(document).ready(function() {
                 birth_date: $('#field-birth-date').val(),
                 phone: $('#field-phone').val(),
                 postalCode: $('#field-zipcode').val(),
-                address: $('#field-street').val(),
+                street: $('#field-street').val(),
                 addressNumber: $('#field-street-number').val(),
                 complement: $('#field-complement').val(),
-                province: $('#field-district').val(),
+                district: $('#field-district').val(),
                 city: $('#field-city').val(),
                 state: $('#field-state').val(),
 
