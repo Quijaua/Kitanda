@@ -127,6 +127,7 @@
 
                     // Destrói sessões anteriores para que você não tenha nenhuma mensagem antiga
                     session_destroy();
+                    session_start();
 
                     if ($email === $resultado['email'] && password_verify($password, $resultado['password'])) {
                         if ($roles == 0) {
