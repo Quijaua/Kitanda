@@ -16,8 +16,16 @@ if ($read) {
     $isAdmin = (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') ? 1 : 0;
     $userId  = $_SESSION['user_id'];
 
+    // Total de clientes cadastrados na plataforma
+    $sqlClientes = "SELECT COUNT(DISTINCT email) AS total_customers FROM tb_clientes";
+    $stmtClientes = $conn->prepare($sqlClientes);
+    $stmtClientes->execute();
+    $clientesResult = $stmtClientes->fetch(PDO::FETCH_ASSOC);
+    $totalCustomers = (int)$clientesResult['total_customers'];
+
     $sql = "
       SELECT
+        COUNT(DISTINCT p.usuario_id) AS customers,
         COUNT(DISTINCT p.id) AS total_orders,
         COUNT(pi.id)             AS total_items,
         COUNT(DISTINCT CASE WHEN p.status = 'CONFIRMED' THEN p.id END) AS confirmed_orders,
@@ -39,11 +47,55 @@ if ($read) {
 
     // Prepara o array $vendas para uso no template
     $vendas = [
-      'vendas'      => (int)$result['total_orders'],
-      'pedidos'     => (int)$result['total_items'],
-      'confirmados' => (int)$result['confirmed_orders'],
-      'pendentes'   => (int)$result['pending_orders'],
+      'total_clientes' => $totalCustomers,
+      'clientes'       => (int)$result['customers'],
+      'vendas'         => (int)$result['total_orders'],
+      'pedidos'        => (int)$result['total_items'],
+      'confirmados'    => (int)$result['confirmed_orders'],
+      'pendentes'      => (int)$result['pending_orders'],
     ];
+
+    $sql = "
+      SELECT
+        DATE(p.created_at) AS dia,
+        COUNT(DISTINCT p.id) AS total_vendas
+      FROM tb_pedidos p
+      LEFT JOIN tb_pedido_itens pi ON p.id = pi.pedido_id
+      LEFT JOIN tb_produtos prod ON prod.id = pi.produto_id
+      WHERE 
+        p.created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+        AND (
+          :isAdmin = 1
+          OR prod.criado_por = :userId
+        )
+      GROUP BY dia
+      ORDER BY dia ASC
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':isAdmin', $isAdmin, PDO::PARAM_INT);
+    $stmt->bindValue(':userId',  $userId,  PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Cria array com os últimos 7 dias
+    $labels = [];
+    $data = [];
+    for ($i = 6; $i >= 0; $i--) {
+      $day = date('Y-m-d', strtotime("-{$i} days"));
+      $labels[] = $day;
+      $data[$day] = 0;
+    }
+
+    // Preenche com os dados vindos do banco
+    foreach ($result as $row) {
+      $data[$row['dia']] = (int)$row['total_vendas'];
+    }
+
+    // Prepara arrays finais
+    $labelsJs = json_encode(array_keys($data));
+    $dataJs = json_encode(array_values($data));
   }
 ?>
 
@@ -167,6 +219,43 @@ if ($read) {
                       </div>
                     </div>
                   </div>
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="card card-sm">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <span class="bg-cyan text-white avatar"
+                              ><!-- Download SVG icon from http://tabler.io/icons/icon/users-group -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-users-group"
+                              >
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                                <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                                <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                              </svg>
+                            </span>
+                          </div>
+                          <div class="col">
+                            <div class="font-weight-medium"><?= $vendas['clientes'] . ' Cliente' . ($vendas['clientes'] > 1 ? 's' : ''); ?></div>
+                            <div class="text-secondary"><?= $vendas['total_clientes'] . ' Cliente' . ($vendas['total_clientes'] > 1 ? 's' : '') . ' Total'; ?></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
 
                 </div>
@@ -208,7 +297,7 @@ if ($read) {
             series: [
               {
                 name: "Vendas",
-                data: [155, 65, 465, 265, 225, 325, 80],
+                data: <?= $dataJs ?>,
               },
             ],
             tooltip: {
@@ -240,7 +329,7 @@ if ($read) {
                 padding: 4,
               },
             },
-            labels: ["2020-06-21", "2020-06-22", "2020-06-23", "2020-06-24", "2020-06-25", "2020-06-26", "2020-06-27"],
+            labels: <?= $labelsJs ?>,
             //colors: ["color-mix(in srgb, transparent, var(--tblr-primary) 100%)"],
             legend: {
               show: false,
