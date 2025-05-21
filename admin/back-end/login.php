@@ -124,7 +124,10 @@
                     $email = $_POST['email'];
                     $password = $_POST['password'];
                     $roles = $resultado['roles'];
-            
+
+                    // Destrói sessões anteriores para que você não tenha nenhuma mensagem antiga
+                    session_destroy();
+
                     if ($email === $resultado['email'] && password_verify($password, $resultado['password'])) {
                         if ($roles == 0) {
                             $_SESSION['user_id'] = $resultado['id']; // Você pode definir informações do usuário aqui
