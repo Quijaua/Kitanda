@@ -355,11 +355,11 @@ function makeDonation($dataForm, $config){
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'Crédito';
 
-                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                $resultado['compra']['endereco'] = $dataForm['street'] . ', ' . $dataForm['addressNumber'];
                 if (!empty($dataForm['complement'])) {
                     $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
                 }
-                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
 
 
@@ -384,11 +384,11 @@ function makeDonation($dataForm, $config){
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'Boleto';
 
-                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                $resultado['compra']['endereco'] = $dataForm['street'] . ', ' . $dataForm['addressNumber'];
                 if (!empty($dataForm['complement'])) {
                     $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
                 }
-                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
 
 
@@ -413,11 +413,11 @@ function makeDonation($dataForm, $config){
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'PIX';
         
-                $resultado['compra']['endereco'] = $dataForm['address'] . ', ' . $dataForm['addressNumber'];
+                $resultado['compra']['endereco'] = $dataForm['street'] . ', ' . $dataForm['addressNumber'];
                 if (!empty($dataForm['complement'])) {
                     $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
                 }
-                $resultado['compra']['endereco'] .= ', ' . $dataForm['province'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
+                $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
         
         
 
