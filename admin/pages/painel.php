@@ -27,7 +27,8 @@ if ($read) {
       SELECT
         COUNT(DISTINCT p.usuario_id) AS customers,
         COUNT(DISTINCT p.id) AS total_orders,
-        COUNT(pi.id)             AS total_items,
+        COUNT(pi.id)                AS total_items_rows,
+        SUM(pi.quantidade)          AS total_items_qty,
         COUNT(DISTINCT CASE WHEN p.status = 'CONFIRMED' THEN p.id END) AS confirmed_orders,
         COUNT(DISTINCT CASE WHEN p.status = 'PENDING'   THEN p.id END) AS pending_orders
       FROM tb_pedidos p
@@ -45,14 +46,16 @@ if ($read) {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    $total_items = $result['total_items_rows'] * $result['total_items_qty'];
+
     // Prepara o array $vendas para uso no template
     $vendas = [
-      'total_clientes' => $totalCustomers,
-      'clientes'       => (int)$result['customers'],
-      'vendas'         => (int)$result['total_orders'],
-      'pedidos'        => (int)$result['total_items'],
-      'confirmados'    => (int)$result['confirmed_orders'],
-      'pendentes'      => (int)$result['pending_orders'],
+      'total_clientes'   => $totalCustomers,
+      'clientes'         => (int)$result['customers'],
+      'vendas'           => (int)$result['total_orders'],
+      'pedidos'          => (int)$total_items,
+      'confirmados'      => (int)$result['confirmed_orders'],
+      'pendentes'        => (int)$result['pending_orders'],
     ];
 
     $sql = "
