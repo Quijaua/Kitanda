@@ -766,7 +766,7 @@
                         <tbody id="checkout-items">
                         {% if checkoutItems is not empty %}
                             {% for item in checkoutItems %}
-                            <tr data-product-id="{{ item.product_id }}" id="checkout-item-{{ item.id }}">
+                            <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.id }}">
                                 <td>{{ item.produto_nome|e }}</td>
                                 <td class="w-1 text-center">{{ item.quantidade }}</td>
                                 <td class="text-center">

@@ -244,6 +244,7 @@ if (!$isPedido) {
 // 4) Retorna todo o contexto para o Twig
 return [
     'isPedido'      => $isPedido,
+    'pedido'        => $pedido,
     'user'          => $userData,
     'checkoutItems' => $checkoutItems,
     'subtotal'      => $subtotal,

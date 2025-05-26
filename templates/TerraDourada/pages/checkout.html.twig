@@ -741,7 +741,7 @@
 
                                                 <button type="button"
                                                         id="copy-btn"
-                                                        class="btn btn-6 btn-yellow btn-pill w-100 mb-0">
+                                                        class="btn btn-6 btn-dark btn-pill w-100 mb-0">
                                                     <!-- Download SVG icon from http://tabler.io/icons/icon/check -->
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -786,7 +786,7 @@
                         <tbody id="checkout-items">
                         {% if checkoutItems is not empty %}
                             {% for item in checkoutItems %}
-                            <tr data-product-id="{{ item.product_id }}" id="checkout-item-{{ item.id }}">
+                            <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.id }}">
                                 <td>{{ item.produto_nome|e }}</td>
                                 <td class="w-1 text-center">{{ item.quantidade }}</td>
                                 <td class="text-center">
