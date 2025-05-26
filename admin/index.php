@@ -16,7 +16,6 @@
 $tabela = "tb_checkout";
 $tabela_2 = "tb_integracoes";
 $tabela_3 = "tb_mensagens";
-$tabela_4 = "tb_doacoes";
 $tabela_5 = "tb_clientes";
 $tabela_6 = "tb_transacoes";
 $tabela_7 = "tb_webhook";
@@ -30,7 +29,6 @@ $user_id = $_SESSION['user_id'];
 $sql = "SELECT nome, logo, title, descricao, doacoes, pix_tipo, pix_chave, pix_valor, pix_codigo, pix_imagem_base64, pix_identificador_transacao, pix_exibir, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, monthly_1, monthly_2, monthly_3, monthly_4, monthly_5, yearly_1, yearly_2, yearly_3, yearly_4, yearly_5, once_1, once_2, once_3, once_4, once_5 FROM $tabela WHERE id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
-$sql_4 = "SELECT * FROM $tabela_4";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
 date_default_timezone_set('America/Sao_Paulo');
 $now = date("Y-m-d");
@@ -51,7 +49,6 @@ $sql_8 = "SELECT p.*, c.nome as nome_cliente, c.email as email_cliente
 $stmt = $conn->prepare($sql);
 $stmt_2 = $conn->prepare($sql_2);
 $stmt_3 = $conn->prepare($sql_3);
-$stmt_4 = $conn->prepare($sql_4);
 $stmt_5 = $conn->prepare($sql_5);
 $stmt_6 = $conn->prepare($sql_6);
 $stmt_7 = $conn->prepare($sql_7);
@@ -67,7 +64,6 @@ $stmt_5->bindParam(':id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $stmt_2->execute();
 $stmt_3->execute();
-$stmt_4->execute();
 $stmt_5->execute();
 $stmt_6->execute();
 $stmt_7->execute();
@@ -77,7 +73,6 @@ $stmt_8->execute();
 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 $resultado_2 = $stmt_2->fetch(PDO::FETCH_ASSOC);
 $resultado_3 = $stmt_3->fetch(PDO::FETCH_ASSOC);
-$resultado_4 = $stmt_4->fetchAll(PDO::FETCH_ASSOC);
 $resultado_5 = $stmt_5->fetchAll(PDO::FETCH_ASSOC);
 $resultado_6 = $stmt_6->fetchAll(PDO::FETCH_ASSOC);
 $resultado_7 = $stmt_7->fetch(PDO::FETCH_ASSOC);
@@ -190,7 +185,6 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
                          ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$usuario['id']}/perfil/{$usuario['imagem']}")
                          : INCLUDE_PATH . "assets/preview-image/profile.jpg";
 
-    $doacoes = $resultado_4;
     $clientes = $resultado_5;
     $transacoes = $resultado_6;
     $webhook = $resultado_7;
