@@ -7,6 +7,7 @@ $pedido_id = $_GET['pedido'] ?? null;
 // Variáveis que serão retornadas no contexto Twig
 $userData       = [];
 $checkoutItems  = [];
+$pedido         = [];
 $subtotal       = 0.00;
 $frete          = 0.00;
 $desconto       = 0.00;

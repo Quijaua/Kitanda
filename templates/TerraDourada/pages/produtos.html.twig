@@ -236,56 +236,6 @@
         </div>
     </div>
 
-    <!-- Page header -->
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <h2 class="page-title text-terra">Produtos (TerraDourada)</h2>
-                    <div class="text-secondary mt-1">
-                        {% if total_produtos > 0 %}
-                            {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
-                               min((pagina_atual * limite), total_produtos) ~
-                               ' de ' ~ total_produtos ~ ' produtos' }}
-                        {% else %}
-                            Nenhum produto encontrado
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-auto ms-auto d-print-none">
-                    <form method="GET" class="d-flex">
-                        <div class="me-3">
-                            <div class="input-icon">
-                                <input type="text"
-                                       name="busca"
-                                       value="{{ busca|e }}"
-                                       class="form-control form-control-terra"
-                                       placeholder="Pesquisar…">
-                                <span class="input-icon-addon">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="24" height="24"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="#a67c00"
-                                         stroke-width="2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         class="icon icon-1">
-                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                        <path d="M21 21l-6 -6"></path>
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-terra">
-                            Buscar
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
 {% endblock %}
 
 {# ----------- Script para adicionar ao carrinho via AJAX ----------- #}

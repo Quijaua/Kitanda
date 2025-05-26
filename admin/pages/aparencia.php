@@ -231,6 +231,60 @@
 
                 </div>
             </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <form action="<?= INCLUDE_PATH_ADMIN ?>back-end/update.php" method="post">
+                        <div class="card-header">
+                            <h4 class="card-title">Tema</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="Ankara" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'Ankara') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/Ankara/thumbs/ankara.png" 
+                                                alt="Tema Ankara" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Ankara</div>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="TerraDourada" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'TerraDourada') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/TerraDourada/thumbs/terradourada.png" 
+                                                alt="Tema TerraDourada" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Terra Dourada</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                <button type="submit" name="btnUpdTheme" class="btn btn-primary ms-auto">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -283,6 +283,38 @@ if (isset($_POST['btnUpdColor'])) {
     }
 }
 
+if (isset($_POST['btnUpdTheme']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    //Inclui o arquivo 'config.php'
+    include('../../config.php');
+
+    // Por padrão, gravamos na linha de id = 1 (configurações gerais)
+    $tabela = 'tb_checkout';
+    $id     = 1;
+
+    // Coleta o tema selecionado
+    $theme = $_POST['theme'] ?? null;
+
+    // Atualiza a coluna theme (pode ser NULL para padrão)
+    $sql = "UPDATE {$tabela} 
+            SET theme = :theme 
+            WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':theme', $theme);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    try {
+        $stmt->execute();
+
+        // Define variável para exibir modal ou mensagem de sucesso
+        $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+        $_SESSION['msg'] = 'Tema atualizado com sucesso!';
+        header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
+        exit;
+    } catch (PDOException $e) {
+        echo "Erro ao atualizar tema: " . $e->getMessage();
+    }
+}
+
 if (isset($_POST['btnUpdNavColor'])) {
     //Inclui o arquivo 'config.php'
     include('../../config.php');
