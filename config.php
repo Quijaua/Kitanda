@@ -29,6 +29,9 @@
     define('INCLUDE_PATH_ADMIN',INCLUDE_PATH.'admin/');
     define('INCLUDE_PATH_USER',INCLUDE_PATH.'user/');
 
+    // Define Tema
+    define('ACTIVE_THEME', $_ENV['ACTIVE_THEME'] ?? 'Ankara'); // ou 'TerraDourada'/
+
     // Consulta para obter o nome da aplicação
     $stmt = $conn->query("SELECT nome, email, logo FROM tb_checkout LIMIT 1");
     $projeto = $stmt->fetch(PDO::FETCH_ASSOC);

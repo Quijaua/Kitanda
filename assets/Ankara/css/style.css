@@ -1,0 +1,31 @@
+:root {
+    --background: #FFFFFF;
+    --tblr-red: #CC2229;
+    --tblr-red-rgb: 204, 34, 41;
+    --tblr-yellow: #FFD216;
+    --tblr-yellow-rgb: 255, 210, 22;
+    --tblr-breadcrumb-divider: "|";
+    --tblr-breadcrumb-divider-color: #FFFFFF;
+}
+
+.breadcrumb a {
+    color: var(--tblr-yellow);
+    font-weight: var(--tblr-breadcrumb-item-active-font-weight);
+}
+
+.breadcrumb-item.active {
+    font-weight: normal !important;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #FFFFFF !important;
+}
+.product-breadcrumb .breadcrumb-item+.breadcrumb-item::before,
+.cart-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
+    color: #000000 !important;
+}
+.ankara-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

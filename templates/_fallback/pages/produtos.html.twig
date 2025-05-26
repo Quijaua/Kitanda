@@ -1,0 +1,142 @@
+{% block content %}
+    {# Estilos específicos para o fallback, se quiser adicionar algo extra: #}
+    <style>
+        .card-img-top {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+
+    <!-- Page header -->
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">Produtos</h2>
+                    <div class="text-secondary mt-1">
+                        {% if total_produtos > 0 %}
+                            {{ ( (pagina_atual - 1) * limite + 1 ) ~ '-' ~
+                               (min((pagina_atual * limite), total_produtos)) ~
+                               ' de ' ~ total_produtos ~ ' produtos' }}
+                        {% else %}
+                            Nenhum produto encontrado
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <form method="GET" class="d-flex">
+                        <div class="me-3">
+                            <div class="input-icon">
+                                <input type="text"
+                                       name="busca"
+                                       value="{{ busca|e }}"
+                                       class="form-control"
+                                       placeholder="Pesquisar…">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="24" height="24"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon icon-1">
+                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                        <path d="M21 21l-6 -6"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-3">
+                            Buscar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page body -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row g-4">
+
+                {% if produtos %}
+                    <div class="col-md-12">
+                        <div class="row row-cards">
+                            {% for produto in produtos %}
+                                {# Ajusta a URL da imagem: #}
+                                {% set imagemUrl = produto.imagem
+                                    ? (produto.imagem|replace({' ': '%20'})|raw)
+                                    : '{{ INCLUDE_PATH }}assets/preview-image/product.jpg' %}
+
+                                {# Formata o preço: #}
+                                {% set precoFormatado = produto.preco
+                                    |number_format(2, ',', '.') %}
+
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="card card-sm">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                            <img src="{{ imagemUrl }}"
+                                                 class="card-img-top"
+                                                 alt="{{ produto.titulo }}">
+                                        </a>
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <h3>{{ produto.titulo }}</h3>
+                                                    <div class="text-secondary">
+                                                        R$ {{ precoFormatado }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Paginação -->
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-center">
+                            {{ pagination_html|raw }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info w-100" role="alert">
+                            <div class="d-flex">
+                                <div class="alert-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="24" height="24"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon alert-icon icon-2">
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                        <path d="M12 9h.01"></path>
+                                        <path d="M11 12h1v4h1"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="alert-title">Alerta do Sistema</h4>
+                                    <div class="text-secondary">
+                                        Não encontramos nenhum produto cadastrado na plataforma.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

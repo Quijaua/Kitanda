@@ -1,0 +1,1993 @@
+{# templates/_fallback/pages/checkout.html.twig #}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.css">
+<style>
+    .card-wrapper {
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+
+<!-- Modal Sucesso -->
+<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3>Tem certeza?</h3>
+                <div class="text-secondary">Deseja remover o produto do seu carrinho?</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 btn-success w-100" data-bs-dismiss="modal"> Não, manter </a>
+                        </div>
+                        <div class="col">
+                            <a href="{{ INCLUDE_PATH }}carrinho" class="btn btn-success btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a>
+                            <button id="remove-item" type="button" class="btn btn-warning btn-4 w-100" data-bs-dismiss="modal" id="btn-modal-success"> Sim, remover </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Validar -->
+<div class="modal modal-blur fade" id="modal-validar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Ícone de sucesso -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3 id="msg-modal-validar-titulo"></h3>
+                <div id="msg-modal-validar" class="text-secondary"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 btn-success w-100" data-bs-dismiss="modal"> Ok </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <ul class="steps steps-counter my-4">
+                    <li class="step-item {% if not isPedido %}active{% endif %}" id="step-item-1"> Informações Gerais </li>
+                    <li class="step-item" id="step-item-2"> Pagamento </li>
+                    <li class="step-item {% if isPedido %}active{% endif %}" id="step-item-3"> Confirmação </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row g-4">
+
+            <div id="alert-container"></div>
+
+            <!-- CHECKOUT ETAPA 1 - Informações Gerais -->
+
+            <div class="col-md-8 {% if isPedido %}d-none{% endif %}" id="step-1">
+                <div class="card bg-dark-lt">
+                    <div class="card-body row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Informações pessoais</h3>
+
+                            <div class="row">
+
+                                {# E-mail #}
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-floating">
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            name="email"
+                                            id="field-email"
+                                            placeholder="nome@exemplo.com"
+                                            value="{{ user.email|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-email">Seu e-mail</label>
+                                    </div>
+                                    <div id="input-email-error" class="text-danger d-none">
+                                        <small>O campo email é obrigatório</small>
+                                    </div>
+                                    <div id="input-email-format-error" class="text-danger d-none">
+                                        <small>Email inválido</small>
+                                    </div>
+                                </div>
+
+                                {# Nome completo #}
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-floating">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="name"
+                                            id="field-name"
+                                            placeholder="Primeiro nome"
+                                            value="{{ user.name|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-name">Nome completo</label>
+                                    </div>
+                                    <div id="input-name-error" class="text-danger d-none">
+                                        <small>O campo nome é obrigatório</small>
+                                    </div>
+                                </div>
+
+                                {# CPF/CNPJ #}
+                                <div class="col-md-12 mb-3" id="div-cpf-field">
+                                    <div class="form-floating">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="cpfCnpj"
+                                            id="field-cpf"
+                                            placeholder="CPF"
+                                            value="{{ user.cpf|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-cpf">CPF/CNPJ</label>
+                                    </div>
+                                    <div id="input-cpf-error" class="text-danger d-none">
+                                        <small>O campo CPF é obrigatório</small>
+                                    </div>
+                                </div>
+
+                                {# Data de Nascimento #}
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-floating">
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            name="birth-date"
+                                            id="field-birth-date"
+                                            placeholder="(99) 99999-9999"
+                                            value="{{ user.birthDate|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-birth-date">Data de Nascimento</label>
+                                    </div>
+                                    <div id="input-birth-date-error" class="text-danger d-none">
+                                        <small>O campo data de nascimento é obrigatório</small>
+                                    </div>
+                                </div>
+
+                                {# Telefone #}
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-floating">
+                                        <input
+                                            type="tel"
+                                            class="form-control"
+                                            name="phone"
+                                            id="field-phone"
+                                            placeholder="(99) 99999-9999"
+                                            value="{{ user.phone|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-phone">Telefone</label>
+                                    </div>
+                                    <div id="input-phone-error" class="text-danger d-none">
+                                        <small>O campo telefone é obrigatório</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3 class="card-title">Informações de cobrança</h3>
+
+                            <div class="row">
+
+                                {# CEP #}
+                                <div class="col-md-12 mb-3" id="div-cep-field">
+                                    <div class="form-floating">
+                                        <input
+                                            onblur="getCepData()"
+                                            type="text"
+                                            class="form-control"
+                                            name="postalCode"
+                                            id="field-zipcode"
+                                            placeholder="CEP endereço"
+                                            value="{{ user.zipcode|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-zipcode">CEP</label>
+                                    </div>
+                                    <div id="input-zipcode-error" class="text-danger d-none">
+                                        <small>O campo CEP é obrigatório</small>
+                                    </div>
+                                </div>
+
+                                {# Endereço #}
+                                <div class="col-md-12 mb-3 country-brasil">
+                                    <div class="form-floating">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="address"
+                                            id="field-street"
+                                            placeholder="Endereço"
+                                            value="{{ user.street|default('') }}"
+                                            required
+                                        >
+                                        <label for="field-street">Endereço</label>
+                                    </div>
+                                    <div id="input-street-error" class="text-danger d-none">
+                                        <small>O campo endereço é obrigatório</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+
+                                        {# Número #}
+                                        <div class="col-md-4 mb-3 country-brasil">
+                                            <div class="form-floating">
+                                                <input
+                                                    type="text"
+                                                    class="form-control text-center"
+                                                    name="addressNumber"
+                                                    id="field-street-number"
+                                                    placeholder="Número endereço"
+                                                    value="{{ user.streetNumber|default('') }}"
+                                                    required
+                                                >
+                                                <label for="field-street-number">Número</label>
+                                            </div>
+                                            <div id="input-street-number-error" class="text-danger d-none">
+                                                <small>O campo número é obrigatório</small>
+                                            </div>
+                                        </div>
+
+                                        {# Complemento #}
+                                        <div class="col-md-8 mb-3 country-brasil">
+                                            <div class="form-floating">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="complement"
+                                                    id="field-complement"
+                                                    placeholder="Complemento endereço"
+                                                    value="{{ user.complement|default('') }}"
+                                                >
+                                                <label for="field-complement">Complemento</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+
+                                        {# Bairro #}
+                                        <div class="col-md-12 mb-3 country-brasil" id="div-district-field">
+                                            <div class="form-floating">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="province"
+                                                    id="field-district"
+                                                    placeholder="Bairro endereço"
+                                                    value="{{ user.district|default('') }}"
+                                                    required
+                                                >
+                                                <label for="field-district">Bairro</label>
+                                            </div>
+                                            <div id="input-district-error" class="text-danger d-none">
+                                                <small>O campo bairro é obrigatório</small>
+                                            </div>
+                                        </div>
+
+                                        {# Cidade #}
+                                        <div class="col-md-8 mb-3 country-brasil" id="div-city-field">
+                                            <div class="form-floating">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="city"
+                                                    id="field-city"
+                                                    placeholder="Cidade endereço"
+                                                    value="{{ user.city|default('') }}"
+                                                    required
+                                                >
+                                                <label for="field-city">Cidade</label>
+                                            </div>
+                                            <div id="input-city-error" class="text-danger d-none">
+                                                <small>O campo cidade é obrigatório</small>
+                                            </div>
+                                        </div>
+
+                                        {# Estado #}
+                                        <div class="col-md-4 mb-3 country-brasil" id="div-state-field">
+                                            <div class="form-floating">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="state"
+                                                    id="field-state"
+                                                    placeholder="UF"
+                                                    value="{{ user.state|default('') }}"
+                                                    required
+                                                >
+                                                <label for="field-state">UF</label>
+                                            </div>
+                                            <div id="input-state-error" class="text-danger d-none">
+                                                <small>O campo estado é obrigatório</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                {# Checkbox Newsletter #}
+                                <label class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="1"
+                                        id="newsletter"
+                                        name="newsletter"
+                                        {% if user.newsletter %}checked{% endif %}
+                                    >
+                                    <span class="form-check-label">
+                                        Quero receber as novidades das Mulheres Empreendedoras da Amazônia.
+                                    </span>
+                                </label>
+                                <hr class="my-3">
+
+                                {# Checkbox Termos de Uso #}
+                                <label class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="1"
+                                        id="terms"
+                                        name="terms"
+                                        {% if user.terms %}checked{% endif %}
+                                        required
+                                    >
+                                    <span class="form-check-label">
+                                        Declaro que li e aceito as
+                                        <a href="#">condições de compra</a>,
+                                        <a href="#">políticas de cancelamento</a> e os
+                                        <a href="#">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos pelas Mulheres Empreendedoras da Amazônia.
+                                    </span>
+                                    <div id="input-terms-error" class="text-danger d-none">
+                                        <small>Por favor, aceite os termos de uso para prosseguir</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHECKOUT ETAPA 2 - Pagamento -->
+
+            <div class="col-md-8 {% if not isPedido %}d-none{% endif %}" id="step-2">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card bg-dark-lt">
+                            <div class="card-body row">
+                                <h3 class="card-title">Informações pessoais</h3>
+        
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-control-plaintext" id="saved-name">Nome do Usuário</div>
+                                </div>
+        
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-floating">
+                                        <input type="disabled-email" class="form-control" name="disabled-email" id="saved-email" value="-" disabled>
+                                        <label for="disabled-email">Seu e-mail</label>
+                                    </div>
+                                </div>
+        
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label mb-0">CPF/CNPJ</label>
+                                            <div class="form-control-plaintext" id="saved-cpf">-</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label mb-0">Nascimento</label>
+                                            <div class="form-control-plaintext" id="saved-birth-date">-</div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label mb-0">Telefone</label>
+                                    <div class="form-control-plaintext" id="saved-phone">-</div>
+                                </div>
+        
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label mb-0">Endereço</label>
+                                    <div class="form-control-plaintext" id="saved-street">-</div>
+                                </div>
+        
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">CEP</label>
+                                            <div class="form-control-plaintext" id="saved-zipcode">-</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">Cidade</label>
+                                            <div class="form-control-plaintext" id="saved-city">-</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-0">UF</label>
+                                            <div class="form-control-plaintext" id="saved-state">-</div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                {% if not pedido %}
+                                    <div class="d-flex align-items-center justify-content-between mt-3" id="usuario-info">
+                                        <button type="button" id="btn-edit-info" class="btn btn-dark btn-pill">Alterar informações</button>
+                                        <a href="#" id="link-not-me" class="text-muted">Não sou eu</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-md-6 {% if isPedido %}d-none{% endif %}" id="payment-section">
+                        <div class="row g-4">
+                            <div class="col-md-12 d-none">
+                                <div class="card bg-dark-lt">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Cupom</h3>
+        
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input type="coupon" class="form-control" name="coupon" id="field-coupon" placeholder="Código do Cupom">
+                                                <label for="coupon">Código do Cupom</label>
+                                            </div>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="shipping-step">
+                                <div class="card bg-dark-lt">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Método de Envio</h3>
+                                        <!-- container onde os radios serão inseridos -->
+                                        <div id="shipping-options" class="d-flex flex-column gap-2">
+                                            <!-- radios serão gerados aqui -->
+                                            <div class="text-muted">Carregando opções...</div>
+                                        </div>
+                                        <!-- Botão para avançar para a etapa de pagamento -->
+                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
+                                        <div id="change-shipping-button" class="d-none text-center">
+                                            <a href="#" id="change-shipping-option" class="text-muted">Alterar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-md-12 d-none" id="payment-section-form">
+                                <div class="card bg-dark-lt">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Forma de pagamento</h3>
+
+                                        <div>
+                                            <label class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment" id="payment-credit-card" type="radio" value="100">
+                                                <span class="form-check-label">Cartão de Crédito</span>
+                                            </label>
+                                            <label class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment" id="payment-bank-slip" type="radio" value="101">
+                                                <span class="form-check-label">Boleto Bancário</span>
+                                            </label>
+                                            <label class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment" id="payment-pix" type="radio" value="102">
+                                                <span class="form-check-label">PIX</span>
+                                            </label>
+                                        </div>
+
+                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3 d-none">
+                                            <span>Avançar</span>
+                                            <!-- Download SVG icon from http://tabler.io/icons/icon/arrow-narrow-right -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+                                        </button>
+                                        <div class="progress progress-subscription mt-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
+                                                Processando requisição...
+                                            </div>
+                                        </div>
+
+                                        <div id="card-form" class="d-none mt-3">
+                                            <!-- Div onde o card de preview será renderizado -->
+                                            <div class="card-wrapper"></div>
+
+                                            <!-- Formulário de dados do cartão -->
+                                            <form id="payment-form" class="row">
+
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control" name="name" id="card-name" placeholder="Nome do Titular">
+                                                        <label for="card-name">Nome impresso no cartão</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control" name="number" id="card-number" placeholder="Número do Cartão">
+                                                        <label for="card-number">Número do cartão</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" name="expiry" id="card-expiry" placeholder="MM/AA">
+                                                                <label for="card-expiry">Validade</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" name="cvc" id="card-cvc" placeholder="000">
+                                                                <label for="card-cvc">CVV</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-floating">
+                                                        <select class="form-select" name="installments" id="card-installments" aria-label="Floating label select">
+                                                            <option selected="">Selecione uma parcela</option>
+                                                            <option value="1">A vista 1x - R$ {{ total|number_format(2, ',', '.') }}</option>
+                                                        </select>
+                                                        <label for="card-installments">Número de parcelas</label>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div id="confirm-payment" class="d-none text-center">
+                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mb-3">Confirmar Pagamento</button>
+                                            <div class="progress progress-subscription mb-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
+                                                    Processando requisição...
+                                                </div>
+                                            </div>
+                                            <a href="#" id="back" class="text-muted">Voltar</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 {% if not isPedido %}d-none{% endif %}" id="payment-successful">
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="card bg-dark-lt">
+                                    <div class="card-body">
+
+                                        <div class="d-flex">
+                                            <!-- Download SVG icon from http://tabler.io/icons/icon/circle-check -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-3 icon-tabler icons-tabler-outline icon-tabler-circle-check"
+                                                style="width: 4rem; height: 3rem;">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                                <path d="M9 12l2 2l4 -4" />
+                                            </svg>
+
+                                            <h3 class="fs-1 ms-3">Pedido realizado com sucesso!</h3>
+                                        </div>
+
+                                        <h3 class="card-title">
+                                            Número do pedido:
+                                            <span class="badge badge-outline badge-pill badge-lg text-green ms-2" id="pedido-id">
+                                                {{ pedido ? "#" ~ pedido.pedido_id : "#00001" }}
+                                            </span>
+                                        </h3>
+
+                                        <p>Acesse seu e-mail para ver os detalhes do pedido</p>
+
+                                        <h3 class="card-title mb-0">
+                                            Forma de pagamento:
+                                            <span id="paymentMethodText" class="fw-normal">
+                                                {% if pedido and pedido.forma_pagamento == 'PIX' %}
+                                                    Pix
+                                                {% elseif pedido and pedido.forma_pagamento == 'BOLETO' %}
+                                                    Boleto Bancário
+                                                {% else %}
+                                                    Cartão de crédito
+                                                {% endif %}
+                                            </span>
+                                        </h3>
+
+                                        {# Boleto Section #}
+                                        <div id="boleto-section"
+                                            class="text-center row {% if not(pedido and pedido.forma_pagamento == 'BOLETO') %}d-none{% endif %}">
+                                            <div class="col-md-12">
+                                                <hr class="my-4">
+
+                                                <p>Agora é só pagar o boleto para finalizar sua compra.</p>
+
+                                                <h3 class="card-title">Clique para copiar o código de barras:</h3>
+
+                                                <textarea class="form-control text-center mb-3"
+                                                        id="boleto-text" rows="2"
+                                                        style="resize: none; background: transparent; border: 1px solid;"
+                                                        readonly>
+                    {{ pedido and pedido.forma_pagamento == 'BOLETO' ? pedido.boleto_barcode : '' }}
+                                                </textarea>
+
+                                                <a href="{{ pedido and pedido.forma_pagamento == 'BOLETO' ? pedido.link_boleto : '#' }}"
+                                                target="_blank"
+                                                class="btn btn-6 btn-dark btn-pill w-100"
+                                                id="boleto-link">
+                                                    Visualizar boleto
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        {# Pix Section #}
+                                        <div id="pix-section"
+                                            class="text-center row {% if not(pedido and pedido.forma_pagamento == 'PIX') %}d-none{% endif %}">
+                                            <div class="col-md-12">
+                                                <hr class="my-4">
+
+                                                <p class="mb-0">Agora é só pagar com o Pix para finalizar sua compra.</p>
+
+                                                {# Os passos de instrução #}
+                                                <style>
+                                                    #pix-steps .step-item:after {
+                                                        content: none !important;
+                                                    }
+                                                    #pix-steps .step-item:after,
+                                                    #pix-steps .step-item:before {
+                                                        color: #182433 !important;
+                                                        background: transparent !important;
+                                                        border: 1px solid #182433 !important;
+                                                        font-weight: 700;
+                                                    }
+                                                </style>
+
+                                                <ul class="steps steps-counter steps-vertical py-4" id="pix-steps">
+                                                    <li class="step-item">Acesse o app ou site do seu banco</li>
+                                                    <li class="step-item">Busque a opção de pagar com Pix</li>
+                                                    <li class="step-item">Leia o QR code ou código Pix</li>
+                                                    <li class="step-item">Pronto! Você verá a confirmação do pagamento.</li>
+                                                </ul>
+
+                                                {# Exibe o QR Code se houver #}
+                                                {% if pedido and pedido.forma_pagamento == 'PIX' %}
+                                                    <img class="w-100 p-5"
+                                                        src="data:image/png;base64,{{ pedido.pix_encodedImage }}"
+                                                        alt="QR Code"
+                                                        id="pix-qrcode">
+                                                {% else %}
+                                                    <img class="w-100 p-5"
+                                                        src="#"
+                                                        alt="QR Code"
+                                                        id="pix-qrcode">
+                                                {% endif %}
+
+                                                <p>Código válido por 30 minutos. Se preferir, você pode copiar o código abaixo:</p>
+
+                                                <textarea class="form-control text-center mb-3"
+                                                        id="pix-text" rows="5"
+                                                        style="resize: none; background: transparent; border: 1px solid;"
+                                                        readonly>
+                    {{ pedido and pedido.forma_pagamento == 'PIX' ? pedido.pix_payload : '' }}
+                                                </textarea>
+
+                                                <button type="button"
+                                                        id="copy-btn"
+                                                        class="btn btn-6 btn-dark btn-pill w-100 mb-0">
+                                                    <!-- Download SVG icon from http://tabler.io/icons/icon/check -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-2 icon-tabler icon-tabler-check"
+                                                        style="display: none;">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M5 12l5 5l10 -10" />
+                                                    </svg>
+                                                    <span>Copiar código</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-dark-lt">
+                    <div class="card-body">
+                    <h3 class="card-title">Seu pedido</h3>
+
+                    {# Tabela de itens com id para facilitar o JS #}
+                    <table class="table table-sm table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th class="w-1 text-center">Quant.</th>
+                            <th class="text-center">Subtotal</th>
+                            {# Se já existe “pedido” (confirmação), não mostra coluna de exclusão #}
+                            {% if not isPedido %}
+                            <th class="w-1 text-center"></th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody id="checkout-items">
+                        {% if checkoutItems is not empty %}
+                            {% for item in checkoutItems %}
+                            <tr data-product-id="{{ item.product_id }}" id="checkout-item-{{ item.id }}">
+                                <td>{{ item.produto_nome|e }}</td>
+                                <td class="w-1 text-center">{{ item.quantidade }}</td>
+                                <td class="text-center">
+                                R$ {{ (item.produto_preco * item.quantidade)|number_format(2, ',', '.') }}
+                                </td>
+                                {# Mostra ícone de lixeira apenas se NÃO há “pedido” #}
+                                {% if not pedido %}
+                                <td class="w-1 text-center">
+                                    <a href="#" class="text-muted remove-checkout-item" data-item-id="{{ item.id }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-1 icon-tabler icon-tabler-trash">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M4 7l16 0" />
+                                        <path d="M10 11l0 6" />
+                                        <path d="M14 11l0 6" />
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                    </svg>
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                            <td colspan="{% if not pedido %}4{% else %}3{% endif %}" class="text-center">
+                                Nenhum item adicionado.
+                            </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    <hr class="my-3">
+
+                    {# Valores de frete e desconto com data-value para uso no JS #}
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                        <tr>
+                            <td class="fw-bold">Frete</td>
+                            <td id="frete_valor"
+                                class="w-10 fw-bold text-end"
+                                data-value="{{ frete }}">
+                            R$ {{ frete|number_format(2, ',', '.') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Desconto</td>
+                            <td id="desconto_valor"
+                                class="w-10 fw-bold text-end"
+                                data-value="{{ desconto }}">
+                            R$ {{ desconto|number_format(2, ',', '.') }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr class="my-3">
+
+                    {# Total geral, também com data-value para JS #}
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                        <tr>
+                            <td class="fs-3 fw-bold">TOTAL</td>
+                            <td id="total_valor"
+                                class="fs-3 w-10 fw-bold text-end"
+                                data-value="{{ total }}">
+                            R$ {{ total|number_format(2, ',', '.') }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    {# Botão “Continuar” só aparece se NÃO existe “pedido” (etapa de pagamento) #}
+                    {% if not pedido %}
+                        <button type="button"
+                                id="btn-step1-continue"
+                                class="btn btn-6 btn-dark btn-pill w-100 confirm-checkout mt-3">
+                        Continuar
+                        </button>
+                    {% endif %}
+                    </div>
+                </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="{{ INCLUDE_PATH }}assets/js/main.js" defer></script>
+<!-- Inclusão do Card.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.js"></script>
+
+<script>
+function loadShippingOptions(cep, pesoEmGramas) {
+  $.ajax({
+    url: '{{ INCLUDE_PATH }}back-end/carrinho/frete.php',
+    method: 'POST',
+    data: { cep: cep, weight: pesoEmGramas },
+    success: function(response) {
+      var res = (typeof response === 'string') ? JSON.parse(response) : response;
+      var $opts = $('#shipping-options').empty();
+
+      if (res.status === 'sucesso') {
+        // filtra apenas sem erro
+        var valid = res.options.filter(function(opt) { return !opt.error; });
+
+        if (valid.length === 0) {
+          $opts.append('<div class="text-danger">Nenhuma opção de frete disponível.</div>');
+          return;
+        }
+
+        valid.forEach(function(opt, i) {
+          // formata preço em R$
+          var priceText = Number(opt.price)
+            .toLocaleString('pt-BR',{ style:'currency', currency:'BRL' });
+          // formato do prazo (ex: de 1 a 6 dias úteis)
+          var deadlineText = 'de ' + opt.delivery_range.min + ' a ' + opt.delivery_range.max + ' dias úteis';
+
+          // cria radio + label
+          var radioId = 'shipping-' + opt.id;
+          var $radio = $(
+            '<div class="form-check">'+
+              '<input class="form-check-input" '+
+                     'type="radio" '+
+                     'name="shipping_method" '+
+                     'id="'+ radioId +'" '+
+                     'value="'+ opt.id +'" '+
+                     'data-price="'+ opt.price +'">'+
+              '<label class="form-check-label" for="'+ radioId +'">'+
+                priceText + ' - ' + opt.company.name + ' - ' + deadlineText +
+              '</label>'+
+            '</div>'
+          );
+          $opts.append($radio);
+        });
+
+        // ao mudar, atualiza o TD do frete
+        $opts.find('input[type=radio]').on('change', function() {
+            // novo frete
+            var newFrete = parseFloat($(this).data('price'));
+            var newFreteText = newFrete.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            // valores antigos
+            var oldFrete  = parseFloat($('#frete_valor').attr('data-value'));
+            var oldTotal  = parseFloat($('#total_valor').attr('data-value'));
+            var desconto  = parseFloat($('#desconto_valor').attr('data-value'));
+
+            // recalcula total: tira o frete antigo e adiciona o novo
+            var newTotal = oldTotal - oldFrete + newFrete;
+            var newTotalText = newTotal.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            // aplica no DOM
+            $('#frete_valor')
+                .text(newFreteText)
+                .attr('data-value', newFrete);
+
+            $('#total_valor')
+                .text(newTotalText)
+                .attr('data-value', newTotal);
+
+            // libera o botão continuar
+            $('#btn-step-shipping-continue').removeClass('d-none');
+        });
+
+      } else {
+        $opts.append('<div class="text-danger">'+
+                     (res.mensagem||'Não foi possível calcular o frete.')+
+                     '</div>');
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('Erro AJAX:', xhr.responseJSON.mensagem);
+      $('#shipping-options').empty()
+        .append('<div class="text-danger">Erro ao carregar frete.</div>');
+    }
+  });
+}
+
+// dispara após usuário clicar em “continuar” da etapa 1
+$('#btn-step1-continue').on('click', function() {
+  var cep  = $('#field-zipcode').val().replace(/\D/g, '');
+  var peso = 3; // substitua pelo peso real
+  loadShippingOptions(cep, peso);
+});
+
+$('#btn-step-shipping-continue').on('click', function() {
+    // Oculta o botão "Continuar"
+    $(this).addClass("d-none");
+    $('#change-shipping-button').removeClass("d-none");
+    $('#payment-section-form').removeClass("d-none");
+
+    // Obtém o input radio selecionado
+    var selected = $('input[name="shipping_method"]:checked');
+
+    if (selected.length === 0) {
+        $(".alert").remove();
+        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        return;
+    }
+
+    // Oculta todas as opções, exceto a selecionada
+    $('input[name="shipping_method"]').not(':checked').closest('.form-check').hide();
+});
+
+$('#change-shipping-option').on('click', function() {
+    // Oculta o botão "Continuar"
+    $('#change-shipping-button').addClass("d-none");
+    $('#payment-section-form').addClass("d-none");
+    $('#btn-step-shipping-continue').removeClass("d-none");
+
+    // Exibe todas as opções
+    $('input[name="shipping_method"]').closest('.form-check').show();
+});
+
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#boleto-text").on("click", function(){
+            // Seleciona todo o conteúdo do textarea
+            $(this).select();
+            // Tenta copiar para a área de transferência
+            try {
+                var successful = document.execCommand('copy');
+                if(successful){
+                } else {
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
+                }
+            } catch (err) {
+
+                // Exibe o modal de validação
+                var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + err);
+                myModal.show();
+            }
+        });
+
+        $("#pix-text").on("click", function(){
+            // Seleciona todo o conteúdo do textarea
+            $(this).select();
+            // Tenta copiar para a área de transferência
+            try {
+                var successful = document.execCommand('copy');
+                if(successful){
+                } else {
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
+                }
+            } catch (err) {
+
+                // Exibe o modal de validação
+                var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + err);
+                myModal.show();
+            }
+        });
+
+        $("#copy-btn").on("click", function(){
+            // Seleciona todo o conteúdo do textarea
+            $("#pix-text").select();
+            try {
+                var successful = document.execCommand('copy');
+                if(successful){
+                    var $btn = $(this);
+                    // Altera a aparência do botão com animação simples
+                    $btn.removeClass("btn-dark").addClass("btn-teal");
+                    // Exibe o ícone de check com fadeIn
+                    $btn.find("svg").fadeIn(200);
+                    // Altera o texto do span para "Copiado"
+                    $btn.find("span").text("Copiado");
+                    
+                    // Após 3 segundos, reverte para o estado original
+                    setTimeout(function(){
+                        $btn.removeClass("btn-teal").addClass("btn-dark");
+                        $btn.find("span").text("Copiar código");
+                        $btn.find("svg").fadeOut(200);
+                    }, 3000);
+                } else {
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Não foi possível copiar o código.');
+                    myModal.show();
+                }
+            } catch(e) {
+
+                    // Exibe o modal de validação
+                    var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                    $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                    $('#modal-validar .modal-body #msg-modal-validar').text('Ao copiar: ' + e);
+                    myModal.show();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#card-expiry').mask('00 / 00');
+
+        // Inicializa o Card.js
+        var card = new Card({
+            form: '#payment-form', // Seletor do formulário
+            container: '.card-wrapper', // Onde o cartão será renderizado
+            width: 350, // Largura do cartão
+            formatting: true, // Formata automaticamente o número do cartão
+            placeholders: {
+                number: '•••• •••• •••• ••••',
+                name: 'Seu Nome',
+                expiry: '••/••',
+                cvc: '•••'
+            },
+            messages: {
+                validDate: 'válido até'
+            },
+            debug: false
+        });
+    });
+</script>
+
+<script>
+$(document).ready(function() {
+
+    // Função para recalcular os totais do checkout
+    function recalcularTotais() {
+        var subtotal = 0;
+        // Percorre cada linha de item dentro do tbody com id "checkout-items"
+        $('#checkout-items tr').each(function(){
+            // Pega o valor do subtotal a partir do texto da terceira coluna (índice 2)
+            var cellText = $(this).find('td').eq(2).text().trim(); // Ex: "R$ 123,00"
+            // Remove "R$", os pontos e troca a vírgula por ponto para converter para número
+            var valorStr = cellText.replace("R$", "").replace(/\./g, "").replace(",", ".");
+            var valor = parseFloat(valorStr);
+            if(!isNaN(valor)) {
+                subtotal += valor;
+            }
+        });
+
+        if (subtotal === 0) {
+            $('#frete_valor').data('value', 0);
+            $('#frete_valor').text('R$ 0,00');
+        }
+
+        // Pega frete e desconto dos atributos data
+        var frete = parseFloat($('#frete_valor').data('value')) || 0;
+        var desconto = parseFloat($('#desconto_valor').data('value')) || 0;
+        var total = subtotal + frete - desconto;
+        // Atualiza o TOTAL na tabela
+        $('#total_valor').text('R$ ' + total.toFixed(2).replace('.', ','));
+
+        // Após recalcular o total, atualiza as opções de parcelamento
+        atualizarParcelas(total);
+    }
+
+    // Função para gerar as opções de parcelamento com base no total
+    function gerarParcelas(total) {
+        var minParcela = 5.00; // Valor mínimo por parcela
+        var maxParcelas = 6;  // Máximo de parcelas
+        var parcelas = [];
+        for (var i = 1; i <= maxParcelas; i++) {
+            var valorParcela = total / i;
+            if (valorParcela >= minParcela) {
+                parcelas.push({ parcela: i, valor: valorParcela });
+            } else {
+                break; // Interrompe se o valor da parcela for menor que o mínimo
+            }
+        }
+        return parcelas;
+    }
+
+    // Função para atualizar o select de parcelamento com as opções geradas
+    function atualizarParcelas(total) {
+        var parcelas = gerarParcelas(total);
+        var $select = $('#card-installments');
+        $select.empty();
+        $.each(parcelas, function(index, item) {
+            var optionText = "";
+            if (item.parcela == 1) {
+                optionText = "À vista 1x - R$ " + item.valor.toFixed(2).replace('.', ',');
+            } else {
+                optionText = item.parcela + "x de R$ " + item.valor.toFixed(2).replace('.', ',') + " sem juros";
+            }
+            $select.append($('<option>', { value: item.parcela, text: optionText }));
+        });
+        window.numParcelasDisponiveis = parcelas.length;
+    }
+
+    // Exemplo: Remover item do checkout via AJAX (já existente)
+    $('.remove-checkout-item').on('click', function(e) {
+        e.preventDefault();
+        var btn = $(this);
+        var itemId = btn.data('item-id');
+
+        // Exibe o modal de confirmação
+        var myModal = new bootstrap.Modal(document.getElementById('modal-delete'));
+        myModal.show();
+
+        $('#remove-item').on('click', function() {
+                $.ajax({
+                url: '{{ INCLUDE_PATH }}back-end/carrinho/remover.php',
+                method: 'POST',
+                data: { item_id: itemId },
+                success: function(response) {
+                    try {
+                        var res = JSON.parse(response);
+                        if (res.status === "sucesso") {
+                            // Remove a linha do item e recalcule os totais
+                            $("#checkout-item-" + itemId).fadeOut(300, function() {
+                                $(this).remove();
+                                recalcularTotais();
+                            });
+                            // Atualiza ou remove o contador do carrinho
+                            if (res.numero_itens > 0) {
+                                $("#cart-count").text(res.numero_itens).show();
+                            } else {
+                                $("#cart-count").fadeOut();
+                            }
+                        } else {
+                            // Exibe o modal de validação
+                            var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                            $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                            $('#modal-validar .modal-body #msg-modal-validar').text(res.mensagem);
+                            myModal.show();
+                        }
+                    } catch(e) {
+                        console.log("Resposta inválida: " + response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Erro AJAX: " + error);
+                }
+            });
+        });
+
+        /*$.ajax({
+            url: '{{ INCLUDE_PATH }}back-end/carrinho/remover.php',
+            method: 'POST',
+            data: { item_id: itemId },
+            success: function(response) {
+                try {
+                    var res = JSON.parse(response);
+                    if (res.status === "sucesso") {
+                        // Remove a linha do item e recalcule os totais
+                        $("#checkout-item-" + itemId).fadeOut(300, function() {
+                            $(this).remove();
+                            recalcularTotais();
+                        });
+                    } else {
+                        alert("Erro: " + res.mensagem);
+                    }
+                } catch(e) {
+                    console.log("Resposta inválida: " + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Erro AJAX: " + error);
+            }
+        });*/
+    });
+
+    // Se necessário, inicialize as opções de parcelamento ao carregar a página
+    // Exemplo: Se já existir um total definido
+    var totalText = $('#total_valor').text().trim(); // Ex: "R$ 123,45"
+    if(totalText) {
+        var total = parseFloat(totalText.replace("R$", "").replace(/\./g, "").replace(",", "."));
+        if(!isNaN(total)) {
+            atualizarParcelas(total);
+        }
+    }
+});
+</script>
+
+<script>
+var pedidoExiste = {{ isPedido ? 'true' : 'false' }};
+
+$(document).ready(function() {
+	$('#field-zipcode').mask('00000-000');
+
+    function removeDeleteItemColumn() {
+        $("#usuario-info").remove();
+        $("#btn-step-shipping-continue, #change-shipping-button").remove();
+
+        // Remove a coluna de remoção do cabeçalho da tabela
+        $("thead tr th:last-child").remove();
+
+        // Remove a coluna de remoção de cada linha no corpo da tabela
+        $("#checkout-items tr").each(function() {
+            $(this).find("td:last-child").remove();
+        });
+
+        console.log('Coluna de remoção de item do carrinho deletada.');
+    }
+
+    function mascaraCodigoBoleto(codigo) {
+        // Remover todos os caracteres não numéricos
+        codigo = codigo.replace(/\D/g, '');
+
+        // Aplicar a máscara
+        codigo = codigo.replace(/(\d{5})(\d{5})(\d{5})(\d{6})(\d{5})(\d{14})/, '$1.$2 $3.$4 $5.$6');
+
+        return codigo;
+    }
+
+    // Exibe a etapa 1 e oculta as demais ao carregar
+    if (!pedidoExiste) {
+        $('#step-1').removeClass('d-none');
+        $('#step-2').addClass('d-none');
+    }
+
+    // // Ao clicar no botão "Continuar" da Etapa 1
+    // $('#btn-step1-continue').on('click', function() {
+    //     // Coleta os dados do formulário da Etapa 1
+    //     var dados = {
+    //         email: $('#field-eee').val(),
+    //         name: $('#field-name').val(),
+    //         cpf: $("#foreign").is(":checked") ? "" : $('#field-cpf').val(),
+    //         birthDate: $('#field-birth-date').val(),
+    //         phone: $('#field-phone').val(),
+    //         zipcode: $("#foreign").is(":checked") ? "" : $('#field-zipcode').val(),
+    //         street: $('#field-street').val(),
+    //         streetNumber: $('#field-street-number').val(),
+    //         complement: $('#field-complement').val(),
+    //         district: $('#field-district').val(),
+    //         city: $('#field-city').val(),
+    //         state: $('#field-state').val(),
+    //         country: $("#foreign").is(":checked") ? $('#field-country').val() : "Brasil",
+
+    //         foreign: $("#foreign").is(":checked") ? 1 : '',
+    //         newsletter: $("#newsletter").is(":checked") ? 1 : '',
+    //         terms: $("#terms").is(":checked") ? 1 : '',
+    //     };
+
+    //     // Validação simples: verifica se os campos obrigatórios estão preenchidos
+    //     if (!dados.email || !dados.name) {
+    //         alert('Por favor, preencha os campos obrigatórios.');
+    //         return;
+    //     }
+
+    //     // Envia os dados via AJAX para salvar (pode ser em cookie ou em banco de dados)
+    //     $.ajax({
+    //         url: '{{ INCLUDE_PATH }}back-end/carrinho/salvar_dados.php',
+    //         type: 'POST',
+    //         data: dados,
+    //         success: function(response) {
+    //             try {
+    //                 var res = JSON.parse(response);
+
+    //                 if (res.status === 'sucesso') {
+    //                     var address = `${dados.street}, ${dados.streetNumber} - ${dados.district}`;
+
+    //                     var birthDateRaw = dados.birthDate;
+    //                     var birthDateFormatted = birthDateRaw.split('-').reverse().join('/'); // Converte "aaaa-mm-dd" para "dd/mm/aaaa"
+
+    //                     // Preenche os campos da Etapa 2 com os dados salvos
+    //                     $('#saved-email').val(dados.email);
+    //                     $('#saved-name').text(dados.name);
+    //                     if($("#foreign").is(":checked")){
+    //                         $('#saved-cpf').text("-");
+    //                     }else{
+    //                         $('#saved-cpf').text(dados.cpf);
+    //                     }
+    //                     $('#saved-birth-date').text(birthDateFormatted);
+    //                     $('#saved-phone').text(dados.phone);
+    //                     $('#saved-street').text(address);
+    //                     if($("#foreign").is(":checked")){
+    //                         $('#saved-zipcode').text("-");
+    //                     }else{
+    //                         $('#saved-zipcode').text(dados.zipcode);
+    //                     }
+    //                     $('#saved-city').text(dados.city);
+    //                     $('#saved-state').text(dados.state);
+
+    //                     // Oculta a Etapa 1 e exibe a Etapa 2
+    //                     $('#step-1').addClass('d-none');
+    //                     $('#step-2').removeClass('d-none');
+
+    //                     $('#step-item-1').removeClass('active');
+    //                     $('#step-item-2').addClass('active');
+
+    //                     $('#btn-step1-continue').addClass('d-none');
+    //                 } else {
+    //                     alert("Erro ao salvar dados: " + res.mensagem);
+    //                 }
+    //             } catch(e) {
+    //                 console.log("Resposta inválida: " + response);
+    //             }
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.log("Erro AJAX: " + error);
+    //         }
+    //     });
+    // });
+
+    // Função que envia os dados do formulário via AJAX
+    function enviarDadosEtapa1() {
+        var dados = {
+            email: $('#field-email').val(),
+            name: $('#field-name').val(),
+            cpf: $('#field-cpf').val(),
+            birthDate: $('#field-birth-date').val(),
+            phone: $('#field-phone').val(),
+            zipcode: $('#field-zipcode').val(),
+            street: $('#field-street').val(),
+            streetNumber: $('#field-street-number').val(),
+            complement: $('#field-complement').val(),
+            district: $('#field-district').val(),
+            city: $('#field-city').val(),
+            state: $('#field-state').val(),
+            newsletter: $("#newsletter").is(":checked") ? 1 : '',
+            terms: $("#terms").is(":checked") ? 1 : '',
+        };
+
+        function validate(campos) {
+
+            let validated = false;
+
+            Object.entries(campos).forEach(([key, value]) => {
+
+                key = key.replace(/([a-zA-Z])(?=[A-Z])/g,'$1-').toLowerCase()
+
+                if (!value && ($('#field-'+key).prop('required') || $('#'+key).prop('required'))) {
+
+                    $('#field-'+key).addClass('is-invalid');
+                    $('#input-'+key+'-error').removeClass('d-none');
+                    $('#field-'+key).on('blur', function() {
+
+                        if (key === 'email' && $('#field-'+key).val() !== '') {
+
+                            const emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+                            if (!emailReg.test($('#field-'+key).val())) {
+                                $('#input-email-format-error').removeClass('d-none');
+                            } else {
+                                $('#input-email-format-error').addClass('d-none');
+                            }
+                        }
+
+                        if (key == 'terms') {
+                            $('#input-terms-error').removeClass('d-none');
+                        }
+
+                        if ($('#field-'+key).val() != '') {
+                            $('#field-'+key).removeClass('is-invalid');
+                            $('#input-'+key+'-error').addClass('d-none');
+                            $('input-email-format-error').addClass('d-none');
+                        }
+                    });
+
+                    validated = false;
+                } else if (value && $('#field-'+key).prop('required')) {
+
+                    $('#field-'+key).removeClass('is-invalid');
+                    $('#input-'+key+'-error').addClass('d-none');
+
+                    validated = true;
+                }
+            })
+
+            return validated;
+        }
+
+        // Validação de campos obrigatórios
+        if (!validate(dados)) {
+            return;
+        };
+
+        $.ajax({
+            url: '{{ INCLUDE_PATH }}back-end/carrinho/salvar_dados.php',
+            type: 'POST',
+            data: dados,
+            success: function(response) {
+                try {
+                    var res = JSON.parse(response);
+                    if (res.status === 'sucesso') {
+                        var address = `${dados.street}, ${dados.streetNumber} - ${dados.district}`;
+                        var birthDateRaw = dados.birthDate;
+                        var birthDateFormatted = birthDateRaw.split('-').reverse().join('/'); // Converte "aaaa-mm-dd" para "dd/mm/aaaa"
+
+                        // Preenche os campos da Etapa 2 com os dados salvos
+                        $('#saved-email').val(dados.email);
+                        $('#saved-name').text(dados.name);
+                        $('#saved-cpf').text(dados.cpf);
+                        $('#saved-birth-date').text(birthDateFormatted);
+                        $('#saved-phone').text(dados.phone);
+                        $('#saved-street').text(address);
+                        $('#saved-zipcode').text(dados.zipcode);
+                        $('#saved-city').text(dados.city);
+                        $('#saved-state').text(dados.state);
+
+                        // Oculta a Etapa 1 e exibe a Etapa 2
+                        $('#step-1').addClass('d-none');
+                        $('#step-2').removeClass('d-none');
+
+                        if (pedidoExiste) {
+                            $('#step-item-1').removeClass('active');
+                            $('#step-item-3').addClass('active');
+                        } else {
+                            $('#step-item-1').removeClass('active');
+                            $('#step-item-2').addClass('active');
+                        }
+
+                        $('#btn-step1-continue').addClass('d-none');
+                    } else {
+
+                        // Exibe o modal de validação
+                        var myModal = new bootstrap.Modal(document.getElementById('modal-validar'));
+                        $('#modal-validar .modal-body #msg-modal-validar-titulo').text('Erro...');
+                        $('#modal-validar .modal-body #msg-modal-validar').text(res.mensagem);
+                        myModal.show();
+                    }
+                } catch(e) {
+                    console.log("Resposta inválida: " + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Erro AJAX: " + error);
+            }
+        });
+    }
+
+    // Se o pedido já existe, dispara a consulta AJAX imediatamente
+    if (pedidoExiste) {
+        enviarDadosEtapa1();
+    }
+
+    // Caso contrário, aguarda o clique do botão
+    $('#btn-step1-continue').on('click', function() {
+        enviarDadosEtapa1();
+    });
+
+    // Ao clicar em "Alterar informações" na Etapa 2, volta para a Etapa 1 com os dados preenchidos
+    $('#btn-edit-info').on('click', function() {
+        // Exibe a Etapa 1
+        $('#step-1').removeClass('d-none');
+        // Oculta a Etapa 2
+        $('#step-2').addClass('d-none');
+
+        $('#btn-step1-continue').removeClass('d-none');
+
+        // // (Opcional) Preenche os campos da Etapa 1 com os dados salvos exibidos na Etapa 2
+        // $('#field-email').val($('#saved-email').text());
+        // $('#field-name').val($('#saved-name').text());
+
+        // // Preenche os campos da Etapa 2 com os dados salvos
+        // $('#field-email').val($('#saved-email').text());
+        // $('#field-name').val($('#saved-name').text());
+        // $('#field-cpf').val($('#saved-cpf').text());
+        // $('#field-birth-date').val($('#saved-birth-date').text());
+        // $('#field-phone').val($('#saved-phone').text());
+        // $('#field-zipcode').val($('#saved-zipcode').text());
+        // $('#field-street').val($('#saved-street').text());
+        // $('#field-district').val($('#saved-district').text());
+        // $('#field-city').val($('#saved-city').text());
+        // $('#field-state').val($('#saved-state').text());
+    });
+
+    // Ao clicar em "Não sou eu", limpa os campos e volta para a Etapa 1 vazia
+    $('#link-not-me').on('click', function(e) {
+        e.preventDefault();
+        // Limpa os campos da Etapa 1
+        $('#field-eee').val('');
+        $('#field-name').val('');
+        $('#field-cpf').val('');
+        $('#field-birth-date').val('');
+        $('#field-phone').val('');
+        $('#field-zipcode').val('');
+        $('#field-street').val('');
+        $('#field-street-number').val('');
+        $('#field-complement').val('');
+        $('#field-district').val('');
+        $('#field-city').val('');
+        $('#field-state').val('');
+        $('#newsletter').prop('checked', false);
+        $('#terms').prop('checked', false);
+
+        // Oculta a Etapa 2 e exibe a Etapa 1
+        $('#step-2').addClass('d-none');
+        $('#step-1').removeClass('d-none');
+
+        // Voltar campos padrao para brasileiro
+        $("#div-cpf-field").slideDown();
+        $("#div-cep-field").slideDown();
+        $("#div-country-field").addClass("d-none")
+
+        // Restaurar classes de colunas para Brasil
+        $("#div-district-field").removeClass("col-md-6").addClass("col-md-12");
+        $("#div-city-field").removeClass("col-md-6").addClass("col-md-8");
+
+        $('#btn-step1-continue').removeClass('d-none');
+    });
+
+    // Quando qualquer input radio do grupo "payment" for selecionado,
+    // remove a classe "d-none" do botão de continuar
+    $(document).ready(function(){
+        $('input[name="payment"]').on('change', function() {
+            var method = $(this).val(); // valor do método de pagamento
+            $('#btn-step2-continue').removeClass('d-none');
+
+            if(method === "102" || method.toUpperCase() === "PIX"){
+                $('#btn-step2-continue span').html('Pagar via PIX');
+            } else {
+                $('#btn-step2-continue span').html('Avançar');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+    // Ao clicar no botão "Continuar" da Etapa 2
+    $("#btn-step2-continue").on("click", function() {
+        // Verifica se o input radio selecionado tem value "100" (Cartão de Crédito)
+        if ($('input[name="payment"]:checked').val() == "100") {
+            // Oculta o botão "Continuar"
+            $(this).addClass("d-none");
+
+            // Oculta os outros inputs radio (exceto o com value "100")
+            $('input[name="payment"]').not('[value="100"]').closest('.form-check').hide();
+
+            // Exibe o card-form e a área de confirmação
+            $("#card-form").removeClass("d-none");
+            $("#confirm-payment").removeClass("d-none");
+        } else {
+            //Botão carregando
+            $(".progress-subscription").addClass('d-flex').removeClass('d-none');
+            $("#btn-step2-continue").addClass('d-none').removeClass('d-block');
+
+            // Para boleto ou PIX (por exemplo, "101" ou "102"), enviamos os dados diretamente
+
+            // Exibe o botão de continuar (caso esteja oculto) e oculta o card-form se estiver visível
+            $("#card-form").addClass("d-none");
+            $("#confirm-payment").addClass("d-none");
+
+            // Salva o método de pagamento (ex: "101" ou "102")
+            var typePayment = $('input[name="payment"]:checked').val();
+            localStorage.setItem("method", typePayment);
+            var method = localStorage.getItem("method");
+
+            // Salva os dados do frete
+            var shipping = {
+                valor: $('#frete_valor').data('value'),
+                cep: $('#field-zipcode').val(),
+                shipping_method: $('input[name="shipping_method"]:checked').val()
+            }
+
+            // Cria o array com os itens do carrinho
+            var cartItems = [];
+            $('#checkout-items tr').each(function(){
+                var productId = $(this).data('product-id'); // Certifique-se que cada TR tem o atributo data-product-id
+                var quantity = $(this).find('td').eq(1).text().trim();
+                if(productId && quantity) {
+                    cartItems.push({
+                        id: productId,
+                        quantity: quantity
+                    });
+                }
+            });
+
+            console.log("Carrinho:", cartItems);
+
+            // Cria o objeto com os dados do usuário.
+            // Para boleto ou PIX, os dados do cartão ficam vazios.
+            var paramsData = {
+                email: $('#field-email').val(),
+                eee: $('#field-eee').val(),
+                cpfCnpj: $('#field-cpf').val(),
+                name: $('#field-name').val(),
+                birth_date: $('#field-birth-date').val(),
+                phone: $('#field-phone').val(),
+                postalCode: $('#field-zipcode').val(),
+                street: $('#field-street').val(),
+                addressNumber: $('#field-street-number').val(),
+                complement: $('#field-complement').val(),
+                district: $('#field-district').val(),
+                city: $('#field-city').val(),
+                state: $('#field-state').val(),
+
+                card_name: "",         // Não se aplica
+                card_number: "",       // Não se aplica
+                card_expiry: "",       // Não se aplica
+                card_ccv: "",          // Não se aplica
+                card_installments: ""  // Não se aplica
+            };
+
+            // Cria o objeto de dados para a requisição AJAX
+            var ajaxData = {
+                method: method,
+                shipping: shipping,
+                params: btoa(JSON.stringify(paramsData)),
+                cart: cartItems
+            };
+
+            console.log("Dados a enviar:", ajaxData);
+
+            // Envia a requisição AJAX para criar a compra
+            $.ajax({
+                url: '{{ INCLUDE_PATH }}back-end/subscription.php',
+                method: 'POST',
+                data: ajaxData,
+                dataType: 'JSON',
+                success: function(response) {
+                    window.respostaGlobal = response.id; // Guarda a resposta globalmente, se necessário
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro no envio:", error);
+                }
+            })
+            .done(function(response) {
+                if (response.status == 200) {
+                    removeDeleteItemColumn();
+
+                    $(".alert").remove();
+
+                    $('#step-item-2').removeClass('active');
+                    $('#step-item-3').addClass('active');
+
+                    $("#payment-section").addClass('d-none');
+                    $("#payment-successful").removeClass('d-none');
+
+                    $('#pedido-id').text(response.order);
+
+                    // Atualiza a URL sem recarregar a página
+                    let paymentUrl = window.location.pathname + "?pedido=" + response.order;
+                    window.history.pushState({ path: paymentUrl }, "", paymentUrl);
+
+                    var encodedCode = btoa(response.code);
+                    var customerId = btoa(response.id);
+
+                    $.ajax({
+                        url: '{{ INCLUDE_PATH }}back-end/sql.php',
+                        method: 'POST',
+                        data: {encodedCode: encodedCode},
+                        dataType: 'JSON'
+                    })
+                    .done(function(data) {
+                        // printPaymentData(data);
+                        console.log(data);
+                        console.log("Metodo de pagamento: " + method);
+
+                        if (method === "101") {
+                            $('#paymentMethodText').text('Boleto Bancário');
+                            $("#boleto-section").removeClass('d-none');
+
+                            if (data.link_boleto) {
+                                $("#boleto-link").attr("href", data.link_boleto);
+                            }
+                            if (data.boleto_identificationField) {
+                                $("#boleto-text").val(mascaraCodigoBoleto(data.boleto_identificationField));
+                            }
+                        } else if (method === "102") {
+                            $('#paymentMethodText').text('Pix');
+                            $("#pix-section").removeClass('d-none');
+
+                            // Verifica se há um código de imagem PIX Base64
+                            if (data.pix_encodedImage) {
+                                $("img#pix-qrcode").attr("src", "data:image/png;base64," + data.pix_encodedImage);
+                            }
+                            if (data.pix_payload) {
+                                $("#pix-text").val(data.pix_payload);
+                            }
+                        }
+
+                    })
+
+                    $.ajax({
+                        url: '{{ INCLUDE_PATH_ADMIN }}back-end/magic-link.php',
+                        method: 'POST',
+                        data: {customerId: customerId},
+                        dataType: 'JSON'
+                    })
+                    .done(function(data) {
+                        console.log(data.msg);
+                    })
+
+                    // Remover botão carregando e exibir os demais controles (ajuste conforme sua lógica)
+                    $(".progress-subscription").addClass('d-none').removeClass('d-flex');
+                    $("#btn-step2-continue").addClass('d-block').removeClass('d-none');
+                } else if (response.status == 400) {
+                    $("#div-errors-price").html(response.message).slideDown('fast').effect("shake");
+                    $('html, body').animate({scrollTop : 0});
+                    $(".progress-subscription").addClass('d-none').removeClass('d-flex');
+                    $("#btn-step2-continue").addClass('d-block').removeClass('d-none');
+
+                    $(".alert").remove();
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                }
+            })
+            .fail(function(xhr, status, error) {
+                console.error("Erro no AJAX:", status, error);
+
+                $(".alert").remove();
+                $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+                //Remove botão carregando
+                $(".progress-subscription").addClass('d-none').removeClass('d-flex');
+                $("#btn-step2-continue").addClass('d-block').removeClass('d-none');
+            });
+        }
+    });
+
+    // Ao clicar no botão "Voltar"
+    $("#back").on("click", function(e) {
+        e.preventDefault();
+
+        // Oculta o card-form e a área de confirmação
+        $("#card-form").addClass("d-none");
+        $("#confirm-payment").addClass("d-none");
+
+        // Remove a seleção do input radio com value "100"
+        $('input[name="payment"][value="100"]').prop("checked", false);
+
+        // Exibe novamente todos os inputs radio (todos os labels com a classe .form-check)
+        $('input[name="payment"]').closest('.form-check').show();
+    });
+
+
+
+
+
+
+    // Ao clicar no botão "Confirmar Pagamento"
+    $("#confirm-payment-checkout").on("click", function() {
+        //Botão carregando
+        $("#confirm-payment .progress-subscription").addClass('d-flex').removeClass('d-none');
+        $(this).addClass('d-none').removeClass('d-block');
+
+        var typePayment = $('input[name="payment"]:checked').val();
+        localStorage.setItem("method", typePayment);
+        method = localStorage.getItem("method");
+
+        // Salva os dados do frete
+        var shipping = {
+            valor: $('#frete_valor').data('value'),
+            cep: $('#field-zipcode').val(),
+            shipping_method: $('input[name="shipping_method"]:checked').val()
+        }
+
+        // Exemplo de array com os itens do carrinho
+        var cartItems = [];
+        $('#checkout-items tr').each(function(){
+            var productId = $(this).data('product-id'); // Supondo que cada linha tenha um atributo data-item-id
+            var quantity = $(this).find('td').eq(1).text().trim();
+            if(productId && quantity) {
+                cartItems.push({
+                    id: productId,
+                    quantity: quantity
+                });
+            }
+        });
+
+        console.log("Carrinho:");
+        console.log(cartItems);
+
+        // Criando o objeto com os dados
+        var paramsData = {
+            email: $('#field-email').val(),
+            eee: $('#field-eee').val(),
+            cpfCnpj: $('#field-cpf').val().match(/\d/g).join(""),
+            name: $('#field-name').val(),
+            birth_date: $('#field-birth-date').val(),
+            phone: $('#field-phone').val().match(/\d/g).join(""),
+            postalCode: $('#field-zipcode').val(),
+            street: $('#field-street').val(),
+            addressNumber: $('#field-street-number').val(),
+            complement: $('#field-complement').val(),
+            district: $('#field-district').val(),
+            city: $('#field-city').val(),
+            state: $('#field-state').val(),
+
+            card_name: $("#card-name").val(),
+            card_number: $("#card-number").val(),
+            card_expiry: $("#card-expiry").val(),
+            card_ccv: $("#card-cvc").val(),
+            card_installments: $("#card-installments").val(),
+
+            private: $('#private').val(),
+            newsletter: $('#newsletter').val(),
+            terms: $('#terms').val(),
+        };
+
+        // Criação do objeto de dados para a requisição AJAX
+        var ajaxData = {
+            method: method,
+            shipping: shipping,
+            params: btoa(JSON.stringify(paramsData)),
+            cart: cartItems
+        };
+
+        // Requisição AJAX para o arquivo de criação do cliente
+        $.ajax({
+            url: '{{ INCLUDE_PATH }}back-end/subscription.php',
+            method: 'POST',
+            data: ajaxData,
+            dataType: 'JSON',
+            success: function(response) {
+                window.respostaGlobal = response.id; // Atribui a resposta à propriedade global do objeto window
+            },
+            error: function(xhr, status, error) {
+                console.error("Erro no envio:", error);
+            }
+        })
+        .done(function(response) {
+            if (response.status == 200) {
+                removeDeleteItemColumn();
+
+                $(".alert").remove();
+
+                $('#step-item-2').removeClass('active');
+                $('#step-item-3').addClass('active');
+
+                $("#payment-section").addClass('d-none');
+                $("#payment-successful").removeClass('d-none');
+
+                $('#pedido-id').text(response.order);
+
+                // Atualiza a URL sem recarregar a página
+                let paymentUrl = window.location.pathname + "?pedido=" + response.order;
+                window.history.pushState({ path: paymentUrl }, "", paymentUrl);
+
+                $('#paymentMethodText').text('Cartão de crédito');
+
+
+
+
+
+
+
+
+
+                //Remove botão carregando
+                $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');
+                $(this).addClass('d-block').removeClass('d-none');
+
+                var encodedCode = btoa(response.code);
+                var customerId = btoa(response.id);
+
+                $.ajax({
+                    url: '{{ INCLUDE_PATH }}back-end/sql.php',
+                    method: 'POST',
+                    data: {encodedCode: encodedCode},
+                    dataType: 'JSON'
+                })
+                .done(function(data) {
+                    printPaymentData(data);
+                })
+
+                $.ajax({
+                    url: '{{ INCLUDE_PATH_ADMIN }}back-end/magic-link.php',
+                    method: 'POST',
+                    data: {customerId: customerId},
+                    dataType: 'JSON'
+                })
+                .done(function(data) {
+                    console.log(data.msg);
+                })
+            } else if (response.status == 400 || response.errors) {
+
+                if (response.message) {
+                    $("#div-errors-price").html(response.message).slideDown('fast').effect("shake");
+                }
+
+                if (response.errors) {
+                    response.errors.forEach((error) => {
+                        $("#div-errors-price").html(error.description).slideDown('fast').effect("shake");
+                    })
+                }
+
+                $('html, body').animate({scrollTop : 0});
+
+                //Remove botão carregando
+                $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');
+                $(this).addClass('d-block').removeClass('d-none');
+
+                $(".alert").remove();
+                if (response.error) {
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                }
+
+                if (response.errors) {
+                    response.errors.forEach((error) => {
+                        $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + error.description + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    })
+                }
+
+            }
+        })
+        .fail(function(xhr, status, error) {
+            console.error("Erro no AJAX:", status, error);
+
+            $(".alert").remove();
+            $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+            //Remove botão carregando
+            $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');
+            $(this).addClass('d-block').removeClass('d-none');
+        });
+    });
+});
+</script>
