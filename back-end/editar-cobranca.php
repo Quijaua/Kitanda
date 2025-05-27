@@ -6,10 +6,10 @@
 
     if (isset($_POST['btnUpdCobranca'])) {
         // Nome da tabela para a busca
-        $tabela = 'tb_doacoes';
+        $tabela = 'tb_pedidos';
         
         // Recupera os dados do formulário
-        $valor = $_POST['valor'];
+        $total = $_POST['total'];
         $data_vencimento = $_POST['data_vencimento'];
         $forma_pagamento = $_POST['forma_pagamento'];
         $payment_ids = $_POST['payment_ids'];
@@ -17,10 +17,10 @@
         // Loop através dos IDs das cobranças
         foreach ($payment_ids as $payment_id) {
             // Atualize os registros no banco de dados com base em cada ID
-            $sql = "UPDATE tb_doacoes SET valor = :valor, data_vencimento = :data_vencimento, forma_pagamento = :forma_pagamento WHERE payment_id = :payment_id";
+            $sql = "UPDATE tb_pedidos SET total = :total, data_vencimento = :data_vencimento, forma_pagamento = :forma_pagamento WHERE transacao_id = :payment_id";
     
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':valor', $valor, PDO::PARAM_STR);
+            $stmt->bindParam(':total', $total, PDO::PARAM_STR);
             $stmt->bindParam(':data_vencimento', $data_vencimento, PDO::PARAM_STR);
             $stmt->bindParam(':forma_pagamento', $forma_pagamento, PDO::PARAM_STR);
             $stmt->bindParam(':payment_id', $payment_id, PDO::PARAM_STR);

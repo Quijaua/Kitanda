@@ -30,36 +30,6 @@ function asaas_ObterQRCodePix($subscription_id, $payment_id, $config) {
 
     if($retorno["success"] == true) {
 
-        $tabela = 'tb_doacoes';
-
-        // Faz uma verficacao para saber se e assinatura ou unico
-        if (empty($subscription_id))
-        {
-            // Se o "$subscription_id" esta vazio faz isso
-            $stmt = $conn->prepare("UPDATE $tabela SET pix_expirationDate = :pix_expirationDate, pix_encodedImage = :pix_encodedImage, pix_payload = :pix_payload WHERE payment_id = :payment_id");
-        } else {
-            // Se o "$subscription_id" nao esta vazio faz isso
-            $stmt = $conn->prepare("UPDATE $tabela SET pix_expirationDate = :pix_expirationDate, pix_encodedImage = :pix_encodedImage, pix_payload = :pix_payload WHERE payment_id = :subscription_id");
-        }
-
-        // Bind dos parâmetros
-        $stmt->bindValue(':pix_expirationDate', $retorno['expirationDate']);
-        $stmt->bindValue(':pix_encodedImage', $retorno['encodedImage']);
-        $stmt->bindValue(':pix_payload', $retorno['payload']);
-
-        // Faz uma verficacao para saber se e assinatura ou unico
-        if (empty($subscription_id))
-        {
-            // Se o "$subscription_id" esta vazio faz isso
-            $stmt->bindValue(':payment_id', $payment_id);
-        } else {
-            // Se o "$subscription_id" nao esta vazio faz isso
-            $stmt->bindValue(':subscription_id', $subscription_id);
-        }
-    
-        // Executando o update
-        $stmt->execute();
-
         return $retorno;
 
     } else {

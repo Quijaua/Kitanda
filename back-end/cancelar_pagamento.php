@@ -43,10 +43,10 @@
     if (isset($retorno['deleted']) && $retorno['deleted']) {
         if (!empty($payment_id)) {
             // Nome da tabela para a busca
-            $tabela = 'tb_doacoes';
+            $tabela = 'tb_pedidos';
 
             // Consulta SQL para excluir a linha
-            $sql = "DELETE FROM $tabela WHERE payment_id = :payment_id";
+            $sql = "UPDATE FROM $tabela SET status = 'OVERDUE' WHERE transacao_id = :payment_id";
             $stmt = $conn->prepare($sql);
 
             // Bind dos parâmetros
