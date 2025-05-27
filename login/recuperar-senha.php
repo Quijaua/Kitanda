@@ -240,7 +240,7 @@
         <?php endif; ?>
     </head>
     <body class=" d-flex flex-column">
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo-theme.min.js?1738096682"></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda-theme.min.js?1738096682"></script>
 
         <div class="page">
 

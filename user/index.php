@@ -79,7 +79,7 @@
         <script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
     </head>
     <body>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo-theme.min.js?1738096685"></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda-theme.min.js?1738096685"></script>
 
         <?php if ($url == '404'): ?>
 
