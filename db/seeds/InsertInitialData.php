@@ -62,31 +62,31 @@ class InsertInitialData extends AbstractSeed
         $checkout->insert($checkoutData)->save();
 
         // Inserindo dados na tabela tb_clientes
-//        $clientesData = [
-  //          [
-    //            'id' => 1,
-      //          'roles' => 1,
-        //        'nome' => 'Admin',
-          //      'email' => 'admin@admin.com',
-            //    'password' => '$2y$10$gphtP5ZDgkZNctcEhLKfs.MQ8qWc6Ebf8V6sqRf4q7QhClHSojT7.',
-              //  'magic_link' => null,
-                //'phone' => null,
-//                'cpf' => null,
-  //              'cep' => null,
-    //            'endereco' => null,
-      //          'numero' => null,
-        //        'complemento' => null,
-          //      'municipio' => null,
-            //    'cidade' => null,
-              //  'uf' => null,
-//                'asaas_id' => null,
-  //              'newsletter' => 0,
-    //            'private' => 0,
-      //      ]
-//        ];
-//
-  //      $clientes = $this->table('tb_clientes');
-    //    $clientes->insert($clientesData)->save();
+        $clientesData = [
+            [
+                'id' => 1,
+                'roles' => 1,
+                'nome' => 'Admin',
+                'email' => 'admin@admin.com',
+                'password' => '$2y$10$gphtP5ZDgkZNctcEhLKfs.MQ8qWc6Ebf8V6sqRf4q7QhClHSojT7.',
+                'magic_link' => null,
+                'phone' => null,
+                'cpf' => null,
+                'cep' => null,
+                'endereco' => null,
+                'numero' => null,
+                'complemento' => null,
+                'municipio' => null,
+                'cidade' => null,
+                'uf' => null,
+                'asaas_id' => null,
+                'newsletter' => 0,
+                'private' => 0,
+            ]
+        ];
+
+        $clientes = $this->table('tb_clientes');
+        $clientes->insert($clientesData)->save();
 
         // Inserindo dados na tabela tb_mensagens
         $mensagensData = [
