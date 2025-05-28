@@ -27,6 +27,18 @@ Crie um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaure
 ### Migrar banco de dados
 ```sh
 vendor/bin/phinx migrate
+```
+
+### Seeder
+
+Em ambiente de produção rode
+```sh
+vendor/bin/phinx seed:run -s InsertInitialData -s InsertFuncoes
+```
+
+Em ambiente de desenvolvimento rode
+```sh
+composer require fakerphp/faker
 vendor/bin/phinx seed:run
 ```
 
