@@ -354,6 +354,59 @@ if (isset($_POST['btnUpdNavColor'])) {
     }
 }
 
+if (isset($_POST['btnUpdFreight'])) {
+    //Inclui o arquivo 'config.php'
+    include('../../config.php');
+
+    // Verifique se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Tabela e ID do checkout que queremos atualizar
+        $tabela = 'tb_checkout';
+        $checkoutId = '1';
+
+        // Dados do formulário
+        $freightType = $_POST['freight_type'] ?? 'default';
+        $rawValue = $_POST['freight_value'] ?? ''; // ex: "1.234,56" ou ""
+
+        // Se for 'default', zera o valor; se for 'fixed', converte string para decimal
+        if ($freightType === 'fixed') {
+            // Remove pontos e troca vírgula por ponto:
+            $num = str_replace(['.', ' '], ['', ''], $rawValue);
+            $num = str_replace(',', '.', $num);
+            $freightValue = floatval($num);
+        } else {
+            $freightValue = null;
+        }
+
+        // Prepara o UPDATE
+        $stmt = $conn->prepare("UPDATE {$tabela} SET freight_type = :freight_type, freight_value = :freight_value WHERE id = :id");
+        $stmt->bindParam(':freight_type', $freightType, PDO::PARAM_STR);
+
+        if ($freightValue !== null) {
+            $stmt->bindParam(':freight_value', $freightValue);
+        } else {
+            $stmt->bindValue(':freight_value', null, PDO::PARAM_NULL);
+        }
+
+        $stmt->bindParam(':id', $checkoutId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'Tipo de frete salvo com sucesso!';
+
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+            exit;
+        } catch (PDOException $e) {
+            echo "Erro ao atualizar frete: " . $e->getMessage();
+            exit;
+        }
+    }
+}
+
 if (isset($_POST['btnUpdFooter'])) {
     //Inclui o arquivo 'config.php'
     include('../../config.php');

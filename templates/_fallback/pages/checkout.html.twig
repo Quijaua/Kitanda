@@ -863,7 +863,72 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.js"></script>
 
 <script>
+var freightType  = '{{ freight_type|default("default") }}';      // "default" ou "fixed"
+var freightValue = {{ freight_value is defined ? freight_value : 0 }}; // valor numérico, ex: 12.50
+
 function loadShippingOptions(cep, pesoEmGramas) {
+    var $opts = $('#shipping-options').empty();
+
+    if (freightType === 'fixed') {
+        // Formata R$ 12,50 como “R$ 12,50”
+        var priceText = Number(freightValue).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
+        // Cria um radio fixo já selecionado
+        var radioId = 'shipping-fixed';
+        var $radio = $(
+            '<div class="form-check">' +
+                '<input class="form-check-input" ' +
+                        'type="radio" ' +
+                        'name="shipping_method" ' +
+                        'id="' + radioId + '" ' +
+                        'value="fixed" ' +
+                        'data-price="' + freightValue + '"> ' +
+                '<label class="form-check-label" for="' + radioId + '">' +
+                    'Frete Fixo – ' + priceText +
+                '</label>' +
+            '</div>'
+        );
+
+        $opts.append($radio);
+
+        // Exibe imediatamente o botão “Selecionar”
+        $('#btn-step-shipping-continue').removeClass('d-none');
+
+        // Vincula handler ao clique (mesma lógica de recálculo de total)
+        $opts.find('input[type=radio]').on('change', function() {
+            var newFrete     = parseFloat($(this).data('price'));
+            var newFreteText = newFrete.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            var oldFrete  = parseFloat($('#frete_valor').attr('data-value'));
+            var oldTotal  = parseFloat($('#total_valor').attr('data-value'));
+            var desconto  = parseFloat($('#desconto_valor').attr('data-value'));
+
+            var newTotal  = oldTotal - oldFrete + newFrete;
+            var newTotalText = newTotal.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            $('#frete_valor')
+                .text(newFreteText)
+                .attr('data-value', newFrete);
+
+            $('#total_valor')
+                .text(newTotalText)
+                .attr('data-value', newTotal);
+
+            $('#btn-step-shipping-continue').removeClass('d-none');
+        });
+
+        return;
+    }
+
   $.ajax({
     url: '{{ INCLUDE_PATH }}back-end/carrinho/frete.php',
     method: 'POST',
