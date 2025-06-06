@@ -129,7 +129,7 @@
                 <h2 class="page-title">
                     Novidades
                 </h2>
-                <div class="text-secondary mt-1">Listagem dos emails em massa enviados pelo sistema.</div>
+                <div class="text-secondary mt-1">Mensagens enviadas a todos os clientes.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
