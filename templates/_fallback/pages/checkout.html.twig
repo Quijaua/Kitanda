@@ -105,7 +105,7 @@
                                             name="email"
                                             id="field-email"
                                             placeholder="nome@exemplo.com"
-                                            value="{{ user.email|default('') }}"
+                                            value="{{ sessionUser.email|default('') }}"
                                             required
                                         >
                                         <label for="field-email">Seu e-mail</label>
@@ -127,7 +127,7 @@
                                             name="name"
                                             id="field-name"
                                             placeholder="Primeiro nome"
-                                            value="{{ user.name|default('') }}"
+                                            value="{{ sessionUser.name|default('') }}"
                                             required
                                         >
                                         <label for="field-name">Nome completo</label>
@@ -146,7 +146,7 @@
                                             name="cpfCnpj"
                                             id="field-cpf"
                                             placeholder="CPF"
-                                            value="{{ user.cpf|default('') }}"
+                                            value="{{ sessionUser.cpf|default('') }}"
                                             required
                                         >
                                         <label for="field-cpf">CPF/CNPJ</label>
@@ -165,7 +165,7 @@
                                             name="birth-date"
                                             id="field-birth-date"
                                             placeholder="(99) 99999-9999"
-                                            value="{{ user.birthDate|default('') }}"
+                                            value="{{ sessionUser.birthDate|default('') }}"
                                             required
                                         >
                                         <label for="field-birth-date">Data de Nascimento</label>
@@ -184,7 +184,7 @@
                                             name="phone"
                                             id="field-phone"
                                             placeholder="(99) 99999-9999"
-                                            value="{{ user.phone|default('') }}"
+                                            value="{{ sessionUser.phone|default('') }}"
                                             required
                                         >
                                         <label for="field-phone">Telefone</label>
@@ -212,7 +212,7 @@
                                             name="postalCode"
                                             id="field-zipcode"
                                             placeholder="CEP endereço"
-                                            value="{{ user.zipcode|default('') }}"
+                                            value="{{ sessionUser.zipcode|default('') }}"
                                             required
                                         >
                                         <label for="field-zipcode">CEP</label>
@@ -231,7 +231,7 @@
                                             name="address"
                                             id="field-street"
                                             placeholder="Endereço"
-                                            value="{{ user.street|default('') }}"
+                                            value="{{ sessionUser.street|default('') }}"
                                             required
                                         >
                                         <label for="field-street">Endereço</label>
@@ -253,7 +253,7 @@
                                                     name="addressNumber"
                                                     id="field-street-number"
                                                     placeholder="Número endereço"
-                                                    value="{{ user.streetNumber|default('') }}"
+                                                    value="{{ sessionUser.streetNumber|default('') }}"
                                                     required
                                                 >
                                                 <label for="field-street-number">Número</label>
@@ -272,7 +272,7 @@
                                                     name="complement"
                                                     id="field-complement"
                                                     placeholder="Complemento endereço"
-                                                    value="{{ user.complement|default('') }}"
+                                                    value="{{ sessionUser.complement|default('') }}"
                                                 >
                                                 <label for="field-complement">Complemento</label>
                                             </div>
@@ -293,7 +293,7 @@
                                                     name="province"
                                                     id="field-district"
                                                     placeholder="Bairro endereço"
-                                                    value="{{ user.district|default('') }}"
+                                                    value="{{ sessionUser.district|default('') }}"
                                                     required
                                                 >
                                                 <label for="field-district">Bairro</label>
@@ -312,7 +312,7 @@
                                                     name="city"
                                                     id="field-city"
                                                     placeholder="Cidade endereço"
-                                                    value="{{ user.city|default('') }}"
+                                                    value="{{ sessionUser.city|default('') }}"
                                                     required
                                                 >
                                                 <label for="field-city">Cidade</label>
@@ -331,7 +331,7 @@
                                                     name="state"
                                                     id="field-state"
                                                     placeholder="UF"
-                                                    value="{{ user.state|default('') }}"
+                                                    value="{{ sessionUser.state|default('') }}"
                                                     required
                                                 >
                                                 <label for="field-state">UF</label>
