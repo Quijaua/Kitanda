@@ -151,8 +151,6 @@ $text_color                    = $resultado['text_color'];
 $color                         = $resultado['color'];
 $hover                         = $resultado['hover'];
 $progress                      = $resultado['progress'];
-$freight_type                  = $resultado['freight_type'];
-$freight_value                 = $resultado['freight_value'];
 $monthly_1                     = $resultado['monthly_1'];
 $monthly_2                     = $resultado['monthly_2'];
 $monthly_3                     = $resultado['monthly_3'];
@@ -258,10 +256,6 @@ $context = [
 
     // Carrinho
     'cartCount'       => $cartCount,
-
-    // Frete
-    'freight_type'    => $freight_type,
-    'freight_value'   => $freight_value,
 
     // Captcha (se houver)
     'hcaptcha'        => $hcaptcha ?? null,

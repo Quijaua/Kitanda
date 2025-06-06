@@ -207,6 +207,44 @@
 
                     <div class="col-lg-12">
                         <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Frete</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-0 row">
+                                    <label class="col-3 col-form-label required">Tipo de Frete</label>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="freight_type" id="freight_default" value="default" checked />
+                                            <label class="form-check-label" for="freight_default">Melhor Envio (padrão)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="freight_type" id="freight_fixed" value="fixed" />
+                                            <label class="form-check-label" for="freight_fixed">Frete de valor fixo</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-3 row" id="divFreightValue" style="display: none;">
+                                    <label for="freight_value" class="col-3 col-form-label required">Valor do Frete (R$)</label>
+                                    <div class="col row">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text"> R$ </span>
+                                                <input name="freight_value" id="freight_value" 
+                                                    type="text" class="form-control mask-money" placeholder="0,00" autocomplete="off" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Google / SEO</h4>
                             </div>
@@ -500,6 +538,22 @@
 <script>
     $(document).ready(function() {
         $('#preco').mask("#.##0,00", {reverse: true});
+        $('.mask-money').mask("#.##0,00", {reverse: true});
+    });
+</script>
+
+<!-- Tipo de frete -->
+<script>
+    $(document).ready(function() {
+        $('input[name="freight_type"]').on('change', function() {
+            if ($(this).val() === 'fixed') {
+                $('#divFreightValue').slideDown();
+                $('#freight_value').prop('disabled', false);
+            } else {
+                $('#divFreightValue').slideUp();
+                $('#freight_value').prop('disabled', true).val('');
+            }
+        });
     });
 </script>
 

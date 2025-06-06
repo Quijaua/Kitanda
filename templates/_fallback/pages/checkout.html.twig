@@ -863,76 +863,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/card/2.5.0/card.min.js"></script>
 
 <script>
-var freightType  = '{{ freight_type|default("default") }}';      // "default" ou "fixed"
-var freightValue = {{ freight_value is defined ? freight_value : 0 }}; // valor numérico, ex: 12.50
-
-function loadShippingOptions(cep, pesoEmGramas) {
-    var $opts = $('#shipping-options').empty();
-
-    if (freightType === 'fixed') {
-        // Formata R$ 12,50 como “R$ 12,50”
-        var priceText = Number(freightValue).toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        });
-
-        // Cria um radio fixo já selecionado
-        var radioId = 'shipping-fixed';
-        var $radio = $(
-            '<div class="form-check">' +
-                '<input class="form-check-input" ' +
-                        'type="radio" ' +
-                        'name="shipping_method" ' +
-                        'id="' + radioId + '" ' +
-                        'value="fixed" ' +
-                        'data-price="' + freightValue + '"> ' +
-                '<label class="form-check-label" for="' + radioId + '">' +
-                    'Frete Fixo – ' + priceText +
-                '</label>' +
-            '</div>'
-        );
-
-        $opts.append($radio);
-
-        // Exibe imediatamente o botão “Selecionar”
-        $('#btn-step-shipping-continue').removeClass('d-none');
-
-        // Vincula handler ao clique (mesma lógica de recálculo de total)
-        $opts.find('input[type=radio]').on('change', function() {
-            var newFrete     = parseFloat($(this).data('price'));
-            var newFreteText = newFrete.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            });
-
-            var oldFrete  = parseFloat($('#frete_valor').attr('data-value'));
-            var oldTotal  = parseFloat($('#total_valor').attr('data-value'));
-            var desconto  = parseFloat($('#desconto_valor').attr('data-value'));
-
-            var newTotal  = oldTotal - oldFrete + newFrete;
-            var newTotalText = newTotal.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            });
-
-            $('#frete_valor')
-                .text(newFreteText)
-                .attr('data-value', newFrete);
-
-            $('#total_valor')
-                .text(newTotalText)
-                .attr('data-value', newTotal);
-
-            $('#btn-step-shipping-continue').removeClass('d-none');
-        });
-
-        return;
-    }
-
+function loadShippingOptions(cep, cartItems) {
   $.ajax({
     url: '{{ INCLUDE_PATH }}back-end/carrinho/frete.php',
     method: 'POST',
-    data: { cep: cep, weight: pesoEmGramas },
+    data: { cep: cep, cart: cartItems },
     success: function(response) {
       var res = (typeof response === 'string') ? JSON.parse(response) : response;
       var $opts = $('#shipping-options').empty();
@@ -1021,9 +956,25 @@ function loadShippingOptions(cep, pesoEmGramas) {
 
 // dispara após usuário clicar em “continuar” da etapa 1
 $('#btn-step1-continue').on('click', function() {
-  var cep  = $('#field-zipcode').val().replace(/\D/g, '');
-  var peso = 3; // substitua pelo peso real
-  loadShippingOptions(cep, peso);
+    var cep  = $('#field-zipcode').val().replace(/\D/g, '');
+    var peso = 3; // substitua pelo peso real
+
+    // Cria o array com os itens do carrinho
+    var cartItems = [];
+    $('#checkout-items tr').each(function(){
+        var productId = $(this).data('product-id'); // Certifique-se que cada TR tem o atributo data-product-id
+        var quantity = $(this).find('td').eq(1).text().trim();
+        if(productId && quantity) {
+            cartItems.push({
+                id: productId,
+                quantity: quantity
+            });
+        }
+    });
+
+    console.log("Carrinho:", cartItems);
+
+    loadShippingOptions(cep, cartItems);
 });
 
 $('#btn-step-shipping-continue').on('click', function() {

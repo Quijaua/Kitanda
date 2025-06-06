@@ -47,6 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $vitrine = isset($_POST['vitrine']) ? 1 : 0;
     $descricao = trim($_POST['descricao']);
     $preco = str_replace(['.', ','], ['', '.'], trim($_POST['preco']));
+
+    $freight_type = $_POST['freight_type'] ?? 'default';
+    $rawValue = $_POST['freight_value'] ?? '';
+
+    if ($freight_type === 'fixed') {
+        $num = str_replace(['.', ' '], ['', ''], $rawValue);
+        $num = str_replace(',', '.', $num);
+        $freight_value = floatval($num);
+    } else {
+        $freight_value = null;
+    }
+
     $seo_nome = trim($_POST['seo_nome']);
     $seo_descricao = trim($_POST['seo_descricao']);
     $link = trim($_POST['link']);
@@ -63,13 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         $conn->beginTransaction();
 
-        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link WHERE id = :produto_id");
+        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link WHERE id = :produto_id");
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
         $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $stmt->bindParam(':preco', $preco, PDO::PARAM_STR);
         $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_INT);
+        $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
+        $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
         $stmt->bindParam(':seo_nome', $seo_nome, PDO::PARAM_STR);
         $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
         $stmt->bindParam(':link', $link, PDO::PARAM_STR);
