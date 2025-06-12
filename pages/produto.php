@@ -1,10 +1,14 @@
 <?php
 // pages/produto.php
 
-if (empty($link)) {
+if (empty($_GET['link']) && empty($link)) {
     $_SESSION['error_msg'] = 'Insira o link do produto.';
     header('Location: ' . INCLUDE_PATH);
     exit;
+}
+
+if (!empty($_GET['link'])) {
+    $link = $_GET['link'];
 }
 
 // 1) Busca o produto individual pelo 'link'
