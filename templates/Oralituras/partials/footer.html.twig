@@ -12,11 +12,6 @@ footer a, footer {color:#852343}
             <img src="/assets/Oralituras/thumbs/logo_rosa.png" alt="Oralituras" title="Oralituras" />
                 <span class="h5">{{ nome }}</span><br />
                 <div class="font-weight-light" style="font-size:13px;margin-top:5px">
-                    {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
-                    {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />
-                    {% if telefone %}
-                        Telefone: <a href="callto:{{ telefone }}">{{ telefone }}</a><br />
-                    {% endif %}
                     E-mail: <a href="mailto:{{ email }}">{{ email }}</a>
                 </div>
                 <div class="social-net mt-2 mb-4">
