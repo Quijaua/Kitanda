@@ -1,0 +1,16 @@
+:root {
+    --background: #BCC1BF;
+    --tblr-red: #400F19;
+    --tblr-red-rgb: 204, 34, 41;
+    --tblr-yellow: #400F19;
+    --tblr-yellow-rgb: 255, 210, 22;
+    --tblr-breadcrumb-divider: "|";
+    --tblr-breadcrumb-divider-color: #FFFFFF;
+}
+
+
+.btn:hover {
+	color: #400F19;
+	background-color: #BCC1BF;
+	border-color: #400F19;
+}

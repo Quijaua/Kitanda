@@ -273,6 +273,24 @@
                                         <div class="fs-2 mt-2 text-center">Terra Dourada</div>
                                     </label>
                                 </div>
+
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="Oralituras" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'Oralituras') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/Oralituras/thumbs/oralituras.png" 
+                                                alt="Tema TerraDourada" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Oralituras</div>
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
                         <div class="card-footer text-end">
