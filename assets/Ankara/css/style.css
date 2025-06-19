@@ -1,31 +1,219 @@
 :root {
-    --background: #FFFFFF;
-    --tblr-red: #CC2229;
-    --tblr-red-rgb: 204, 34, 41;
-    --tblr-yellow: #FFD216;
-    --tblr-yellow-rgb: 255, 210, 22;
-    --tblr-breadcrumb-divider: "|";
-    --tblr-breadcrumb-divider-color: #FFFFFF;
+--background: #FFFFFF;
+--tblr-red: #CC2229;
+--tblr-red-rgb: 204, 34, 41;
+--tblr-yellow: #FFD216;
+--tblr-yellow-rgb: 255, 210, 22;
+--tblr-breadcrumb-divider: "|";
+--tblr-breadcrumb-divider-color: #FFFFFF;
+--primary-red: #d32f2f;
+--primary-yellow: #ffd216; 
+--text-dark: #333;
 }
 
 .breadcrumb a {
-    color: var(--tblr-yellow);
-    font-weight: var(--tblr-breadcrumb-item-active-font-weight);
+color: var(--tblr-yellow);
+font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 }
 
 .breadcrumb-item.active {
-    font-weight: normal !important;
+font-weight: normal !important;
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
-    color: #FFFFFF !important;
+color: #FFFFFF !important;
 }
 .product-breadcrumb .breadcrumb-item+.breadcrumb-item::before,
 .cart-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
-    color: #000000 !important;
+color: #000000 !important;
 }
 .ankara-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+}
+
+.pagination-ankara .page-item.active .page-link {
+background-color: #FFD216;
+border-color: #FFD216;
+color: #CC2229;
+}
+
+.navbar-brand img {
+height: 40px;
+}
+
+.hero-section {
+background: linear-gradient(135deg, var(--primary-red) 0%, #c62828 100%);
+color: white;
+position: relative;
+overflow: hidden;
+}
+
+.hero-content {
+padding: 80px 0;
+position: relative;
+z-index: 2;
+}
+
+.hero-image {
+position: absolute;
+right: 0;
+top: 0;
+height: 100%;
+width: 50%;
+}
+
+.section-colorful {
+background: linear-gradient(45deg, #4caf50, #2196f3, var(--primary-yellow), #ff9800);
+padding: 60px 0;
+}
+
+.section-yellow {
+background: var(--primary-yellow);
+padding: 0;
+}
+
+.section-red {
+background: var(--primary-red);
+color: white;
+padding: 60px 0;
+}
+
+.colorful-icon {
+width: 100px;
+height: 100px;
+background: linear-gradient(45deg, #4caf50, #2196f3, var(--primary-yellow), #ff9800, var(--primary-red));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0 auto 20px;
+}
+
+.colorful-icon i {
+font-size: 40px;
+color: white;
+}
+
+.product-card {
+border: none;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+transform: translateY(-5px);
+}
+
+.product-image {
+height: 250px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #999;
+}
+
+.btn-yellow {
+background: var(--primary-yellow);
+border: none;
+color: var(--text-dark);
+font-weight: 600;
+padding: 12px 30px;
+border-radius: 25px;
+}
+
+.btn-yellow:hover {
+background: #ffcc02;
+color: var(--text-dark);
+}
+
+.blog-card {
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.blog-image {
+height: 200px;
+background: #f5f5f5;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #999;
+}
+
+.navbar-nav .nav-link {
+color: var(--text-dark) !important;
+font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+color: var(--primary-red) !important;
+}
+
+.menu {
+list-style: none;
+text-align: center;
+padding: 0;
+margin: 0;
+}
+
+.menu li {margin: 6px 0;}
+.menu a {color: var(--primary-red);}
+
+.cor-ankara-1 {color: var(--primary-red)}
+.cor-ankara-2 {color: var(--primary-yellow)}
+.sub-titulo {font-size:25pt}
+.descricao {font-size:14pt}
+
+.social-net a { color:#000 }
+.bi { font-size:32px }
+
+.social-net a { color:#000 }
+.ti { font-size:32px }
+.section-credito {
+background: var(--primary-red);
+color: white;
+padding: 20px 0;
+}
+.btn-whatsapp a {color: var(--primary-red);font-size:16px}
+.btn-whatsapp {padding-bottom:20px}
+
+.social-icons a {
+width: 40px;
+height: 40px;
+color: var(--primary-red);
+text-align: center;
+line-height: 40px;
+border-radius: 50%;
+margin: 0 5px;
+text-decoration: none;
+}
+
+.bg-red-lt {
+border: 2px solid var(--primary-red);
+border-radius: 20px;
+}
+.btn-outline-red {
+border: 2px solid var(--primary-red);
+color: var(--primary-red);
+border-radius: 25px;
+padding: 8px 25px;
+font-weight: bold;
+transition: all 0.3s ease;
+}
+.btn-outline-red:hover {
+background: #fff;
+background-color: var(--primary-red);
+}
+.card-img-top {
+width: 100%;
+aspect-ratio: 1/1;
+object-fit: cover;
+display: block;
+border: 6px solid #FFFFFF;
+border-radius: 50%;
 }

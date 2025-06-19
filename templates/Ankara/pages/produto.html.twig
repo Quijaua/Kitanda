@@ -247,6 +247,47 @@
         </div>
     </div>
 
+
+
+
+    <div class="my-4 container-xl">
+        <div class="card bg-red-lt p-4">
+            <div class="card-body">
+                <div class="row row-0">
+                    <div class="col-2">
+                        <!-- Photo -->
+                        <img src="{{ e.imagem }}" class="w-100 h-100 object-cover card-img-start card-img-top" alt="Imagem {{ e.nome }}">
+                    </div>
+                    <div class="col-10">
+                        <div class="d-flex align-items-center justify-content-between w-100 ms-4">
+                            <div class="">
+                                <h3 class="h1 mb-1 cor-ankara-1">{{ e.nome }}</h3>
+                                <p class="d-inline-flex align-items-center text-dark lh-1 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-1 text-dark icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                        <path d="M17.657 16.657l-4.243 4.243
+                                                a2 2 0 0 1 -2.827 0
+                                                l-4.244 -4.243
+                                                a8 8 0 1 1 11.314 0z" />
+                                    </svg>
+                                    {{ e.address }}
+                                </p>
+                            </div>
+                            <div>
+                                <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="btn btn-outline-red btn-pill">VER MAIS</a>
+                            </div>
+                        </div>
+                        <p class="text-dark mb-0 ms-4 descricao">{{ e.mini_bio }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {# ----------- “Outros Produtos” ----------- #}
     {% if outros_produtos is not empty %}
         <style>

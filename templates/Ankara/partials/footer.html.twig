@@ -1,5 +1,4 @@
 {# templates/_fallback/partials/footer.html.twig #}
-<footer>
     <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
         <div class="container-xl">
             <div class="row text-center">
@@ -8,56 +7,72 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Red Section with Circular Image -->
+    <section class="section-redd py-6">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                    <img src="/assets/Ankara/imagens/home-3-imagem.webp">
+                </div>
+                <div class="col-lg-8">
+                    <p class="text-uppercase mb-2 cor-ankara-1">Nossa História</p>
+                    <h2 class="fw-bold mb-4 sub-titulo">Título do artigo ipsum dolore magna aliqua ipsum dolore magna</h2>
+                    <h4 class="mb-3 descricao">Título do artigo ipsum dolore magna aliqua</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="section-red">
+        <div class="container">
+            <h2 class="fw-bold mb-5 sub-titulo">Nosso blog</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card blog-card">
+                        <div class="blog-image">
+                            <span>Blog Image</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-danger text-uppercase mb-2">Categoria</p>
+                            <h5 class="card-title">Título do artigo ipsum dolore magna aliqua ipsum dolore magna aliqua ipsum dolore magna aliqua ipsum dolore magna aliqua</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card blog-card">
+                        <div class="blog-image">
+                            <span>Blog Image</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-danger text-uppercase mb-2">Categoria</p>
+                            <h5 class="card-title">Título do artigo ipsum dolore magna aliqua ipsum dolore magna aliqua ipsum dolore magna aliqua ipsum dolore magna aliqua</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/blog" class="btn btn-outline-light">Ver todos os posts</a>
+            </div>
+        </div>
+    </section>
+
+<footer>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-3">
-                <span class="h5">{{ nome }}</span><br />
-                <div class="font-weight-light" style="font-size:13px;margin-top:5px">
-                    {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
-                    {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />
-                    {% if telefone %}
-                        Telefone: <a href="callto:{{ telefone }}">{{ telefone }}</a><br />
-                    {% endif %}
-                    E-mail: <a href="mailto:{{ email }}">{{ email }}</a>
-                </div>
-                <div class="social-net mt-2 mb-4">
-                    <a href="{{ facebook ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                        <i class="bi bi-facebook p-2"></i>
-                    </a>
-                    <a href="{{ instagram ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                        <i class="bi bi-instagram p-2"></i>
-                    </a>
-                    <a href="{{ linkedin ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
-                        <i class="bi bi-linkedin p-2"></i>
-                    </a>
-                    <a href="{{ twitter ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
-                        <i class="bi bi-twitter p-2"></i>
-                    </a>
-                    <a href="{{ youtube ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                        <i class="bi bi-youtube p-2"></i>
-                    </a>
-                    <a href="{{ website ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                        <i class="bi bi-globe-americas p-2"></i>
-                    </a>
-                    <a href="{{ tiktok ?: '#' }}"   target="_blank"
-                       rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
-                        <i class="bi bi-tiktok p-2"></i>
-                    </a>
-                    <a href="{{ linktree ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
-                        <i class="bi bi-share p-2"></i>
-                    </a>
-                </div>
-            </div>
+                <ul class="menu">
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Oficinas</a></li>
+                    <li><a href="#">Produtos</a></li>
+                    <li><a href="#">Sobre nós</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
 
-            <div class="col-md-6 text-center">
-                <div class="social-net mt-2 mb-4">
+                <div class="social-net mt-6">
                     <img src="{{ INCLUDE_PATH }}assets/img/security.webp" alt="ambiente seguro" />
                     <a class="p-2"
                        href="https://transparencyreport.google.com/safe-browsing/search?
@@ -67,29 +82,60 @@
                              width="150" height="42" alt="Safe Browsing">
                     </a>
                 </div>
-                <p class="footer-link ps-1">
-                    {% if use_privacy %}
-                        <a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
-                            PRIVACIDADE
-                        </a>
-                    {% else %}
-                        <a href="{{ privacidade }}" rel="noopener noreferrer" target="_blank">
-                            PRIVACIDADE
-                        </a>
-                    {% endif %}
-                    | <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer" target="_blank">
-                        ÁREA DE CLIENTE
-                      </a><br />
+            </div>
 
-                    {% if use_faq %}
-                        <a href="{{ faq }}" rel="noopener noreferrer" target="_blank">
-                            PERGUNTAS FREQUENTES
-                        </a>
-                    {% endif %}
-                </p>
+            <div class="col-md-6 text-center">
+                <div class="social-net mt-2 mb-4">
+                    <img src="/assets/Ankara/imagens/ankara-logo.png">             
+                </div>
             </div>
 
             <div class="col-md-3">
+                <p class="btn-whatsapp"><a href="#"><i class="ti ti-brand-whatsapp"></i> Fale com a gente</a></p>
+
+                <div class="social-icons">
+                <a href="{{ facebook ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-facebook"></i>
+                </a>
+                <a href="{{ instagram ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-instagram p-2"></i>
+                </a>
+                <a href="{{ linkedin ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-linkedin p-2"></i>
+                </a>
+                <a href="{{ twitter ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-twitter p-2"></i>
+                </a>
+                <a href="{{ youtube ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-youtube p-2"></i>
+                </a>
+                <a href="{{ website ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
+                    <i class="ti ti-globe-americas p-2"></i>
+                </a>
+                <a href="{{ tiktok ?: '#' }}"   target="_blank"
+                    rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-tiktok p-2"></i>
+                </a>
+                <a href="{{ linktree ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
+                    <i class="ti ti-share p-2"></i>
+                </a>
+
+                <div class="font-weight-light" style="font-size:13px;margin-top:5px">
+                    {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
+                    {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />
+                    {% if telefone %}
+                        Telefone: <a href="callto:{{ telefone }}">{{ telefone }}</a><br />
+                    {% endif %}
+                    E-mail: <a href="mailto:{{ email }}">{{ email }}</a>
+                </div>
+
                 <p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
                     <a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
                         Usamos Kitanda | Open source
@@ -98,9 +144,20 @@
             </div>
         </div>
     </div>
+</div>
 
-    <style>
-        .social-net a { color:#000 }
-        .bi { font-size:32px }
-    </style>
+    <div class="section-credito">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                &copy; 2025 - {{ nome }} - Todos os direitos reservados
+                </div>
+                <div class="col-md-6 d-flex flex-row-reverse">
+                    <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer"  class="text-white mx-2" target="_blank">Área de cliente</a> | 
+                    <a href="#" class="text-white mx-2">Política de Privacidade</a> | 
+                    <a href="#" class="text-white mx-2">Termos e condições</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>

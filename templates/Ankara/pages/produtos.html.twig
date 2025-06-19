@@ -1,13 +1,4 @@
 {% block content %}
-    {# Ajustes de estilo apenas para Ankara: #}
-    <style>
-        .pagination-ankara .page-item.active .page-link {
-            background-color: #FFD216;
-            border-color: #FFD216;
-            color: #CC2229;
-        }
-    </style>
-
     {# ----------- Modais de Sucesso / Erro ----------- #}
     <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -50,52 +41,11 @@
     </div>
 
     <!-- Page header -->
-    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <ol class="breadcrumb breadcrumb-muted text-white">
-                        <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
-                        <li class="breadcrumb-item active">Nossos produtos</li>
-                    </ol>
-                </div>
-                <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Palavra-chave</h2>
-                    <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Nossos produtos</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <ul class="list-group list-group-horizontal list-inline d-flex gap-5 justify-content-center">
-                    <li class="text-red fw-bold fs-2">
-                        * <a href="#" class="text-red fw-bold fs-2"><span>DECORAÇÃO</span></a> *
-                    </li>
-                    <li class="text-red fw-bold fs-2">
-                        * <a href="#" class="text-red fw-bold fs-2"><span>JÓIAS E BIJOUTERIAS</span></a> *
-                    </li>
-                    <li class="text-red fw-bold fs-2">
-                        * <a href="#" class="text-red fw-bold fs-2"><span>ACESSÓRIOS E ROUPAS</span></a> *
-                    </li>
-                    <li class="text-red fw-bold fs-2">
-                        * <a href="#" class="text-red fw-bold fs-2"><span>UTILITÁRIOS</span></a> *
-                    </li>
-                    <li class="text-red fw-bold fs-2">
-                        * <a href="#" class="text-red fw-bold fs-2"><span>BRINQUEDOS</span></a> *
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title text-ankara">Produtos</h2>
+                    <h2 class="page-title text-ankara sub-titulo">Produtos</h2>
                     <div class="text-secondary mt-1">
                         {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
