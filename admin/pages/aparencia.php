@@ -250,7 +250,7 @@
                                             class="form-imagecheck-input"
                                             <?php if ($current_theme == 'Ankara') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
-                                            <img src="<?= INCLUDE_PATH ?>assets/Ankara/thumbs/ankara.png" 
+                                            <img src="<?= INCLUDE_PATH ?>assets/Ankara/thumbs/ankara.webp"
                                                 alt="Tema Ankara" 
                                                 class="form-imagecheck-image">
                                         </span>
@@ -266,7 +266,7 @@
                                             class="form-imagecheck-input"
                                             <?php if ($current_theme == 'TerraDourada') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
-                                            <img src="<?= INCLUDE_PATH ?>assets/TerraDourada/thumbs/terradourada.png" 
+                                            <img src="<?= INCLUDE_PATH ?>assets/TerraDourada/thumbs/terradourada.webp"
                                                 alt="Tema TerraDourada" 
                                                 class="form-imagecheck-image">
                                         </span>
@@ -283,7 +283,7 @@
                                             class="form-imagecheck-input"
                                             <?php if ($current_theme == 'Oralituras') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
-                                            <img src="<?= INCLUDE_PATH ?>assets/Oralituras/thumbs/oralituras.png" 
+                                            <img src="<?= INCLUDE_PATH ?>assets/Oralituras/thumbs/oralituras.webp" 
                                                 alt="Tema TerraDourada" 
                                                 class="form-imagecheck-image">
                                         </span>

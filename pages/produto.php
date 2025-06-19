@@ -87,7 +87,7 @@ $stmt = $conn->prepare("
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id
     WHERE p.id != ? AND p.vitrine = 1
-    LIMIT 4
+    LIMIT 3
 ");
 $stmt->execute([$produto['id']]);
 $outros = $stmt->fetchAll(PDO::FETCH_ASSOC);
