@@ -1,98 +1,125 @@
 {# templates/_fallback/partials/footer.html.twig #}
-<footer>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <span class="h5">{{ nome }}</span><br />
-                <div class="font-weight-light" style="font-size:13px;margin-top:5px">
-                    {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
-                    {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />
-                    {% if telefone %}
-                        Telefone: <a href="callto:{{ telefone }}">{{ telefone }}</a><br />
-                    {% endif %}
-                    E-mail: <a href="mailto:{{ email }}">{{ email }}</a>
+    <!-- News Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="mb-5 fw-bold fs-1">Últimas notícias</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card news-card">
+                        <div class="news-image">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">Categoria</span>
+                            <p class="text-muted small">10 NOV 2023</p>
+                            <h5 class="card-title">Título do post infect laoreet lacunis, cursus maximus nulla sit te que wild y thought</h5>
+                        </div>
+                    </div>
                 </div>
-                <div class="social-net mt-2 mb-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card news-card">
+                        <div class="news-image">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">Categoria</span>
+                            <p class="text-muted small">10 NOV 2023</p>
+                            <h5 class="card-title">Título do post infect laoreet lacunis, cursus maximus nulla sit te que wild y thought</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="/blog" class="btn btn-outline-warning text-uppercase">Ver todos os artigos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer marrom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Mulheres Empreendedoras da Amazônia" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
+                    <p>Empoderando mulheres da Amazônia através do empreendedorismo sustentável.</p>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <p class="fs-3">Fale com a gente</p>
+                    <p><a href="#"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
+                    <h6 class="mt-4">Siga-nos</h6>
+                    <div class="social-icons">
                     <a href="{{ facebook ?: '#' }}" target="_blank"
                        rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                        <i class="bi bi-facebook p-2"></i>
+                        <i class="fab fa-2x fa-facebook"></i>
                     </a>
                     <a href="{{ instagram ?: '#' }}" target="_blank"
                        rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                        <i class="bi bi-instagram p-2"></i>
-                    </a>
-                    <a href="{{ linkedin ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
-                        <i class="bi bi-linkedin p-2"></i>
-                    </a>
-                    <a href="{{ twitter ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
-                        <i class="bi bi-twitter p-2"></i>
+                        <i class="fab fa-2x fa-instagram"></i>
                     </a>
                     <a href="{{ youtube ?: '#' }}" target="_blank"
                        rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                        <i class="bi bi-youtube p-2"></i>
+                        <i class="fab fa-2x fa-youtube"></i>
                     </a>
                     <a href="{{ website ?: '#' }}" target="_blank"
                        rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                        <i class="bi bi-globe-americas p-2"></i>
+                        <i class="bi fa-2x bi-globe-americas p-2"></i>
                     </a>
-                    <a href="{{ tiktok ?: '#' }}"   target="_blank"
-                       rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
-                        <i class="bi bi-tiktok p-2"></i>
-                    </a>
-                    <a href="{{ linktree ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
-                        <i class="bi bi-share p-2"></i>
-                    </a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-6 text-center">
-                <div class="social-net mt-2 mb-4">
-                    <img src="{{ INCLUDE_PATH }}assets/img/security.webp" alt="ambiente seguro" />
-                    <a class="p-2"
-                       href="https://transparencyreport.google.com/safe-browsing/search?
-                             url={{ INCLUDE_PATH }}"
-                       target="_blank" rel="noreferrer">
-                        <img src="{{ INCLUDE_PATH }}assets/img/selo-google.png"
-                             width="150" height="42" alt="Safe Browsing">
-                    </a>
-                </div>
-                <p class="footer-link ps-1">
+                
+                <div class="col-lg-3 mb-4">
+                    <p class="fs-3">Informações gerais</p>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Política de fretamento</a></li>
+                        <li><a href="#">Termos e condições</a></li>
                     {% if use_privacy %}
-                        <a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
-                            PRIVACIDADE
-                        </a>
+                        <li><a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
+                            Política e privacidade do cliente
+                        </a></li>
                     {% else %}
-                        <a href="{{ privacidade }}" rel="noopener noreferrer" target="_blank">
-                            PRIVACIDADE
-                        </a>
+                        <li><a href="{{ privacidade }}" rel="noopener noreferrer" target="_blank">
+                            Política e privacidade do cliente
+                        </a></li>
                     {% endif %}
-                    | <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer" target="_blank">
-                        ÁREA DE CLIENTE
-                      </a><br />
+                        <li><a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer" target="_blank">
+                        Área de cliente
+                      </a></li>
 
-                    {% if use_faq %}
-                        <a href="{{ faq }}" rel="noopener noreferrer" target="_blank">
-                            PERGUNTAS FREQUENTES
-                        </a>
-                    {% endif %}
-                </p>
-            </div>
-
-            <div class="col-md-3">
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <p class="fs-3">Contato</p>
+                    <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
+                    
+                    <p class="fs-3 mt-4">Formas de pagamento</p>
+                    <div class="d-flex">
+                        <i class="fab fa-cc-visa me-2" style="font-size: 1.5rem;"></i>
+                        <i class="fab fa-cc-mastercard me-2" style="font-size: 1.5rem;"></i>
+                        <i class="fab fa-pix" style="font-size: 1.5rem;"></i>
+                    </div>
                 <p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
                     <a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
                         Usamos Kitanda | Open source
                     </a>
                 </p>
+                </div>
             </div>
+            
+
+    <div class="row">
+        <div class="col-12">
+           <p class="mb-0">&copy; 2024 {{ nome }} Mulheres Empreendedoras da Amazônia. Todos os direitos reservados.</p>
         </div>
     </div>
 
-    <style>
-        .social-net a { color:#000 }
-        .bi { font-size:32px }
-    </style>
-</footer>
+        </div>
+
+
+
+    </footer>
+
+
+

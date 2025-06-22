@@ -6,4 +6,163 @@
     --tblr-yellow-rgb: 255, 210, 22;
     --tblr-breadcrumb-divider: "|";
     --tblr-breadcrumb-divider-color: #FFFFFF;
+    --primary-color:#F39505;
+    /* --primary-color: #D2691E;
+    --secondary-color: #8FBC8F;
+    --accent-color: #FF8C00;
+    --text-dark: #2C3E50; */
+    --tblr-btn-hover-bg: #fd9e06 !important;
+    --tblr-warning: #fd9e06 !important;
+}
+
+
+
+.laranja-claro {background-color: #fd9e06}
+.marrom {background-color: #ad5202}
+.marrom-escuro {background-color:#642e00}
+.verde {background-color: #788f22}
+
+header {background-color: #AD5202 !important; color: #FFFFFF}
+
+.text-orange {color: #fd9e06}
+
+.navbar-brand img {height: 50px;}
+
+.hero-section {
+    background: url('/assets/TerraDourada/images/hero-mea.webp');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 180px 0 180px;
+
+}
+
+.category-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 2rem;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.category-icon:hover {
+    transform: translateY(-5px);
+}
+
+
+.badge-destaque {
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 15px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+
+.entrepreneur-card {
+    background: white;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.entrepreneur-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.news-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+}
+
+.news-image {
+    height: 200px;
+    background: linear-gradient(45deg, #D2691E, #8FBC8F);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.news-image i {
+    font-size: 4rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.footer {
+    color: white;
+    padding: 50px 0 20px;
+}
+
+.footer h5 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: background 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 80px 0 60px;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
 }
