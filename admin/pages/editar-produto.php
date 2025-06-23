@@ -7,6 +7,22 @@
 
     $update = verificaPermissao($_SESSION['user_id'], 'produtos', 'update', $conn);
     $disabledUpdate = !$update ? 'disabled' : '';
+
+    $isAdmin = (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador');
+
+    // Verifica permissão
+    if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') {
+        // Consulta para buscar o produto selecionado
+        $stmt = $conn->prepare("SELECT * FROM tb_lojas");
+        $stmt->execute();
+        $empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($empreendedoras as $key => $e) {
+            $empreendedoras[$key]['imagem'] = !empty($e['imagem'])
+                ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$e['id']}/perfil/{$e['imagem']}")
+                : INCLUDE_PATH . "assets/preview-image/profile.jpg";
+        }
+    }
 ?>
 
 <?php
@@ -293,6 +309,56 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Vendedora</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-0 row">
+                                    <label class="col-3 col-form-label required">Vendedora do Produto</label>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                                <?php foreach ($empreendedoras as $e): ?>
+                                                <?php $selected = ($e['vendedora_id'] == $produto['criado_por']) ? 'selected' : ''; ?>
+                                                <option value="<?= $e['vendedora_id']; ?>"
+                                                    data-custom-properties="<span class='avatar avatar-xs' style='background-image: url(<?= $e['imagem']; ?>)'></span>"
+                                                    <?= $selected; ?>
+                                                >
+                                                    <?= htmlspecialchars($e['nome']); ?>
+                                                </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        new TomSelect(document.getElementById('select-people'), {
+                                            copyClassesToDropdown: false,
+                                            dropdownParent: 'body',
+                                            render: {
+                                                item: function(data, escape) {
+                                                    return data.customProperties 
+                                                        ? '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>'
+                                                        : '<div>' + escape(data.text) + '</div>';
+                                                },
+                                                option: function(data, escape) {
+                                                    return data.customProperties 
+                                                        ? '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>'
+                                                        : '<div>' + escape(data.text) + '</div>';
+                                                },
+                                            },
+                                        });
+                                    });
+                                </script>
+
+                            </div>
                         </div>
                     </div>
 

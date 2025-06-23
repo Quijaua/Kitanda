@@ -93,7 +93,7 @@
         $seo_nome = trim($_POST['seo_nome']);
         $seo_descricao = trim($_POST['seo_descricao']);
         $link = trim($_POST['link']);
-        $criado_por = $_SESSION['user_id'];
+        $criado_por = (isset($_POST['criado_por']) && !empty($_POST['criado_por'])) ? $_POST['criado_por'] : $_SESSION['user_id'];
 
         if (!isset($_SESSION['user_id'])) {
             echo json_encode(['status' => 'error', 'message' => 'Usuário não autenticado.']);
