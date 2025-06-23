@@ -113,7 +113,7 @@
                 <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('cabecalho'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
+                <li class="nav-item <?= activeSidebarLink('geral'); ?> <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/settings -->
