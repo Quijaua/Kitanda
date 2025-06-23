@@ -154,6 +154,42 @@ $g_analytics    = $resultado2['g_analytics'];
 // Mapeia variáveis vindas de $resultado3 (política de privacidade)
 $use_privacy    = $resultado3['use_privacy'];
 
+// Busca os 2 últimos posts para o rodapé
+$stmt = $conn->prepare("
+    SELECT *
+    FROM tb_blog_posts
+    ORDER BY data_publicacao DESC
+    LIMIT 2
+");
+$stmt->execute();
+$postsRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$footerPosts = [];
+foreach ($postsRaw as $post) {
+    // URL da imagem de capa (com fallback)
+    $imagemUrl = !empty($post['imagem'])
+        ? str_replace(' ', '%20', INCLUDE_PATH . "files/blog/{$post['id']}/{$post['imagem']}")
+        : INCLUDE_PATH . "assets/preview-image/product.jpg";
+
+    // Busca categorias associadas ao post
+    $stmtCat = $conn->prepare("
+        SELECT c.id, c.nome
+        FROM tb_blog_categoria_posts cp
+        JOIN tb_blog_categorias c
+          ON cp.categoria_id = c.id
+        WHERE cp.post_id = ?
+    ");
+    $stmtCat->execute([$post['id']]);
+    $cats = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
+
+    $footerPosts[] = [
+        'id'              => $post['id'],
+        'titulo'          => $post['titulo'],
+        'imagem'          => $imagemUrl,
+        'data_publicacao' => $post['data_publicacao'],
+        'categorias'      => $cats,
+    ];
+}
 
 // 3.5) Calcula $cartCount (o número de itens no carrinho)
 if (isset($_SESSION['user_id'])) {
@@ -243,6 +279,9 @@ $context = [
 
     // Caso queira passar $usuario autenticado:
     'usuario'         => $usuario ?? null,
+
+    // Posts do rodapé
+    'footerPosts'     => $footerPosts ?? [],
 ];
 
 switch ($url) {
