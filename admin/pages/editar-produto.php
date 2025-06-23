@@ -122,22 +122,24 @@
         <form id="updateProduct" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-product.php" method="post" enctype="multipart/form-data">
             <div class="row">
 
-                <?php if ($only_own && $produto['criado_por'] !== $_SESSION['user_id']): ?>
-                <div class="col-lg-12">
-                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-                </div>
-                <?php exit; endif; ?>
+                <?php if (!$isAdmin): ?>
+                    <?php if ($only_own && $produto['criado_por'] !== $_SESSION['user_id']): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
 
-                <?php if (!$only_own && !$read): ?>
-                <div class="col-lg-12">
-                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-                </div>
-                <?php exit; endif; ?>
+                    <?php if (!$only_own && !$read): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
 
-                <?php if (!$update): ?>
-                <div class="col-lg-12">
-                    <div class="alert alert-info">Você pode visualizar os detalhes do produto, mas não pode editá-lo.</div>
-                </div>
+                    <?php if (!$update): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-info">Você pode visualizar os detalhes do produto, mas não pode editá-lo.</div>
+                    </div>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <!-- Mensagem de erro -->
