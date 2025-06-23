@@ -19,6 +19,12 @@
 
     include('../config.php');
 
+    $query = "SELECT title FROM tb_checkout WHERE id = :id";
+    $stmt = $conn->prepare($query);
+    $stmt->bindValue(':id', 1);
+    $stmt->execute();
+    $title = $stmt->fetch(PDO::FETCH_ASSOC)['title'];
+
     $query = "SELECT captcha_type AS type FROM tb_page_captchas WHERE page_name = :page_name";
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':page_name', 'login');
@@ -220,7 +226,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <title>Kitanda - Recuperar senha</title>
+        <title><?= $project['title'] ?: $project['name']; ?></title>
 
         <!-- CSS files -->
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096682" rel="stylesheet"/>
