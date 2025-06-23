@@ -26,7 +26,7 @@ $id = 1;
 $user_id = $_SESSION['user_id'];
 
 // Consulta SQL
-$sql = "SELECT nome, logo, title, descricao, doacoes, pix_tipo, pix_chave, pix_valor, pix_codigo, pix_imagem_base64, pix_identificador_transacao, pix_exibir, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, theme, monthly_1, monthly_2, monthly_3, monthly_4, monthly_5, yearly_1, yearly_2, yearly_3, yearly_4, yearly_5, once_1, once_2, once_3, once_4, once_5 FROM $tabela WHERE id = :id";
+$sql = "SELECT nome, logo, title, descricao, doacoes, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, theme FROM $tabela WHERE id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
@@ -88,14 +88,6 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
         $descricao = $resultado['descricao'];
-        $card_doacoes = $resultado['doacoes'];
-        $pix_tipo = $resultado['pix_tipo'];
-        $pix_chave = $resultado['pix_chave'];
-        $pix_valor = $resultado['pix_valor'];
-        $pix_codigo = $resultado['pix_codigo'];
-        $pix_imagem_base64 = $resultado['pix_imagem_base64'];
-        $pix_identificador_transacao = $resultado['pix_identificador_transacao'];
-        $pix_exibir = $resultado['pix_exibir'];
         $privacidade = $resultado['privacidade'];
         $faq = $resultado['faq'];
         $use_faq = $resultado['use_faq'];
@@ -123,21 +115,6 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $text_color = $resultado['text_color'];
         $load_btn = $resultado['load_btn'];
         $current_theme = $resultado['theme'];
-        $monthly_1 = $resultado['monthly_1'];
-        $monthly_2 = $resultado['monthly_2'];
-        $monthly_3 = $resultado['monthly_3'];
-        $monthly_4 = $resultado['monthly_4'];
-        $monthly_5 = $resultado['monthly_5'];
-        $yearly_1 = $resultado['yearly_1'];
-        $yearly_2 = $resultado['yearly_2'];
-        $yearly_3 = $resultado['yearly_3'];
-        $yearly_4 = $resultado['yearly_4'];
-        $yearly_5 = $resultado['yearly_5'];
-        $once_1 = $resultado['once_1'];
-        $once_2 = $resultado['once_2'];
-        $once_3 = $resultado['once_3'];
-        $once_4 = $resultado['once_4'];
-        $once_5 = $resultado['once_5'];
     } else {
         // ID não encontrado ou não existente
         $_SESSION['msg'] = "ID não encontrado.";
