@@ -21,57 +21,27 @@ if (isset($_POST['btnUpdAbout'])) {
         $id = '1';
 
         //Informacoes coletadas pelo metodo POST
-        if(isset($_POST['title'])) {
-            $title = $_POST['title'];
-        }
-
-        if(isset($_POST['nome']) && isset($_POST['descricao'])) {
-            $nome = $_POST['nome'];
-            $descricao = $_POST['descricao'];
-            $doacoes = isset($_POST['doacoes']) ? 1 : 0;
-        }
+        $title = $_POST['title'] ?? null;
+        $descricao = $_POST['descricao'] ?? null;
 
         // Atualize o item no banco de dados
-        if(isset($title)) {
-            $sql = "UPDATE $tabela SET title = :title WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':title', $title);
-            $stmt->bindParam(':id', $id);
+        $sql = "UPDATE $tabela SET title = :title, descricao = :descricao WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':id', $id);
 
-            try {
-                $stmt->execute();
-    
-                // Exibir a modal após salvar as informações
-                $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-                $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
-    
-                //Voltar para a pagina do formulario
-                header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
-            } catch (PDOException $e) {
-                echo "Erro na atualização: " . $e->getMessage();
-            }
-        }
+        try {
+            $stmt->execute();
 
-        if(isset($nome) && isset($descricao) && isset($doacoes)) {
-            $sql = "UPDATE $tabela SET nome = :nome, descricao = :descricao, doacoes = :doacoes WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':doacoes', $doacoes);
-            $stmt->bindParam(':id', $id);
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'As configurações gerais do site foram atualizadas com sucesso!';
 
-            try {
-                $stmt->execute();
-    
-                // Exibir a modal após salvar as informações
-                $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-                $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
-    
-                //Voltar para a pagina do formulario
-                header('Location: ' . INCLUDE_PATH_ADMIN . 'sobre');
-            } catch (PDOException $e) {
-                echo "Erro na atualização: " . $e->getMessage();
-            }
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+        } catch (PDOException $e) {
+            echo "Erro na atualização: " . $e->getMessage();
         }
     }
 }
@@ -129,7 +99,7 @@ if (isset($_POST['btnUpdLogo'])) {
                     $_SESSION['msg'] = 'A logo foi salva com sucesso com sucesso!';
 
                     //Voltar para a pagina do formulario
-                    header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+                    header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
                 } else {
                     echo "Erro ao enviar o arquivo para o servidor.";
                 }
@@ -347,7 +317,7 @@ if (isset($_POST['btnUpdNavColor'])) {
             $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
         }
@@ -398,7 +368,7 @@ if (isset($_POST['btnUpdFreight'])) {
             $_SESSION['msg'] = 'Tipo de frete salvo com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
             exit;
         } catch (PDOException $e) {
             echo "Erro ao atualizar frete: " . $e->getMessage();

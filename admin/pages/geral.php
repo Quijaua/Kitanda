@@ -46,15 +46,23 @@
 
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                         <div class="card-header">
-                            <h4 class="card-title">Título da Página</h4>
+                            <h4 class="card-title">Configurações Gerais do Site</h4>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <label for="title" class="col-3 col-form-label required">Texto do Título da Página</label>
+                                <label for="title" class="col-3 col-form-label required">Título da Página</label>
                                 <div class="col">
                                     <input name="title" id="title"
                                         type="text" class="form-control" value="<?php echo $title; ?>">
                                     <small class="form-hint">Será mostrado na aba do seu navegador e na página do Google.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="descricao" class="col-3 col-form-label">Descrição do Site</label>
+                                <div class="col">
+                                    <textarea name="descricao" id="descricao"
+                                        class="form-control" rows="4"><?php echo $descricao; ?></textarea>
+                                    <small class="form-hint">Descrição para SEO e exibição no rodapé.</small>
                                 </div>
                             </div>
                         </div>
