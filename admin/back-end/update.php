@@ -46,6 +46,37 @@ if (isset($_POST['btnUpdAbout'])) {
     }
 }
 
+if (isset($_POST['btnUpdVitrine'])) {
+    include('../../config.php');
+
+    // Verifique se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //Id da tabela
+        $id = '1';
+
+        //Informacoes coletadas pelo metodo POST
+        $vitrine_limite = (int) $_POST['vitrine_limite'];
+    
+        $sql = "UPDATE tb_checkout SET vitrine_limite = :vitrine_limite WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':vitrine_limite', $vitrine_limite);
+        $stmt->bindParam(':id', $id);
+
+        try {
+            $stmt->execute();
+
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'Limite da vitrine atualizado com sucesso!';
+
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+        } catch (PDOException $e) {
+            echo "Erro na atualização: " . $e->getMessage();
+        }
+    }
+}
+
 if (isset($_POST['btnUpdLogo'])) {
     //Inclui o arquivo 'config.php'
     include('../../config.php');

@@ -26,7 +26,7 @@ $id = 1;
 $user_id = $_SESSION['user_id'];
 
 // Consulta SQL
-$sql = "SELECT nome, logo, title, descricao, doacoes, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, theme FROM $tabela WHERE id = :id";
+$sql = "SELECT nome, logo, title, descricao, vitrine_limite, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, theme FROM $tabela WHERE id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
@@ -88,6 +88,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
         $descricao = $resultado['descricao'];
+        $vitrine_limite = $resultado['vitrine_limite'];
         $privacidade = $resultado['privacidade'];
         $faq = $resultado['faq'];
         $use_faq = $resultado['use_faq'];

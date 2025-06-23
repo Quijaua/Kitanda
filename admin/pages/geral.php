@@ -80,6 +80,43 @@
             <div class="col-lg-12">
                 <div class="card">
 
+                    <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
+                        <div class="card-header">
+                            <h4 class="card-title">Vitrine do Site</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <label for="vitrine_limite" class="col-3 col-form-label required">Limite de Itens</label>
+                                <div class="col row">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            name="vitrine_limite"
+                                            id="vitrine_limite"
+                                            class="form-control"
+                                            value="<?php echo $vitrine_limite; ?>"
+                                            required
+                                        >
+                                    </div>
+                                    <small class="form-hint">Número máximo de produtos que serão exibidos na vitrine do site.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                <button type="submit" name="btnUpdVitrine" class="btn btn-primary ms-auto">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
                         <div class="card-header">
                             <h4 class="card-title">Logo</h4>

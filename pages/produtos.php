@@ -1,6 +1,8 @@
 <?php
 // Definir o limite padrão de produtos por página
-$limite = isset($_GET['limite']) && is_numeric($_GET['limite']) ? (int) $_GET['limite'] : 50;
+$limite = isset($vitrine_limite) && is_numeric($vitrine_limite) && $vitrine_limite > 0
+        ? (int) $vitrine_limite
+        : (isset($_GET['limite']) && is_numeric($_GET['limite']) ? (int) $_GET['limite'] : 50);
 $pagina_atual = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
