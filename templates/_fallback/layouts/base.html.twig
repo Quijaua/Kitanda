@@ -10,6 +10,10 @@
     <meta name="msapplication-TileImage"
           content="{{ INCLUDE_PATH }}assets/img/favicon.png" />
 
+    {# Descrição #}
+    <meta name="description" content="{{ descricao|slice(0, 160)|escape }}" />
+    <meta property="og:description" content="{{ descricao|escape }}" />
+
     {# CSS Globais/distritos #}
     <link href="{{ INCLUDE_PATH }}dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-flags.min.css" rel="stylesheet"/>

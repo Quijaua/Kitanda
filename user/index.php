@@ -63,7 +63,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><?= $project['title'] ?: $project['name']; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
-        <meta name="description" content="Solução para recebimentos de doações">
+
+        <!-- Descrição -->
+        <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
+        <meta property="og:description" content="<?= htmlspecialchars($project['descricao']); ?>" />
 
         <!-- CSS files -->
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/coloris.min.css?1738096684" rel="stylesheet"/>

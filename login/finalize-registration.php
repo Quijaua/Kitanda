@@ -155,6 +155,10 @@ if (isset($_GET["token"])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title><?= $project['title'] ?: $project['name']; ?></title>
 
+    <!-- Descrição -->
+    <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($project['descricao']); ?>" />
+
     <!-- CSS files -->
     <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css" rel="stylesheet"/>
