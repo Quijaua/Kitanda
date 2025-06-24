@@ -6,14 +6,6 @@
    Além das variáveis globais (INCLUDE_PATH, cartCount etc.) vindas do index.php.
 #}
 
-{# -----------------------------------------------------------
-   1) CSS DO GLIDER.JS
-   ----------------------------------------------------------- #}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css"
-/>
-
 {# ----------- Page header (breadcrumb) ----------- #}
 <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
     <div class="container-xl">
@@ -36,33 +28,6 @@
    2) SLIDER DE CATEGORIAS (GLIDER.JS)
    ----------------------------------------------------------- #}
 {% if categorias is not empty %}
-    <style>
-        .related-products::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            z-index: -1;
-        }
-        .related-products .card {
-            box-shadow: 0 0 4px rgba(24, 36, 51, .04);
-        }
-        button.glider-next,
-        button.glider-prev {
-            top: 50% !important;
-            font-size: 2rem !important;
-        }
-        button.glider-prev {
-            left: calc(-1rem + -28px) !important;
-        }
-        button.glider-next {
-            right: calc(-1rem + -28px) !important;
-        }
-    </style>
-
     <div class="mb-4 position-relative">
         <div class="related-products py-8">
             <div class="container-xl">
@@ -224,8 +189,6 @@
    4) BLOCO DE SCRIPTS (GLIDER.JS + AJAX “VER MAIS”)
    ----------------------------------------------------------- #}
 {% block scripts %}
-    {# 4.1) Carrega o JS do Glider.js #}
-    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         new Glider(document.querySelector(".glider"), {
