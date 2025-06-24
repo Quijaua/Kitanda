@@ -191,6 +191,38 @@ foreach ($postsRaw as $post) {
     ];
 }
 
+// Carregar as primeiras 10 empreendedoras para exibir no carrossel
+$limit = 10;
+$stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' ORDER BY nome LIMIT :limit");
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->execute();
+$empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Formatar imagens e endereços
+foreach ($empreendedoras as &$e) {
+    // Imagem de perfil
+    $e['tem_imagem'] = !empty($e['imagem']);
+    $e['imagem'] = !empty($e['imagem'])
+        ? str_replace(
+            ' ',
+            '%20',
+            INCLUDE_PATH . "files/lojas/{$e['id']}/perfil/{$e['imagem']}"
+          )
+        : INCLUDE_PATH . "assets/preview-image/profile.jpg";
+
+    // Monta o campo "address"
+    $address = 'Não informado';
+    if (!empty($e['cidade']) && !empty($e['estado'])) {
+        $address = htmlspecialchars($e['cidade']) . '/' . htmlspecialchars($e['estado']);
+    } elseif (!empty($e['cidade'])) {
+        $address = htmlspecialchars($e['cidade']);
+    } elseif (!empty($e['estado'])) {
+        $address = htmlspecialchars($e['estado']);
+    }
+    $e['address'] = $address;
+}
+unset($e);
+
 // 3.5) Calcula $cartCount (o número de itens no carrinho)
 if (isset($_SESSION['user_id'])) {
     $field = 'usuario_id';
@@ -279,6 +311,9 @@ $context = [
 
     // Caso queira passar $usuario autenticado:
     'usuario'         => $usuario ?? null,
+
+    // Empreendedoras
+    'empreendedoras'  => $empreendedoras ?? [],
 
     // Posts do rodapé
     'footerPosts'     => $footerPosts ?? [],
