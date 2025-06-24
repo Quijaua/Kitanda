@@ -130,6 +130,38 @@
                     session_start();
 
                     if ($email === $resultado['email'] && password_verify($password, $resultado['password'])) {
+                        if (isset($_POST['remember'])) {
+                            $token = bin2hex(random_bytes(32));
+    
+                            $tokenHash = password_hash($token, PASSWORD_DEFAULT);
+                            $expiresAt = date('Y-m-d H:i:s', time() + 86400);
+                            $createdAt = date('Y-m-d H:i:s');
+    
+                            $stmt = $conn->prepare("
+                                INSERT INTO tb_user_tokens (user_id, token, token_hash, expires_at, created_at)
+                                VALUES (:user_id, :token, :token_hash, :expires_at, :created_at)
+                            ");
+    
+                            $stmt->execute([
+                                'user_id'    => $resultado['id'],
+                                'token'      => $token,
+                                'token_hash' => $tokenHash,
+                                'expires_at' => $expiresAt,
+                                'created_at' => $createdAt,
+                            ]);
+    
+                            // Define o cookie “remember_me” com duração de 24h
+                            setcookie(
+                                'remember_me',
+                                $token,
+                                time() + 86400,
+                                '/',
+                                $_SERVER['HTTP_HOST'],
+                                isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'production',
+                                true
+                            );
+                        }
+
                         if ($roles == 0) {
                             $_SESSION['user_id'] = $resultado['id']; // Você pode definir informações do usuário aqui
                             header("Location: " . INCLUDE_PATH_USER);
