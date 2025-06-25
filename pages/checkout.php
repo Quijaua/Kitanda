@@ -241,21 +241,27 @@ if (!$isPedido) {
         }
     }
 
+    $checkout_data = $_SESSION['checkout_data'] ?? [];
     $userDataSession = [
-        'email'        => $_SESSION['checkout_data']['email'] ?? null,
-        'name'         => $_SESSION['checkout_data']['name'] ?? null,
-        'cpf'          => $_SESSION['checkout_data']['cpf'] ?? null,
-        'birthDate'    => $_SESSION['checkout_data']['birthDate'] ?? null,
-        'phone'        => $_SESSION['checkout_data']['phone'] ?? null,
-        'zipcode'      => $_SESSION['checkout_data']['zipcode'] ?? null,
-        'street'       => $_SESSION['checkout_data']['street'] ?? null,
-        'streetNumber' => $_SESSION['checkout_data']['streetNumber'] ?? null,
-        'complement'   => $_SESSION['checkout_data']['complement'] ?? null,
-        'district'     => $_SESSION['checkout_data']['district'] ?? null,
-        'city'         => $_SESSION['checkout_data']['city'] ?? null,
-        'state'        => $_SESSION['checkout_data']['state'] ?? null,
-        'newsletter'   => (bool) $_SESSION['checkout_data']['newsletter'] ?? null,
-        'terms'        => (bool) $_SESSION['checkout_data']['terms'] ?? null
+        'email'        => $checkout_data['email']        ?? null,
+        'name'         => $checkout_data['name']         ?? null,
+        'cpf'          => $checkout_data['cpf']          ?? null,
+        'birthDate'    => $checkout_data['birthDate']    ?? null,
+        'phone'        => $checkout_data['phone']        ?? null,
+        'zipcode'      => $checkout_data['zipcode']      ?? null,
+        'street'       => $checkout_data['street']       ?? null,
+        'streetNumber' => $checkout_data['streetNumber'] ?? null,
+        'complement'   => $checkout_data['complement']   ?? null,
+        'district'     => $checkout_data['district']     ?? null,
+        'city'         => $checkout_data['city']         ?? null,
+        'state'        => $checkout_data['state']        ?? null,
+        'country'      => $checkout_data['country']      ?? null,
+        'newsletter'   => isset($checkout_data['newsletter']) 
+                            ? (bool) $checkout_data['newsletter'] 
+                            : null,
+        'terms'        => isset($checkout_data['terms']) 
+                            ? (bool) $checkout_data['terms'] 
+                            : null,
     ];
 }
 
