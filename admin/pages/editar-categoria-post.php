@@ -17,7 +17,7 @@
         // Consulta para buscar a categoria selecionado
         $stmt = $conn->prepare("
             SELECT * 
-            FROM tb_categorias
+            FROM tb_blog_categorias
             WHERE id = ? 
             LIMIT 1
         ");
@@ -26,12 +26,12 @@
 
         if (empty($categoria)) {
             $_SESSION['error_msg'] = 'Categoria não encontrada.';
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias-posts');
             exit;
         }
     } else {
         $_SESSION['error_msg'] = 'Insira o ID da categoria.';
-        header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias');
+        header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias-posts');
         exit;
     }
 ?>
@@ -50,7 +50,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
                     <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>categorias">Categorias</a></li>
+                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>categorias-posts">Categorias</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Editar Categoria</li>
                     </ol>
                 </div>
@@ -66,7 +66,7 @@
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <form id="updateCategory" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-category.php" method="post" enctype="multipart/form-data">
+        <form id="updateCategory" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-post-category.php" method="post" enctype="multipart/form-data">
             <div class="row">
 
                 <?php if ($only_own && $categoria['criado_por'] !== $_SESSION['user_id']): ?>
@@ -190,11 +190,11 @@
 
                 // Adiciona um novo campo
                 formData.append("categoria_id", <?= $categoria['id']; ?>);
-                formData.append("action", "editar-categoria");
+                formData.append("action", "editar-categoria-post");
 
                 // Realiza o AJAX para enviar os dados
                 $.ajax({
-                    url: '<?= INCLUDE_PATH_ADMIN; ?>back-end/update-category.php', // Substitua pelo URL do seu endpoint
+                    url: '<?= INCLUDE_PATH_ADMIN; ?>back-end/update-post-category.php', // Substitua pelo URL do seu endpoint
                     type: 'POST',
                     data: formData,
                     processData: false, // Impede que o jQuery processe os dados
@@ -202,7 +202,7 @@
                     success: function (response) {
                         if (response.status == "success") {
                             // Sucesso na resposta do servidor
-                            window.location.href = "<?= INCLUDE_PATH_ADMIN; ?>categorias";
+                            window.location.href = "<?= INCLUDE_PATH_ADMIN; ?>categorias-posts";
                         } else {
                             // console.error("Erro no AJAX:", status, error);
 

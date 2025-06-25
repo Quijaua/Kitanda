@@ -4,7 +4,7 @@
 
     header('Content-Type: application/json');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'editar-categoria') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'editar-categoria-post') {
         $categoria_id = $_POST['categoria_id'];
         $nome = trim($_POST['nome']);
 
@@ -15,7 +15,7 @@
 
             $conn->beginTransaction();
 
-            $stmt = $conn->prepare("UPDATE tb_categorias SET nome = :nome WHERE id = :id");
+            $stmt = $conn->prepare("UPDATE tb_blog_categorias SET nome = :nome WHERE id = :id");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':id', $categoria_id, PDO::PARAM_INT);
             $stmt->execute();

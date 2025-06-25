@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $freight_value = null;
     }
 
+    $categoriasNovo = (!empty($_POST['categorias']) && is_array($_POST['categorias'])) ? $_POST['categorias'] : [];
     $seo_nome = trim($_POST['seo_nome']);
     $seo_descricao = trim($_POST['seo_descricao']);
     $link = trim($_POST['link']);
@@ -90,6 +91,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt->bindParam(':link', $link, PDO::PARAM_STR);
         $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_STR);
         $stmt->execute();
+
+        $stmtSel = $conn->prepare("SELECT categoria_id FROM tb_categoria_produtos WHERE produto_id = :produto_id");
+        $stmtSel->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
+        $stmtSel->execute();
+        $categoriasExistentes = $stmtSel->fetchAll(PDO::FETCH_COLUMN);
+
+        $paraRemover = array_diff($categoriasExistentes, $categoriasNovo);
+        $paraIncluir = array_diff($categoriasNovo, $categoriasExistentes);
+
+        if (!empty($paraRemover)) {
+            $stmtDel = $conn->prepare("
+                DELETE FROM tb_categoria_produtos
+                WHERE produto_id = :produto_id
+                AND categoria_id = :categoria_id
+            ");
+            foreach ($paraRemover as $catIdRemover) {
+                $stmtDel->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
+                $stmtDel->bindParam(':categoria_id', $catIdRemover, PDO::PARAM_INT);
+                $stmtDel->execute();
+            }
+        }
+
+        if (!empty($paraIncluir)) {
+            $stmtIns = $conn->prepare("
+                INSERT INTO tb_categoria_produtos (categoria_id, produto_id)
+                VALUES (:categoria_id, :produto_id)
+            ");
+            foreach ($paraIncluir as $catIdIncluir) {
+                $stmtIns->bindParam(':categoria_id', $catIdIncluir, PDO::PARAM_INT);
+                $stmtIns->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
+                $stmtIns->execute();
+            }
+        }
 
         // Remover imagens se houver alguma na lista
         if (!empty($_POST['imagens_removidas'])) {

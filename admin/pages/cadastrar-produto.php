@@ -17,6 +17,13 @@
     }
 ?>
 
+<?php
+    // Consulta para buscar as categorias cadastradas
+    $stmt = $conn->prepare("SELECT * FROM tb_categorias");
+    $stmt->execute();
+    $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <style>
     .dz-preview {
         position: relative;
@@ -254,6 +261,52 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Categorias do produto</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <label for="categorias" class="col-3 col-form-label">Categorias</label>
+                                    <div class="col">
+                                        <select name="categorias[]" id="categorias" type="text" class="form-select" placeholder="Selecione uma ou mais categoria" multiple>
+                                            <?php if ($categorias): ?>
+                                                <?php foreach ($categorias as $categoria): ?>
+                                                    <option value="<?= $categoria['id']; ?>"><?= $categoria['nome']; ?></option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                var el;
+                                                window.TomSelect && (new TomSelect(el = document.getElementById('categorias'), {
+                                                    copyClassesToDropdown: false,
+                                                    dropdownParent: 'body',
+                                                    controlInput: '<input>',
+                                                    render:{
+                                                        item: function(data,escape) {
+                                                            if( data.customProperties ){
+                                                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                                            }
+                                                            return '<div>' + escape(data.text) + '</div>';
+                                                        },
+                                                        option: function(data,escape){
+                                                            if( data.customProperties ){
+                                                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                                            }
+                                                            return '<div>' + escape(data.text) + '</div>';
+                                                        },
+                                                    },
+                                                }));
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

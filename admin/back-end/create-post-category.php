@@ -4,7 +4,7 @@
 
     header('Content-Type: application/json');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'criar-categoria') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'criar-categoria-post') {
 
         // Obtendo os dados do formulário
         $nome = trim($_POST['nome']);
@@ -25,7 +25,7 @@
             $conn->beginTransaction();
 
             // Inserindo a categoria no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_categorias (nome, criado_por) 
+            $stmt = $conn->prepare("INSERT INTO tb_blog_categorias (nome, criado_por) 
                                     VALUES (:nome, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_INT);

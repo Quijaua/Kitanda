@@ -72,8 +72,15 @@
                 <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'produtos', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'produtos', 'only_own', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos" >
+                <li class="nav-item 
+                    <?= activeSidebarLink('produtos'); ?>
+                    <?= activeSidebarLink('cadastrar-produto'); ?>
+                    <?= activeSidebarLink('editar-produto'); ?>
+                    <?= activeSidebarLink('categorias'); ?>
+                    <?= activeSidebarLink('criar-categoria'); ?>
+                    <?= activeSidebarLink('editar-categoria'); ?>
+                ">
+                    <a class="nav-link dropdown-toggle" href="#navbar-addons" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/building-store -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-building-store"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4" /><path d="M5 21l0 -10.15" /><path d="M19 21l0 -10.15" /><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" /></svg>
@@ -82,6 +89,17 @@
                             Produtos
                         </span>
                     </a>
+                    <div class="dropdown-menu 
+                        <?= showSidebarLink('produtos'); ?>
+                        <?= showSidebarLink('cadastrar-produto'); ?>
+                        <?= showSidebarLink('editar-produto'); ?>
+                        <?= showSidebarLink('categorias'); ?>
+                        <?= showSidebarLink('criar-categoria'); ?>
+                        <?= showSidebarLink('editar-categoria'); ?>
+                    " data-bs-popper="static">
+                        <a class="dropdown-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos"> Produtos </a>
+                        <a class="dropdown-item <?= activeSidebarLink('categorias'); ?> <?= activeSidebarLink('criar-categoria'); ?> <?= activeSidebarLink('editar-categoria'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias"> Categorias </a>
+                    </div>
                 </li>
                 <?php endif; ?>
 
@@ -155,9 +173,9 @@
                     <?= activeSidebarLink('posts'); ?>
                     <?= activeSidebarLink('criar-post'); ?>
                     <?= activeSidebarLink('editar-post'); ?>
-                    <?= activeSidebarLink('categorias'); ?>
-                    <?= activeSidebarLink('criar-categoria'); ?>
-                    <?= activeSidebarLink('editar-categoria'); ?>
+                    <?= activeSidebarLink('categorias-posts'); ?>
+                    <?= activeSidebarLink('criar-categoria-post'); ?>
+                    <?= activeSidebarLink('editar-categoria-post'); ?>
                 ">
                     <a class="nav-link dropdown-toggle" href="#navbar-addons" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -172,11 +190,11 @@
                         <?= showSidebarLink('posts'); ?>
                         <?= showSidebarLink('criar-post'); ?>
                         <?= showSidebarLink('editar-post'); ?>
-                        <?= showSidebarLink('categorias'); ?>
-                        <?= showSidebarLink('criar-categoria'); ?>
-                        <?= showSidebarLink('editar-categoria'); ?>
+                        <?= showSidebarLink('categorias-posts'); ?>
+                        <?= showSidebarLink('criar-categoria-post'); ?>
+                        <?= showSidebarLink('editar-categoria-post'); ?>
                     " data-bs-popper="static">
-                    <a class="dropdown-item <?= activeSidebarLink('categorias'); ?> <?= activeSidebarLink('criar-categoria'); ?> <?= activeSidebarLink('editar-categoria'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias"> Categorias </a>
+                        <a class="dropdown-item <?= activeSidebarLink('categorias-posts'); ?> <?= activeSidebarLink('criar-categoria-post'); ?> <?= activeSidebarLink('editar-categoria-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias-posts"> Categorias </a>
                         <a class="dropdown-item <?= activeSidebarLink('posts'); ?> <?= activeSidebarLink('criar-post'); ?> <?= activeSidebarLink('editar-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>posts"> Posts </a>
                     </div>
                 </li>

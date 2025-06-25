@@ -21,7 +21,7 @@
         // Caso contrário, exibe todos as categorias
         $stmt = $conn->prepare("
             SELECT *
-            FROM tb_categorias
+            FROM tb_blog_categorias
             GROUP BY id
             ORDER BY id DESC
         ");
@@ -29,7 +29,7 @@
     } else if ($only_own) {
         $stmt = $conn->prepare("
             SELECT *
-            FROM tb_categorias
+            FROM tb_blog_categorias
             WHERE criado_por = ?
             GROUP BY id
             ORDER BY id DESC
@@ -62,7 +62,7 @@
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
-                <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-categoria" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
+                <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-categoria-post" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
                     <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2"><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
                     Criar Nova Categoria
@@ -128,19 +128,19 @@
                                     <span class="dropdown">
                                         <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH . "categoria?id={$categoria['id']}"; ?>" target="_blank">
+                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH . "categoria-post?id={$categoria['id']}"; ?>" target="_blank">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/external-link -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
                                                 Visualizar
                                             </a>
                                             <?php if ($update): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-categoria?id={$categoria['id']}"; ?>">
+                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-categoria-post?id={$categoria['id']}"; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
                                                 Editar
                                             </a>
                                             <?php elseif ($only_own || $read): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-categoria?id={$categoria['id']}"; ?>">
+                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-categoria-post?id={$categoria['id']}"; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
                                                 Detalhes

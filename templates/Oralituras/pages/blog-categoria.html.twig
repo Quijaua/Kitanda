@@ -2,8 +2,8 @@
 {# Recebe no contexto:
    - not_found       : boolean
    - categoria       : array com dados da categoria (id, nome, …)
-   - produtos           : array de produtos iniciais (cada item: id, titulo, imagem, data_publicacao, categorias[])
-   - initial_count   : número de produtos iniciais (até 4)
+   - posts           : array de posts iniciais (cada item: id, titulo, imagem, data_publicacao, categorias[])
+   - initial_count   : número de posts iniciais (até 4)
    Além das variáveis globais (INCLUDE_PATH, cartCount etc.) vindas do index.php.
 #}
 
@@ -15,6 +15,7 @@
                 <div class="col">
                     <ol class="breadcrumb breadcrumb-muted text-white">
                         <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}blog">Blog</a></li>
                         <li class="breadcrumb-item active">Categoria não encontrada</li>
                     </ol>
                 </div>
@@ -66,6 +67,7 @@
                 <div class="col">
                     <ol class="breadcrumb breadcrumb-muted text-white">
                         <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}blog">Blog</a></li>
                         <li class="breadcrumb-item active">{{ categoria.nome }}</li>
                     </ol>
                 </div>
@@ -77,7 +79,7 @@
         </div>
     </div>
 
-    {# ----------- Produtos iniciais da categoria ----------- #}
+    {# ----------- Posts iniciais da categoria ----------- #}
     {% set limit = 4 %}
 
     <style>
@@ -93,49 +95,48 @@
         <div class="container-xl">
             <div class="row g-4">
 
-                {% if produtos is not empty %}
+                {% if posts is not empty %}
                     <div class="col-md-12">
                         <div class="row row-cards">
-                            {% for produto in produtos %}
-                                {% set precoFormatado = produto.preco
-                                    |number_format(2, ',', '.') %}
-
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="card card-terra">
-                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
-                                            <img src="{{ produto.imagem }}"
-                                                 class="card-img-top"
-                                                 alt="{{ produto.titulo }}">
+                            {% for post in posts %}
+                                <div class="col-sm-6 col-lg-6 d-grid">
+                                    <div class="card card-sm">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block">
+                                            <img src="{{ post.imagem }}" class="card-img-top" alt="{{ post.titulo }}">
                                         </a>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
-                                                <div class="w-100">
-                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
-                                                    <p>Produzido por: {{ produto.empreendedora }}</p>
-                                                    <h2 class="text-yellow">
-                                                        R$ {{ precoFormatado }}
-                                                    </h2>
-                                                    <button 
-                                                        class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
-                                                        data-produto-id="{{ produto.id }}"
-                                                    >
-                                                        Adicionar ao carrinho
-                                                    </button>
+                                                <div>
+                                                    {# Badges das categorias do post #}
+                                                    {% if post.categorias is not empty %}
+                                                        <div class="mb-2">
+                                                            {% for cat in post.categorias %}
+                                                                <span class="fw-bold text-red me-2">
+                                                                    {{ cat.nome }}
+                                                                </span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+
+                                                    {# Data formatada já veio no contexto #}
+                                                    <small>{{ post.data_publicacao }}</small>
+                                                    <h1 id="title-preview">{{ post.titulo }}</h1>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
-                        </div>
-                    </div>
 
-                    <!-- Paginação personalizada para TerraDourada -->
-                    <div class="col-12">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="pagination-terra">
-                                {{ pagination_html|raw }}
+                            {# Wrapper do botão “Ver mais” #}
+                            <div class="col-12" id="load-more-wrapper">
+                                <div class="d-flex justify-content-center">
+                                    <button id="btn-load-more" class="btn btn-6 btn-outline-red btn-pill btn-lg">
+                                        Ver mais
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 {% else %}
@@ -172,56 +173,82 @@
         </div>
     </div>
 
-    {# ----------- Bloco de scripts (AJAX “Ver mais produtos” para esta categoria) ----------- #}
+    {# ----------- Bloco de scripts (AJAX “Ver mais posts” para esta categoria) ----------- #}
     {% block scripts %}
-        {# ----------- Script para adicionar ao carrinho via AJAX ----------- #}
         <script>
-            $(document).ready(function() {
-                $(".add-to-cart").on("click", function(e) {
-                    e.preventDefault();
+          $(function() {
+            var categoria_id = {{ categoria.id }};
+            var offset       = {{ initial_count }};
+            var limit        = {{ limit }};
 
-                    var produtoId = $(this).data("produto-id");
-                    // Neste exemplo, fixamos quantidade = 1
-                    var quantidade = 1;
-
-                    $.ajax({
-                        url: "{{ INCLUDE_PATH }}back-end/carrinho/adicionar.php",
-                        method: "POST",
-                        dataType: 'json',
-                        data: {
-                            produto_id: produtoId,
-                            quantidade: quantidade
-                        },
-                        success: function(response) {
-                            if (response.status === "sucesso") {
-                                // Atualiza badge do carrinho
-                                $("#cart-count")
-                                    .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
-                                    .show();
-                                // Exibe modal de sucesso
-                                var myModal = new bootstrap.Modal(
-                                    document.getElementById('modal-success')
-                                );
-                                myModal.show();
-                            } else {
-                                // Exibe modal de erro
-                                var myErrorModal = new bootstrap.Modal(
-                                    document.getElementById('modal-error')
-                                );
-                                myErrorModal.show();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("Erro na requisição AJAX: " + error);
-                            // Opcional: exibir modal de erro genérico
-                            var myErrorModal = new bootstrap.Modal(
-                                document.getElementById('modal-error')
-                            );
-                            myErrorModal.show();
+            $('#btn-load-more').on('click', function() {
+              $.ajax({
+                url: '{{ INCLUDE_PATH }}back-end/posts/list-categoria.php',
+                method: 'POST',
+                data: {
+                  categoria_id: categoria_id,
+                  offset: offset,
+                  limit: limit
+                },
+                dataType: 'json',
+                success: function(res) {
+                  if (res.status === 'sucesso' && res.data.length) {
+                    res.data.forEach(function(p) {
+                        var badgesHTML = '';
+                        if (p.categorias && p.categorias.length) {
+                          badgesHTML = '<div class="mb-2">';
+                          p.categorias.forEach(function(cat) {
+                            badgesHTML += '<span class="badge badge-outline text-dark bg-light badge-lg">' 
+                                           + cat.nome + 
+                                          '</span> ';
+                          });
+                          badgesHTML += '</div>';
                         }
+
+                        // Formata a data “DD/MM/AAAA”
+                        var dt = new Date(p.data_publicacao);
+                        var dia = String(dt.getDate()).padStart(2, '0');
+                        var mes = String(dt.getMonth() + 1).padStart(2, '0');
+                        var ano = dt.getFullYear();
+                        var dataFormatada = dia + '/' + mes + '/' + ano;
+
+                        var card = '\
+                          <div class="col-sm-6 col-lg-6 d-grid">\
+                            <div class="card card-sm">\
+                              <a href="{{ INCLUDE_PATH }}post?id=' + p.id + '" class="d-block">\
+                                <img src="' + p.imagem + '" class="card-img-top" alt="' + p.titulo + '">\
+                              </a>\
+                              <div class="card-body">\
+                                <div class="d-flex align-items-center">\
+                                  <div>' +
+                                    badgesHTML + '\
+                                    <small>' + dataFormatada + '</small>\
+                                    <h3 id="title-preview">' + p.titulo + '</h3>\
+                                  </div>\
+                                </div>\
+                              </div>\
+                            </div>\
+                          </div>';
+
+                        $('#load-more-wrapper').before(card);
                     });
-                });
+
+                    offset += res.data.length;
+                    if (res.data.length < limit) {
+                      $('#btn-load-more').text('Não há mais');
+                      $('#btn-load-more').prop('disabled', true);
+                    }
+                  } else {
+                    $('#btn-load-more').text('Não há mais');
+                    $('#btn-load-more').prop('disabled', true);
+                  }
+                },
+                error: function() {
+                  alert('Erro ao carregar mais posts.');
+                }
+              });
             });
+          });
         </script>
     {% endblock %}
 {% endif %}

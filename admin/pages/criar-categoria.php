@@ -64,7 +64,7 @@
                                 <h4 class="card-title">Informações principais</h4>
                             </div>
                             <div class="card-body">
-                                <div class="mb-3 row">
+                                <div class="row">
                                     <label for="nome" class="col-3 col-form-label required">Nome da Categoria</label>
                                     <div class="col">
                                         <input name="nome" id="nome"

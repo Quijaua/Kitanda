@@ -1,39 +1,6 @@
 <?php
-    $read = verificaPermissao($_SESSION['user_id'], 'categorias', 'read', $conn);
-    $disabledRead = !$read ? 'disabled' : '';
-
-    $only_own = verificaPermissao($_SESSION['user_id'], 'categorias', 'only_own', $conn);
-    $disabledOnlyOwn = !$only_own ? 'disabled' : '';
-
-    $update = verificaPermissao($_SESSION['user_id'], 'categorias', 'update', $conn);
-    $disabledUpdate = !$update ? 'disabled' : '';
-?>
-
-<?php
-    if (isset($_GET['id'])) {
-        // ID da categoria
-        $categoria_id = $_GET['id'];
-
-        // Consulta para buscar a categoria selecionado
-        $stmt = $conn->prepare("
-            SELECT * 
-            FROM tb_categorias
-            WHERE id = ? 
-            LIMIT 1
-        ");
-        $stmt->execute([$categoria_id]);
-        $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (empty($categoria)) {
-            $_SESSION['error_msg'] = 'Categoria não encontrada.';
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias');
-            exit;
-        }
-    } else {
-        $_SESSION['error_msg'] = 'Insira o ID da categoria.';
-        header('Location: ' . INCLUDE_PATH_ADMIN . 'categorias');
-        exit;
-    }
+    $create = verificaPermissao($_SESSION['user_id'], 'categorias', 'create', $conn);
+    $disabledCreate = !$create ? 'disabled' : '';
 ?>
 
 <!-- Page header -->
@@ -42,16 +9,16 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                    Editar Categoria
+                    Criar Categoria
                 </h2>
-                <div class="text-secondary mt-1">Aqui você pode editar uma categoria.</div>
+                <div class="text-secondary mt-1">Aqui você pode criar novas categorias.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
                     <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>categorias">Categorias</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Editar Categoria</li>
+                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>categorias-posts">Categorias</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Criar Categoria</li>
                     </ol>
                 </div>
             </div>
@@ -59,33 +26,17 @@
     </div>
 </div>
 
-<?php if (!$update): ?>
-<fieldset disabled>
-<?php endif; ?>
-
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <form id="updateCategory" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-category.php" method="post" enctype="multipart/form-data">
+        <form id="createCategory" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/create-category.php" method="post" enctype="multipart/form-data">
             <div class="row">
 
-                <?php if ($only_own && $categoria['criado_por'] !== $_SESSION['user_id']): ?>
+                <?php if (!$create): ?>
                 <div class="col-lg-12">
                     <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
                 </div>
                 <?php exit; endif; ?>
-
-                <?php if (!$only_own && !$read): ?>
-                <div class="col-lg-12">
-                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-                </div>
-                <?php exit; endif; ?>
-
-                <?php if (!$update): ?>
-                <div class="col-lg-12">
-                    <div class="alert alert-info">Você pode visualizar os detalhes da categoria, mas não pode editá-la.</div>
-                </div>
-                <?php endif; ?>
 
                 <!-- Mensagem de erro -->
                 <?php if (isset($_SESSION['error_msg'])): ?>
@@ -106,6 +57,7 @@
                 <?php endif; unset($_SESSION['error_msg']); ?>
 
                 <div class="col-lg-12 row row-deck row-cards mt-0">
+
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
@@ -113,10 +65,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-3 row">
-                                    <label for="nome" class="col-3 col-form-label required">Nome da categoria</label>
+                                    <label for="nome" class="col-3 col-form-label required">Nome da Categoria</label>
                                     <div class="col">
                                         <input name="nome" id="nome"
-                                            type="text" class="form-control" value="<?= $categoria['nome']; ?>" required>
+                                            type="text" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -135,15 +87,11 @@
     </div>
 </div>
 
-<?php if (!$update): ?>
-</fieldset>
-<?php endif; ?>
-
 <!-- jQuery Validation, Input Mask, and Validation Script -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#updateCategory").validate({
+        $("#createCategory").validate({
             rules: {
                 nome: {
                     required: true,
@@ -189,12 +137,11 @@
                 var formData = new FormData(form);
 
                 // Adiciona um novo campo
-                formData.append("categoria_id", <?= $categoria['id']; ?>);
-                formData.append("action", "editar-categoria");
+                formData.append("action", "criar-categoria-post");
 
                 // Realiza o AJAX para enviar os dados
                 $.ajax({
-                    url: '<?= INCLUDE_PATH_ADMIN; ?>back-end/update-category.php', // Substitua pelo URL do seu endpoint
+                    url: '<?= INCLUDE_PATH_ADMIN; ?>back-end/create-post-category.php', // Substitua pelo URL do seu endpoint
                     type: 'POST',
                     data: formData,
                     processData: false, // Impede que o jQuery processe os dados
@@ -202,13 +149,13 @@
                     success: function (response) {
                         if (response.status == "success") {
                             // Sucesso na resposta do servidor
-                            window.location.href = "<?= INCLUDE_PATH_ADMIN; ?>categorias";
+                            window.location.href = "<?= INCLUDE_PATH_ADMIN; ?>categorias-posts";
                         } else {
                             // console.error("Erro no AJAX:", status, error);
 
                             // Caso contrário, exibe a mensagem de erro
                             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                            $("#updateCategory").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#createCategory").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
                         }
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
@@ -218,7 +165,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#updateCategory").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#createCategory").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

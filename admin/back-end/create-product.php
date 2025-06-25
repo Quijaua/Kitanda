@@ -90,6 +90,7 @@
             $freight_value = null;
         }
 
+        $categorias = (!empty($_POST['categorias']) && is_array($_POST['categorias'])) ? $_POST['categorias'] : null;
         $seo_nome = trim($_POST['seo_nome']);
         $seo_descricao = trim($_POST['seo_descricao']);
         $link = trim($_POST['link']);
@@ -141,11 +142,21 @@
             $stmt->bindParam(':link', $link, PDO::PARAM_STR);
             $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_INT);
             $stmt->execute();
-            $product_id = $conn->lastInsertId();
+            $produto_id = $conn->lastInsertId();
+
+            if ($categorias) {
+                foreach ($categorias as $key => $categoria_id) {
+                    // Inserindo o post no banco de dados
+                    $stmt = $conn->prepare("INSERT INTO tb_categoria_produtos (categoria_id, produto_id) VALUES (:categoria_id, :produto_id)");
+                    $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_STR);
+                    $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_STR);
+                    $stmt->execute();
+                }
+            }
 
             if (!empty($_FILES['imagens'])) {
                 // Salvar imagens
-                uploadImagens($product_id, $conn);
+                uploadImagens($produto_id, $conn);
             }
 
             // Commit na transação

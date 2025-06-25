@@ -334,6 +334,20 @@ switch ($url) {
         $context = array_merge($context, $context_produtos);
         break;
 
+    case 'categorias':
+        // Recebe o array de contexto montado dentro de pages/categorias.php:
+        $context_categorias = include __DIR__ . '/pages/categorias.php';
+
+        $context = array_merge($context, $context_categorias);
+        break;
+
+    case 'categoria':
+        // Recebe o array de contexto montado dentro de pages/categoria.php:
+        $context_categoria = include __DIR__ . '/pages/categoria.php';
+
+        $context = array_merge($context, $context_categoria);
+        break;
+
     case 'empreendedoras':
         // Recebe o array de contexto montado dentro de pages/empreendedoras.php:
         $context_empreendedoras = include __DIR__ . '/pages/empreendedoras.php';
@@ -362,11 +376,11 @@ switch ($url) {
         $context = array_merge($context, $context_post);
         break;
 
-    case 'categoria':
-        // Recebe o array de contexto montado dentro de pages/categoria.php:
-        $context_categoria = include __DIR__ . '/pages/categoria.php';
+    case 'blog-categoria':
+        // Recebe o array de contexto montado dentro de pages/blog-categoria.php:
+        $context_blog_categoria = include __DIR__ . '/pages/blog-categoria.php';
 
-        $context = array_merge($context, $context_categoria);
+        $context = array_merge($context, $context_blog_categoria);
         break;
 
     case 'carrinho':
