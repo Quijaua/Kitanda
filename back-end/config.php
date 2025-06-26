@@ -47,7 +47,7 @@
 	$project = [
         'name' =>  $projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
         'email' =>  $projeto['email'],
-        'logo' => !empty($projeto['logo']) ? INCLUDE_PATH . "assets/img/{$projeto['logo']}" : "",
+        'logo' => !empty($projeto['logo']) ? $_ENV['URL'] . "assets/img/{$projeto['logo']}" : "",
         'version' => $_ENV['PROJECT_VERSION'],
     ];
 ?>

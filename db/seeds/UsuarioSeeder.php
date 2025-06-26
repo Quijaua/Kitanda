@@ -48,4 +48,14 @@ class UsuarioSeeder extends AbstractSeed
         $table = $this->table('tb_clientes'); // Ajuste o nome da tabela conforme necessário
         $table->insert($data)->save();
     }
+    
+    /**
+     * Dependências de outros seeders, se houver
+     */
+    public function getDependencies(): array
+    {
+        return [
+            'InsertInitialData', // Caso exista um seeder para a tabela de usuários
+        ];
+    }
 }

@@ -5,5 +5,8 @@
         "guzzlehttp/guzzle": "^7.8",
         "robmorgan/phinx": "^0.16.6",
         "twig/twig": "^3.21"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.24"
     }
 }

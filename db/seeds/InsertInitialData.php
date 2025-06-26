@@ -41,21 +41,6 @@ class InsertInitialData extends AbstractSeed
                 'text_color' => '#212529',
                 'load_btn' => '#ffc107',
                 'progress' => '#212529',
-                'monthly_1' => 10,
-                'monthly_2' => 15,
-                'monthly_3' => 30,
-                'monthly_4' => 40,
-                'monthly_5' => 70,
-                'yearly_1' => 120,
-                'yearly_2' => 360,
-                'yearly_3' => 480,
-                'yearly_4' => 840,
-                'yearly_5' => 960,
-                'once_1' => 200,
-                'once_2' => 300,
-                'once_3' => 400,
-                'once_4' => 500,
-                'once_5' => 1000,
             ]
         ];
         $checkout = $this->table('tb_checkout');
