@@ -26,7 +26,7 @@ $id = 1;
 $user_id = $_SESSION['user_id'];
 
 // Consulta SQL
-$sql = "SELECT nome, logo, title, descricao, vitrine_limite, privacidade, faq, use_faq,facebook, instagram, linkedin, twitter, youtube, website, tiktok, linktree, cep, rua, numero, bairro, cidade, estado, telefone, email, nav_color, nav_background, background, color, hover, text_color, load_btn, theme FROM $tabela WHERE id = :id";
+$sql = "SELECT * FROM $tabela WHERE id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
@@ -116,6 +116,16 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $text_color = $resultado['text_color'];
         $load_btn = $resultado['load_btn'];
         $current_theme = $resultado['theme'];
+        $ankara_hero = $resultado['ankara_hero'];
+        $ankara_colorful = $resultado['ankara_colorful'];
+        $ankara_yellow = $resultado['ankara_yellow'];
+        $ankara_footer_top = $resultado['ankara_footer_top'];
+        $ankara_footer_blog = $resultado['ankara_footer_blog'];
+        $td_hero = $resultado['td_hero'];
+        $td_entrepreneurs = $resultado['td_entrepreneurs'];
+        $td_news = $resultado['td_news'];
+        $td_footer_info = $resultado['td_footer_info'];
+        $td_footer_socials = $resultado['td_footer_socials'];
     } else {
         // ID não encontrado ou não existente
         $_SESSION['msg'] = "ID não encontrado.";

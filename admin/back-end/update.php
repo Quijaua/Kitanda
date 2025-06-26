@@ -187,35 +187,104 @@ if (isset($_POST['btnUpdColor'])) {
     }
 }
 
+// if (isset($_POST['btnUpdTheme']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+//     //Inclui o arquivo 'config.php'
+//     include('../../config.php');
+
+//     // Por padrão, gravamos na linha de id = 1 (configurações gerais)
+//     $tabela = 'tb_checkout';
+//     $id     = 1;
+
+//     // Coleta o tema selecionado
+//     $theme = $_POST['theme'] ?? null;
+
+//     // Atualiza a coluna theme (pode ser NULL para padrão)
+//     $sql = "UPDATE {$tabela} 
+//             SET theme = :theme 
+//             WHERE id = :id";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->bindParam(':theme', $theme);
+//     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+//     try {
+//         $stmt->execute();
+
+//         // Define variável para exibir modal ou mensagem de sucesso
+//         $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+//         $_SESSION['msg'] = 'Tema atualizado com sucesso!';
+//         header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
+//         exit;
+//     } catch (PDOException $e) {
+//         echo "Erro ao atualizar tema: " . $e->getMessage();
+//     }
+// }
+
 if (isset($_POST['btnUpdTheme']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    //Inclui o arquivo 'config.php'
     include('../../config.php');
 
-    // Por padrão, gravamos na linha de id = 1 (configurações gerais)
     $tabela = 'tb_checkout';
     $id     = 1;
 
-    // Coleta o tema selecionado
+    // 1) coleta o tema
     $theme = $_POST['theme'] ?? null;
 
-    // Atualiza a coluna theme (pode ser NULL para padrão)
-    $sql = "UPDATE {$tabela} 
-            SET theme = :theme 
-            WHERE id = :id";
+    // 2) coleta os novos flags (checkboxes vindo como 'on')
+    $getBool = fn($key) => isset($_POST[$key]) && $_POST[$key] === 'on' ? 1 : 0;
+
+    // Ankara
+    $ankara_hero        = $getBool('ankara_hero');
+    $ankara_colorful    = $getBool('ankara_colorful');
+    $ankara_yellow      = $getBool('ankara_yellow');
+    $ankara_footer_top  = $getBool('ankara_footer_top');
+    $ankara_footer_blog = $getBool('ankara_footer_blog');
+
+    // TerraDourada
+    $td_hero            = $getBool('td_hero');
+    $td_entrepreneurs   = $getBool('td_entrepreneurs');
+    $td_news            = $getBool('td_news');
+    $td_footer_info     = $getBool('td_footer_info');
+    $td_footer_socials  = $getBool('td_footer_socials');
+
+    // 3) monta o UPDATE incluindo theme e todos os flags
+    $sql = "
+      UPDATE {$tabela} SET
+        theme                = :theme,
+        ankara_hero          = :ankara_hero,
+        ankara_colorful      = :ankara_colorful,
+        ankara_yellow        = :ankara_yellow,
+        ankara_footer_top    = :ankara_footer_top,
+        ankara_footer_blog   = :ankara_footer_blog,
+        td_hero              = :td_hero,
+        td_entrepreneurs     = :td_entrepreneurs,
+        td_news              = :td_news,
+        td_footer_info       = :td_footer_info,
+        td_footer_socials    = :td_footer_socials
+      WHERE id = :id
+    ";
+
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':theme', $theme);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':theme',               $theme);
+    $stmt->bindParam(':ankara_hero',         $ankara_hero,        PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_colorful',     $ankara_colorful,    PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_yellow',       $ankara_yellow,      PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_footer_top',   $ankara_footer_top,  PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_footer_blog',  $ankara_footer_blog, PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_hero',             $td_hero,            PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_entrepreneurs',    $td_entrepreneurs,   PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_news',             $td_news,            PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_footer_info',      $td_footer_info,     PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_footer_socials',   $td_footer_socials,  PDO::PARAM_BOOL);
+    $stmt->bindParam(':id',                  $id,                 PDO::PARAM_INT);
 
     try {
         $stmt->execute();
 
-        // Define variável para exibir modal ou mensagem de sucesso
         $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-        $_SESSION['msg'] = 'Tema atualizado com sucesso!';
+        $_SESSION['msg']        = 'Configurações de aparência e conteúdo da Home atualizadas com sucesso!';
         header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
         exit;
     } catch (PDOException $e) {
-        echo "Erro ao atualizar tema: " . $e->getMessage();
+        echo "Erro ao atualizar configurações: " . $e->getMessage();
     }
 }
 

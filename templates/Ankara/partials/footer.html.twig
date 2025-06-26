@@ -1,4 +1,6 @@
 {# templates/_fallback/partials/footer.html.twig #}
+
+    {% if (ankara_footer_top and is_home) or not ankara_footer_top %}
     <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
         <div class="container-xl">
             <div class="row text-center">
@@ -7,7 +9,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Red Section with Circular Image -->
     <section class="section-redd py-6">
@@ -25,7 +26,9 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
+    {% if (ankara_footer_blog and is_home) or not ankara_footer_blog %}
     <!-- Blog Section -->
     <section class="section-red">
         <div class="container">
@@ -76,6 +79,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
 <footer>
     <div class="container mt-5">

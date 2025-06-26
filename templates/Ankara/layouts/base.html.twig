@@ -109,6 +109,7 @@
 
     </div>
 
+    {% if (ankara_hero and is_home) or not ankara_hero %}
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-image">
@@ -125,7 +126,9 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
+    {% if (ankara_colorful and is_home) or not ankara_colorful %}
     <!-- Colorful Section -->
     <section class="cor1">
         <div class="container">
@@ -143,7 +146,9 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
+    {% if (ankara_yellow and is_home) or not ankara_yellow %}
     <!-- Yellow Section -->
     <section class="section-yellow">
         <div class="container">
@@ -161,6 +166,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
 
         <div class="page-wrapper">

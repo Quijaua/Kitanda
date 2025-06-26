@@ -1,4 +1,5 @@
 {# templates/_fallback/partials/footer.html.twig #}
+    {% if (td_news and is_home) or not td_news %}
     <!-- News Section -->
     <section class="section-padding">
         <div class="container">
@@ -35,19 +36,23 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
     <!-- Footer -->
     <footer class="footer marrom">
         <div class="container">
             <div class="row">
+                {% if (td_footer_info and is_home) or not td_footer_info %}
                 <div class="col-lg-3 mb-4">
                     <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Mulheres Empreendedoras da Amazônia" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
                     <p>Empoderando mulheres da Amazônia através do empreendedorismo sustentável.</p>
                 </div>
+                {% endif %}
                 
                 <div class="col-lg-3 mb-4">
                     <p class="fs-3">Fale com a gente</p>
                     <p><a href="#"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
+                    {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <h6 class="mt-4">Siga-nos</h6>
                     <div class="social-icons">
                     <a href="{{ facebook ?: '#' }}" target="_blank"
@@ -67,6 +72,7 @@
                         <i class="bi fa-2x bi-globe-americas p-2"></i>
                     </a>
                     </div>
+                    {% endif %}
                 </div>
                 
                 <div class="col-lg-3 mb-4">

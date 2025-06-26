@@ -107,6 +107,7 @@
         {# Inclui o header #}
         {% include 'partials/header.html.twig' %}
 
+    {% if (td_hero and is_home) or not td_hero %}
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
@@ -120,12 +121,14 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
 
         <div class="page-wrapper">
             {{ page_content|raw }}
         </div>
 
+    {% if (td_entrepreneurs and is_home) or not td_entrepreneurs %}
     <!-- Entrepreneurs Section -->
     <section id="entrepreneurs" class="section-padding verde">
         <div class="container">
@@ -190,6 +193,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
         {# Inclui o footer #}
         {% include 'partials/footer.html.twig' %}

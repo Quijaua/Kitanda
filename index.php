@@ -145,6 +145,16 @@ $text_color                    = $resultado['text_color'];
 $color                         = $resultado['color'];
 $hover                         = $resultado['hover'];
 $progress                      = $resultado['progress'];
+$ankara_hero                   = (bool) $resultado['ankara_hero'];
+$ankara_colorful               = (bool) $resultado['ankara_colorful'];
+$ankara_yellow                 = (bool) $resultado['ankara_yellow'];
+$ankara_footer_top             = (bool) $resultado['ankara_footer_top'];
+$ankara_footer_blog            = (bool) $resultado['ankara_footer_blog'];
+$td_hero                       = (bool) $resultado['td_hero'];
+$td_entrepreneurs              = (bool) $resultado['td_entrepreneurs'];
+$td_news                       = (bool) $resultado['td_news'];
+$td_footer_info                = (bool) $resultado['td_footer_info'];
+$td_footer_socials             = (bool) $resultado['td_footer_socials'];
 
 // Mapeia as variáveis vindas de $resultado2 (integrações)
 $fb_pixel       = $resultado2['fb_pixel'];
@@ -253,6 +263,8 @@ if (isset($field) && isset($value)) {
 // outras variáveis em alguma view específica, basta adicionar neste array.
 
 $context = [
+    'is_home' => ($url === 'produtos'),
+
     // Informações básicas
     'logo'            => $logo,
     'nome'            => $nome,
@@ -266,6 +278,20 @@ $context = [
     'color'           => $color,
     'hover'           => $hover,
     'progress'        => $progress,
+
+    // Thema
+    // Ankara
+    'ankara_hero'        => $ankara_hero,
+    'ankara_colorful'    => $ankara_colorful,
+    'ankara_yellow'      => $ankara_yellow,
+    'ankara_footer_top'  => $ankara_footer_top,
+    'ankara_footer_blog' => $ankara_footer_blog,
+    // Terra Dourada
+    'td_hero'            => $td_hero,
+    'td_entrepreneurs'   => $td_entrepreneurs,
+    'td_news'            => $td_news,
+    'td_footer_info'     => $td_footer_info,
+    'td_footer_socials'  => $td_footer_socials,
 
     // Redes sociais e links
     'facebook'        => $facebook,
