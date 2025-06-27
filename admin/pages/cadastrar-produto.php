@@ -4,15 +4,37 @@
 
     // Verifica permissão
     if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') {
-        // Consulta para buscar o produto selecionado
-        $stmt = $conn->prepare("SELECT * FROM tb_lojas");
+        // Define o ID da função “Vendedora”
+        $funcaoVendedora = 2;
+
+        // Busca todas as vendedoras e sua loja (se houver)
+        $stmt = $conn->prepare("
+            SELECT
+                c.id,
+                c.nome,
+                l.id AS loja_id,
+                l.imagem AS loja_imagem
+            FROM tb_clientes c
+            INNER JOIN tb_permissao_usuario pu ON c.id = pu.usuario_id
+            LEFT JOIN tb_lojas l ON c.id = l.vendedora_id
+            WHERE c.roles = :funcaoVendedora
+            ORDER BY c.nome ASC
+        ");
+        $stmt->bindParam(':funcaoVendedora', $funcaoVendedora, PDO::PARAM_INT);
         $stmt->execute();
+
         $empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($empreendedoras as &$e) {
-            $e['imagem'] = !empty($e['imagem'])
-                         ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$e['id']}/perfil/{$e['imagem']}")
-                         : INCLUDE_PATH . "assets/preview-image/profile.jpg";
+        foreach ($empreendedoras as $key => $e) {
+            if (!empty($e['loja_imagem']) && !empty($e['loja_id'])) {
+                $empreendedoras[$key]['imagem'] = str_replace(
+                    ' ',
+                    '%20',
+                    INCLUDE_PATH . "files/lojas/{$e['loja_id']}/perfil/{$e['loja_imagem']}"
+                );
+            } else {
+                $empreendedoras[$key]['imagem'] = INCLUDE_PATH . "assets/preview-image/profile.jpg";
+            }
         }
     }
 ?>
@@ -321,15 +343,14 @@
                                 <div class="mb-0 row">
                                     <label class="col-3 col-form-label required">Vendedora do Produto</label>
                                     <div class="col">
-                                        <div class="input-group">
-                                            <select id="select-people" name="created_by" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
-                                                <?php foreach ($empreendedoras as $e): ?>
-                                                <option value="<?= $e['id']; ?>" data-custom-properties="<span class='avatar avatar-xs' style='background-image: url(<?= $e['imagem']; ?>)'></span>">
-                                                    <?= htmlspecialchars($e['nome']); ?>
-                                                </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
+                                        <select id="select-people" name="created_by" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                            <option value="">Selecione uma vendedora</option>
+                                            <?php foreach ($empreendedoras as $e): ?>
+                                            <option value="<?= $e['id']; ?>" data-custom-properties="<span class='avatar avatar-xs' style='background-image: url(<?= $e['imagem']; ?>)'></span>">
+                                                <?= htmlspecialchars($e['nome']); ?>
+                                            </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
 
