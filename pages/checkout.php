@@ -238,29 +238,29 @@ if (!$isPedido) {
             ];
         }
     }
-
-    $checkout_data = $_SESSION['checkout_data'] ?? [];
-    $userDataSession = [
-        'email'        => isset($checkout_data['email']) && !empty($checkout_data['email']) ? $checkout_data['email'] : null,
-        'name'         => isset($checkout_data['name']) && !empty($checkout_data['name']) ? $checkout_data['name'] : null,
-        'cpf'          => isset($checkout_data['cpf']) && !empty($checkout_data['cpf']) ? $checkout_data['cpf'] : null,
-        'birthDate'    => isset($checkout_data['birthDate']) && !empty($checkout_data['birthDate']) ? $checkout_data['birthDate'] : null,
-        'phone'        => isset($checkout_data['phone']) && !empty($checkout_data['phone']) ? $checkout_data['phone'] : null,
-        'zipcode'      => isset($checkout_data['zipcode']) && !empty($checkout_data['zipcode']) ? $checkout_data['zipcode'] : null,
-        'street'       => isset($checkout_data['street']) && !empty($checkout_data['street']) ? $checkout_data['street'] : null,
-        'streetNumber' => isset($checkout_data['streetNumber']) && !empty($checkout_data['streetNumber']) ? $checkout_data['streetNumber'] : null,
-        'complement'   => isset($checkout_data['complement']) && !empty($checkout_data['complement']) ? $checkout_data['complement'] : null,
-        'district'     => isset($checkout_data['district']) && !empty($checkout_data['district']) ? $checkout_data['district'] : null,
-        'city'         => isset($checkout_data['city']) && !empty($checkout_data['city']) ? $checkout_data['city'] : null,
-        'state'        => isset($checkout_data['state']) && !empty($checkout_data['state']) ? $checkout_data['state'] : null,
-        'newsletter'   => isset($checkout_data['newsletter']) 
-                            ? (bool) $checkout_data['newsletter'] 
-                            : null,
-        'terms'        => isset($checkout_data['terms']) 
-                            ? (bool) $checkout_data['terms'] 
-                            : null,
-    ];
 }
+
+$checkout_data = (isset($_SESSION['checkout_data'])) ? $_SESSION['checkout_data'] : $userData;
+$userDataSession = [
+    'email'        => isset($checkout_data['email']) && !empty($checkout_data['email']) ? $checkout_data['email'] : null,
+    'name'         => isset($checkout_data['name']) && !empty($checkout_data['name']) ? $checkout_data['name'] : null,
+    'cpf'          => isset($checkout_data['cpf']) && !empty($checkout_data['cpf']) ? $checkout_data['cpf'] : null,
+    'birthDate'    => isset($checkout_data['birthDate']) && !empty($checkout_data['birthDate']) ? $checkout_data['birthDate'] : null,
+    'phone'        => isset($checkout_data['phone']) && !empty($checkout_data['phone']) ? $checkout_data['phone'] : null,
+    'zipcode'      => isset($checkout_data['zipcode']) && !empty($checkout_data['zipcode']) ? $checkout_data['zipcode'] : null,
+    'street'       => isset($checkout_data['street']) && !empty($checkout_data['street']) ? $checkout_data['street'] : null,
+    'streetNumber' => isset($checkout_data['streetNumber']) && !empty($checkout_data['streetNumber']) ? $checkout_data['streetNumber'] : null,
+    'complement'   => isset($checkout_data['complement']) && !empty($checkout_data['complement']) ? $checkout_data['complement'] : null,
+    'district'     => isset($checkout_data['district']) && !empty($checkout_data['district']) ? $checkout_data['district'] : null,
+    'city'         => isset($checkout_data['city']) && !empty($checkout_data['city']) ? $checkout_data['city'] : null,
+    'state'        => isset($checkout_data['state']) && !empty($checkout_data['state']) ? $checkout_data['state'] : null,
+    'newsletter'   => isset($checkout_data['newsletter']) 
+                        ? (bool) $checkout_data['newsletter'] 
+                        : null,
+    'terms'        => isset($checkout_data['terms']) 
+                        ? (bool) $checkout_data['terms'] 
+                        : null,
+];
 
 // 4) Retorna todo o contexto para o Twig
 return [
