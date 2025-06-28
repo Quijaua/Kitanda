@@ -14,6 +14,15 @@
         $smtp_email = $project['email'];
         $smtp_title = $project['name'];
 
+        // Verificação de configuração SMTP
+        if (
+            empty($smtp_host) || empty($smtp_username) ||
+            empty($smtp_password) || empty($smtp_secure) ||
+            empty($smtp_port) || empty($smtp_email)
+        ) {
+            return "SMTP não configurado corretamente. E-mail não enviado para {$email}";
+        }
+
         // Inicializar PHPMailer
         $mail = new PHPMailer(true);
 

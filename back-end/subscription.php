@@ -361,14 +361,26 @@ function makeDonation($dataForm, $config){
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
-
-
                 // Enviar e-mail de verificação
                 $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
                 $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
                 $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
-                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
 
+                $response = [
+                    "status" => 200,
+                    "code" => $payment['id'],
+                    "id" => $customer_id,
+                    "order" => $pedido_id
+                ];
+
+                if (!empty($mail1)) {
+                    $response["email_status"] = [
+                        "pedido_recebido" => $mail1
+                    ];
+                }
+
+                echo json_encode($response);
 
                 break;
             case '101':
@@ -390,14 +402,26 @@ function makeDonation($dataForm, $config){
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
-
-
                 // Enviar e-mail de verificação
                 $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
                 $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
                 $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
-                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
 
+                $response = [
+                    "status" => 200,
+                    "code" => $payment['id'],
+                    "id" => $customer_id,
+                    "order" => $pedido_id
+                ];
+
+                if (!empty($mail1)) {
+                    $response["email_status"] = [
+                        "pedido_recebido" => $mail1,
+                    ];
+                }
+
+                echo json_encode($response);
 
                 break;
             case '102':
@@ -406,8 +430,6 @@ function makeDonation($dataForm, $config){
                 $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
-
-                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
 
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;
@@ -418,20 +440,33 @@ function makeDonation($dataForm, $config){
                     $resultado['compra']['endereco'] .= ' - ' . $dataForm['complement'];
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
-        
-        
-
 
                 // Enviar e-mail de verificação
                 $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
                 $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
                 $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
-                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
 
                 // Enviar e-mail para finalizar o pagamento
                 $subject = "Seu código Pix está disponível para pagamento";
                 $content = array("layout" => "finalizar-pagamento", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
-                sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                $mail2 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+                $response = [
+                    "status" => 200,
+                    "code" => $payment['id'],
+                    "id" => $customer_id,
+                    "order" => $pedido_id
+                ];
+
+                if (!empty($mail1) || !empty($mail2)) {
+                    $response["email_status"] = [
+                        "pedido_recebido" => $mail1,
+                        "finalizar_pagamento" => $mail2
+                    ];
+                }
+
+                echo json_encode($response);
 
                 break;
             default:
