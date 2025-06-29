@@ -7,6 +7,13 @@
     --tblr-breadcrumb-divider: "|";
     --tblr-breadcrumb-divider-color: #FFFFFF;
     --tblr-btn-hover-bg: #400F19;
+    --tblr-yellow-darken: #400F19;
+    --tblr-yellow-fg: #fff;
+    --tblr-btn-hover-bg: var(--tblr-yellow-darken);
+    --tblr-btn-active-color: var(--tblr-yellow-fg);
+    --tblr-btn-active-bg: var(--tblr-yellow-darken);
+    --tblr-btn-color: #FFFFFF !important;
+    --tblr-btn-color: var(--tblr-yellow-fg);
 }
 
 
