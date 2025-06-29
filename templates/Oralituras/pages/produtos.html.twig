@@ -55,15 +55,6 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title text-ankara">Produtos</h2>
-                    <div class="text-secondary mt-1">
-                        {% if total_produtos > 0 %}
-                            {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
-                               min((pagina_atual * limite), total_produtos) ~
-                               ' de ' ~ total_produtos ~ ' produtos' }}
-                        {% else %}
-                            Nenhum produto encontrado
-                        {% endif %}
-                    </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <form method="GET" class="d-flex">
@@ -115,7 +106,7 @@
                                 {% set precoFormatado = produto.preco
                                     |number_format(2, ',', '.') %}
 
-                                <div class="col-sm-6 col-lg-4">
+                                <div class="col-sm-6 col-lg-4 p-3">
                                     <div class="card card-ankara">
                                         <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
                                             <img src="{{ imagemUrl }}"
