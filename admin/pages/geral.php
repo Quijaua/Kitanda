@@ -12,9 +12,9 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                    Cabeçalho
+                    Geral
                 </h2>
-                <div class="text-secondary mt-1">Altere configurações da parte superior da página.</div>
+                <div class="text-secondary mt-1">Altere configurações do site.</div>
             </div>
         </div>
     </div>
@@ -46,15 +46,23 @@
 
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                         <div class="card-header">
-                            <h4 class="card-title">Título da Página</h4>
+                            <h4 class="card-title">Configurações Gerais do Site</h4>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <label for="title" class="col-3 col-form-label required">Texto do Título da Página</label>
+                                <label for="title" class="col-3 col-form-label required">Título da Página</label>
                                 <div class="col">
                                     <input name="title" id="title"
                                         type="text" class="form-control" value="<?php echo $title; ?>">
                                     <small class="form-hint">Será mostrado na aba do seu navegador e na página do Google.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="descricao" class="col-3 col-form-label">Descrição do Site</label>
+                                <div class="col">
+                                    <textarea name="descricao" id="descricao"
+                                        class="form-control" rows="4"><?php echo $descricao; ?></textarea>
+                                    <small class="form-hint">Descrição para SEO e exibição no rodapé.</small>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +70,43 @@
                             <div class="d-flex">
                                 <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
                                 <button type="submit" name="btnUpdAbout" class="btn btn-primary ms-auto">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
+                        <div class="card-header">
+                            <h4 class="card-title">Vitrine do Site</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <label for="vitrine_limite" class="col-3 col-form-label required">Limite de Itens</label>
+                                <div class="col row">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            name="vitrine_limite"
+                                            id="vitrine_limite"
+                                            class="form-control"
+                                            value="<?php echo $vitrine_limite; ?>"
+                                            required
+                                        >
+                                    </div>
+                                    <small class="form-hint">Número máximo de produtos que serão exibidos na vitrine do site.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                <button type="submit" name="btnUpdVitrine" class="btn btn-primary ms-auto">Salvar</button>
                             </div>
                         </div>
                     </form>

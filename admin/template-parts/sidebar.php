@@ -7,6 +7,15 @@
             echo "active";
         }
     }
+
+    //Funcao '.show' Sidebar
+    function showSidebarLink($par) {
+        $url = explode('/',@$_GET['url'])[0];
+        if ($url == $par)
+        {
+            echo "show";
+        }
+    }
 ?>
 <!-- Sidebar -->
 <aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
@@ -23,19 +32,25 @@
         <div class="navbar-nav flex-row d-lg-none">
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
+                    <span class="avatar avatar-sm" style="background-image: url(<?= $usuario['imagem']; ?>)"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div>Paweł Kuna</div>
-                        <div class="mt-1 small text-secondary">UI Designer</div>
+                        <div><?php echo $nome; ?></div>
+                        <div class="mt-1 small text-secondary"><?php echo $permissao; ?></div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item">Status</a>
-                    <a href="./profile.html" class="dropdown-item">Profile</a>
-                    <a href="#" class="dropdown-item">Feedback</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="./settings.html" class="dropdown-item">Settings</a>
-                    <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                    <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN; ?>minha-loja">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler icons-tabler-outline icon-tabler-building-store"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4" /><path d="M5 21l0 -10.15" /><path d="M19 21l0 -10.15" /><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" /></svg>
+                        Minha Loja
+                    </a>
+                    <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN; ?>webhook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+                        Configurações
+                    </a>
+                    <a class="dropdown-item text-danger" href="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/logout.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icons-tabler-outline icon-tabler-logout-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" /><path d="M15 12h-12l3 -3" /><path d="M6 15l-3 -3" /></svg>
+                        Sair
+                    </a>
                 </div>
             </div>
         </div>
@@ -57,8 +72,15 @@
                 <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'produtos', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'produtos', 'only_own', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos" >
+                <li class="nav-item 
+                    <?= activeSidebarLink('produtos'); ?>
+                    <?= activeSidebarLink('cadastrar-produto'); ?>
+                    <?= activeSidebarLink('editar-produto'); ?>
+                    <?= activeSidebarLink('categorias'); ?>
+                    <?= activeSidebarLink('criar-categoria'); ?>
+                    <?= activeSidebarLink('editar-categoria'); ?>
+                ">
+                    <a class="nav-link dropdown-toggle" href="#navbar-addons" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/building-store -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-building-store"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4" /><path d="M5 21l0 -10.15" /><path d="M19 21l0 -10.15" /><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" /></svg>
@@ -67,6 +89,17 @@
                             Produtos
                         </span>
                     </a>
+                    <div class="dropdown-menu 
+                        <?= showSidebarLink('produtos'); ?>
+                        <?= showSidebarLink('cadastrar-produto'); ?>
+                        <?= showSidebarLink('editar-produto'); ?>
+                        <?= showSidebarLink('categorias'); ?>
+                        <?= showSidebarLink('criar-categoria'); ?>
+                        <?= showSidebarLink('editar-categoria'); ?>
+                    " data-bs-popper="static">
+                        <a class="dropdown-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos"> Produtos </a>
+                        <a class="dropdown-item <?= activeSidebarLink('categorias'); ?> <?= activeSidebarLink('criar-categoria'); ?> <?= activeSidebarLink('editar-categoria'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias"> Categorias </a>
+                    </div>
                 </li>
                 <?php endif; ?>
 
@@ -97,9 +130,8 @@
                 </li>
                 <?php endif; ?>
 
-                <?php if (verificaPermissao($_SESSION['user_id'], 'webhook', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('cabecalho'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" >
+                <li class="nav-item <?= activeSidebarLink('geral'); ?> <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
+                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>geral" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/settings -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
@@ -109,21 +141,6 @@
                         </span>
                     </a>
                 </li>
-                <?php endif; ?>
-
-                <?php if (verificaPermissao($_SESSION['user_id'], 'mensagens', 'read', $conn)): ?>
-                <li class="nav-item <?= activeSidebarLink('mensagens'); ?>">
-                    <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>mensagens" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-messages"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" /><path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" /></svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Mensagens
-                        </span>
-                    </a>
-                </li>
-                <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'novidades', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('novidades'); ?> <?= activeSidebarLink('email_em_massa'); ?>">
@@ -150,6 +167,38 @@
                         </span>
                     </a>
                 </li>
+
+                <?php if (verificaPermissao($_SESSION['user_id'], 'posts', 'read', $conn) || verificaPermissao($_SESSION['user_id'], 'posts', 'only_own', $conn)): ?>
+                <li class="nav-item 
+                    <?= activeSidebarLink('posts'); ?>
+                    <?= activeSidebarLink('criar-post'); ?>
+                    <?= activeSidebarLink('editar-post'); ?>
+                    <?= activeSidebarLink('categorias-posts'); ?>
+                    <?= activeSidebarLink('criar-categoria-post'); ?>
+                    <?= activeSidebarLink('editar-categoria-post'); ?>
+                ">
+                    <a class="nav-link dropdown-toggle" href="#navbar-addons" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler.io/icons/icon/news -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-news"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" /><path d="M8 8l4 0" /><path d="M8 12l4 0" /><path d="M8 16l4 0" /></svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Posts
+                        </span>
+                    </a>
+                    <div class="dropdown-menu 
+                        <?= showSidebarLink('posts'); ?>
+                        <?= showSidebarLink('criar-post'); ?>
+                        <?= showSidebarLink('editar-post'); ?>
+                        <?= showSidebarLink('categorias-posts'); ?>
+                        <?= showSidebarLink('criar-categoria-post'); ?>
+                        <?= showSidebarLink('editar-categoria-post'); ?>
+                    " data-bs-popper="static">
+                        <a class="dropdown-item <?= activeSidebarLink('categorias-posts'); ?> <?= activeSidebarLink('criar-categoria-post'); ?> <?= activeSidebarLink('editar-categoria-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias-posts"> Categorias </a>
+                        <a class="dropdown-item <?= activeSidebarLink('posts'); ?> <?= activeSidebarLink('criar-post'); ?> <?= activeSidebarLink('editar-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>posts"> Posts </a>
+                    </div>
+                </li>
+                <?php endif; ?>
 
                 <li class="nav-item <?= activeSidebarLink('editar-perfil'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>editar-perfil" >

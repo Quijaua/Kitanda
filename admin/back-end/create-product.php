@@ -78,10 +78,23 @@
         $preco = trim($_POST['preco']);
         $preco = str_replace('.', '', $preco);
         $preco = str_replace(',', '.', $preco);
+
+        $freight_type = $_POST['freight_type'] ?? 'default';
+        $rawValue = $_POST['freight_value'] ?? '';
+
+        if ($freight_type === 'fixed') {
+            $num = str_replace(['.', ' '], ['', ''], $rawValue);
+            $num = str_replace(',', '.', $num);
+            $freight_value = floatval($num);
+        } else {
+            $freight_value = null;
+        }
+
+        $categorias = (!empty($_POST['categorias']) && is_array($_POST['categorias'])) ? $_POST['categorias'] : null;
         $seo_nome = trim($_POST['seo_nome']);
         $seo_descricao = trim($_POST['seo_descricao']);
         $link = trim($_POST['link']);
-        $criado_por = $_SESSION['user_id'];
+        $criado_por = (isset($_POST['criado_por']) && !empty($_POST['criado_por'])) ? $_POST['criado_por'] : $_SESSION['user_id'];
 
         if (!isset($_SESSION['user_id'])) {
             echo json_encode(['status' => 'error', 'message' => 'Usuário não autenticado.']);
@@ -115,23 +128,35 @@
             }
 
             // Inserindo o produto no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, seo_nome, seo_descricao, link, criado_por) 
-                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :seo_nome, :seo_descricao, :link, :criado_por)");
+            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, freight_type, freight_value, seo_nome, seo_descricao, link, criado_por) 
+                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :freight_type, :freight_value, :seo_nome, :seo_descricao, :link, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
             $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
             $stmt->bindParam(':preco', $preco, PDO::PARAM_STR);
             $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_STR);
+            $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
+            $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
             $stmt->bindParam(':seo_nome', $seo_nome, PDO::PARAM_STR);
             $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
             $stmt->bindParam(':link', $link, PDO::PARAM_STR);
             $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_INT);
             $stmt->execute();
-            $product_id = $conn->lastInsertId();
+            $produto_id = $conn->lastInsertId();
+
+            if ($categorias) {
+                foreach ($categorias as $key => $categoria_id) {
+                    // Inserindo o post no banco de dados
+                    $stmt = $conn->prepare("INSERT INTO tb_categoria_produtos (categoria_id, produto_id) VALUES (:categoria_id, :produto_id)");
+                    $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_STR);
+                    $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_STR);
+                    $stmt->execute();
+                }
+            }
 
             if (!empty($_FILES['imagens'])) {
                 // Salvar imagens
-                uploadImagens($product_id, $conn);
+                uploadImagens($produto_id, $conn);
             }
 
             // Commit na transação

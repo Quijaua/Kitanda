@@ -1,9 +1,9 @@
-<?php
+<?php 
 header('Content-Type: application/json; charset=utf-8');
 
 include_once('../../config.php');
 
-// Consulta para obter o cep
+// Consulta para obter o cep de origem do projeto
 $stmt = $conn->query("SELECT nome, cep FROM tb_checkout LIMIT 1");
 $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -17,45 +17,107 @@ $config['melhor_envio_token'] = $_ENV['MELHOR_ENVIO_TOKEN'];
 date_default_timezone_set('America/Sao_Paulo');
 
 // Recebe e valida dados do POST
-$cepOrigem   = preg_replace('/\D/', '', $config['cep_origem']);
-$cepDestino  = preg_replace('/\D/', '', $_POST['cep'] ?? '');
-$peso        = floatval(str_replace(',', '.', $_POST['weight'] ?? 2));
-$height      = floatval($_POST['height'] ?? 4);
-$width       = floatval($_POST['width'] ?? 12);
-$length      = floatval($_POST['length'] ?? 17);
-$insurance   = floatval(str_replace(',', '.', $_POST['insurance_value'] ?? 0));
-$receipt     = filter_var($_POST['receipt'] ?? false, FILTER_VALIDATE_BOOLEAN);
-$ownHand     = filter_var($_POST['own_hand'] ?? false, FILTER_VALIDATE_BOOLEAN);
-// Serviços separados por vírgula, ex: "1,2,3,4"
-$services    = $_POST['services'] ?? '1,2,3,4';
+$cepDestinoRaw = $_POST['cep'] ?? '';
+$cepDestino    = preg_replace('/\D/', '', $cepDestinoRaw);
 
-if (!$cepDestino || $peso <= 0) {
+if (!$cepDestino) {
     http_response_code(400);
     echo json_encode([
-        'status'  => 'erro',
-        'mensagem'=> 'CEP de destino ou peso inválido.'
+        'status'   => 'erro',
+        'mensagem' => 'CEP de destino inválido.'
     ]);
     exit;
 }
 
-// Monta o payload conforme exemplo
+// Recebe array de produtos do carrinho: cart[0][id], cart[0][quantity], etc.
+$cart = $_POST['cart'] ?? [];
+if (!is_array($cart) || empty($cart)) {
+    http_response_code(400);
+    echo json_encode([
+        'status'   => 'erro',
+        'mensagem' => 'Carrinho vazio ou formato inválido.'
+    ]);
+    exit;
+}
+
+// Pesos e dimensões padrão (já que não há dados específicos de cada produto)
+$defaultHeight = 4;   // em cm
+$defaultWidth  = 12;  // em cm
+$defaultLength = 17;  // em cm
+$defaultWeight = 0.5; // em kg (por unidade, por exemplo)
+
+// Variáveis para acumular frete fixo e peso total para Melhor Envio
+$fixedTotal     = 0.0;
+$meTotalWeight  = 0.0;
+
+foreach ($cart as $item) {
+    $prodId   = intval($item['id'] ?? 0);
+    $quantity = intval($item['quantity'] ?? 0);
+    if ($prodId <= 0 || $quantity <= 0) {
+        continue;
+    }
+
+    // Busca o produto no banco para verificar se tem frete fixo ou padrão
+    $stmtProd = $conn->prepare("SELECT freight_type, freight_value FROM tb_produtos WHERE id = :id");
+    $stmtProd->bindParam(':id', $prodId, PDO::PARAM_INT);
+    $stmtProd->execute();
+    $produto = $stmtProd->fetch(PDO::FETCH_ASSOC);
+
+    if (!$produto) {
+        // Se não encontrar o produto, considera como padrão ME
+        $meTotalWeight += $defaultWeight * $quantity;
+        continue;
+    }
+
+    $type  = $produto['freight_type'] ?? 'default';
+    $value = floatval($produto['freight_value'] ?? 0);
+
+    if ($type === 'fixed' && $value > 0) {
+        // Se for frete fixo, acumula o valor fixo * quantidade
+        $fixedTotal += $value * $quantity;
+    } else {
+        // Caso contrário, considera peso padrão para Melhor Envio
+        $meTotalWeight += $defaultWeight * $quantity;
+    }
+}
+
+// Se não houver itens para Melhor Envio, retornamos apenas frete fixo como única "opção"
+if ($meTotalWeight <= 0) {
+    echo json_encode([
+        'status'  => 'sucesso',
+        'options' => [
+            [
+                'id'             => 'fixed_total',
+                'name'           => 'Frete Fixo (total)',
+                'price'          => number_format($fixedTotal, 2, '.', ''),
+                'delivery_range' => ['min' => null, 'max' => null],
+                'company'        => ['id' => null, 'name' => 'Valor Fixo', 'picture' => null],
+                'error'          => null
+            ]
+        ]
+    ]);
+    exit;
+}
+
+// Monta o payload para chamar a API do Melhor Envio apenas com o peso total calculado
+$cepOrigem = preg_replace('/\D/', '', $config['cep_origem']);
+
 $payload = [
     'from'    => ['postal_code' => $cepOrigem],
     'to'      => ['postal_code' => $cepDestino],
     'package' => [
-        'height' => $height,
-        'width'  => $width,
-        'length' => $length,
-        'weight' => $peso
+        'height' => $defaultHeight,
+        'width'  => $defaultWidth,
+        'length' => $defaultLength,
+        'weight' => $meTotalWeight
     ],
     'options' => [
-        'insurance_value' => $insurance,
-        'receipt'         => $receipt,
-        'own_hand'        => $ownHand
+        'insurance_value' => 0,
+        'receipt'         => false,
+        'own_hand'        => false
     ]
 ];
 
-// Inicializa o cURL
 $ch = curl_init($config['melhor_envio_url'].'me/shipment/calculate');
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
@@ -81,10 +143,6 @@ if ($err) {
 }
 
 $data = json_decode($response, true);
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>";
-// exit;
 if (isset($data['message'])) {
     http_response_code(500);
     $msg = $data['message'] ?? 'Erro desconhecido na API';
@@ -92,13 +150,16 @@ if (isset($data['message'])) {
     exit;
 }
 
-// Adapta cada serviço ao front
+// Monta as opções adicionando o valor fixo ao preço retornado pelo Melhor Envio
 $options = [];
 foreach ($data as $svc) {
+    $svcPrice = floatval($svc['price'] ?? 0);
+    $totalPrice = $svcPrice + $fixedTotal;
+
     $options[] = [
         'id'             => $svc['id'],
         'name'           => $svc['name'] ?? '',
-        'price'          => $svc['price'] ?? '',
+        'price'          => number_format($totalPrice, 2, '.', ''),
         'delivery_range' => [
             'min' => $svc['delivery_range']['min'] ?? null,
             'max' => $svc['delivery_range']['max'] ?? null
@@ -109,6 +170,18 @@ foreach ($data as $svc) {
             'picture' => $svc['company']['picture'] ?? ''
         ],
         'error'   => $svc['error'] ?? null
+    ];
+}
+
+// Se existirem itens de frete fixo e nenhum serviço ME válido, adicionamos uma opção só de frete fixo
+if (empty($options) && $fixedTotal > 0) {
+    $options[] = [
+        'id'             => 'fixed_total',
+        'name'           => 'Frete Fixo (total)',
+        'price'          => number_format($fixedTotal, 2, '.', ''),
+        'delivery_range' => ['min' => null, 'max' => null],
+        'company'        => ['id' => null, 'name' => 'Valor Fixo', 'picture' => null],
+        'error'          => null
     ];
 }
 

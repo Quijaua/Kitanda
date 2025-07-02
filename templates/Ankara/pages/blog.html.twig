@@ -1,0 +1,280 @@
+{# templates/_fallback/pages/blog.html.twig #}
+{# Recebe no contexto:
+   - categorias      : array de categorias (cada item: id, nome)
+   - posts           : array de posts (cada item: id, titulo, imagem, data_publicacao, categorias[])
+   - initial_count   : número de posts iniciais (por ex. 4)
+   Além das variáveis globais (INCLUDE_PATH, cartCount etc.) vindas do index.php.
+#}
+
+{# ----------- Page header (breadcrumb) ----------- #}
+<div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <ol class="breadcrumb breadcrumb-muted text-white">
+                    <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                    <li class="breadcrumb-item active">Blog</li>
+                </ol>
+            </div>
+            <div class="mt-8">
+                <h2 class="text-yellow mb-0">Palavra-chave</h2>
+                <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Blog</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# -----------------------------------------------------------
+   2) SLIDER DE CATEGORIAS (GLIDER.JS)
+   ----------------------------------------------------------- #}
+{% if categorias is not empty %}
+    <div class="mb-4 position-relative">
+        <div class="related-products py-8">
+            <div class="container-xl">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        {# Container do Glider #}
+                        <div class="glider-contain d-flex align-items-center">
+                            {# Botão “anterior” #}
+                            <button
+                                class="glider-prev btn btn-icon btn-lg"
+                                aria-label="Anterior">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M15 6l-6 6l6 6" />
+                                </svg>
+                            </button>
+
+                            {# Lista de links (cada link é um botão) #}
+                            <div class="glider flex-grow-1">
+                                {% for categoria in categorias %}
+                                    <div class="me-2">
+                                        <a href="{{ INCLUDE_PATH }}blog-categoria?id={{ categoria.id }}"
+                                           class="btn btn-6 btn-yellow text-danger btn-pill btn-lg w-100 ms-1">
+                                            {{ categoria.nome }}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {# Botão “próximo” #}
+                            <button
+                                class="glider-next btn btn-icon btn-lg"
+                                aria-label="Próximo">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M9 6l6 6l-6 6" />
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{# -----------------------------------------------------------
+   3) POSTS INICIAIS COM BADGES DE CATEGORIA
+   ----------------------------------------------------------- #}
+{% set qtdPostsIniciais = initial_count %}
+{% set limit = 4 %} {# mesmo valor usado no PHP #}
+
+<style>
+    .card-img-top {
+        width: 100%;
+        aspect-ratio: 2/1;
+        object-fit: cover;
+        display: block;
+    }
+</style>
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row g-4">
+
+            {% if posts is not empty %}
+                <div class="col-md-12">
+                    <div class="row row-cards">
+                        {% for post in posts %}
+                            <div class="col-sm-6 col-lg-6 d-grid">
+                                <div class="card card-sm">
+                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block">
+                                        <img src="{{ post.imagem }}" class="card-img-top" alt="{{ post.titulo }}">
+                                    </a>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                {# Badges de categorias do post #}
+                                                {% if post.categorias is not empty %}
+                                                    <div class="mb-2">
+                                                        {% for cat in post.categorias %}
+                                                            <span class="fw-bold text-red me-2">
+                                                                {{ cat.nome }}
+                                                            </span>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+
+                                                {# Data formatada no padrão DD/MM/AAAA #}
+                                                <small>
+                                                    {{ post.data_publicacao|date("d/m/Y") }}
+                                                </small>
+                                                <h1 id="title-preview">{{ post.titulo }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {# Wrapper do botão “Ver mais” #}
+                        <div class="col-12" id="load-more-wrapper">
+                            <div class="d-flex justify-content-center">
+                                <button id="btn-load-more" class="btn btn-6 btn-outline-red btn-pill btn-lg">
+                                    Ver mais
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info w-100" role="alert">
+                        <div class="d-flex">
+                            <div class="alert-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon alert-icon icon-2">
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                    <path d="M12 9h.01"></path>
+                                    <path d="M11 12h1v4h1"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <div class="text-secondary">
+                                    Não encontramos nenhum artigo cadastrado na plataforma.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{# -----------------------------------------------------------
+   4) BLOCO DE SCRIPTS (GLIDER.JS + AJAX “VER MAIS”)
+   ----------------------------------------------------------- #}
+{% block scripts %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        new Glider(document.querySelector(".glider"), {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          draggable: true,
+          arrows: {
+            prev: ".glider-prev",
+            next: ".glider-next"
+          }
+        });
+      });
+    </script>
+
+    {# 4.2) Carrega o AJAX de “Ver mais posts” (usa jQuery) #}
+    <script>
+      $(function() {
+        // O offset inicial corresponde à quantidade de posts já exibidos (por ex. 4)
+        var offset = {{ initial_count }};
+        var limit  = {{ limit }};
+
+        $('#btn-load-more').on('click', function() {
+          $.ajax({
+            url: '{{ INCLUDE_PATH }}back-end/posts/list.php',
+            method: 'POST',
+            data: { offset: offset, limit: limit },
+            dataType: 'json',
+            success: function(res) {
+              if (res.status === 'sucesso' && res.data.length) {
+                res.data.forEach(function(p) {
+                    // Monta as badges de categoria (se houver)
+                    var badgesHTML = '';
+                    if (p.categorias && p.categorias.length) {
+                      badgesHTML = '<div class="mb-2">';
+                      p.categorias.forEach(function(cat) {
+                        badgesHTML += '<span class="badge badge-outline text-dark bg-light badge-lg">' 
+                                       + cat.nome + 
+                                      '</span> ';
+                      });
+                      badgesHTML += '</div>';
+                    }
+
+                    // Formata a data no padrão DD/MM/AAAA
+                    var dt = new Date(p.data_publicacao);
+                    var dia  = String(dt.getDate()).padStart(2, '0');
+                    var mes  = String(dt.getMonth() + 1).padStart(2, '0');
+                    var ano  = dt.getFullYear();
+                    var dataFormatada = dia + '/' + mes + '/' + ano;
+
+                    // Monta o card do post
+                    var card = '\
+                      <div class="col-sm-6 col-lg-6 d-grid">\
+                        <div class="card card-sm">\
+                          <a href="{{ INCLUDE_PATH }}post?id=' + p.id + '" class="d-block">\
+                            <img src="' + p.imagem + '" class="card-img-top" alt="' + p.titulo + '">\
+                          </a>\
+                          <div class="card-body">\
+                            <div class="d-flex align-items-center">\
+                              <div>' +
+                                badgesHTML + '\
+                                <small>' + dataFormatada + '</small>\
+                                <h3 id="title-preview">' + p.titulo + '</h3>\
+                              </div>\
+                            </div>\
+                          </div>\
+                        </div>\
+                      </div>';
+
+                    $('#load-more-wrapper').before(card);
+                });
+
+                offset += res.data.length;
+                if (res.data.length < limit) {
+                  $('#btn-load-more').text('Não há mais');
+                  $('#btn-load-more').prop('disabled', true);
+                }
+              } else {
+                $('#btn-load-more').text('Não há mais');
+                $('#btn-load-more').prop('disabled', true);
+              }
+            },
+            error: function() {
+              alert('Erro ao carregar mais posts.');
+            }
+          });
+        });
+      });
+    </script>
+{% endblock %}

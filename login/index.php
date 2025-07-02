@@ -28,6 +28,31 @@
     session_start();
     ob_start();
 
+    if (!empty($_COOKIE['remember_me'])) {
+        $token = $_COOKIE['remember_me'];
+
+        // Busca no banco o hash do token ainda válido
+        $stmt = $conn->prepare("
+            SELECT user_id, token_hash
+            FROM tb_user_tokens
+            WHERE expires_at >= NOW()
+        ");
+        $stmt->execute();
+        $tokens = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($tokens as $row) {
+            if (password_verify($token, $row['token_hash'])) {
+                $_SESSION['user_id'] = $row['user_id'];
+                if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') {
+                    header('Location: ' . INCLUDE_PATH_ADMIN . 'painel');
+                } else {
+                    header("Location: " . INCLUDE_PATH_USER);
+                }
+                break;
+            }
+        }
+    }
+
     $tabela = 'tb_checkout';
     $sql = "SELECT nome FROM $tabela";
     $stmt = $conn->prepare($sql);
@@ -42,7 +67,11 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <title>Kitanda - Login</title>
+        <title><?= $project['title'] ?: $project['name']; ?></title>
+
+        <!-- Descrição -->
+        <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
+        <meta property="og:description" content="<?= htmlspecialchars($project['descricao']); ?>" />
 
         <!-- CSS files -->
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css?1738096682" rel="stylesheet"/>
@@ -63,7 +92,7 @@
         <?php endif; ?>
     </head>
     <body class=" d-flex flex-column">
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo-theme.min.js?1738096682"></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda-theme.min.js?1738096682"></script>
 
         <div class="page">
 
@@ -118,7 +147,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="form-check">
-                                    <input type="checkbox" class="form-check-input"/>
+                                    <input type="checkbox" name="remember" id="remember" class="form-check-input" />
                                     <span class="form-check-label">Lembrar-me neste dispositivo</span>
                                 </label>
                             </div>

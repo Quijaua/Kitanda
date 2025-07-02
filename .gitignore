@@ -1,3 +1,5 @@
 /vendor
 .env
 files/
+cache/
+node_modules

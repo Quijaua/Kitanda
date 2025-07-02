@@ -1,6 +1,49 @@
 <?php
     $create = verificaPermissao($_SESSION['user_id'], 'produtos', 'create', $conn);
     $disabledCreate = !$create ? 'disabled' : '';
+
+    // Verifica permissão
+    if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') {
+        // Define o ID da função “Vendedora”
+        $funcaoVendedora = 2;
+
+        // Busca todas as vendedoras e sua loja (se houver)
+        $stmt = $conn->prepare("
+            SELECT
+                c.id,
+                c.nome,
+                l.id AS loja_id,
+                l.imagem AS loja_imagem
+            FROM tb_clientes c
+            INNER JOIN tb_permissao_usuario pu ON c.id = pu.usuario_id
+            LEFT JOIN tb_lojas l ON c.id = l.vendedora_id
+            WHERE c.roles = :funcaoVendedora
+            ORDER BY c.nome ASC
+        ");
+        $stmt->bindParam(':funcaoVendedora', $funcaoVendedora, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($empreendedoras as $key => $e) {
+            if (!empty($e['loja_imagem']) && !empty($e['loja_id'])) {
+                $empreendedoras[$key]['imagem'] = str_replace(
+                    ' ',
+                    '%20',
+                    INCLUDE_PATH . "files/lojas/{$e['loja_id']}/perfil/{$e['loja_imagem']}"
+                );
+            } else {
+                $empreendedoras[$key]['imagem'] = INCLUDE_PATH . "assets/preview-image/profile.jpg";
+            }
+        }
+    }
+?>
+
+<?php
+    // Consulta para buscar as categorias cadastradas
+    $stmt = $conn->prepare("SELECT * FROM tb_categorias");
+    $stmt->execute();
+    $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <style>
@@ -204,6 +247,138 @@
 
                         </div>
                     </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Frete</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-0 row">
+                                    <label class="col-3 col-form-label required">Tipo de Frete</label>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="freight_type" id="freight_default" value="default" checked />
+                                            <label class="form-check-label" for="freight_default">Melhor Envio (padrão)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="freight_type" id="freight_fixed" value="fixed" />
+                                            <label class="form-check-label" for="freight_fixed">Frete de valor fixo</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-3 row" id="divFreightValue" style="display: none;">
+                                    <label for="freight_value" class="col-3 col-form-label required">Valor do Frete (R$)</label>
+                                    <div class="col row">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text"> R$ </span>
+                                                <input name="freight_value" id="freight_value" 
+                                                    type="text" class="form-control mask-money" placeholder="0,00" autocomplete="off" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Categorias do produto</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <label for="categorias" class="col-3 col-form-label">Categorias</label>
+                                    <div class="col">
+                                        <select name="categorias[]" id="categorias" type="text" class="form-select" placeholder="Selecione uma ou mais categoria" multiple>
+                                            <?php if ($categorias): ?>
+                                                <?php foreach ($categorias as $categoria): ?>
+                                                    <option value="<?= $categoria['id']; ?>"><?= $categoria['nome']; ?></option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                var el;
+                                                window.TomSelect && (new TomSelect(el = document.getElementById('categorias'), {
+                                                    copyClassesToDropdown: false,
+                                                    dropdownParent: 'body',
+                                                    controlInput: '<input>',
+                                                    render:{
+                                                        item: function(data,escape) {
+                                                            if( data.customProperties ){
+                                                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                                            }
+                                                            return '<div>' + escape(data.text) + '</div>';
+                                                        },
+                                                        option: function(data,escape){
+                                                            if( data.customProperties ){
+                                                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                                            }
+                                                            return '<div>' + escape(data.text) + '</div>';
+                                                        },
+                                                    },
+                                                }));
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Vendedora</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="mb-0 row">
+                                    <label class="col-3 col-form-label required">Vendedora do Produto</label>
+                                    <div class="col">
+                                        <select id="select-people" name="created_by" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                            <option value="">Selecione uma vendedora</option>
+                                            <?php foreach ($empreendedoras as $e): ?>
+                                            <option value="<?= $e['id']; ?>" data-custom-properties="<span class='avatar avatar-xs' style='background-image: url(<?= $e['imagem']; ?>)'></span>">
+                                                <?= htmlspecialchars($e['nome']); ?>
+                                            </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        new TomSelect(document.getElementById('select-people'), {
+                                            copyClassesToDropdown: false,
+                                            dropdownParent: 'body',
+                                            render: {
+                                                item: function(data, escape) {
+                                                    return data.customProperties 
+                                                        ? '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>'
+                                                        : '<div>' + escape(data.text) + '</div>';
+                                                },
+                                                option: function(data, escape) {
+                                                    return data.customProperties 
+                                                        ? '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>'
+                                                        : '<div>' + escape(data.text) + '</div>';
+                                                },
+                                            },
+                                        });
+                                    });
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
 
                     <div class="col-lg-12">
                         <div class="card">
@@ -500,6 +675,22 @@
 <script>
     $(document).ready(function() {
         $('#preco').mask("#.##0,00", {reverse: true});
+        $('.mask-money').mask("#.##0,00", {reverse: true});
+    });
+</script>
+
+<!-- Tipo de frete -->
+<script>
+    $(document).ready(function() {
+        $('input[name="freight_type"]').on('change', function() {
+            if ($(this).val() === 'fixed') {
+                $('#divFreightValue').slideDown();
+                $('#freight_value').prop('disabled', false);
+            } else {
+                $('#divFreightValue').slideUp();
+                $('#freight_value').prop('disabled', true).val('');
+            }
+        });
     });
 </script>
 

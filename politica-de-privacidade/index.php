@@ -84,21 +84,6 @@
         $color = $resultado['color'];
         $hover = $resultado['hover'];
         $progress = $resultado['progress'];
-		$monthly_1 = $resultado['monthly_1'];
-        $monthly_2 = $resultado['monthly_2'];
-        $monthly_3 = $resultado['monthly_3'];
-        $monthly_4 = $resultado['monthly_4'];
-        $monthly_5 = $resultado['monthly_5'];
-        $yearly_1 = $resultado['yearly_1'];
-        $yearly_2 = $resultado['yearly_2'];
-        $yearly_3 = $resultado['yearly_3'];
-        $yearly_4 = $resultado['yearly_4'];
-        $yearly_5 = $resultado['yearly_5'];
-        $once_1 = $resultado['once_1'];
-        $once_2 = $resultado['once_2'];
-        $once_3 = $resultado['once_3'];
-        $once_4 = $resultado['once_4'];
-        $once_5 = $resultado['once_5'];
     } else {
         // ID não encontrado ou não existente
         echo "ID não encontrado.";

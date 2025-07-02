@@ -41,52 +41,37 @@ class InsertInitialData extends AbstractSeed
                 'text_color' => '#212529',
                 'load_btn' => '#ffc107',
                 'progress' => '#212529',
-                'monthly_1' => 10,
-                'monthly_2' => 15,
-                'monthly_3' => 30,
-                'monthly_4' => 40,
-                'monthly_5' => 70,
-                'yearly_1' => 120,
-                'yearly_2' => 360,
-                'yearly_3' => 480,
-                'yearly_4' => 840,
-                'yearly_5' => 960,
-                'once_1' => 200,
-                'once_2' => 300,
-                'once_3' => 400,
-                'once_4' => 500,
-                'once_5' => 1000,
             ]
         ];
         $checkout = $this->table('tb_checkout');
         $checkout->insert($checkoutData)->save();
 
         // Inserindo dados na tabela tb_clientes
-//        $clientesData = [
-  //          [
-    //            'id' => 1,
-      //          'roles' => 1,
-        //        'nome' => 'Admin',
-          //      'email' => 'admin@admin.com',
-            //    'password' => '$2y$10$gphtP5ZDgkZNctcEhLKfs.MQ8qWc6Ebf8V6sqRf4q7QhClHSojT7.',
-              //  'magic_link' => null,
-                //'phone' => null,
-//                'cpf' => null,
-  //              'cep' => null,
-    //            'endereco' => null,
-      //          'numero' => null,
-        //        'complemento' => null,
-          //      'municipio' => null,
-            //    'cidade' => null,
-              //  'uf' => null,
-//                'asaas_id' => null,
-  //              'newsletter' => 0,
-    //            'private' => 0,
-      //      ]
-//        ];
-//
-  //      $clientes = $this->table('tb_clientes');
-    //    $clientes->insert($clientesData)->save();
+        $clientesData = [
+            [
+                'id' => 1,
+                'roles' => 1,
+                'nome' => 'Admin',
+                'email' => 'admin@admin.com',
+                'password' => '$2y$10$gphtP5ZDgkZNctcEhLKfs.MQ8qWc6Ebf8V6sqRf4q7QhClHSojT7.',
+                'magic_link' => null,
+                'phone' => null,
+                'cpf' => null,
+                'cep' => null,
+                'endereco' => null,
+                'numero' => null,
+                'complemento' => null,
+                'municipio' => null,
+                'cidade' => null,
+                'uf' => null,
+                'asaas_id' => null,
+                'newsletter' => 0,
+                'private' => 0,
+            ]
+        ];
+
+        $clientes = $this->table('tb_clientes');
+        $clientes->insert($clientesData)->save();
 
         // Inserindo dados na tabela tb_mensagens
         $mensagensData = [

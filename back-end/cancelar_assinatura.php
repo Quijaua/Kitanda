@@ -48,18 +48,6 @@
     
     if (isset($retorno['deleted']) && $retorno['deleted']) {
         if(!empty($payment_id)) {
-            // Nome da tabela para a busca
-            $tabela = 'tb_doacoes';
-
-            // Consulta SQL para excluir a linha
-            $stmt = $conn->prepare("DELETE FROM $tabela WHERE payment_id = :payment_id");
-            
-            // Bind dos parâmetros
-            $stmt->bindParam(':payment_id', $payment_id, PDO::PARAM_STR);
-            
-            // Executar a consulta
-            $stmt->execute();
-            
             // Exibir a modal após salvar as informações
             $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
             $_SESSION['msg'] = isset($result_mensagem['unregister_message']) ? $result_mensagem['unregister_message'] : 'A cobrança foi deletada com sucesso com sucesso!';

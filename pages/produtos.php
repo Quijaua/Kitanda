@@ -1,6 +1,8 @@
 <?php
 // Definir o limite padrão de produtos por página
-$limite = isset($_GET['limite']) && is_numeric($_GET['limite']) ? (int) $_GET['limite'] : 50;
+$limite = isset($vitrine_limite) && is_numeric($vitrine_limite) && $vitrine_limite > 0
+        ? (int) $vitrine_limite
+        : (isset($_GET['limite']) && is_numeric($_GET['limite']) ? (int) $_GET['limite'] : 50);
 $pagina_atual = isset($_GET['pagina']) && is_numeric($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
@@ -23,13 +25,14 @@ $total_paginas = ceil($total_produtos / $limite);
 
 // Consulta para buscar os produtos paginados (com busca)
 $sql = "
-    SELECT p.*, pi.imagem 
+    SELECT p.*, pi.imagem, c.nome AS empreendedora 
     FROM tb_produtos p
     LEFT JOIN (
         SELECT produto_id, MIN(imagem) AS imagem
         FROM tb_produto_imagens 
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id
+    LEFT JOIN tb_clientes c ON c.id = p.criado_por
     WHERE p.vitrine = 1";
 
 if (!empty($busca)) {
@@ -108,121 +111,20 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
 
     return $html;
 }
+
+$paginationHtml = criarPaginacao($pagina_atual, $total_paginas, $limite);
+
+// 6) Monta o array de contexto desta página
+$context_produtos = [
+    'produtos'        => $produtos,
+    'limite'          => $limite,
+    'pagina_atual'    => $pagina_atual,
+    'total_paginas'   => $total_paginas,
+    'busca'           => $busca,
+    'total_produtos'  => $total_produtos,
+    'pagination_html' => $paginationHtml,
+];
+
+// Retorna tudo para o index.php
+return $context_produtos;
 ?>
-
-<style>
-    .card-img-top {
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        display: block;
-    }
-</style>
-
-<!-- Page header -->
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">Produtos</h2>
-                <div class="text-secondary mt-1">
-                    <?= ($total_produtos > 0) ? ($offset + 1) . '-' . min($offset + $limite, $total_produtos) . ' de ' . $total_produtos . ' produtos' : 'Nenhum produto encontrado'; ?>
-                </div>
-            </div>
-            <div class="col-auto ms-auto d-print-none">
-                <form method="GET" class="d-flex">
-                    <div class="me-3">
-                        <div class="input-icon">
-                            <input type="text" name="busca" value="<?php echo htmlspecialchars($busca); ?>" class="form-control" placeholder="Pesquisar…">
-                            <span class="input-icon-addon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                    <path d="M21 21l-6 -6"></path>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-3">
-                        Buscar
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Page body -->
-<div class="page-body">
-    <div class="container-xl">
-        <div class="row g-4">
-
-            <?php if ($produtos): ?>
-
-                <div class="col-md-12">
-                    <div class="row row-cards">
-                        <?php foreach ($produtos as $produto) : ?>
-                            <?php
-                                $produto['imagem'] = !empty($produto['imagem'])
-                                                    ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['imagem'])
-                                                    : INCLUDE_PATH . "assets/preview-image/product.jpg";
-
-                                $produto['preco'] = number_format($produto['preco'], 2, ',', '.');
-                            ?>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="card card-sm">
-                                    <a href="<?= INCLUDE_PATH . "p/{$produto['link']}"; ?>" class="d-block">
-                                        <img src="<?= $produto['imagem']; ?>" class="card-img-top" id="card-img-preview">
-                                    </a>
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div>
-                                                <h3 id="title-preview"><?= $produto['titulo']; ?></h3>
-                                                <div id="price-preview" class="text-secondary"><?= "R$ {$produto['preco']}"; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <!-- Paginação -->
-                <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <!-- <form method="GET" class="d-flex">
-                            <input type="number" name="pagina" class="form-control me-2" value="<?= $pagina_atual ?>" min="1" max="<?= $total_paginas ?>" placeholder="Página">
-                            <select name="limite" class="form-select me-2" onchange="this.form.submit()">
-                                <option value="10" <?= $limite == 10 ? 'selected' : '' ?>>10</option>
-                                <option value="25" <?= $limite == 25 ? 'selected' : '' ?>>25</option>
-                                <option value="50" <?= $limite == 50 ? 'selected' : '' ?>>50</option>
-                                <option value="100" <?= $limite == 100 ? 'selected' : '' ?>>100</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary">Ir</button>
-                        </form> -->
-                        <!-- Paginação no final -->
-                        <?= criarPaginacao($pagina_atual, $total_paginas, $limite); ?>
-                </div>
-
-            <?php else: ?>
-
-                <div class="col-12">
-                    <div class="alert alert-info w-100" role="alert">
-                        <div class="d-flex">
-                            <div class="alert-icon">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/info-circle -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 9h.01"></path><path d="M11 12h1v4h1"></path></svg>
-                            </div>
-                            <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
-                                <div class="text-secondary">Não encontramos nenhum produto cadastrado na plataforma.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <?php endif; ?>
-
-        </div>
-    </div>
-</div>

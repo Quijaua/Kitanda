@@ -1,0 +1,227 @@
+{# templates/_fallback/pages/categoria.html.twig #}
+{# Recebe no contexto:
+   - not_found       : boolean
+   - categoria       : array com dados da categoria (id, nome, …)
+   - produtos           : array de produtos iniciais (cada item: id, titulo, imagem, data_publicacao, categorias[])
+   - initial_count   : número de produtos iniciais (até 4)
+   Além das variáveis globais (INCLUDE_PATH, cartCount etc.) vindas do index.php.
+#}
+
+{% if not_found %}
+    {# ----------- Page header (breadcrumb) ----------- #}
+    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <ol class="breadcrumb breadcrumb-muted text-white">
+                        <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                        <li class="breadcrumb-item active">Categoria não encontrada</li>
+                    </ol>
+                </div>
+                <div class="mt-8">
+                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Categoria não encontrada</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="alert alert-info w-100" role="alert">
+                        <div class="d-flex">
+                            <div class="alert-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon alert-icon icon-2">
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                    <path d="M12 9h.01"></path>
+                                    <path d="M11 12h1v4h1"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <div class="text-secondary">Não encontramos esta categoria.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    {# ----------- Breadcrumb ----------- #}
+    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <ol class="breadcrumb breadcrumb-muted text-white">
+                        <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                        <li class="breadcrumb-item active">{{ categoria.nome }}</li>
+                    </ol>
+                </div>
+                <div class="mt-8">
+                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <h1 class="text-white" style="font-size: 3rem; line-height: normal;">{{ categoria.nome }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ----------- Produtos iniciais da categoria ----------- #}
+    {% set limit = 4 %}
+
+    <style>
+        .card-img-top {
+            width: 100%;
+            aspect-ratio: 2/1;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row g-4">
+
+                {% if produtos is not empty %}
+                    <div class="col-md-12">
+                        <div class="row row-cards">
+                            {% for produto in produtos %}
+                                {% set precoFormatado = produto.preco
+                                    |number_format(2, ',', '.') %}
+
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="card card-terra">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                            <img src="{{ produto.imagem }}"
+                                                 class="card-img-top"
+                                                 alt="{{ produto.titulo }}">
+                                        </a>
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="w-100">
+                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
+                                                    <p>Produzido por: {{ produto.empreendedora }}</p>
+                                                    <h2 class="text-yellow">
+                                                        R$ {{ precoFormatado }}
+                                                    </h2>
+                                                    <button 
+                                                        class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
+                                                        data-produto-id="{{ produto.id }}"
+                                                    >
+                                                        Adicionar ao carrinho
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Paginação personalizada para TerraDourada -->
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="pagination-terra">
+                                {{ pagination_html|raw }}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info w-100" role="alert">
+                            <div class="d-flex">
+                                <div class="alert-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="24" height="24"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon alert-icon icon-2">
+                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                        <path d="M12 9h.01"></path>
+                                        <path d="M11 12h1v4h1"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="alert-title">Alerta do Sistema</h4>
+                                    <div class="text-secondary">
+                                        Não encontramos nenhum artigo nesta categoria.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    {# ----------- Bloco de scripts (AJAX “Ver mais produtos” para esta categoria) ----------- #}
+    {% block scripts %}
+        {# ----------- Script para adicionar ao carrinho via AJAX ----------- #}
+        <script>
+            $(document).ready(function() {
+                $(".add-to-cart").on("click", function(e) {
+                    e.preventDefault();
+
+                    var produtoId = $(this).data("produto-id");
+                    // Neste exemplo, fixamos quantidade = 1
+                    var quantidade = 1;
+
+                    $.ajax({
+                        url: "{{ INCLUDE_PATH }}back-end/carrinho/adicionar.php",
+                        method: "POST",
+                        dataType: 'json',
+                        data: {
+                            produto_id: produtoId,
+                            quantidade: quantidade
+                        },
+                        success: function(response) {
+                            if (response.status === "sucesso") {
+                                // Atualiza badge do carrinho
+                                $("#cart-count")
+                                    .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
+                                    .show();
+                                // Exibe modal de sucesso
+                                var myModal = new bootstrap.Modal(
+                                    document.getElementById('modal-success')
+                                );
+                                myModal.show();
+                            } else {
+                                // Exibe modal de erro
+                                var myErrorModal = new bootstrap.Modal(
+                                    document.getElementById('modal-error')
+                                );
+                                myErrorModal.show();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Erro na requisição AJAX: " + error);
+                            // Opcional: exibir modal de erro genérico
+                            var myErrorModal = new bootstrap.Modal(
+                                document.getElementById('modal-error')
+                            );
+                            myErrorModal.show();
+                        }
+                    });
+                });
+            });
+        </script>
+    {% endblock %}
+{% endif %}

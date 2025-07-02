@@ -1,0 +1,184 @@
+{# templates/_fallback/partials/footer.html.twig #}
+
+    {% if (ankara_footer_top and is_home) or not ankara_footer_top %}
+    <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
+        <div class="container-xl">
+            <div class="row text-center">
+                <h2 class="text-red">Nome da seção</h2>
+                <h1 style="font-size: 3rem; line-height: normal;">Título do artigo ipsum dolore magna aliqua ipsum dolore magna massa tellus pretium</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Red Section with Circular Image -->
+    <section class="section-redd py-6">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                    <img src="/assets/Ankara/imagens/home-3-imagem.webp">
+                </div>
+                <div class="col-lg-8">
+                    <p class="text-uppercase mb-2 cor-ankara-1">Nossa História</p>
+                    <h2 class="fw-bold mb-4 sub-titulo">Título do artigo ipsum dolore magna aliqua ipsum dolore magna</h2>
+                    <h4 class="mb-3 descricao">Título do artigo ipsum dolore magna aliqua</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if (ankara_footer_blog and is_home) or not ankara_footer_blog %}
+    <!-- Blog Section -->
+    <section class="section-red">
+        <div class="container">
+            <h2 class="fw-bold mb-5 sub-titulo">Nosso blog</h2>
+            <div class="row">
+                {# Pega apenas os 2 primeiros posts #}
+                {% for post in footerPosts %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card blog-card">
+                            <div class="blog-image">
+                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}">
+                                    <img 
+                                        src="{{ post.imagem }}" 
+                                        alt="{{ post.titulo }}" 
+                                        class="img-fluid w-100" 
+                                        style="object-fit: cover; height: 200px;"
+                                    >
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                {# Categoria principal (ou múltiplas) #}
+                                {% if post.categorias is not empty %}
+                                    <p class="text-danger text-uppercase mb-2">
+                                        {{ post.categorias[0].nome }}
+                                    </p>
+                                {% else %}
+                                    <p class="text-muted mb-2">Sem categoria</p>
+                                {% endif %}
+
+                                {# Título e link para o artigo #}
+                                <h5 class="card-title">
+                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
+                                        {{ post.titulo }}
+                                    </a>
+                                </h5>
+
+                                {# Data de publicação #}
+                                <small class="text-muted">
+                                    {{ post.data_publicacao|date("d/m/Y") }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{{ INCLUDE_PATH }}blog" class="btn btn-outline-light">Ver todos os posts</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+<footer>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="menu">
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Oficinas</a></li>
+                    <li><a href="#">Produtos</a></li>
+                    <li><a href="#">Sobre nós</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+
+                <div class="social-net mt-6">
+                    <img src="{{ INCLUDE_PATH }}assets/img/security.webp" alt="ambiente seguro" />
+                    <a class="p-2"
+                       href="https://transparencyreport.google.com/safe-browsing/search?
+                             url={{ INCLUDE_PATH }}"
+                       target="_blank" rel="noreferrer">
+                        <img src="{{ INCLUDE_PATH }}assets/img/selo-google.png"
+                             width="150" height="42" alt="Safe Browsing">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <div class="social-net mt-2 mb-4">
+                    <img src="/assets/Ankara/imagens/ankara-logo.png">             
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <p class="btn-whatsapp"><a href="#"><i class="ti ti-brand-whatsapp"></i> Fale com a gente</a></p>
+
+                <div class="social-icons">
+                <a href="{{ facebook ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-facebook"></i>
+                </a>
+                <a href="{{ instagram ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-instagram p-2"></i>
+                </a>
+                <a href="{{ linkedin ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-linkedin p-2"></i>
+                </a>
+                <a href="{{ twitter ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-twitter p-2"></i>
+                </a>
+                <a href="{{ youtube ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-youtube p-2"></i>
+                </a>
+                <a href="{{ website ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
+                    <i class="ti ti-globe-americas p-2"></i>
+                </a>
+                <a href="{{ tiktok ?: '#' }}"   target="_blank"
+                    rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
+                    <i class="ti ti-brand-tiktok p-2"></i>
+                </a>
+                <a href="{{ linktree ?: '#' }}" target="_blank"
+                    rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
+                    <i class="ti ti-share p-2"></i>
+                </a>
+
+                <div class="font-weight-light" style="font-size:13px;margin-top:5px">
+                    {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
+                    {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />
+                    {% if telefone %}
+                        Telefone: <a href="callto:{{ telefone }}">{{ telefone }}</a><br />
+                    {% endif %}
+                    E-mail: <a href="mailto:{{ email }}">{{ email }}</a>
+                </div>
+
+                <p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
+                    <a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
+                        Usamos Kitanda | Open source
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section-credito">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                &copy; 2025 - {{ nome }} - Todos os direitos reservados
+                </div>
+                <div class="col-md-6 d-flex flex-row-reverse">
+                    <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer"  class="text-white mx-2" target="_blank">Área de cliente</a> | 
+                    <a href="#" class="text-white mx-2">Política de Privacidade</a> | 
+                    <a href="#" class="text-white mx-2">Termos e condições</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

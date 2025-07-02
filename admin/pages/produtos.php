@@ -84,12 +84,11 @@
                 <h2 class="page-title">
                     Produtos
                 </h2>
-                <div class="text-secondary mt-1">Aqui estão os produtos do sistema.</div>
+                <div class="text-secondary mt-1">Lista dos seus produtos ativos no marketplace. Gerencie, edite ou adicione novos sempre que quiser.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."cadastrar-produto" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
-                    <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2"><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
                     Criar Novo Produto
                 </a>
@@ -154,7 +153,7 @@
                         <thead>
                             <tr>
                                 <th>Nome do Produto</th>
-                                <th>Título</th>
+                                <!-- <th>Título</th> -->
                                 <th>Preço</th>
                                 <th>Vitrine</th>
                                 <th>Data de Criação</th>
@@ -177,7 +176,7 @@
                                         <?php echo $produto["nome"]; ?>
                                     </div>
                                 </td>
-                                <td><?php echo $produto["titulo"]; ?></td>
+                                <!-- <td><?php echo $produto["titulo"]; ?></td> -->
                                 <td><?php echo $produto["preco"]; ?></td>
                                 <td>
                                     <label for="vitrine" class="form-check form-switch form-switch-3">

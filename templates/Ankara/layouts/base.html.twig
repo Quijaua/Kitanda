@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title ?: nome }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+    <meta name="viewport"    content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" href="{{ INCLUDE_PATH }}assets/img/favicon.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="{{ INCLUDE_PATH }}assets/img/favicon.png" />
+    <meta name="msapplication-TileImage"
+          content="{{ INCLUDE_PATH }}assets/img/favicon.png" />
+
+    {# Descrição #}
+    <meta name="description" content="{{ descricao|slice(0, 160)|escape }}" />
+    <meta property="og:description" content="{{ descricao|escape }}" />
+
+    {# CSS Globais/distritos #}
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-flags.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-socials.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-payments.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-vendors.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-marketing.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/css/demo.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/libs/dropzone/dist/dropzone.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}assets/css/custom.css" rel="stylesheet">
+    <link href="{{ INCLUDE_PATH }}assets/{{ app.theme }}/css/style.css" rel="stylesheet">
+    <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery.min.js"></script>
+    <link href="{{ INCLUDE_PATH }}dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
+
+    <link href="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.css" rel="stylesheet" />
+    <script src="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.js"></script>
+
+    {# Se existir hcaptcha ou turnstile, inclua aqui #}
+    {% if hcaptcha is defined and hcaptcha %}
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    {% elseif turnstile is defined and turnstile %}
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    {% endif %}
+
+    <link rel="canonical" href="{{ INCLUDE_PATH }}" />
+    <meta property="og:locale"      content="pt_BR" />
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="{{ title }}" />
+    <meta property="og:description" content="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta property="og:url"         value="{{ INCLUDE_PATH }}" />
+    <meta property="og:site_name"   content="{{ nome }}" />
+    <meta property="article:modified_time" content="{{ "now"|date("Y-m-d") ~ "T00:00:00+00:00" }}" />
+    <meta property="og:image"       content="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
+    <meta name="twitter:card"       content="summary_large_image" />
+    <meta name="twitter:site"       content="@Kitanda" />
+    <meta name="twitter:title"      value="{{ title }}" />
+    <meta name="twitter:url"        value="{{ INCLUDE_PATH }}" />
+    <meta name="twitter:image"      value="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
+    <meta name="twitter:description"value="{{ descricao|slice(3,120) ~ '...' }}" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "{{ INCLUDE_PATH }}",
+                "url": "{{ INCLUDE_PATH }}",
+                "name": "{{ title }}",
+                "isPartOf": { "@id": "{{ INCLUDE_PATH }}#website" },
+                "datePublished": "2023-03-02T19:50:30+00:00",
+                "dateModified": "2023-03-21T12:51:52+00:00",
+                "description": "{{ descricao|slice(3,120) ~ '...' }}",
+                "inLanguage": "pt-BR",
+                "interactAction": [
+                    {
+                        "@type": "SubscribeAction",
+                        "target": [ "{{ INCLUDE_PATH }}" ]
+                    }
+                ]
+            },
+            {
+                "@type": "Organization",
+                "@id": "{{ INCLUDE_PATH }}#organization",
+                "name": "{{ nome }}",
+                "url": "{{ INCLUDE_PATH }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "inLanguage": "pt-BR",
+                    "@id": "{{ INCLUDE_PATH }}#/schema/logo/image",
+                    "url": "{{ INCLUDE_PATH }}assets/img/{{ logo }}",
+                    "contentUrl": "{{ INCLUDE_PATH }}assets/img/{{ logo }}",
+                    "width": 140,
+                    "height": 64,
+                    "caption": "{{ nome }}"
+                },
+                "image": { "@id": "{{ INCLUDE_PATH }}#/schema/logo/image" }
+            }
+        ]
+    }
+    </script>
+
+    {{ fb_pixel|raw }}
+    {{ gtm|raw }}
+    {{ g_analytics|raw }}
+</head>
+<body>
+    <script src="{{ INCLUDE_PATH }}dist/js/kitanda-theme.min.js" defer></script>
+
+    <div class="spage">
+        {# Inclui o header #}
+        {% include 'partials/header.html.twig' %}
+
+    </div>
+
+    {% if (ankara_hero and is_home) or not ankara_hero %}
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-image">
+        <img src="/assets/Ankara/imagens/home-1-imagem.webp" style="height:500px;float:right" >
+        </div>
+        <div class="container">
+            <div class="row hero-content">
+                <div class="col-lg-6">
+                    <p class="text-uppercase mb-2 cor-ankara-2">uma ação da Casa de Cultura AfroGerais</p>
+                    <h1 class="display-4 fw-bold mb-4">Ankara Moda Afro</h1>
+                    <p class="lead mb-4 descricao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <button class="btn btn-yellow sbtn-lg cor-ankara-1">Saiba mais</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if (ankara_colorful and is_home) or not ankara_colorful %}
+    <!-- Colorful Section -->
+    <section class="cor1">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="cor-1">
+                    <img src="/assets/Ankara/imagens/ankara-logo-1.png">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-3 sub-titulo">Título do artigo ipsum dolore magna aliqua</h2>
+                    <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if (ankara_yellow and is_home) or not ankara_yellow %}
+    <!-- Yellow Section -->
+    <section class="section-yellow">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <p class="text-uppercase mb-2 cor-ankara-1">Histórias e empreenderismo</p>
+                    <h2 class="fw-bold mb-3">Título do artigo ipsum dolore magna aliqua</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="product-image">
+                        <img src="/assets/Ankara/imagens/home-2-imagem.webp">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+
+        <div class="page-wrapper">
+            {{ page_content|raw }}
+        </div>
+
+        {# Inclui o footer #}
+        {% include 'partials/footer.html.twig' %}
+
+
+    </div>
+
+
+    {# ================================
+       2.3) SCRIPTS GLOBAIS (jQuery, Tabler etc.)
+       ================================ #}
+    <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery-ui.js"></script>
+    <script src="{{ INCLUDE_PATH }}assets/ajax/1.14.16/jquery.mask.min.js"></script>
+
+    <script src="{{ INCLUDE_PATH }}dist/libs/apexcharts/dist/apexcharts.min.js"  defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/jsvectormap.min.js"   defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/maps/world.js"         defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/maps/world-merc.js"    defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/dropzone/dist/dropzone-min.js"          defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/fslightbox/index.js"                    defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/tinymce/tinymce.min.js"                 defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/nouislider/dist/nouislider.min.js"      defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/litepicker/dist/litepicker.js"          defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/tom-select/dist/js/tom-select.base.min.js" defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/js/tabler.min.js"                            defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/js/demo.min.js"                              defer></script>
+
+    <link href="{{ INCLUDE_PATH }}dist/css/tabler-a11y.min.css" rel="stylesheet"/>
+    <script src="{{ INCLUDE_PATH }}dist/js/tabler-a11y.min.js" defer></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            new TablerA11y({ position: 'bottom-right' });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const root = document.documentElement;
+            root.style.setProperty('--background',   '{{ background }}');
+            root.style.setProperty('--text-color',   '{{ text_color }}');
+            root.style.setProperty('--primary-color','{{ color }}');
+            root.style.setProperty('--hover-color',  '{{ hover }}');
+            root.style.setProperty('--progress-color','{{ progress }}');
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            const header = $("nav");
+            const footer = $("footer");
+            if (self !== top) {
+                header.hide();
+                footer.hide();
+            }
+        });
+    </script>
+
+    {# Modais de sucesso/erro #}
+    {% if session.msg is defined %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var successModal = new bootstrap.Modal(
+                    document.getElementById('modal-status-success')
+                );
+                successModal.show();
+            });
+        </script>
+    {% endif %}
+
+    {% if session.error_msg is defined %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var errorModal = new bootstrap.Modal(
+                    document.getElementById('modal-status-error')
+                );
+                errorModal.show();
+            });
+        </script>
+    {% endif %}
+</body>
+</html>

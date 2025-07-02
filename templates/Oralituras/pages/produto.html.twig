@@ -1,0 +1,339 @@
+{# templates/_fallback/pages/produto.html.twig #}
+{# ----------- Modais de Sucesso / Erro ----------- #}
+<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon mb-2 text-green icon-lg">
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M9 12l2 2l4 -4" />
+                </svg>
+                <h3>Salvo com sucesso!</h3>
+                <div class="text-secondary">
+                    O produto foi adicionado ao seu carrinho.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">
+                                Continuar comprando
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="{{ INCLUDE_PATH }}carrinho"
+                               class="btn btn-success btn-4 w-100">
+                                Ir para o carrinho
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon mb-2 text-danger icon-lg">
+                    <path d="M12 9v4" />
+                    <path d="M10.363 3.591l-8.106 13.534
+                             a1.914 1.914 0 0 0 1.636 2.871
+                             h16.214a1.914 1.914 0 0 0 1.636 -2.87
+                             l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
+                    <path d="M12 16h.01" />
+                </svg>
+                <h3>Erro ao salvar o produto no carrinho!</h3>
+                <div class="text-secondary">
+                    Ocorreu um erro ao tentar adicionar o item ao seu carrinho.
+                    Por favor, tente novamente mais tarde.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn btn-3 w-100" data-bs-dismiss="modal">
+                                Continuar comprando
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ----------- Page header (breadcrumb) ----------- #}
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <ol class="breadcrumb product-breadcrumb breadcrumb-muted">
+                    <li class="breadcrumb-item">
+                        <a href="{{ INCLUDE_PATH }}" class="text-red">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ INCLUDE_PATH }}produtos" class="text-red">Produtos</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        {{ produto.nome }}
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ----------- Page body ----------- #}
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row g-4">
+
+            {# Se for usuário admin (roles == 1) e produto.vitrine == 0, exibe alerta #}
+            {% if usuario is defined and usuario.roles is defined
+                  and usuario.roles == 1 and produto.vitrine == 0 %}
+                <div class="col-12">
+                    <div class="alert alert-info w-100" role="alert">
+                        <div class="d-flex">
+                            <div class="alert-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon alert-icon icon-2">
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                    <path d="M12 9h.01"></path>
+                                    <path d="M11 12h1v4h1"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="alert-title">Atenção!</h4>
+                                <div class="text-secondary">
+                                    Este produto não está sendo listado. Ative a vitrine do produto
+                                    para que ele seja exibido na página inicial.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {# Coluna Esquerda: Imagem Principal e Miniaturas #}
+            <div class="col-md-6">
+                <a id="mainImageLink" data-fslightbox="gallery" href="{{ produto.imagem }}">
+                    <div id="mainImage"
+                         class="img-responsive img-responsive-1x1 rounded-3 border"
+                         style="background-image: url({{ produto.imagem }}); cursor: pointer;">
+                    </div>
+                </a>
+
+                <div class="col-md-12 d-flex flex-wrap gap-2 mt-3">
+                    {% for img in imagens %}
+                        {% set imagemUrl = (img.imagem ? (INCLUDE_PATH ~
+                          "files/produtos/" ~ produto.id ~ "/" ~ img.imagem|replace({ ' ' : '%20' })) :
+                          (INCLUDE_PATH ~ "assets/preview-image/product.jpg")) %}
+                        <div class="rounded-3 border"
+                             style="background-image: url({{ imagemUrl }}); width: 80px;
+                                    height: 80px; background-size: contain;
+                                    background-repeat: no-repeat;
+                                    background-position: center; cursor: pointer;"
+                             onclick="updateMainImage('{{ imagemUrl }}')">
+                        </div>
+                        <a class="fslightbox" data-fslightbox="gallery" href="{{ imagemUrl }}"></a>
+                    {% endfor %}
+                </div>
+
+                <script>
+                    function updateMainImage(imageUrl) {
+                        document.getElementById('mainImage').style.backgroundImage = `url(${imageUrl})`;
+                        document.getElementById('mainImageLink').href = imageUrl;
+                        refreshFsLightbox();
+                    }
+                </script>
+            </div>
+
+            {# Coluna Direita: Detalhes do Produto #}
+            <div class="col-md-6">
+                <h3 style="font-size: 2.5rem; line-height: normal;">
+                    {{ produto.nome }}
+                </h3>
+                <h3 class="h1 mb-6 text-white">
+                    R$ {{ produto.preco }}
+                </h3>
+
+                <p class="h3 mb-2">Descrição:</p>
+                <div class="fs-2 text-secondary mb-7">
+                    {{ produto.descricao|raw }}
+                </div>
+
+                <div class="d-flex align-items-center mb-6">
+                    <p class="text-secondary mb-0 me-4">Compartilhar</p>
+                    <div class="d-flex align-items-center">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ produto.url }}"
+                           class="text-dark" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-2 text-danger me-3 icon-tabler-brand-facebook">
+                                <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path>
+                            </svg>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send?text={{ produto.nome }}%20{{ produto.url }}"
+                           class="text-dark" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-2 text-danger me-3 icon-tabler-brand-whatsapp">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
+                                <path d="M9 10a.5 .5 0 0 0 1 0v-1
+                                         a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1
+                                         a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+                            </svg>
+                        </a>
+
+                        <a href="mailto:?subject={{ produto.nome }}
+                                  &body=Confira este produto: {{ produto.url }}"
+                           class="text-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-2 text-danger me-3 icon-tabler-mail">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10
+                                         a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+                                <path d="M3 7l9 6l9 -6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row row-cards">
+                    <div class="col-sm-4 col-md-2">
+                        <input type="number" class="form-control form-control-lg quantidade-produto"
+                               value="1" min="1">
+                    </div>
+                    <div class="col-sm-8 col-md-10">
+                        <button type="button"
+                                class="btn btn-yellow btn-pill btn-lg w-100 add-to-cart"
+                                data-produto-id="{{ produto.id }}">
+                            Adicionar ao carrinho
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {# ----------- “Outros Produtos” ----------- #}
+    {% if outros_produtos is not empty %}
+        <style>
+            .card-img-top {
+                width: 100%;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+                display: block;
+            }
+        </style>
+
+        <div class="my-6 position-relative">
+            <div class="related-products">
+                <div class="container-xl">
+                    <h1 class="mb-5">Mais produtos</h1>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row row-cards">
+                                {% for p in outros_produtos %}
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="card card-ankara">
+                                            <a href="{{ INCLUDE_PATH }}p/{{ p.link }}" class="d-block">
+                                                <img src="{{ p.imagem }}"
+                                                    class="card-img-top"
+                                                    alt="{{ p.titulo }}">
+                                            </a>
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="w-100">
+                                                        <h2 class="mb-0">{{ p.titulo }}</h2>
+                                                        <h2 class="text-red">
+                                                            R$ {{ p.preco }}
+                                                        </h2>
+                                                        <button class="btn btn-yellow fw-bold btn-pill w-100">Adicionar ao carrinho</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{# ----------- Script para adicionar ao carrinho via AJAX ----------- #}
+<script>
+    $(document).ready(function() {
+        $(".add-to-cart").on("click", function(e) {
+            e.preventDefault();
+
+            var produtoId = $(this).data("produto-id");
+            var quantidadeInput = $(this).closest(".row-cards").find(".quantidade-produto");
+            var quantidade = parseInt(quantidadeInput.val(), 10);
+
+            if (isNaN(quantidade) || quantidade <= 0) {
+                alert("Por favor, insira uma quantidade válida!");
+                quantidadeInput.val(1);
+                return;
+            }
+
+            $.ajax({
+                url: "{{ INCLUDE_PATH }}back-end/carrinho/adicionar.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    produto_id: produtoId,
+                    quantidade: quantidade
+                },
+                success: function(response) {
+                    if (response.status == "sucesso") {
+                        $("#cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
+                        var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                        myModal.show();
+                    } else {
+                        var myErrorModal = new bootstrap.Modal(document.getElementById('modal-error'));
+                        myErrorModal.show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro na requisição AJAX: " + error);
+                }
+            });
+        });
+    });
+</script>

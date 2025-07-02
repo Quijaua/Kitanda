@@ -43,25 +43,6 @@ function asaas_CriarCobrancaPix($customer_id, $dataForm, $config) {
     $retorno = json_decode($response, true);
     
     if($retorno['object'] == 'payment') {
-
-        $tabela = 'tb_doacoes';
-
-        $stmt = $conn->prepare("INSERT INTO $tabela (customer_id, payment_id, valor, forma_pagamento, link_pagamento, status, data_vencimento, data_criacao) VALUES (
-            :customer_id, :payment_id, :value, :forma_pagamento, :link_pagamento, :status, :data_vencimento, :data_criacao)");
-        
-        // Bind dos parâmetros
-        $stmt->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
-        $stmt->bindParam(':payment_id', $retorno['id'], PDO::PARAM_STR);
-        $stmt->bindParam(':value', $retorno['value'], PDO::PARAM_STR);
-        $stmt->bindParam(':forma_pagamento', $retorno['billingType'], PDO::PARAM_STR);
-        $stmt->bindParam(':link_pagamento', $retorno['invoiceUrl'], PDO::PARAM_STR);
-        $stmt->bindParam(':status', $retorno['status'], PDO::PARAM_STR);
-        $stmt->bindParam(':data_vencimento', $vencimento, PDO::PARAM_STR);
-        $stmt->bindParam(':data_criacao', $date, PDO::PARAM_STR);
-    
-        // Executando o update
-        $stmt->execute();
-        
         return $retorno;
     } else {
         echo $response;

@@ -231,9 +231,195 @@
 
                 </div>
             </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <form action="<?= INCLUDE_PATH_ADMIN ?>back-end/update.php" method="post">
+                        <div class="card-header">
+                            <h4 class="card-title">Tema</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="Ankara" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'Ankara') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/Ankara/thumbs/ankara.webp"
+                                                alt="Tema Ankara" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Ankara</div>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="TerraDourada" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'TerraDourada') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/TerraDourada/thumbs/terradourada.webp"
+                                                alt="Tema TerraDourada" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Terra Dourada</div>
+                                    </label>
+                                </div>
+
+                                <div class="col-6 col-sm-4">
+                                    <label class="form-imagecheck mb-2">
+                                        <input 
+                                            name="theme" 
+                                            type="radio" 
+                                            value="Oralituras" 
+                                            class="form-imagecheck-input"
+                                            <?php if ($current_theme == 'Oralituras') { echo "checked"; } ?>>
+                                        <span class="form-imagecheck-figure">
+                                            <img src="<?= INCLUDE_PATH ?>assets/Oralituras/thumbs/oralituras.webp" 
+                                                alt="Tema TerraDourada" 
+                                                class="form-imagecheck-image">
+                                        </span>
+                                        <div class="fs-2 mt-2 text-center">Oralituras</div>
+                                    </label>
+                                </div>
+
+                                <!-- Configurações de conteúdo por tema -->
+                                <div class="mt-4">   
+
+                                    <!-- Ankara -->
+                                    <div class="theme-options" data-theme="Ankara" style="display: <?= ($current_theme == 'Ankara') ? 'block' : 'none' ?>;">
+                                        <h4 class="card-title">Configurações de Conteúdo da Home Ankara</h4>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-hero" name="ankara_hero" <?= ($ankara_hero) ? "checked" : ""; ?>>
+                                            <label class="form-check-label" for="toggle-hero">
+                                                Exibir seção <strong>Hero</strong> (banner principal) somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-colorful" name="ankara_colorful" <?= ($ankara_colorful) ? "checked" : ""; ?>>
+                                            <label class="form-check-label" for="toggle-colorful">
+                                                Exibir bloco <strong>“Colorful”</strong> somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-yellow" name="ankara_yellow" <?= ($ankara_yellow) ? "checked" : ""; ?>>
+                                            <label class="form-check-label" for="toggle-yellow">
+                                                Exibir seção <strong>Amarela</strong> somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-footer-top" name="ankara_footer_top" <?= ($ankara_footer_top) ? "checked" : ""; ?>>
+                                            <label class="form-check-label" for="toggle-footer-top">
+                                                Exibir faixa superior do footer somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="toggle-footer-blog" name="ankara_footer_blog" <?= ($ankara_footer_blog) ? "checked" : ""; ?>>
+                                            <label class="form-check-label" for="toggle-footer-blog">
+                                                Exibir seção de posts do blog no footer somente na Home
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Terra Dourada -->
+                                    <div class="theme-options" data-theme="TerraDourada" style="display: <?= ($current_theme == 'TerraDourada') ? 'block' : 'none' ?>;">
+                                        <h4 class="card-title">Configurações de Conteúdo da Home Terra Dourada</h4>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-hero-td" name="td_hero" <?= $td_hero ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="toggle-hero-td">
+                                                Mostrar <strong>Hero</strong> (banner principal) somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-entrepreneurs" name="td_entrepreneurs" <?= $td_entrepreneurs ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="toggle-entrepreneurs">
+                                                Mostrar seção <strong>Empreendedoras</strong> somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-news" name="td_news" <?= $td_news ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="toggle-news">
+                                                Mostrar bloco de <strong>Últimas notícias</strong> somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="toggle-footer-info" name="td_footer_info" <?= $td_footer_info ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="toggle-footer-info">
+                                                Mostrar informações de contato no footer somente na Home
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="toggle-footer-socials" name="td_footer_socials" <?= $td_footer_socials ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="toggle-footer-socials">
+                                                Mostrar ícones de redes sociais no footer somente na Home
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                <button type="submit" name="btnUpdTheme" class="btn btn-primary ms-auto">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const radios = document.querySelectorAll('input[name="theme"]');
+    const optionGroups = document.querySelectorAll('.theme-options');
+
+    function updateVisibility() {
+      const selected = document.querySelector('input[name="theme"]:checked');
+      const theme = selected ? selected.value : null;
+      optionGroups.forEach(group => {
+        group.style.display = (group.dataset.theme === theme)
+          ? 'block'
+          : 'none';
+      });
+    }
+
+    // Inicializa
+    updateVisibility();
+
+    // Reage a mudanças
+    radios.forEach(radio => {
+      radio.addEventListener('change', updateVisibility);
+    });
+  });
+</script>
 
 <?php if (!$update): ?>
 </fieldset>

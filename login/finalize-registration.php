@@ -153,7 +153,11 @@ if (isset($_GET["token"])) {
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Finalizar Cadastro - Atualizar Perfil</title>
+    <title><?= $project['title'] ?: $project['name']; ?></title>
+
+    <!-- Descrição -->
+    <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($project['descricao']); ?>" />
 
     <!-- CSS files -->
     <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css" rel="stylesheet"/>

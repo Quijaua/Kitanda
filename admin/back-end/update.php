@@ -21,57 +21,58 @@ if (isset($_POST['btnUpdAbout'])) {
         $id = '1';
 
         //Informacoes coletadas pelo metodo POST
-        if(isset($_POST['title'])) {
-            $title = $_POST['title'];
-        }
-
-        if(isset($_POST['nome']) && isset($_POST['descricao'])) {
-            $nome = $_POST['nome'];
-            $descricao = $_POST['descricao'];
-            $doacoes = isset($_POST['doacoes']) ? 1 : 0;
-        }
+        $title = $_POST['title'] ?? null;
+        $descricao = $_POST['descricao'] ?? null;
 
         // Atualize o item no banco de dados
-        if(isset($title)) {
-            $sql = "UPDATE $tabela SET title = :title WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':title', $title);
-            $stmt->bindParam(':id', $id);
+        $sql = "UPDATE $tabela SET title = :title, descricao = :descricao WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':id', $id);
 
-            try {
-                $stmt->execute();
-    
-                // Exibir a modal após salvar as informações
-                $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-                $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
-    
-                //Voltar para a pagina do formulario
-                header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
-            } catch (PDOException $e) {
-                echo "Erro na atualização: " . $e->getMessage();
-            }
+        try {
+            $stmt->execute();
+
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'As configurações gerais do site foram atualizadas com sucesso!';
+
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+        } catch (PDOException $e) {
+            echo "Erro na atualização: " . $e->getMessage();
         }
+    }
+}
 
-        if(isset($nome) && isset($descricao) && isset($doacoes)) {
-            $sql = "UPDATE $tabela SET nome = :nome, descricao = :descricao, doacoes = :doacoes WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':doacoes', $doacoes);
-            $stmt->bindParam(':id', $id);
+if (isset($_POST['btnUpdVitrine'])) {
+    include('../../config.php');
 
-            try {
-                $stmt->execute();
+    // Verifique se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //Id da tabela
+        $id = '1';
+
+        //Informacoes coletadas pelo metodo POST
+        $vitrine_limite = (int) $_POST['vitrine_limite'];
     
-                // Exibir a modal após salvar as informações
-                $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-                $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
-    
-                //Voltar para a pagina do formulario
-                header('Location: ' . INCLUDE_PATH_ADMIN . 'sobre');
-            } catch (PDOException $e) {
-                echo "Erro na atualização: " . $e->getMessage();
-            }
+        $sql = "UPDATE tb_checkout SET vitrine_limite = :vitrine_limite WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':vitrine_limite', $vitrine_limite);
+        $stmt->bindParam(':id', $id);
+
+        try {
+            $stmt->execute();
+
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'Limite da vitrine atualizado com sucesso!';
+
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+        } catch (PDOException $e) {
+            echo "Erro na atualização: " . $e->getMessage();
         }
     }
 }
@@ -129,7 +130,7 @@ if (isset($_POST['btnUpdLogo'])) {
                     $_SESSION['msg'] = 'A logo foi salva com sucesso com sucesso!';
 
                     //Voltar para a pagina do formulario
-                    header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+                    header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
                 } else {
                     echo "Erro ao enviar o arquivo para o servidor.";
                 }
@@ -137,103 +138,6 @@ if (isset($_POST['btnUpdLogo'])) {
 
         } catch (PDOException $e) {
             echo "Erro ao salvar o nome da logo no banco de dados: " . $e->getMessage();
-        }
-    }
-}
-
-if (isset($_POST['btnUpdPix'])) {
-    //Inclui o arquivo 'config.php'
-    include('../../config.php');
-
-    function formatarChavePix($chave, $tipo) {
-        switch ($tipo) {
-            case "telefone":
-                $chave = str_replace(["(", ")"], "", $chave); // Remove apenas os parênteses
-                return "+55 " . $chave;
-            case "cpf":
-            case "cnpj":
-            case "aleatoria":
-                return $chave;
-            default:
-                return $chave;
-        }
-    }
-
-    // Verifique se o formulário foi enviado
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        //Tabela onde sera feita a alteracao
-        $tabela = 'tb_checkout';
-
-        //Id da tabela
-        $id = '1';
-
-        //Informacoes coletadas pelo metodo POST
-        if(isset($_POST['pix_chave'])) {
-            $pix_chave_formatada = $_POST['pix_chave'];
-        } else {
-            echo "O campo Chave PIX é obrigatório.";
-        }
-
-        $pix_tipo = $_POST['pix_tipo'];
-
-        $pix_chave = formatarChavePix($pix_chave_formatada, $pix_tipo);
-
-        if(isset($_POST['pix_identificador_transacao'])) {
-            $pix_identificador_transacao = $_POST['pix_identificador_transacao'];
-        } else {
-            echo "O campo Identificador da Transação é obrigatório.";
-        }
-
-        if(isset($_POST['pix_valor'])) {
-            $pix_valor = $_POST['pix_valor'];
-        } else {
-            echo "O campo Valor é obrigatório.";
-        }
-
-        $pix_exibir = isset($_POST['pix_exibir']) ? true : false;
-
-        // Generate a PIX code
-        $pixCode = StaticPix::generatePix("$pix_chave", "$pix_identificador_transacao", $pix_valor);
-
-        // Atualize o item no banco de dados
-        if(isset($pixCode)) {
-            // Instanciar a classe para enviar os parâmetros para o QRCode
-            $options= new QROptions([
-                // Número da versão do código QRCode
-                'version'     => 7,
-                // Alterar para base64
-                'imageBase64' => true,
-                // escala da imagem
-                'scale'       => 3
-            ]);
-
-            // Gerar QRCode: instanciar a classe QRCode e enviar os dados para o render gerar o QRCode
-            $qrcode = (new \chillerlan\QRCode\QRCode($options))->render($pixCode);
-
-            $sql = "UPDATE $tabela SET pix_tipo = :pix_tipo, pix_chave = :pix_chave, pix_valor = :pix_valor, pix_codigo = :pix_codigo, pix_imagem_base64 = :pix_imagem_base64, pix_identificador_transacao = :pix_identificador_transacao, pix_exibir = :pix_exibir WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':pix_tipo', $pix_tipo);
-            $stmt->bindParam(':pix_chave', $pix_chave_formatada);
-            $stmt->bindParam(':pix_valor', $pix_valor);
-            $stmt->bindParam(':pix_codigo', $pixCode);
-            $stmt->bindParam(':pix_imagem_base64', $qrcode);
-            $stmt->bindParam(':pix_identificador_transacao', $pix_identificador_transacao);
-            $stmt->bindParam(':pix_exibir', $pix_exibir);
-            $stmt->bindParam(':id', $id);
-
-            try {
-                $stmt->execute();
-    
-                // Exibir a modal após salvar as informações
-                $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-                $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
-    
-                //Voltar para a pagina do formulario
-                header('Location: ' . INCLUDE_PATH_ADMIN . 'sobre');
-            } catch (PDOException $e) {
-                echo "Erro na atualização: " . $e->getMessage();
-            }
         }
     }
 }
@@ -283,6 +187,107 @@ if (isset($_POST['btnUpdColor'])) {
     }
 }
 
+// if (isset($_POST['btnUpdTheme']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+//     //Inclui o arquivo 'config.php'
+//     include('../../config.php');
+
+//     // Por padrão, gravamos na linha de id = 1 (configurações gerais)
+//     $tabela = 'tb_checkout';
+//     $id     = 1;
+
+//     // Coleta o tema selecionado
+//     $theme = $_POST['theme'] ?? null;
+
+//     // Atualiza a coluna theme (pode ser NULL para padrão)
+//     $sql = "UPDATE {$tabela} 
+//             SET theme = :theme 
+//             WHERE id = :id";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->bindParam(':theme', $theme);
+//     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+//     try {
+//         $stmt->execute();
+
+//         // Define variável para exibir modal ou mensagem de sucesso
+//         $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+//         $_SESSION['msg'] = 'Tema atualizado com sucesso!';
+//         header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
+//         exit;
+//     } catch (PDOException $e) {
+//         echo "Erro ao atualizar tema: " . $e->getMessage();
+//     }
+// }
+
+if (isset($_POST['btnUpdTheme']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    include('../../config.php');
+
+    $tabela = 'tb_checkout';
+    $id     = 1;
+
+    // 1) coleta o tema
+    $theme = $_POST['theme'] ?? null;
+
+    // 2) coleta os novos flags (checkboxes vindo como 'on')
+    $getBool = fn($key) => isset($_POST[$key]) && $_POST[$key] === 'on' ? 1 : 0;
+
+    // Ankara
+    $ankara_hero        = $getBool('ankara_hero');
+    $ankara_colorful    = $getBool('ankara_colorful');
+    $ankara_yellow      = $getBool('ankara_yellow');
+    $ankara_footer_top  = $getBool('ankara_footer_top');
+    $ankara_footer_blog = $getBool('ankara_footer_blog');
+
+    // TerraDourada
+    $td_hero            = $getBool('td_hero');
+    $td_entrepreneurs   = $getBool('td_entrepreneurs');
+    $td_news            = $getBool('td_news');
+    $td_footer_info     = $getBool('td_footer_info');
+    $td_footer_socials  = $getBool('td_footer_socials');
+
+    // 3) monta o UPDATE incluindo theme e todos os flags
+    $sql = "
+      UPDATE {$tabela} SET
+        theme                = :theme,
+        ankara_hero          = :ankara_hero,
+        ankara_colorful      = :ankara_colorful,
+        ankara_yellow        = :ankara_yellow,
+        ankara_footer_top    = :ankara_footer_top,
+        ankara_footer_blog   = :ankara_footer_blog,
+        td_hero              = :td_hero,
+        td_entrepreneurs     = :td_entrepreneurs,
+        td_news              = :td_news,
+        td_footer_info       = :td_footer_info,
+        td_footer_socials    = :td_footer_socials
+      WHERE id = :id
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':theme',               $theme);
+    $stmt->bindParam(':ankara_hero',         $ankara_hero,        PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_colorful',     $ankara_colorful,    PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_yellow',       $ankara_yellow,      PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_footer_top',   $ankara_footer_top,  PDO::PARAM_BOOL);
+    $stmt->bindParam(':ankara_footer_blog',  $ankara_footer_blog, PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_hero',             $td_hero,            PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_entrepreneurs',    $td_entrepreneurs,   PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_news',             $td_news,            PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_footer_info',      $td_footer_info,     PDO::PARAM_BOOL);
+    $stmt->bindParam(':td_footer_socials',   $td_footer_socials,  PDO::PARAM_BOOL);
+    $stmt->bindParam(':id',                  $id,                 PDO::PARAM_INT);
+
+    try {
+        $stmt->execute();
+
+        $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+        $_SESSION['msg']        = 'Configurações de aparência e conteúdo da Home atualizadas com sucesso!';
+        header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
+        exit;
+    } catch (PDOException $e) {
+        echo "Erro ao atualizar configurações: " . $e->getMessage();
+    }
+}
+
 if (isset($_POST['btnUpdNavColor'])) {
     //Inclui o arquivo 'config.php'
     include('../../config.php');
@@ -315,9 +320,62 @@ if (isset($_POST['btnUpdNavColor'])) {
             $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'cabecalho');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
+        }
+    }
+}
+
+if (isset($_POST['btnUpdFreight'])) {
+    //Inclui o arquivo 'config.php'
+    include('../../config.php');
+
+    // Verifique se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Tabela e ID do checkout que queremos atualizar
+        $tabela = 'tb_checkout';
+        $checkoutId = '1';
+
+        // Dados do formulário
+        $freightType = $_POST['freight_type'] ?? 'default';
+        $rawValue = $_POST['freight_value'] ?? ''; // ex: "1.234,56" ou ""
+
+        // Se for 'default', zera o valor; se for 'fixed', converte string para decimal
+        if ($freightType === 'fixed') {
+            // Remove pontos e troca vírgula por ponto:
+            $num = str_replace(['.', ' '], ['', ''], $rawValue);
+            $num = str_replace(',', '.', $num);
+            $freightValue = floatval($num);
+        } else {
+            $freightValue = null;
+        }
+
+        // Prepara o UPDATE
+        $stmt = $conn->prepare("UPDATE {$tabela} SET freight_type = :freight_type, freight_value = :freight_value WHERE id = :id");
+        $stmt->bindParam(':freight_type', $freightType, PDO::PARAM_STR);
+
+        if ($freightValue !== null) {
+            $stmt->bindParam(':freight_value', $freightValue);
+        } else {
+            $stmt->bindValue(':freight_value', null, PDO::PARAM_NULL);
+        }
+
+        $stmt->bindParam(':id', $checkoutId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+
+            // Exibir a modal após salvar as informações
+            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
+            $_SESSION['msg'] = 'Tipo de frete salvo com sucesso!';
+
+            //Voltar para a pagina do formulario
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+            exit;
+        } catch (PDOException $e) {
+            echo "Erro ao atualizar frete: " . $e->getMessage();
+            exit;
         }
     }
 }
@@ -413,70 +471,6 @@ if (isset($_POST['btnUpdFooter'])) {
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
         }
-    }
-}
-
-if (isset($_POST['btnUpdDonations'])) {
-    //Inclui o arquivo 'config.php'
-    include('../../config.php');
-
-    // Verifique se o formulário foi enviado
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Tabela onde sera feita a alteracao
-        $tabela = 'tb_checkout';
-
-        // Id da tabela
-        $id = '1';
-
-        // Informacoes coletadas pelo metodo POST
-        $monthly_1 = $_POST['monthly_1'];
-        $monthly_2 = $_POST['monthly_2'];
-        $monthly_3 = $_POST['monthly_3'];
-        $monthly_4 = $_POST['monthly_4'];
-        $monthly_5 = $_POST['monthly_5'];
-        $yearly_1 = $_POST['yearly_1'];
-        $yearly_2 = $_POST['yearly_2'];
-        $yearly_3 = $_POST['yearly_3'];
-        $yearly_4 = $_POST['yearly_4'];
-        $yearly_5 = $_POST['yearly_5'];
-        $once_1 = $_POST['once_1'];
-        $once_2 = $_POST['once_2'];
-        $once_3 = $_POST['once_3'];
-        $once_4 = $_POST['once_4'];
-        $once_5 = $_POST['once_5'];
-
-        // Atualize o item no banco de dados
-        $sql = "UPDATE $tabela SET monthly_1 = :monthly_1, monthly_2 = :monthly_2, monthly_3 = :monthly_3, monthly_4 = :monthly_4, monthly_5 = :monthly_5, yearly_1 = :yearly_1, yearly_2 = :yearly_2, yearly_3 = :yearly_3, yearly_4 = :yearly_4, yearly_5 = :yearly_5, once_1 = :once_1, once_2 = :once_2, once_3 = :once_3, once_4 = :once_4, once_5 = :once_5 WHERE id = :id";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':monthly_1', $monthly_1);
-        $stmt->bindParam(':monthly_2', $monthly_2);
-        $stmt->bindParam(':monthly_3', $monthly_3);
-        $stmt->bindParam(':monthly_4', $monthly_4);
-        $stmt->bindParam(':monthly_5', $monthly_5);
-        $stmt->bindParam(':yearly_1', $yearly_1);
-        $stmt->bindParam(':yearly_2', $yearly_2);
-        $stmt->bindParam(':yearly_3', $yearly_3);
-        $stmt->bindParam(':yearly_4', $yearly_4);
-        $stmt->bindParam(':yearly_5', $yearly_5);
-        $stmt->bindParam(':once_1', $once_1);
-        $stmt->bindParam(':once_2', $once_2);
-        $stmt->bindParam(':once_3', $once_3);
-        $stmt->bindParam(':once_4', $once_4);
-        $stmt->bindParam(':once_5', $once_5);
-        $stmt->bindParam(':id', $id);
-
-        try {
-            $stmt->execute();
-
-            // Exibir a modal após salvar as informações
-            $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-            $_SESSION['msg'] = 'As informações dos valores foram atualizadas com sucesso!';
-
-            //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'sobre');
-        } catch (PDOException $e) {
-            echo "Erro na atualização: " . $e->getMessage();
-        }   
     }
 }
 

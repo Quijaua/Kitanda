@@ -3,6 +3,40 @@
     $disabledRead = !$read ? 'disabled' : '';
 ?>
 
+<?php
+    // Verifica se o usuário é administrador
+    $isAdmin = (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') ? 1 : 0;
+    $userId  = $_SESSION['user_id'];
+
+    $sql = "
+        SELECT DISTINCT
+            c.id,
+            c.nome,
+            c.email,
+            c.phone,
+            c.cpf,
+            MIN(p.created_at) AS primeira_compra,
+            MAX(p.created_at) AS ultima_compra,
+            COUNT(DISTINCT p.id) AS total_pedidos
+        FROM tb_pedidos p
+        INNER JOIN tb_clientes c ON p.usuario_id = c.id
+        LEFT JOIN tb_pedido_itens pi ON p.id = pi.pedido_id
+        LEFT JOIN tb_produtos prod ON prod.id = pi.produto_id
+        WHERE (
+            :isAdmin = 1
+            OR prod.criado_por = :userId
+        )
+        GROUP BY c.id, c.nome, c.email, c.phone, c.cpf
+        ORDER BY ultima_compra DESC
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':isAdmin', $isAdmin, PDO::PARAM_INT);
+    $stmt->bindValue(':userId',  $userId,  PDO::PARAM_INT);
+    $stmt->execute();
+    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <style>
     #clientes_filter, #clientes_length {
         display: none;
@@ -117,25 +151,21 @@
                                 <th>Email</th>
                                 <th>Telefone</th>
                                 <th>CPF</th>
-                                <th>Endereço</th>
-                                <th>Newsletter</th>
-                                <th>Clientes Anônimo</th>
+                                <th>Total de Pedidos</th>
+                                <th>Primeira Compra</th>
+                                <th>Última Compra</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($clientes as $cliente) : ?>
                             <tr>
-                                <td class="more-info"><?php echo $cliente["nome"] ?></td>
-                                <td><?php echo $cliente["email"] ?></td>
-                                <td><?php echo $cliente["phone"] ?></td>
-                                <td><?php echo $cliente["cpf"] ?></td>
-                                <td>
-                                    <?php
-                                        echo $cliente["endereco"] . ", " . $cliente["numero"] . " - " . $cliente["municipio"] . " - " .$cliente["cidade"] . " / " . $cliente["uf"] . " - CEP " . $cliente["cep"]
-                                    ?>
-                                </td>
-                                <td><?php echo $cliente["newsletter"] ? "Sim" : "Não"; ?></td>
-                                <td><?php echo $cliente["private"] ? "Sim" : "Não"; ?></td>
+                                <td><?= htmlspecialchars($cliente['nome']) ?></td>
+                                <td><?= htmlspecialchars($cliente['email']) ?></td>
+                                <td><?= htmlspecialchars($cliente['phone'] ?? "--") ?></td>
+                                <td><?= htmlspecialchars($cliente['cpf']) ?? "--" ?></td>
+                                <td><?= htmlspecialchars($cliente['total_pedidos']) ?></td>
+                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($cliente['primeira_compra']))) ?></td>
+                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($cliente['ultima_compra']))) ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

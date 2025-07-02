@@ -4,7 +4,7 @@
     $p = base64_decode($_POST['encodedCode']);
     
     // Consulta SQL
-    $sql = "SELECT valor, pix_encodedImage, pix_payload, pix_expirationDate, forma_pagamento, boleto_barCode, boleto_identificationField, data_vencimento, data_criacao, link_boleto FROM tb_doacoes WHERE payment_id = :p";
+    $sql = "SELECT total, pix_encodedImage, pix_payload, pix_expirationDate, forma_pagamento, boleto_barCode, boleto_identificationField, data_vencimento, data_criacao, link_boleto FROM tb_pedidos WHERE transacao_id = :p";
 
     // Preparação da declaração PDO
     $stmt = $conn->prepare($sql);
@@ -21,7 +21,7 @@
     // Verificação se a consulta retornou algum resultado
     if ($result) {
         echo json_encode([
-            "valor" => $result['valor'],
+            "valor" => $result['total'],
             "pix_encodedImage" => $result['pix_encodedImage'],
             "pix_payload" => $result['pix_payload'],
             "pix_expirationDate" => $result['pix_expirationDate'] ? date("d/m/Y", strtotime($result['pix_expirationDate'])) : null,
