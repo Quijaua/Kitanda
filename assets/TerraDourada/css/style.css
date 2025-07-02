@@ -13,6 +13,7 @@
     --text-dark: #2C3E50; */
     --tblr-btn-hover-bg: #fd9e06 !important;
     --tblr-warning: #fd9e06 !important;
+
 }
 
 .laranja-claro {background-color: #fd9e06}
@@ -34,6 +35,8 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
     padding: 180px 0 180px;
 
 }
+
+.navbar-toggler {color: #FFF;}
 
 .category-icon {
     width: 80px;
