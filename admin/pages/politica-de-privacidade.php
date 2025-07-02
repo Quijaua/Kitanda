@@ -127,9 +127,15 @@
                                 <span class="form-check-label">Usar a Política de Privacidade padrão do sistema</span>
                             </label>
                         </div>
-                        <div class="card-footer text-end">
+
+                        <div class="card-footer d-flex justify-content-end gap-2">
+                            <a href="/politica-de-privacidade/" type="button" class="btn btn-secondary" id="btnPreview" target="_blank">Visualizar</a>
                             <button type="submit" name="btnPrivacy" class="btn btn-primary" form="messages_form">Salvar</button>
                         </div>
+
+                        <!-- <div class="card-footer text-end">
+                            <button type="submit" name="btnPrivacy" class="btn btn-primary" form="messages_form">Salvar</button>
+                        </div> -->
                     </form>
 
                 </div>
