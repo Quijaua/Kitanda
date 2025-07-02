@@ -396,6 +396,7 @@
                         </div>
                     </div>
 
+                    <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -444,6 +445,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
 
                     <div class="col-lg-12">
                         <div class="card">
