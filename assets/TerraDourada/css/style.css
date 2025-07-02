@@ -15,8 +15,6 @@
     --tblr-warning: #fd9e06 !important;
 }
 
-
-
 .laranja-claro {background-color: #fd9e06}
 .marrom {background-color: #ad5202}
 .marrom-escuro {background-color:#642e00}
@@ -26,7 +24,7 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
 
 .text-orange {color: #fd9e06}
 
-.navbar-brand img {height: 50px;}
+.navbar-brand img {height: 80px;}
 
 .hero-section {
     background: url('/assets/TerraDourada/images/hero-mea.webp');
