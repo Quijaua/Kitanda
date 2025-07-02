@@ -185,7 +185,7 @@
                                                     <select id="funcao" name="funcao_id" class="form-select" required>
                                                         <option value="">Selecione a função</option>
                                                         <?php foreach($funcoes as $funcao): ?>
-                                                        <option value="<?php echo $funcao['id']; ?>" <?php echo ($funcao['id'] == $permissao_usuario['permissao_id']) ? 'selected' : ''; ?>>
+                                                        <option value="<?php echo $funcao['id']; ?>" <?php echo (!empty($permissao_usuario) && ($funcao['id'] == $permissao_usuario['permissao_id'])) ? 'selected' : ''; ?>>
                                                             <?= $funcao['nome']; ?>
                                                         </option>
                                                         <?php endforeach; ?>
