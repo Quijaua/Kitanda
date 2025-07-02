@@ -170,6 +170,12 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
     $stmt->execute([$_SESSION['user_id']]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if (!$usuario) {
+        $usuario = [
+            'imagem' => null
+        ];
+    }
+
     $usuario['imagem'] = !empty($usuario['imagem'])
                          ? str_replace(' ', '%20', INCLUDE_PATH . "files/lojas/{$usuario['id']}/perfil/{$usuario['imagem']}")
                          : INCLUDE_PATH . "assets/preview-image/profile.jpg";
