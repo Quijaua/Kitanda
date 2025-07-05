@@ -101,7 +101,7 @@
                                         menubar: false,
                                         disabled: <?php echo $editorDisabled; ?>,
                                         statusbar: false,
-                                            license_key: 'gpl',
+                                        license_key: 'gpl',
                                         plugins: [
                                             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
                                             'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -132,12 +132,7 @@
                             <a href="/politica-de-privacidade/" type="button" class="btn btn-secondary" id="btnPreview" target="_blank">Visualizar</a>
                             <button type="submit" name="btnPrivacy" class="btn btn-primary" form="messages_form">Salvar</button>
                         </div>
-
-                        <!-- <div class="card-footer text-end">
-                            <button type="submit" name="btnPrivacy" class="btn btn-primary" form="messages_form">Salvar</button>
-                        </div> -->
                     </form>
-
                 </div>
             </div>
         </div>
