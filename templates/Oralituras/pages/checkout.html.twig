@@ -26,10 +26,10 @@
                 <div class="w-100">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="btn btn-3 btn-yellow text-red w-100" data-bs-dismiss="modal"> Não, manter </a>
+                            <a href="#" class="btn btn-3 btn-yellow w-100" data-bs-dismiss="modal"> Não, manter </a>
                         </div>
                         <div class="col">
-                            <a href="{{ INCLUDE_PATH }}carrinho" class="btn btn-yellow text-red btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a>
+                            <!-- <a href="{{ INCLUDE_PATH }}carrinho" class="btn btn-yellow btn-4 w-100" data-bs-dismiss="modal"> Ir para o carrinho </a> -->
                             <button id="remove-item" type="button" class="btn btn-warning btn-4 w-100" data-bs-dismiss="modal" id="btn-modal-success"> Sim, remover </button>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                 <div class="w-100">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="btn btn-3 btn-yellow text-red w-100" data-bs-dismiss="modal"> Ok </a>
+                            <a href="#" class="btn btn-3 btn-yellow w-100" data-bs-dismiss="modal"> Ok </a>
                         </div>
                     </div>
                 </div>
@@ -360,7 +360,7 @@
                                         {% if user.newsletter %}checked{% endif %}
                                     >
                                     <span class="form-check-label">
-                                        Quero receber as novidades das Mulheres Empreendedoras da Amazônia.
+                                        Quero receber as novidades de {{ nome }}.
                                     </span>
                                 </label>
                                 <hr class="my-3">
@@ -378,9 +378,9 @@
                                     >
                                     <span class="form-check-label">
                                         Declaro que li e aceito as
-                                        <a href="#">condições de compra</a>,
-                                        <a href="#">políticas de cancelamento</a> e os
-                                        <a href="#">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos pelas Mulheres Empreendedoras da Amazônia.
+                                        <a href="/politica-de-privacidade/" target="_blank">condições de compra</a>,
+                                        <a href="/politica-de-privacidade/" target="_blank">políticas de cancelamento</a> e os
+                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ nome }}.
                                     </span>
                                     <div id="input-terms-error" class="text-danger d-none">
                                         <small>Por favor, aceite os termos de uso para prosseguir</small>
@@ -454,7 +454,7 @@
         
                                 {% if not pedido %}
                                     <div class="d-flex align-items-center justify-content-between mt-3" id="usuario-info">
-                                        <button type="button" id="btn-edit-info" class="btn btn-yellow text-red btn-pill">Alterar informações</button>
+                                        <button type="button" id="btn-edit-info" class="btn btn-yellow btn-pill">Alterar informações</button>
                                         <a href="#" id="link-not-me" class="text-muted">Não sou eu</a>
                                     </div>
                                 {% endif %}
@@ -490,7 +490,7 @@
                                             <div class="text-muted">Carregando opções...</div>
                                         </div>
                                         <!-- Botão para avançar para a etapa de pagamento -->
-                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-yellow text-red btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
+                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
                                         <div id="change-shipping-button" class="d-none text-center">
                                             <a href="#" id="change-shipping-option" class="text-muted">Alterar</a>
                                         </div>
@@ -518,7 +518,7 @@
                                             </label>
                                         </div>
 
-                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-yellow text-red btn-pill w-100 confirm-checkout mt-3 d-none">
+                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">
                                             <span>Avançar</span>
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/arrow-narrow-right -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
@@ -584,7 +584,7 @@
                                         </div>
 
                                         <div id="confirm-payment" class="d-none text-center">
-                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-yellow text-red btn-pill w-100 confirm-checkout mb-3">Confirmar Pagamento</button>
+                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mb-3">Confirmar Pagamento</button>
                                             <div class="progress progress-subscription mb-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
                                                     Processando requisição...
@@ -661,7 +661,7 @@
 
                                                 <a href="{{ pedido and pedido.forma_pagamento == 'BOLETO' ? pedido.link_boleto : '#' }}"
                                                 target="_blank"
-                                                class="btn btn-6 btn-yellow text-red btn-pill w-100"
+                                                class="btn btn-6 btn-yellow btn-pill w-100"
                                                 id="boleto-link">
                                                     Visualizar boleto
                                                 </a>
@@ -815,14 +815,14 @@
                             R$ {{ frete|number_format(2, ',', '.') }}
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td class="fw-bold">Desconto</td>
                             <td id="desconto_valor"
                                 class="w-10 fw-bold text-end"
                                 data-value="{{ desconto }}">
                             R$ {{ desconto|number_format(2, ',', '.') }}
                             </td>
-                        </tr>
+                        </tr> -->
                         </tbody>
                     </table>
 
@@ -846,7 +846,7 @@
                     {% if not pedido %}
                         <button type="button"
                                 id="btn-step1-continue"
-                                class="btn btn-6 btn-yellow text-red btn-pill w-100 confirm-checkout mt-3">
+                                class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3">
                         Continuar
                         </button>
                     {% endif %}

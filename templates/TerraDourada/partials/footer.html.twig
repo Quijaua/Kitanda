@@ -1,38 +1,52 @@
 {# templates/_fallback/partials/footer.html.twig #}
     {% if (td_news and is_home) or not td_news %}
-    <!-- News Section -->
-    <section class="section-padding">
+    <!-- Blog Section -->
+    <section class="section-red mt-6 mb-6 p-2">
         <div class="container">
-            <h2 class="mb-5 fw-bold fs-1">Últimas notícias</h2>
+            <h2 class="fw-bold mb-5 sub-titulo">Nosso blog</h2>
             <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="card news-card">
-                        <div class="news-image">
-                            <i class="fas fa-newspaper"></i>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-primary mb-2">Categoria</span>
-                            <p class="text-muted small">10 NOV 2023</p>
-                            <h5 class="card-title">Título do post infect laoreet lacunis, cursus maximus nulla sit te que wild y thought</h5>
+                {# Pega apenas os 2 primeiros posts #}
+                {% for post in footerPosts %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card news-card">
+                            <div class="blog-image">
+                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}">
+                                    <img
+                                        src="{{ post.imagem }}"
+                                        alt="{{ post.titulo }}"
+                                        class="img-fluid w-100"
+                                        style="object-fit: cover; height: 200px;"
+                                    >
+                                </a> 
+                            </div>  
+                            <div class="card-body">
+                                {# Categoria principal (ou múltiplas) #}
+                                {% if post.categorias is not empty %}
+                                    <p class="text-danger text-uppercase mb-2">
+                                        {{ post.categorias[0].nome }}
+                                    </p>
+                                {% else %}
+                                    <p class="text-muted mb-2">Sem categoria</p>
+                                {% endif %}
+
+                                {# Título e link para o artigo #}
+                                <h5 class="card-title">
+                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
+                                        {{ post.titulo }}
+                                    </a>
+                                </h5>
+
+                                {# Data de publicação #}
+                                <small class="text-muted">
+                                    {{ post.data_publicacao|date("d/m/Y") }}
+                                </small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card news-card">
-                        <div class="news-image">
-                            <i class="fas fa-newspaper"></i>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-primary mb-2">Categoria</span>
-                            <p class="text-muted small">10 NOV 2023</p>
-                            <h5 class="card-title">Título do post infect laoreet lacunis, cursus maximus nulla sit te que wild y thought</h5>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            
             <div class="text-center mt-4">
-                <a href="/blog" class="btn btn-outline-warning text-uppercase">Ver todos os artigos</a>
+                <a href="{{ INCLUDE_PATH }}blog" class="btn btn-outline-warning text-uppercase">Ver todos os posts</a>
             </div>
         </div>
     </section>
@@ -41,16 +55,16 @@
     <!-- Footer -->
     <footer class="footer marrom">
         <div class="container">
-            <div class="row">
+            <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 mb-4 text-sm-center">
                     <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Mulheres Empreendedoras da Amazônia" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
                     <p>Empoderando mulheres da Amazônia através do empreendedorismo sustentável.</p>
                 </div>
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Fale com a gente</p>
+                    <p class="fs-3"><strong>Fale com a gente</strong></p>
                     <p><a href="#"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <h6 class="mt-4">Siga-nos</h6>
@@ -76,7 +90,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Informações gerais</p>
+                    <p class="fs-3"><strong>Informações gerais</strong></p>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
@@ -97,11 +111,11 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Contato</p>
+                    <p class="fs-3"><strong>Contato</strong></p>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
-                    <p class="fs-3 mt-4">Formas de pagamento</p>
-                    <div class="d-flex">
+                    <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>
+                    <div class="d-flexd">
                         <i class="fab fa-cc-visa me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-cc-mastercard me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-pix" style="font-size: 1.5rem;"></i>

@@ -102,7 +102,7 @@
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <div class="row g-4">
+        <div class="row g-4 p-2">
 
             <div id="alert-container"></div>
 
@@ -380,7 +380,7 @@
                                         {% if user.newsletter %}checked{% endif %}
                                     >
                                     <span class="form-check-label">
-                                        Quero receber as novidades das Mulheres Empreendedoras da Amazônia.
+                                        Quero receber as novidades de {{ nome }}.
                                     </span>
                                 </label>
                                 <hr class="my-3">
@@ -398,9 +398,9 @@
                                     >
                                     <span class="form-check-label">
                                         Declaro que li e aceito as
-                                        <a href="#">condições de compra</a>,
-                                        <a href="#">políticas de cancelamento</a> e os
-                                        <a href="#">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos pelas Mulheres Empreendedoras da Amazônia.
+                                        <a href="/politica-de-privacidade/" target="_blank">condições de compra</a>,
+                                        <a href="/politica-de-privacidade/" target="_blank">políticas de cancelamento</a> e os
+                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ nome }}.
                                     </span>
                                     <div id="input-terms-error" class="text-danger d-none">
                                         <small>Por favor, aceite os termos de uso para prosseguir</small>
@@ -835,14 +835,14 @@
                             R$ {{ frete|number_format(2, ',', '.') }}
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td class="fw-bold">Desconto</td>
                             <td id="desconto_valor"
                                 class="w-10 fw-bold text-end"
                                 data-value="{{ desconto }}">
                             R$ {{ desconto|number_format(2, ',', '.') }}
                             </td>
-                        </tr>
+                        </tr> -->
                         </tbody>
                     </table>
 

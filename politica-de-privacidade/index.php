@@ -118,10 +118,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/open-sans" rel="stylesheet" type="text/css">
-	<link href="<?php echo INCLUDE_PATH; ?>assets/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"
-		  type="text/css">
-	<link href="<?php echo INCLUDE_PATH; ?>assets/google/fonts/newsreader" rel="stylesheet">
 
 <link rel="icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" sizes="32x32" />
 <link rel="apple-touch-icon" href="<?php echo INCLUDE_PATH; ?>assets/img/favicon.png" />
@@ -194,7 +190,9 @@
 	]
 }</script>
 
-	<link rel="stylesheet" type="text/css" href="<?php echo INCLUDE_PATH; ?>assets/css/main.css"/>
+<link href="/dist/css/tabler.min.css" rel="stylesheet" />
+<link href="/dist/css/demo.min.css" rel="stylesheet" />
+<!--	<link rel="stylesheet" type="text/css" href="<?php echo INCLUDE_PATH; ?>assets/css/main.css"/> -->
 
 	<?php echo $fb_pixel; ?>
 
@@ -204,15 +202,24 @@
 </head>
 <body>
 
+<style>
+#div-container-form p {
+	font-size: 15pt;
+}
 
-<nav class="navbar navbar-expand-md navbar-dark" style="background-color: <?php echo $nav_background; ?>; color: <?php echo $nav_color; ?>;">
+h1, h3 {font-size: 20pt}
+</style>
+
+<div class="page">
+
+<nav class="navbard navbar-expand-md" style="background-color: <?php echo $nav_background; ?>; color: <?php echo $nav_color; ?>;">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4 p-1 text-center">
-				<img src="../assets/img/<?php echo $logo; ?>">
+			<div class="col-4 p-1 text-center">
+				<a href="<?php echo INCLUDE_PATH; ?>"><img src="../assets/img/<?php echo $logo; ?>" alt="<?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?>" title="<?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?>" /></a>
 			</div>
-			<div class="col-md-8 mt-4 p-md-3">
-				<h1 class="h2"><?php echo ($title !== '') ? $title : 'Colabore com o Projeto '.$nome; ?></h1>
+			<div class="col-8 mt-4 p-md-3">
+				<h1 class="text-white">Política de Privacidade</h1>
 			</div>
 		</div>
 	</div>
@@ -274,6 +281,7 @@
 	</div>
 </main>
 
+			</div>
 <!--<footer>
  <div class="container mt-5">
 	<div class="row">
