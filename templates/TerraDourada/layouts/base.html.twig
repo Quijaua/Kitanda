@@ -44,11 +44,11 @@
     <meta property="article:modified_time" content="{{ "now"|date("Y-m-d") ~ "T00:00:00+00:00" }}" />
     <meta property="og:image"       content="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
     <meta name="twitter:card"       content="summary_large_image" />
-    <meta name="twitter:site"       content="@Kitanda" />
+    <meta name="twitter:site"       content="@{{ nome }}" />
     <meta name="twitter:title"      value="{{ title }}" />
     <meta name="twitter:url"        value="{{ INCLUDE_PATH }}" />
     <meta name="twitter:image"      value="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
-    <meta name="twitter:description"value="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta name="twitter:description" value="{{ descricao|slice(120) ~ '...' }}" />
 
     <script type="application/ld+json">
     {
@@ -62,7 +62,7 @@
                 "isPartOf": { "@id": "{{ INCLUDE_PATH }}#website" },
                 "datePublished": "2023-03-02T19:50:30+00:00",
                 "dateModified": "2023-03-21T12:51:52+00:00",
-                "description": "{{ descricao|slice(3,120) ~ '...' }}",
+                "description": "{{ descricao|slice(120) ~ '...' }}",
                 "inLanguage": "pt-BR",
                 "interactAction": [
                     {

@@ -13,8 +13,11 @@
     --text-dark: #2C3E50; */
     --tblr-btn-hover-bg: #fd9e06 !important;
     --tblr-warning: #fd9e06 !important;
-
 }
+
+
+.text-yellow {color: #AD5202 !important}
+
 
 .laranja-claro {background-color: #fd9e06}
 .marrom {background-color: #ad5202}
