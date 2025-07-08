@@ -92,7 +92,7 @@
                 <div class="col-lg-3 mb-4">
                     <p class="fs-3"><strong>Informações gerais</strong></p>
                     <ul class="list-unstyled">
-                        <li><a href="#">Política de fretamento</a></li>
+                        <!-- <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
                     {% if use_privacy %}
                         <li><a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
@@ -105,7 +105,15 @@
                     {% endif %}
                         <li><a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer" target="_blank">
                         Área de cliente
-                      </a></li>
+                      </a></li> -->
+
+                        {% for pagina in paginas_estaticas %}
+                            <li>
+                                <a href="{{ INCLUDE_PATH }}pagina/{{ pagina.slug|url_encode }}" rel="noopener noreferrer" target="_blank">
+                                    {{ pagina.titulo }}
+                                </a>
+                            </li>
+                        {% endfor %}
 
                     </ul>
                 </div>

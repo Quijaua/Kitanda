@@ -57,6 +57,9 @@ $link = '';
 if (strpos($url, 'p/') === 0) {
     $link = substr($url, 2);
     $url  = 'produto';
+} else if (strpos($url, 'pagina/') === 0) {
+    $link = substr($url, 7);
+    $url  = 'pagina';
 }
 
 // 3.2) Busca o tipo de captcha via BD (você já tinha isso)
@@ -202,6 +205,11 @@ foreach ($postsRaw as $post) {
     ];
 }
 
+// Busca todas as páginas cadastradas para exibir no rodapé
+$stmt = $conn->prepare("SELECT titulo, slug FROM tb_paginas_conteudo ORDER BY id ASC");
+$stmt->execute();
+$paginasEstaticas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Carregar as primeiras 10 empreendedoras para exibir no carrossel
 $limit = 10;
 $stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' ORDER BY nome LIMIT :limit");
@@ -345,6 +353,9 @@ $context = [
 
     // Posts do rodapé
     'footerPosts'     => $footerPosts ?? [],
+
+    // Páginas do rodapé
+    'paginas_estaticas' => $paginasEstaticas ?? [],
 ];
 
 switch ($url) {
@@ -427,6 +438,13 @@ switch ($url) {
 
     case 'contato':
         include __DIR__ . '/pages/contato.php';
+        break;
+
+    case 'pagina':
+        // Recebe o array de contexto montado dentro de pages/pagina.php:
+        $context_pagina = include __DIR__ . '/pages/pagina.php';
+
+        $context = array_merge($context, $context_pagina);
         break;
 }
 
