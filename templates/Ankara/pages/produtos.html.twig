@@ -46,15 +46,6 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title text-ankara sub-titulo">Produtos</h2>
-                    <div class="text-secondary mt-1">
-                        {% if total_produtos > 0 %}
-                            {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
-                               min((pagina_atual * limite), total_produtos) ~
-                               ' de ' ~ total_produtos ~ ' produtos' }}
-                        {% else %}
-                            Nenhum produto encontrado
-                        {% endif %}
-                    </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <form method="GET" class="d-flex">
