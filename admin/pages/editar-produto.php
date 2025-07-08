@@ -267,7 +267,7 @@
                                     <div class="col">
                                         <div class="dropzone" id="dropzone-custom">
                                             <div class="fallback">
-                                                <input name="imagens" type="file" />
+                                                <input name="imagens" type="file" accept="image/png,image/jpeg,image/webp" />
                                             </div>
                                             <div class="dz-message">
                                                 <h3 class="dropzone-msg-title">
@@ -540,7 +540,7 @@
             autoProcessQueue: false,
             url: "<?php echo INCLUDE_PATH_ADMIN; ?>back-end/product-images.php",
             maxFilesize: 2,
-            acceptedFiles: "image/jpeg, image/png",
+            acceptedFiles: "image/jpeg,image/png,image/webp",
             maxFiles: maxFiles,
             addRemoveLinks: false,
             dictDefaultMessage: "Arraste e solte as imagens aqui ou clique para selecionar",

@@ -14,7 +14,7 @@
         $tabela = 'tb_produto_imagens';
         $_UP['pasta'] = "../../files/produtos/$produto_id/";
         $_UP['tamanho'] = 1024 * 1024 * 2; // 2MB
-        $_UP['extensoes'] = array('png', 'jpg', 'jpeg');
+        $_UP['extensoes'] = array('png', 'jpg', 'jpeg', 'webp');
         $_UP['renomeia'] = true;
         $_UP['erros'] = [
             'Não houve erro',

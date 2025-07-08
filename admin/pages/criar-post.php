@@ -185,7 +185,7 @@
                                     <div class="col">
                                         <label for="imagem" class="dropzone w-100" id="dropzone-custom">
                                             <div class="fallback">
-                                                <input name="imagem" id="imagem" type="file" class="d-none" />
+                                                <input name="imagem" id="imagem" type="file" class="d-none" accept="image/png,image/jpeg,image/webp" />
                                             </div>
                                             <div class="dz-message">
                                                 <h3 class="dropzone-msg-title">
