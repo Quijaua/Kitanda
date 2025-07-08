@@ -96,6 +96,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2 class="page-title">Usuários</h2>
         <div class="text-secondary mt-1">Aqui estão os usuários cadastrados no sistema.</div>
       </div>
+      <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
       <div class="col-auto ms-auto d-print-none">
         <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-usuario" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
           <!-- Ícone de Adicionar -->
@@ -108,6 +109,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
           Novo Usuário
         </a>
       </div>
+      <?php endif; ?>
     </div>
   </div>
 </div>
@@ -116,6 +118,12 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="page-body">
   <div class="container-xl">
     <div class="row row-cards">
+
+      <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+      <div class="col-lg-12">
+          <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+      </div>
+      <?php exit; endif; ?>
 
       <?php if (!$only_own && !$read): ?>
       <div class="col-12">

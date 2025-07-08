@@ -85,6 +85,12 @@
         <form id="editFunction" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update-function.php?id=<?php echo $funcao_id; ?>" method="post">
             <div class="row justify-content-between">
 
+                <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                <div class="col-lg-12">
+                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                </div>
+                <?php exit; endif; ?>
+
                 <?php if ($only_own && $funcao['criado_por'] !== $_SESSION['user_id']): ?>
                 <div class="col-lg-12">
                     <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>

@@ -73,6 +73,12 @@
     <div class="container-xl">
         <div class="row row-cards">
 
+            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+            <div class="col-lg-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <?php if (!$read): ?>
             <div class="col-12">
                 <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>

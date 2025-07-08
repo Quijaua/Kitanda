@@ -130,6 +130,7 @@
                 </li>
                 <?php endif; ?>
 
+                <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
                 <li class="nav-item <?= activeSidebarLink('geral'); ?> <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>geral" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -141,6 +142,7 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'novidades', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('novidades'); ?> <?= activeSidebarLink('email_em_massa'); ?>">
