@@ -110,26 +110,47 @@
                     <p class="fs-2"><strong>Tags:</strong> <span class="text-yellow">{{ tags_string }}</span></p>
                     {% endif %}
 
+                {% if prev_post is not empty or next_post is not empty %}
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
                             <ul class="pagination">
-                                <li class="page-item page-prev disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                        <div class="page-item-subtitle">anterior</div>
-                                        <div class="page-item-title">Primeiro Post</div>
-                                    </a>
-                                </li>
-                                <li class="page-item page-next">
-                                    <a class="page-link" href="#">
-                                        <div class="page-item-subtitle">próximo</div>
-                                        <div class="page-item-title">Terceiro Post</div>
-                                    </a>
-                                </li>
+                                {% if prev_post %}
+                                    <li class="page-item page-prev">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="text-decoration-none">
+                                            <div class="page-item-subtitle">anterior</div>
+                                            <div class="page-item-title">{{ prev_post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item page-prev disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                            <div class="page-item-subtitle">anterior</div>
+                                            <div class="page-item-title">{{ post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if next_post %}
+                                    <li class="page-item page-prev">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="text-decoration-none text-end">
+                                            <div class="page-item-subtitle">próximo</div>
+                                            <div class="page-item-title">{{ next_post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item page-next disabled">
+                                        <a class="page-link" href="#">
+                                            <div class="page-item-subtitle">próximo</div>
+                                            <div class="page-item-title">{{ post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
             <div class="col-md-3 col-12 p-4">
                 <p class="h1 text-yellow">Conheça nossa loja</p>

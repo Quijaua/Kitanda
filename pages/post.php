@@ -96,12 +96,47 @@ foreach ($sidebar_produtos as &$produto) {
 }
 unset($produto);
 
-// 9) Retorna o contexto para o Twig
+// 9) Trunca a descrição para até 150 caracteres
+foreach ($sidebar_produtos as &$produto) {
+    $texto = trim(strip_tags($produto['descricao']));
+    if (mb_strlen($texto) > 150) {
+        $texto = mb_substr($texto, 0, 150) . '...';
+    }
+    $produto['descricao_curta'] = $texto;
+}
+unset($produto);
+
+// 10) Busca o post anterior (id < atual) e o próximo (id > atual)
+$stmtPrev = $conn->prepare("
+    SELECT id, titulo
+    FROM tb_blog_posts
+    WHERE id < ?
+    ORDER BY id DESC
+    LIMIT 1
+");
+$stmtPrev->execute([$id]);
+$prev_post = $stmtPrev->fetch(PDO::FETCH_ASSOC);
+
+$stmtNext = $conn->prepare("
+    SELECT id, titulo
+    FROM tb_blog_posts
+    WHERE id > ?
+    ORDER BY id ASC
+    LIMIT 1
+");
+$stmtNext->execute([$id]);
+$next_post = $stmtNext->fetch(PDO::FETCH_ASSOC);
+
+// 11) Retorna o contexto para o Twig
 return [
     'not_found'      => false,
     'post'           => $post,
     'categorias'     => $categorias,
     'tags_string'    => $tagsString,
     'data_publicacao'=> $dataFormatada,
-    'sidebar_produtos' => $sidebar_produtos,
+
+    'prev_post'      => $prev_post,
+    'next_post'      => $next_post,
+
+    'sidebar_produtos'=> $sidebar_produtos,
 ];
