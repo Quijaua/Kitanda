@@ -110,68 +110,46 @@
                     <p class="fs-2"><strong>Tags:</strong> <span class="text-yellow">{{ tags_string }}</span></p>
                     {% endif %}
 
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="pagination">
-                            <li class="page-item page-prev disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                    <div class="page-item-subtitle">anterior</div>
-                                    <div class="page-item-title">Primeiro Post</div>
-                                </a>
-                            </li>
-                            <li class="page-item page-next">
-                                <a class="page-link" href="#">
-                                    <div class="page-item-subtitle">próximo</div>
-                                    <div class="page-item-title">Terceiro Post</div>
-                                </a>
-                            </li>
-                        </ul>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="pagination">
+                                <li class="page-item page-prev disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                        <div class="page-item-subtitle">anterior</div>
+                                        <div class="page-item-title">Primeiro Post</div>
+                                    </a>
+                                </li>
+                                <li class="page-item page-next">
+                                    <a class="page-link" href="#">
+                                        <div class="page-item-subtitle">próximo</div>
+                                        <div class="page-item-title">Terceiro Post</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-                </div>
-                <div class="col-md-3 col-12 p-4">
+            <div class="col-md-3 col-12 p-4">
                 <p class="h1 text-yellow">Conheça nossa loja</p>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h3 class="card-title">Produto 1</h3>
-                            <p class="text-secondary">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur perferendis
-                            sed suscipit velit vitae voluptatem.
-                            </p>
-                        </div>
-                        <div class="img-responsive img-responsive-21x9 card-img-bottom"
-                        style="background-image: url(https://p1.hippopx.com/preview/104/220/886/people-standing-waiting-backpack.jpg)">
-                        </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h3 class="card-title">Produto 2</h3>
-                            <p class="text-secondary">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur perferendis
-                            sed suscipit velit vitae voluptatem.
-                            </p>
+                {% for produto in sidebar_produtos %}
+                    {% set imagemUrl = produto.imagem is not empty 
+                        ? (INCLUDE_PATH ~ "files/produtos/" ~ produto.id ~ "/" ~ produto.imagem)|replace({' ': '%20'}) 
+                        : INCLUDE_PATH ~ "assets/preview-image/product.jpg" 
+                    %}
+                    <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="text-decoration-none">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ produto.titulo }}</h3>
+                                <p class="text-secondary">{{ produto.descricao_curta }}</p>
+                            </div>
+                            <div class="img-responsive img-responsive-21x9 card-img-bottom" style="background-image: url('{{ imagemUrl }}')"></div>
                         </div>
-                        <div class="img-responsive img-responsive-21x9 card-img-bottom"
-                        style="background-image: url(https://p1.hippopx.com/preview/104/220/886/people-standing-waiting-backpack.jpg)">
-                        </div>
-                    </div>
+                    </a>
+                {% endfor %}
 
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h3 class="card-title">Produto 3</h3>
-                            <p class="text-secondary">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur perferendis
-                            sed suscipit velit vitae voluptatem.
-                            </p>
-                        </div>
-                        <div class="img-responsive img-responsive-21x9 card-img-bottom"
-                        style="background-image: url(https://p1.hippopx.com/preview/104/220/886/people-standing-waiting-backpack.jpg)">
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
