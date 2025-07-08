@@ -90,6 +90,17 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label for="whatsapp" class="col-3 col-form-label">WhatsApp</label>
+                                <div class="col">
+                                    <input name="whatsapp" id="whatsapp"
+                                        type="text" class="form-control" value="<?php echo $whatsapp; ?>" <?php echo ($whatsapp == '') ? 'disabled' : '';?>>
+                                    <label class="form-check mt-2">
+                                        <input name="dWhatsapp" id="dWhatsapp" type="checkbox" class="form-check-input" data-input-id="whatsapp" <?php echo ($whatsapp == '') ? 'checked' : '';?>>
+                                        <span class="form-check-label">Desabilitar WhatsApp</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label for="linkedin" class="col-3 col-form-label">LinkedIn</label>
                                 <div class="col">
                                     <input name="linkedin" id="linkedin"

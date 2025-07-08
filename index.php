@@ -124,6 +124,7 @@ $faq                           = $resultado['faq'];
 $use_faq                       = $resultado['use_faq'];
 $facebook                      = $resultado['facebook'];
 $instagram                     = $resultado['instagram'];
+$whatsapp                      = $resultado['whatsapp'];
 $linkedin                      = $resultado['linkedin'];
 $twitter                       = $resultado['twitter'];
 $youtube                       = $resultado['youtube'];
@@ -296,6 +297,7 @@ $context = [
     // Redes sociais e links
     'facebook'        => $facebook,
     'instagram'       => $instagram,
+    'whatsapp'        => $whatsapp,
     'linkedin'        => $linkedin,
     'twitter'         => $twitter,
     'youtube'         => $youtube,

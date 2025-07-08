@@ -65,7 +65,7 @@
                 
                 <div class="col-lg-3 mb-4">
                     <p class="fs-3"><strong>Fale com a gente</strong></p>
-                    <p><a href="#"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
+                    <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <h6 class="mt-4">Siga-nos</h6>
                     <div class="social-icons">

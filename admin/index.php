@@ -94,6 +94,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $use_faq = $resultado['use_faq'];
         $facebook = $resultado['facebook'];
         $instagram = $resultado['instagram'];
+        $whatsapp = $resultado['whatsapp'];
         $linkedin = $resultado['linkedin'];
         $twitter = $resultado['twitter'];
         $youtube = $resultado['youtube'];
