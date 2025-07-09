@@ -340,6 +340,24 @@
     });
 </script>
 
+<!-- Slug (Link) da Página -->
+<script>
+    $(document).ready(function () {
+        function formatarLink(texto) {
+            return texto.normalize('NFD') // Remove acentos
+                        .replace(/[\u0300-\u036f]/g, '') // Remove diacríticos
+                        .replace(/~/g, '') // Substitui "~"
+                        .replace(/\s+/g, '-') // Substitui espaços por "-"
+                        .toLowerCase(); // Converte para minúsculas
+        }
+
+        $('#titulo').on('input', function () {
+            let linkFormatado = formatarLink($(this).val());
+            $('#slug').val(linkFormatado); // Insere no campo #slug
+        });
+    });
+</script>
+
 <script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/hugerte.min.js"></script>
 <script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/langs/pt_BR.js"></script>
 <script>
