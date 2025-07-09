@@ -340,10 +340,12 @@
     });
 </script>
 
-<script src="<?php echo INCLUDE_PATH; ?>vendor/hugerte/hugerte/hugerte.min.js"></script>
+<script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/hugerte.min.js"></script>
+<script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/langs/pt_BR.js"></script>
 <script>
     hugerte.init({
         selector: '#conteudo',
+        language: 'pt_BR',
         plugins: 'accordion advlist anchor autolink autosave charmap code codesample directionality emoticons fullscreen help image insertdatetime link lists media nonbreaking pagebreak preview quickbars save searchreplace table template visualblocks visualchars wordcount',
     });
 </script>
