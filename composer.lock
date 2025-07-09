@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "740bd8e81c4252c3a3782fb17a70b1db",
+    "content-hash": "cfa5681068b4e577189083f8390403a5",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -696,6 +696,65 @@
                 }
             ],
             "time": "2024-07-18T11:15:46+00:00"
+        },
+        {
+            "name": "hugerte/hugerte",
+            "version": "1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hugerte/hugerte-dist.git",
+                "reference": "a723324bbdcedafeca2454b7e4532033c117d7b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hugerte/hugerte-dist/zipball/a723324bbdcedafeca2454b7e4532033c117d7b1",
+                "reference": "a723324bbdcedafeca2454b7e4532033c117d7b1",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "files": [
+                        "hugerte.min.js",
+                        "plugins/*/plugin.min.js",
+                        "themes/*/theme.min.js",
+                        "models/*/model.min.js",
+                        "skins/**",
+                        "icons/*/icons.min.js"
+                    ],
+                    "scripts": [
+                        "hugerte.js",
+                        "plugins/*/plugin.js",
+                        "themes/*/theme.js",
+                        "models/*/model.js",
+                        "icons/*/icons.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Web based JavaScript HTML WYSIWYG editor control.",
+            "homepage": "https://hugerte.org/",
+            "keywords": [
+                "contenteditable",
+                "editing",
+                "html",
+                "hugerte",
+                "javascript",
+                "rich editor",
+                "rich text",
+                "rich text editor",
+                "richtext",
+                "rte",
+                "text",
+                "wysiwyg"
+            ],
+            "support": {
+                "source": "https://github.com/hugerte/hugerte-dist/tree/v1.0.9"
+            },
+            "time": "2025-03-15T21:14:20+00:00"
         },
         {
             "name": "league/container",
