@@ -2,7 +2,6 @@
     $create = verificaPermissao($_SESSION['user_id'], 'pagina', 'create', $conn);
     $disabledCreate = !$create ? 'disabled' : '';
 ?>
-<link rel="stylesheet" type="text/css" id="mce-u0" href="https://hugerte.org/node_modules/hugerte/skins/ui/oxide/skin.min.css">
 <style>
     .dz-preview {
         position: relative;
