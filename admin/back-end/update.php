@@ -21,8 +21,8 @@ if (isset($_POST['btnUpdAbout'])) {
         $id = '1';
 
         //Informacoes coletadas pelo metodo POST
-        $title = $_POST['title'] ?? null;
-        $descricao = $_POST['descricao'] ?? null;
+        $title = $_POST['title'];
+        $descricao = $_POST['descricao'];
 
         // Atualize o item no banco de dados
         $sql = "UPDATE $tabela SET title = :title, descricao = :descricao WHERE id = :id";
