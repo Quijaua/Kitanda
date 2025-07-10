@@ -349,8 +349,6 @@ function makeDonation($dataForm, $config){
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
 
-                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
-
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'Crédito';
@@ -389,8 +387,6 @@ function makeDonation($dataForm, $config){
                 $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
-
-                echo json_encode(["status"=>200, "code"=>$payment['id'], "id"=>$customer_id, "order" => $pedido_id]);
 
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;

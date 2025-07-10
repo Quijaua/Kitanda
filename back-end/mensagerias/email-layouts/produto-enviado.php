@@ -115,7 +115,7 @@ $message = '
                                                                 <h1 class="text-center m-0 font-strong mt-md">
                                                                     Seu pedido está a caminho!
                                                                 </h1>
-                                                                <h4>Código de Rastreio: ' . htmlspecialchars($content['content']['pedido']['codigo_rastreio'], ENT_QUOTES, 'UTF-8') . '</h4>
+                                                                <h4>Código de Rastreio: <a href="' . htmlspecialchars($content['content']['pedido']['url_rastreamento'], ENT_QUOTES, 'UTF-8') . '" style="text-decoration: underline;">' . htmlspecialchars($content['content']['pedido']['codigo_rastreamento'], ENT_QUOTES, 'UTF-8') . '</a></h4>
                                                             </td>
                                                         </tr>
 
@@ -165,24 +165,28 @@ $message = '
                                                                         <td class="col">
                                                                             <h4>Informações de Envio</h4>
                                                                             <table class="row">
-                                                                                <tr>
+                                                                                <!-- <tr>
                                                                                     <td class="col-mobile">Transportadora</td>
                                                                                     <td class="col-mobile">' . htmlspecialchars($content['content']['pedido']['transportadora'], ENT_QUOTES, 'UTF-8') . '</td>
-                                                                                </tr>
+                                                                                </tr> -->
                                                                                 <tr>
                                                                                     <td class="col-mobile">Data de Envio</td>
                                                                                     <td class="col-mobile">' . date('d/m/Y', strtotime($content['content']['pedido']['data_envio'])) . '</td>
                                                                                 </tr>
                                                                                 <tr>
+                                                                                    <td class="col-mobile">Forma de Pagamento</td>
+                                                                                    <td class="col-mobile">' . $content['content']['pedido']['forma_pagamento'] . '</td>
+                                                                                </tr>
+                                                                                <!-- <tr>
                                                                                     <td class="col-mobile">Prazo Estimado</td>
                                                                                     <td class="col-mobile">' . $content['content']['pedido']['prazo_entrega'] . '</td>
-                                                                                </tr>
+                                                                                </tr> -->
                                                                             </table>
                                                                         </td>
                                                                         <td class="col-hr"></td>
                                                                         <td class="col">
                                                                             <h4>Endereço de Entrega</h4>
-                                                                            <p>' . nl2br(htmlspecialchars($content['content']['usuario']['endereco'], ENT_QUOTES, 'UTF-8')) . '</p>
+                                                                            <p>' . htmlspecialchars($content['endereco'], ENT_QUOTES, 'UTF-8') . '</p>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
