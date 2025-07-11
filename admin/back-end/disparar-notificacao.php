@@ -18,7 +18,10 @@ if (isset($_POST['btnSendOrder']) || isset($_POST['btnOrderDelivered'])) {
             $url_rastreamento = $_POST['url_rastreamento'];
             $data_envio = date('Y-m-d');
         } else {
-            $data_entrega = $_POST['data_entrega'];
+            $data_entrega = $_POST['data_entrega'] ?? '';
+            if ($data_entrega === '') {
+                $data_entrega = date('Y-m-d');
+            }
         }
         $rastreamento_status = isset($_POST['btnSendOrder']) ? 'enviado' : 'entregue';
 
