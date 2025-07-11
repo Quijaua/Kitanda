@@ -97,20 +97,20 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="codigo_rastreamento" class="form-label">Código de rastreio</label>
+                                        <label for="codigo_rastreamento" class="form-label required">Código de rastreio</label>
                                         <input type="text" id="codigo_rastreamento" name="codigo_rastreamento" value="<?= htmlspecialchars($pedido['codigo_rastreamento'] ?? '') ?>" class="form-control" placeholder="RD123456789PT" required <?= ($pedido['rastreamento_status'] == 'enviado' || $pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="url_rastreamento" class="form-label">Link de rastreio</label>
+                                        <label for="url_rastreamento" class="form-label required">Link de rastreio</label>
                                         <input type="text" id="url_rastreamento" name="url_rastreamento" value="<?= htmlspecialchars($pedido['url_rastreamento'] ?? '') ?>" class="form-control" placeholder="https://exemplo.com/rastreio/abc123" required <?= ($pedido['rastreamento_status'] == 'enviado' || $pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
                                     </div>
                                 </div>
-                                <div class="col <?= ($pedido['rastreamento_status'] == 'enviado') ? '' : 'd-none'; ?>">
+                                <div class="col">
                                     <div class="mb-3">
                                         <label for="data_entrega" class="form-label">Data de Entrega</label>
-                                        <input type="date" id="data_entrega" name="data_entrega" value="<?= htmlspecialchars($pedido['data_entrega'] ?? '') ?>" class="form-control">
+                                        <input type="date" id="data_entrega" name="data_entrega" value="<?= htmlspecialchars($pedido['data_entrega'] ?? '') ?>" class="form-control" <?= ($pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
                                     </div>
                                 </div>
                             </div>
