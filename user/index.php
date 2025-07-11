@@ -196,7 +196,6 @@
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/fslightbox/index.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/tinymce/tinymce.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script>
 
         <!-- Tabler Core -->

@@ -27,11 +27,6 @@ color: #FFFFFF !important;
 .cart-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
 color: #000000 !important;
 }
-.ankara-logo {
-position: absolute;
-left: 50%;
-transform: translateX(-50%);
-}
 
 .pagination-ankara .page-item.active .page-link {
 background-color: #FFD216;
