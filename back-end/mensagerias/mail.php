@@ -51,7 +51,7 @@
             // Enviar o e-mail
             $mail->send();
         } catch (Exception $e) {
-            die('Erro ao enviar o e-mail: ' . $mail->ErrorInfo);
+            return 'Erro ao enviar o e-mail: ' . $mail->ErrorInfo;
         }
     }
 ?>
