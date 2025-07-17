@@ -38,13 +38,12 @@
 
     <link rel="canonical" href="{{ INCLUDE_PATH }}" />
     <meta property="og:locale"      content="pt_BR" />
-    <meta property="og:type"        content="website" />
+    <meta property="og:type"        content="{{ og_type }}" />
     <meta property="og:title"       content="{{ title }}" />
-    <meta property="og:description" content="{{ descricao|slice(0,120) ~ '...' }}" />
-    <meta property="og:url"         value="{{ INCLUDE_PATH }}" />
+    <meta property="og:description" content="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta property="og:url"         content="{{ app.base_url ~ path() }}" />
     <meta property="og:site_name"   content="{{ nome }}" />
-    <meta property="article:modified_time" content="{{ "now"|date("Y-m-d") ~ "T00:00:00+00:00" }}" />
-    <meta property="og:image"       content="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
+    <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />
     <meta name="twitter:site"       content="@Kitanda" />
     <meta name="twitter:title"      value="{{ title }}" />

@@ -274,6 +274,10 @@ if (isset($field) && isset($value)) {
 $context = [
     'is_home' => ($url === 'produtos'),
 
+    // OG defaults
+    'og_type'    => 'website',
+    'og_image'   => INCLUDE_PATH . 'assets/img/kitanda-logo.png',
+
     // Informações básicas
     'logo'            => $logo,
     'nome'            => $nome,
@@ -371,6 +375,12 @@ switch ($url) {
         $context_produtos = include __DIR__ . '/pages/produtos.php';
 
         $context = array_merge($context, $context_produtos);
+
+        $firstImage = $context_produto['imagens'][0] ?? null;
+        if ($firstImage) {
+            $context['og_type']  = 'product';
+            $context['og_image'] = $firstImage;
+        }
         break;
 
     case 'categorias':
@@ -413,6 +423,11 @@ switch ($url) {
         $context_post = include __DIR__ . '/pages/post.php';
 
         $context = array_merge($context, $context_post);
+
+        if (!empty($context_post['imagem'])) {
+            $context['og_type']  = 'article';
+            $context['og_image'] = $context_post['imagem'];
+        }
         break;
 
     case 'blog-categoria':
