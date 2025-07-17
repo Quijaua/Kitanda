@@ -11,7 +11,7 @@
         $smtp_password = $_ENV['SMTP_PASSWORD'];
         $smtp_secure = $_ENV['SMTP_SECURE'];
         $smtp_port = $_ENV['SMTP_PORT'];
-        $smtp_email = $project['email'];
+        $smtp_email = $_ENV['SMTP_EMAIL'] ?? $project['email'];
         $smtp_title = $project['name'];
 
         // Verificação de configuração SMTP
