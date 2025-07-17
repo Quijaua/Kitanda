@@ -38,7 +38,7 @@
     <meta property="og:type"        content="{{ og_type }}" />
     <meta property="og:title"       content="{{ title }}" />
     <meta property="og:description" content="{{ descricao|slice(3,120) ~ '...' }}" />
-    <meta property="og:url"         content="{{ app.base_url ~ path() }}" />
+    <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
     <meta property="og:site_name"   content="{{ nome }}" />
     <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />

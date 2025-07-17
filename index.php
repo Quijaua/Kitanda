@@ -368,6 +368,19 @@ switch ($url) {
         $context_produto = include __DIR__ . '/pages/produto.php';
 
         $context = array_merge($context, $context_produto);
+
+        $context['og_type']  = 'product';
+
+        $firstImage = $context_produto['imagens'][0] ?? null;
+        if (!empty($firstImage['imagem'])) {
+            $imgPath = $firstImage['imagem'];
+            $isAbsolute = str_starts_with($imgPath, 'http');
+            $context['og_image'] = $isAbsolute 
+                ? $imgPath 
+                : str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $imgPath);
+        } else {
+            $context['og_image'] = INCLUDE_PATH . "assets/preview-image/product.jpg";
+        }
         break;
 
     case 'produtos':
@@ -375,12 +388,6 @@ switch ($url) {
         $context_produtos = include __DIR__ . '/pages/produtos.php';
 
         $context = array_merge($context, $context_produtos);
-
-        $firstImage = $context_produto['imagens'][0] ?? null;
-        if ($firstImage) {
-            $context['og_type']  = 'product';
-            $context['og_image'] = $firstImage;
-        }
         break;
 
     case 'categorias':
@@ -424,9 +431,9 @@ switch ($url) {
 
         $context = array_merge($context, $context_post);
 
-        if (!empty($context_post['imagem'])) {
-            $context['og_type']  = 'article';
-            $context['og_image'] = $context_post['imagem'];
+        $context['og_type']  = 'article';
+        if (!empty($context_post['post']['imagem'])) {
+            $context['og_image'] = $context_post['post']['imagem'];
         }
         break;
 
