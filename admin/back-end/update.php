@@ -394,9 +394,9 @@ if (isset($_POST['btnUpdFooter'])) {
         $id = '1';
 
         //Informacoes coletadas pelo metodo POST
-        $privacidade = $_POST['privacidade'];
-        $faq = $_POST['faq'];
-        $use_faq = $_POST['use_faq'];
+        $privacidade = $_POST['privacidade'] ?? '';
+        $faq = $_POST['faq'] ?? '';
+        $use_faq = isset($_POST['use_faq']) ? 1 : 0;
 
         if (!isset($_POST["dFacebook"])) {
             $facebook = $_POST['facebook'];
