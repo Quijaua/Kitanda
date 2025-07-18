@@ -1,3 +1,4 @@
+/**
 .navbar-brand-image {
   height: 4rem !important;
   max-height: 120px !important;
@@ -27,3 +28,4 @@ body {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--progress-color),var(--bs-bg-opacity))!important;
 }
+**/
