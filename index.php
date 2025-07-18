@@ -60,6 +60,8 @@ if (strpos($url, 'p/') === 0) {
 } else if (strpos($url, 'pagina/') === 0) {
     $link = substr($url, 7);
     $url  = 'pagina';
+} else if ($url === 'politica-de-privacidade/') {
+    $url  = 'politica-de-privacidade';
 }
 
 // 3.2) Busca o tipo de captcha via BD (você já tinha isso)
@@ -467,6 +469,13 @@ switch ($url) {
         $context_pagina = include __DIR__ . '/pages/pagina.php';
 
         $context = array_merge($context, $context_pagina);
+        break;
+
+    case 'politica-de-privacidade':
+        // Recebe o array de contexto montado dentro de pages/pagina.php:
+        $context_politica_privacidade = include __DIR__ . '/pages/politica-de-privacidade.php';
+
+        $context = array_merge($context, $context_politica_privacidade);
         break;
 }
 
