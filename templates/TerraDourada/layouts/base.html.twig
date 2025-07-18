@@ -37,8 +37,8 @@
     <link rel="canonical" href="{{ INCLUDE_PATH }}" />
     <meta property="og:locale"      content="pt_BR" />
     <meta property="og:type"        content="{{ og_type }}" />
-    <meta property="og:title"       content="{{ title }}" />
-    <meta property="og:description" content="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta property="og:title"       content="{{ og_title }}" />
+    <meta property="og:description" content="{{ og_description|slice(0,120) ~ '...' }}" />
     <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
     <meta property="og:site_name"   content="{{ nome }}" />
     <meta property="og:image"       content="{{ og_image }}" />

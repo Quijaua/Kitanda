@@ -277,8 +277,10 @@ $context = [
     'is_home' => ($url === 'produtos'),
 
     // OG defaults
-    'og_type'    => 'website',
-    'og_image'   => INCLUDE_PATH . 'assets/img/kitanda-logo.png',
+    'og_type'        => 'website',
+    'og_title'       => $title,
+    'og_description' => $descricao,
+    'og_image'       => INCLUDE_PATH . 'assets/img/kitanda-logo.png',
 
     // Informações básicas
     'logo'            => $logo,
@@ -373,6 +375,11 @@ switch ($url) {
 
         $context['og_type']  = 'product';
 
+        $context['og_title']       = $context_produto['produto']['nome'] ?? $title;
+        if (!empty($context_produto['produto']['descricao'])) {
+            $context['og_description'] = strip_tags($context_produto['produto']['descricao']);
+        }
+
         $firstImage = $context_produto['imagens'][0] ?? null;
         if (!empty($firstImage['imagem'])) {
             $imgPath = $firstImage['imagem'];
@@ -434,6 +441,12 @@ switch ($url) {
         $context = array_merge($context, $context_post);
 
         $context['og_type']  = 'article';
+
+        $context['og_title']       = $context_post['post']['titulo'] ?? $title;
+        if (!empty($context_post['post']['resumo'])) {
+            $context['og_description'] = strip_tags($context_post['post']['resumo']);
+        }
+
         if (!empty($context_post['post']['imagem'])) {
             $context['og_image'] = $context_post['post']['imagem'];
         }
