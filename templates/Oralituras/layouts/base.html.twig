@@ -22,7 +22,6 @@
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-vendors.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-marketing.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}dist/css/kitanda.min.css" rel="stylesheet"/>
-    <link href="{{ INCLUDE_PATH }}assets/css/custom.css" rel="stylesheet">
     <link href="{{ INCLUDE_PATH }}assets/{{ app.theme }}/css/style.css" rel="stylesheet">
     <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery.min.js"></script>
 
@@ -46,7 +45,7 @@
     <meta name="twitter:title"      value="{{ title }}" />
     <meta name="twitter:url"        value="{{ INCLUDE_PATH }}" />
     <meta name="twitter:image"      value="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
-    <meta name="twitter:description" value="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta name="twitter:description" value="{{ descricao|slice(0,120) ~ '...' }}" />
 
     <script type="application/ld+json">
     {
@@ -58,9 +57,9 @@
                 "url": "{{ INCLUDE_PATH }}",
                 "name": "{{ title }}",
                 "isPartOf": { "@id": "{{ INCLUDE_PATH }}#website" },
-                "datePublished": "2023-03-02T19:50:30+00:00",
-                "dateModified": "2023-03-21T12:51:52+00:00",
-                "description": "{{ descricao|slice(3,120) ~ '...' }}",
+                "datePublished": "2025-06-02T19:50:30+00:00",
+                "dateModified": "2025-06-21T12:51:52+00:00",
+                "description": "{{ descricao|slice(0,120) ~ '...' }}",
                 "inLanguage": "pt-BR",
                 "interactAction": [
                     {
@@ -122,7 +121,6 @@
     <script src="{{ INCLUDE_PATH }}dist/libs/fslightbox/index.js"                    defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler.min.js"                            defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/kitanda.min.js"                              defer></script>
-
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-a11y.min.css" rel="stylesheet"/>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler-a11y.min.js" defer></script>
     <script>

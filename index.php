@@ -280,7 +280,7 @@ $context = [
     'og_type'        => 'website',
     'og_title'       => $title,
     'og_description' => $descricao,
-    'og_image'       => INCLUDE_PATH . 'assets/img/kitanda-logo.png',
+    'og_image'       => INCLUDE_PATH . 'assets/img/'.$temaAtivo.'.jpg',
 
     // Informações básicas
     'logo'            => $logo,
