@@ -314,7 +314,10 @@ function makeDonation($dataForm, $config){
 
 
 
-
+        // echo "<pre>";
+        // print_r($resultado);
+        // echo "</pre>";
+        // exit;
 
 
 
@@ -359,11 +362,29 @@ function makeDonation($dataForm, $config){
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
-                // Enviar e-mail de verificação
-                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
-                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
-                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
-                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                foreach ($vendedoras as $vendedora) {
+
+                    $resultado['produtos'] = [];
+                    $resultado['produtos'] = $vendedora['produtos'];
+
+                    unset($vendedora['produtos']);
+                    $resultado['vendedora'] = $vendedora;
+
+                    $project['nome_vendedora'] = $vendedora['nome'];
+                    $project['email_vendedora'] = $vendedora['email'];
+
+                    // Enviar e-mail de verificação
+                    $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                    $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                    $content = array("layout" => "pedido-recebido-vendedora", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
+                    $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+                    unset(
+                        $project['nome_vendedora'],
+                        $project['email_vendedora']
+                    );
+
+                }
 
                 $response = [
                     "status" => 200,
@@ -398,11 +419,29 @@ function makeDonation($dataForm, $config){
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
-                // Enviar e-mail de verificação
-                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
-                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
-                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
-                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                foreach ($vendedoras as $vendedora) {
+
+                    $resultado['produtos'] = [];
+                    $resultado['produtos'] = $vendedora['produtos'];
+
+                    unset($vendedora['produtos']);
+                    $resultado['vendedora'] = $vendedora;
+
+                    $project['nome_vendedora'] = $vendedora['nome'];
+                    $project['email_vendedora'] = $vendedora['email'];
+
+                    // Enviar e-mail de verificação
+                    $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                    $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                    $content = array("layout" => "pedido-recebido-vendedora", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "link" => $pedido_link));
+                    $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+                    unset(
+                        $project['nome_vendedora'],
+                        $project['email_vendedora']
+                    );
+
+                }
 
                 $response = [
                     "status" => 200,
@@ -437,11 +476,29 @@ function makeDonation($dataForm, $config){
                 }
                 $resultado['compra']['endereco'] .= ', ' . $dataForm['district'] . ' - ' . $dataForm['city'] . '/' . $dataForm['state'] . ' - ' . $dataForm['postalCode'];
 
-                // Enviar e-mail de verificação
-                $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
-                $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
-                $content = array("layout" => "pedido-recebido", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
-                $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+                foreach ($vendedoras as $vendedora) {
+
+                    $resultado['produtos'] = [];
+                    $resultado['produtos'] = $vendedora['produtos'];
+
+                    unset($vendedora['produtos']);
+                    $resultado['vendedora'] = $vendedora;
+
+                    $project['nome_vendedora'] = $vendedora['nome'];
+                    $project['email_vendedora'] = $vendedora['email'];
+
+                    // Enviar e-mail de verificação
+                    $pedido_link = INCLUDE_PATH . "user/compra?pedido=" . $pedido_id;
+                    $subject = "Pedido #$pedido_id gerado com sucesso em " . $project['name'];
+                    $content = array("layout" => "pedido-recebido-vendedora", "content" => array("name" => $dataForm['name'], "pedido" => $resultado, "pix" => $pix, "link" => $pedido_link));
+                    $mail1 = sendMail($dataForm['name'], $dataForm['email'], $project, $subject, $content);
+
+                    unset(
+                        $project['nome_vendedora'],
+                        $project['email_vendedora']
+                    );
+
+                }
 
                 // Enviar e-mail para finalizar o pagamento
                 $subject = "Seu código Pix está disponível para pagamento";
