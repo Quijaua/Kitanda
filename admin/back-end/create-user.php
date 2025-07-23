@@ -6,7 +6,7 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    require './../../lib/vendor/autoload.php';
+    require './../../vendor/autoload.php';
 
     // echo "<pre>";
     // print_r($_POST);

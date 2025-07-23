@@ -49,7 +49,7 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    require './../lib/vendor/autoload.php';
+    require './../vendor/autoload.php';
 
     // Crie uma nova instância do PHPMailer
     $mail = new PHPMailer(true);
