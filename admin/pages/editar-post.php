@@ -220,7 +220,7 @@
                                             <img class="previsualizacao" src="<?= INCLUDE_PATH . "files/blog/{$post['id']}/{$post['imagem']}" ?>" style="display: block; max-width: 100%; height: auto; margin: 0px auto;">
                                             <?php endif; ?>
                                         </label>
-                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
+                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
                                     </div>
                                 </div>
 

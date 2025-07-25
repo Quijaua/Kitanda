@@ -214,7 +214,7 @@
                                                 <span class="dropzone-msg-desc">Essas imagens serão mostradas na página do produto.</span>
                                             </div>
                                         </div>
-                                        <small class="form-hint text-end">Imagens em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1000px X 1000px</b>.</small>
+                                        <small class="form-hint text-end">Imagens em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1000px X 1000px</b>.</small>
                                     </div>
                                 </div>
 

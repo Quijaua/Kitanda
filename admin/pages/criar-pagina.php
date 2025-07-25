@@ -143,7 +143,7 @@
                                                 <span class="dropzone-msg-desc">Essa imagem será mostrada no conteúdo da página.</span>
                                             </div>
                                         </label>
-                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
+                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
                                     </div>
                                 </div>
 
