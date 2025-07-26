@@ -169,11 +169,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Telefone</th>
                 <th>Função</th>
                 <th>Status</th>
-                <!-- Essas colunas ficarão ocultas e só aparecerão no "mostrar mais" -->
-                <th>Tiktok</th>
-                <th>Facebook</th>
-                <th>Instagram</th>
-                <th>Site</th>
                 <th></th>
               </tr>
             </thead>
@@ -201,10 +196,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td data-label="Telefone"><?php echo !empty($usuario['phone']) ? $usuario['phone'] : '--'; ?></td>
                   <td data-label="Função"><?php echo htmlspecialchars($usuario['funcao']); ?></td>
                   <td data-label="Status"><?php echo $usuario['status'] ? 'Ativo' : 'Inativo'; ?></td>
-                  <td data-label="Tiktok"><?php echo !empty($usuario['tiktok']) ? $usuario['tiktok'] : '--'; ?></td>
-                  <td data-label="Facebook"><?php echo !empty($usuario['facebook']) ? $usuario['facebook'] : '--'; ?></td>
-                  <td data-label="Instagram"><?php echo !empty($usuario['instagram']) ? $usuario['instagram'] : '--'; ?></td>
-                  <td data-label="Site"><?php echo !empty($usuario['site']) ? $usuario['site'] : '--'; ?></td>
                   <td class="text-end">
                     <span class="dropdown">
                       <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
