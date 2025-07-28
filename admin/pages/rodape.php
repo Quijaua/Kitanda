@@ -29,6 +29,12 @@
     <div class="container-xl">
         <div class="row row-cards">
 
+            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+            <div class="col-lg-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
+
             <?php if (!$read): ?>
             <div class="col-12">
                 <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
@@ -86,6 +92,17 @@
                                     <label class="form-check mt-2">
                                         <input name="dInstagram" id="dInstagram" type="checkbox" class="form-check-input" data-input-id="instagram" <?php echo ($instagram == '') ? 'checked' : '';?>>
                                         <span class="form-check-label">Desabilitar Instagram</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="whatsapp" class="col-3 col-form-label">WhatsApp</label>
+                                <div class="col">
+                                    <input name="whatsapp" id="whatsapp"
+                                        type="text" class="form-control" value="<?php echo $whatsapp; ?>" <?php echo ($whatsapp == '') ? 'disabled' : '';?>>
+                                    <label class="form-check mt-2">
+                                        <input name="dWhatsapp" id="dWhatsapp" type="checkbox" class="form-check-input" data-input-id="whatsapp" <?php echo ($whatsapp == '') ? 'checked' : '';?>>
+                                        <span class="form-check-label">Desabilitar WhatsApp</span>
                                     </label>
                                 </div>
                             </div>

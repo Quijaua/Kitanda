@@ -65,7 +65,8 @@
                     <ol class="breadcrumb breadcrumb-muted text-white">
                         <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}blog">Blog</a></li>
-                        <li class="breadcrumb-item active">{{ post.titulo }}</li>
+                        <li class="breadcrumb-item">{% for categoria in categorias %}<a href="{{ INCLUDE_PATH }}categoria?id={{ categoria.id }}">{{ categoria.nome }}</a>{% endfor %}</li>
+                        <li class="breadcrumb-item active" style="color:#000">{{ post.titulo }}</li>
                     </ol>
                 </div>
             </div>
@@ -76,7 +77,7 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row g-4">
-                <div class="col-12">
+                <div class="col-md-8 col-12">
                     <h3 style="font-size: 2.5rem; line-height: normal;">{{ post.titulo }}</h3>
 
                     {# Badges de categoria do post #}
@@ -84,7 +85,7 @@
                         <div class="mb-3">
                             {% for categoria in categorias %}
                                 <a href="{{ INCLUDE_PATH }}categoria?id={{ categoria.id }}"
-                                   class="text-yellow fw-semibold me-2">
+                                   class="fw-semibold me-2 fs-2" style="color:#AD5202">
                                     {{ categoria.nome }}
                                 </a>
                             {% endfor %}
@@ -97,7 +98,7 @@
                     {% endif %}
 
                     {# Resumo do post (conteúdo HTML pronto) #}
-                    <div class="mt-3 mb-4">
+                    <div id="post-conteudo" class="mt-3 mb-4 fs-2">
                         {{ post.resumo|raw }}
                     </div>
 
@@ -105,12 +106,73 @@
                     <p class="fs-3"><strong>Publicado em:</strong> {{ data_publicacao }}</p>
 
                     {# Tags #}
+                    {% if tags_string is not empty %}
                     <p class="fs-2"><strong>Tags:</strong> <span class="text-yellow">{{ tags_string }}</span></p>
+                    {% endif %}
 
-                    <hr>
+                {% if prev_post is not empty or next_post is not empty %}
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="pagination">
+                                {% if prev_post %}
+                                    <li class="page-item page-prev">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="text-decoration-none">
+                                            <div class="page-item-subtitle">anterior</div>
+                                            <div class="page-item-title">{{ prev_post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item page-prev disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                            <div class="page-item-subtitle">anterior</div>
+                                            <div class="page-item-title">{{ post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% endif %}
 
+                                {% if next_post %}
+                                    <li class="page-item page-prev">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="text-decoration-none text-end">
+                                            <div class="page-item-subtitle">próximo</div>
+                                            <div class="page-item-title">{{ next_post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item page-next disabled">
+                                        <a class="page-link" href="#">
+                                            <div class="page-item-subtitle">próximo</div>
+                                            <div class="page-item-title">{{ post.titulo }}</div>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
             </div>
+            <div class="col-md-3 col-12 p-4">
+                <p class="h1 text-yellow">Conheça nossa loja</p>
+
+                {% for produto in sidebar_produtos %}
+                    {% set imagemUrl = produto.imagem is not empty 
+                        ? (INCLUDE_PATH ~ "files/produtos/" ~ produto.id ~ "/" ~ produto.imagem)|replace({' ': '%20'}) 
+                        : INCLUDE_PATH ~ "assets/preview-image/product.jpg" 
+                    %}
+                    <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="text-decoration-none">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ produto.titulo }}</h3>
+                                <p class="text-secondary">{{ produto.descricao_curta }}</p>
+                            </div>
+                            <div class="img-responsive img-responsive-21x9 card-img-bottom" style="background-image: url('{{ imagemUrl }}')"></div>
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+
         </div>
     </div>
 {% endif %}

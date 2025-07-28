@@ -11,8 +11,8 @@
         $smtp_password = $_ENV['SMTP_PASSWORD'];
         $smtp_secure = $_ENV['SMTP_SECURE'];
         $smtp_port = $_ENV['SMTP_PORT'];
-        $smtp_email = $project['email'];
-        $smtp_title = $project['name'];
+        $smtp_email = $project['email_vendedora'] ?? $_ENV['SMTP_EMAIL'] ?? $project['email'];
+        $smtp_title = $project['nome_vendedora'] ?? $project['name'];
 
         // Verificação de configuração SMTP
         if (
@@ -51,7 +51,7 @@
             // Enviar o e-mail
             $mail->send();
         } catch (Exception $e) {
-            die('Erro ao enviar o e-mail: ' . $mail->ErrorInfo);
+            return 'Erro ao enviar o e-mail: ' . $mail->ErrorInfo;
         }
     }
 ?>

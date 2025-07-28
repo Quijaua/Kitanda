@@ -21,9 +21,7 @@
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-payments.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-vendors.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-marketing.min.css" rel="stylesheet"/>
-    <link href="{{ INCLUDE_PATH }}dist/css/demo.min.css" rel="stylesheet"/>
-    <link href="{{ INCLUDE_PATH }}dist/libs/dropzone/dist/dropzone.css" rel="stylesheet"/>
-    <link href="{{ INCLUDE_PATH }}assets/css/custom.css" rel="stylesheet">
+    <link href="{{ INCLUDE_PATH }}dist/css/kitanda.min.css" rel="stylesheet"/>
     <link href="{{ INCLUDE_PATH }}assets/{{ app.theme }}/css/style.css" rel="stylesheet">
     <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery.min.js"></script>
 
@@ -36,19 +34,18 @@
 
     <link rel="canonical" href="{{ INCLUDE_PATH }}" />
     <meta property="og:locale"      content="pt_BR" />
-    <meta property="og:type"        content="website" />
-    <meta property="og:title"       content="{{ title }}" />
-    <meta property="og:description" content="{{ descricao|slice(3,120) ~ '...' }}" />
-    <meta property="og:url"         value="{{ INCLUDE_PATH }}" />
+    <meta property="og:type"        content="{{ og_type }}" />
+    <meta property="og:title"       content="{{ og_title }}" />
+    <meta property="og:description" content="{{ og_description|slice(0,120) ~ '...' }}" />
+    <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
     <meta property="og:site_name"   content="{{ nome }}" />
-    <meta property="article:modified_time" content="{{ "now"|date("Y-m-d") ~ "T00:00:00+00:00" }}" />
-    <meta property="og:image"       content="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
+    <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />
     <meta name="twitter:site"       content="@Kitanda" />
     <meta name="twitter:title"      value="{{ title }}" />
     <meta name="twitter:url"        value="{{ INCLUDE_PATH }}" />
     <meta name="twitter:image"      value="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
-    <meta name="twitter:description"value="{{ descricao|slice(3,120) ~ '...' }}" />
+    <meta name="twitter:description"value="{{ descricao|slice(0,120) ~ '...' }}" />
 
     <script type="application/ld+json">
     {
@@ -60,9 +57,9 @@
                 "url": "{{ INCLUDE_PATH }}",
                 "name": "{{ title }}",
                 "isPartOf": { "@id": "{{ INCLUDE_PATH }}#website" },
-                "datePublished": "2023-03-02T19:50:30+00:00",
-                "dateModified": "2023-03-21T12:51:52+00:00",
-                "description": "{{ descricao|slice(3,120) ~ '...' }}",
+                "datePublished": "2025-06-02T19:50:30+00:00",
+                "dateModified": "2025-06-21T12:51:52+00:00",
+                "description": "{{ descricao|slice(0,120) ~ '...' }}",
                 "inLanguage": "pt-BR",
                 "interactAction": [
                     {
@@ -120,22 +117,10 @@
     {# ================================
        2.3) SCRIPTS GLOBAIS (jQuery, Tabler etc.)
        ================================ #}
-    <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery-ui.js"></script>
     <script src="{{ INCLUDE_PATH }}assets/ajax/1.14.16/jquery.mask.min.js"></script>
-
-    <script src="{{ INCLUDE_PATH }}dist/libs/apexcharts/dist/apexcharts.min.js"  defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/jsvectormap.min.js"   defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/maps/world.js"         defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/jsvectormap/dist/maps/world-merc.js"    defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/dropzone/dist/dropzone-min.js"          defer></script>
     <script src="{{ INCLUDE_PATH }}dist/libs/fslightbox/index.js"                    defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/tinymce/tinymce.min.js"                 defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/nouislider/dist/nouislider.min.js"      defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/litepicker/dist/litepicker.js"          defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/libs/tom-select/dist/js/tom-select.base.min.js" defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler.min.js"                            defer></script>
-    <script src="{{ INCLUDE_PATH }}dist/js/demo.min.js"                              defer></script>
-
+    <script src="{{ INCLUDE_PATH }}dist/js/kitanda.min.js"                              defer></script>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-a11y.min.css" rel="stylesheet"/>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler-a11y.min.js" defer></script>
     <script>

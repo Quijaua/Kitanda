@@ -140,14 +140,13 @@ $message = '
                                                                                         <div style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #206bc4; border-radius: 50%; color: white; line-height: 32px; margin-bottom: 8px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="icon-tabler icons-tabler-filled icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 4a1 1 0 0 1 1 1h4a1 1 0 0 1 .783 .378l.074 .108l3 5l.055 .103l.04 .107l.029 .109l.016 .11l.003 .085v6a1 1 0 0 1 -1 1h-1.171a3.001 3.001 0 0 1 -5.658 0h-4.342a3.001 3.001 0 0 1 -5.658 0h-1.171a1 1 0 0 1 -1 -1v-11a2 2 0 0 1 2 -2zm-6 12a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m10 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2m.434 -9h-3.434v3h5.234z" /></svg></div>
                                                                                         <div style="font-weight: 600; color: #206bc4;">Em Transporte</div>
                                                                                         <div style="position: absolute; top: 16px; left: calc(50% + 16px); width: calc(100% - 16px - 16px); height: 2px; background: #206bc4;"></div>
-                                                                                        <div class="text-muted" style="font-size: 13px;">' . $content['content']['pedido']['prazo_entrega'] . '</div>
                                                                                     </td>
                                                                                     
                                                                                     <!-- Entregue -->
                                                                                     <td class="step-item" style="text-align: center; vertical-align: top; width: 33%;">
                                                                                         <div style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #206bc4; border-radius: 50%; color: #white; line-height: 32px; margin-bottom: 8px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler icons-tabler-outline icon-tabler-confetti"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h2" /><path d="M5 4v2" /><path d="M11.5 4l-.5 2" /><path d="M18 5h2" /><path d="M19 4v2" /><path d="M15 9l-1 1" /><path d="M18 13l2 -.5" /><path d="M18 19h2" /><path d="M19 18v2" /><path d="M14 16.518l-6.518 -6.518l-4.39 9.58a1 1 0 0 0 1.329 1.329l9.579 -4.39z" /></svg></div>
                                                                                         <div style="font-weight: 600; color: #206bc4;">Entregue</div>
-                                                                                        <div class="text-muted" style="font-size: 13px;">Em: ' . $content['content']['pedido']['prazo_entrega'] . '</div>
+                                                                                        <div class="text-muted" style="font-size: 13px;">Em: ' . date('d/m/Y', strtotime($content['content']['pedido']['data_entrega'])) . '</div>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -165,24 +164,28 @@ $message = '
                                                                         <td class="col">
                                                                             <h4>Informações de Envio</h4>
                                                                             <table class="row">
-                                                                                <tr>
+                                                                                <!-- <tr>
                                                                                     <td class="col-mobile">Transportadora</td>
                                                                                     <td class="col-mobile">' . htmlspecialchars($content['content']['pedido']['transportadora'], ENT_QUOTES, 'UTF-8') . '</td>
+                                                                                </tr> -->
+                                                                                <tr>
+                                                                                    <td class="col-mobile">Data de Entrega</td>
+                                                                                    <td class="col-mobile">' . date('d/m/Y', strtotime($content['content']['pedido']['data_entrega'])) . '</td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td class="col-mobile">Data de Envio</td>
-                                                                                    <td class="col-mobile">' . date('d/m/Y', strtotime($content['content']['pedido']['data_envio'])) . '</td>
+                                                                                    <td class="col-mobile">Forma de Pagamento</td>
+                                                                                    <td class="col-mobile">' . $content['content']['pedido']['forma_pagamento'] . '</td>
                                                                                 </tr>
-                                                                                <tr>
+                                                                                <!-- <tr>
                                                                                     <td class="col-mobile">Prazo Estimado</td>
                                                                                     <td class="col-mobile">' . $content['content']['pedido']['prazo_entrega'] . '</td>
-                                                                                </tr>
+                                                                                </tr> -->
                                                                             </table>
                                                                         </td>
                                                                         <td class="col-hr"></td>
                                                                         <td class="col">
                                                                             <h4>Endereço de Entrega</h4>
-                                                                            <p>' . nl2br(htmlspecialchars($content['content']['usuario']['endereco'], ENT_QUOTES, 'UTF-8')) . '</p>
+                                                                            <p>' . nl2br(htmlspecialchars($content['endereco'], ENT_QUOTES, 'UTF-8')) . '</p>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

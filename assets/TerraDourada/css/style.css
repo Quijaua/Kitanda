@@ -16,6 +16,8 @@
 }
 
 
+.text-yellow {color: #AD5202 !important}
+
 
 .laranja-claro {background-color: #fd9e06}
 .marrom {background-color: #ad5202}
@@ -26,7 +28,7 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
 
 .text-orange {color: #fd9e06}
 
-.navbar-brand img {height: 50px;}
+.navbar-brand img {height: 80px;}
 
 .hero-section {
     background: url('/assets/TerraDourada/images/hero-mea.webp');
@@ -36,6 +38,8 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
     padding: 180px 0 180px;
 
 }
+
+.navbar-toggler {color: #FFF;}
 
 .category-icon {
     width: 80px;

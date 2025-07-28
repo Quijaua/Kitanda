@@ -40,12 +40,12 @@
     }
 
     // Consulta para obter o nome da aplicação
-    $stmt = $conn->query("SELECT nome, email, logo FROM tb_checkout LIMIT 1");
+    $stmt = $conn->query("SELECT title, email, logo FROM tb_checkout LIMIT 1");
     $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Projeto
 	$project = [
-        'name' =>  $projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
+        'name' =>  $projeto['title'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
         'email' =>  $projeto['email'],
         'logo' => !empty($projeto['logo']) ? $_ENV['URL'] . "assets/img/{$projeto['logo']}" : "",
         'version' => $_ENV['PROJECT_VERSION'],

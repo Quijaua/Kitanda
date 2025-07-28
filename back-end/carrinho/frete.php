@@ -4,10 +4,10 @@ header('Content-Type: application/json; charset=utf-8');
 include_once('../../config.php');
 
 // Consulta para obter o cep de origem do projeto
-$stmt = $conn->query("SELECT nome, cep FROM tb_checkout LIMIT 1");
+$stmt = $conn->query("SELECT title, cep FROM tb_checkout LIMIT 1");
 $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$application_name = $projeto['nome'];
+$application_name = $projeto['title'];
 $config['cep_origem'] = $projeto['cep'];
 
 $config['melhor_envio_url'] = $_ENV['MELHOR_ENVIO_URL'];

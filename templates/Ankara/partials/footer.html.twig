@@ -11,7 +11,7 @@
     </div>
 
     <!-- Red Section with Circular Image -->
-    <section class="section-redd py-6">
+    <section class="section-redd py-6 nossa-historia">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-4">
@@ -28,11 +28,18 @@
     </section>
     {% endif %}
 
+    <div class="row text-center">
+        <div class="col-12 mb-4 text-sm-center">
+            <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
+        </div>
+    </div>
+
+
     {% if (ankara_footer_blog and is_home) or not ankara_footer_blog %}
     <!-- Blog Section -->
-    <section class="section-red">
+    <section class="section-red p-2">
         <div class="container">
-            <h2 class="fw-bold mb-5 sub-titulo">Nosso blog</h2>
+            <h2 class="fw-bold mb-5 sub-titulo mt-4">Nosso blog</h2>
             <div class="row">
                 {# Pega apenas os 2 primeiros posts #}
                 {% for post in footerPosts %}
@@ -74,15 +81,15 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center mt-4 mb-4">
                 <a href="{{ INCLUDE_PATH }}blog" class="btn btn-outline-light">Ver todos os posts</a>
             </div>
         </div>
     </section>
     {% endif %}
-
+    
 <footer>
-    <div class="container mt-5">
+    <div class="container mt-5 text-center">
         <div class="row">
             <div class="col-md-3">
                 <ul class="menu">
@@ -105,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 text-center">
+            <div class="col-md-6">
                 <div class="social-net mt-2 mb-4">
                     <img src="/assets/Ankara/imagens/ankara-logo.png">             
                 </div>
@@ -170,13 +177,21 @@
     <div class="section-credito">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 p-2">
                 &copy; 2025 - {{ nome }} - Todos os direitos reservados
                 </div>
-                <div class="col-md-6 d-flex flex-row-reverse">
+                <div class="col-md-6 d-flex flex-row-reverse p-2">
                     <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer"  class="text-white mx-2" target="_blank">Área de cliente</a> | 
-                    <a href="#" class="text-white mx-2">Política de Privacidade</a> | 
-                    <a href="#" class="text-white mx-2">Termos e condições</a>
+                    <a href="{{ INCLUDE_PATH }}politica-de-privacidade" class="text-white mx-2">Política de Privacidade</a> | 
+                    <a href="{{ INCLUDE_PATH }}politica-de-privacidade" class="text-white mx-2">Termos e condições</a>
+
+                    {% for pagina in paginas_estaticas %}
+                        |
+                        <a href="{{ INCLUDE_PATH }}pagina/{{ pagina.slug|url_encode }}" class="text-white mx-2" target="_blank">
+                            {{ pagina.titulo }}
+                        </a>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>

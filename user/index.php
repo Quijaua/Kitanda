@@ -76,9 +76,8 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-payments.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-vendors.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096685" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css?1738096685" rel="stylesheet"/>
+        <link href="<?php echo INCLUDE_PATH; ?>dist/css/kitanda.min.css?1738096685" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone.css?1738096684" rel="stylesheet"/>
-        <link href="<?php echo INCLUDE_PATH_ADMIN; ?>styles/css/custom.css" rel="stylesheet">
         <script src="<?php echo INCLUDE_PATH; ?>assets/google/jquery/jquery.min.js"></script>
     </head>
     <body>
@@ -196,13 +195,11 @@
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/fslightbox/index.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/tinymce/tinymce.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script>
 
         <!-- Tabler Core -->
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
+        <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js?1738096685" defer></script>
 
         <?php if (isset($_SESSION['msg'])): ?>
         <script>

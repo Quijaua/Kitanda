@@ -61,7 +61,7 @@
                 </div>
                 <p class="footer-link ps-1">
                     {% if use_privacy %}
-                        <a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
+                        <a href="{{ INCLUDE_PATH }}politica-de-privacidade" rel="noopener noreferrer" target="_blank">
                             PRIVACIDADE
                         </a>
                     {% else %}
@@ -78,6 +78,13 @@
                             PERGUNTAS FREQUENTES
                         </a>
                     {% endif %}
+
+                    {% for pagina in paginas_estaticas %}
+                        <a href="{{ INCLUDE_PATH }}pagina/{{ pagina.slug|url_encode }}" rel="noopener noreferrer" target="_blank">
+                            {{ pagina.titulo }}
+                        </a>
+                    {% endfor %}
+
                 </p>
             </div>
 

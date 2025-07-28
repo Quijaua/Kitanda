@@ -161,7 +161,7 @@ if (isset($_GET["token"])) {
 
     <!-- CSS files -->
     <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler.min.css" rel="stylesheet"/>
-    <link href="<?php echo INCLUDE_PATH; ?>dist/css/demo.min.css" rel="stylesheet"/>
+    <link href="<?php echo INCLUDE_PATH; ?>dist/css/kitanda.min.css" rel="stylesheet"/>
     <link href="<?php echo INCLUDE_PATH; ?>dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
     <?php if (isset($hcaptcha)): ?>
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
@@ -242,7 +242,7 @@ if (isset($_GET["token"])) {
 
     <!-- Tabler Core -->
     <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js" defer></script>
-    <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js" defer></script>
+    <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js" defer></script>
 
     <!-- Exibir/Ocultar Senha -->
     <script>

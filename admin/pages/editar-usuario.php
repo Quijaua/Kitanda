@@ -37,7 +37,7 @@
     // Busca as funções disponíveis
     $stmtPermissaoUsuario = $conn->prepare("SELECT permissao_id FROM tb_permissao_usuario WHERE usuario_id = ?");
     $stmtPermissaoUsuario->execute([$user_id]);
-    $permissao_usuario = $stmtPermissaoUsuario->fetch(PDO::FETCH_ASSOC);
+    $permissao_usuario = $stmtPermissaoUsuario->fetch(PDO::FETCH_ASSOC) ?: [];
 ?>
 
 <!-- Page header -->
@@ -185,7 +185,7 @@
                                                     <select id="funcao" name="funcao_id" class="form-select" required>
                                                         <option value="">Selecione a função</option>
                                                         <?php foreach($funcoes as $funcao): ?>
-                                                        <option value="<?php echo $funcao['id']; ?>" <?php echo ($funcao['id'] == $permissao_usuario['permissao_id']) ? 'selected' : ''; ?>>
+                                                        <option value="<?php echo $funcao['id']; ?>" <?= isset($permissao_usuario['permissao_id']) && $funcao['id'] == $permissao_usuario['permissao_id'] ? 'selected' : ''; ?>>
                                                             <?= $funcao['nome']; ?>
                                                         </option>
                                                         <?php endforeach; ?>

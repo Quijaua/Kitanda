@@ -1,7 +1,7 @@
 {# templates/_fallback/partials/footer.html.twig #}
     {% if (td_news and is_home) or not td_news %}
     <!-- Blog Section -->
-    <section class="section-red mt-6 mb-6">
+    <section class="section-red mt-6 mb-6 p-2">
         <div class="container">
             <h2 class="fw-bold mb-5 sub-titulo">Nosso blog</h2>
             <div class="row">
@@ -52,20 +52,26 @@
     </section>
     {% endif %}
 
+    <div class="row text-center">
+        <div class="col-12 mb-4 text-sm-center">
+            <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer marrom">
         <div class="container">
-            <div class="row">
+            <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 mb-4 text-sm-center">
                     <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Mulheres Empreendedoras da Amazônia" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
                     <p>Empoderando mulheres da Amazônia através do empreendedorismo sustentável.</p>
                 </div>
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Fale com a gente</p>
-                    <p><a href="#"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
+                    <p class="fs-3"><strong>Fale com a gente</strong></p>
+                    <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <h6 class="mt-4">Siga-nos</h6>
                     <div class="social-icons">
@@ -90,12 +96,12 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Informações gerais</p>
+                    <p class="fs-3"><strong>Informações gerais</strong></p>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
                     {% if use_privacy %}
-                        <li><a href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
+                        <li><a href="{{ INCLUDE_PATH }}politica-de-privacidade" rel="noopener noreferrer" target="_blank">
                             Política e privacidade do cliente
                         </a></li>
                     {% else %}
@@ -107,15 +113,23 @@
                         Área de cliente
                       </a></li>
 
+                        {% for pagina in paginas_estaticas %}
+                            <li>
+                                <a href="{{ INCLUDE_PATH }}pagina/{{ pagina.slug|url_encode }}" rel="noopener noreferrer" target="_blank">
+                                    {{ pagina.titulo }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
                     </ul>
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3">Contato</p>
+                    <p class="fs-3"><strong>Contato</strong></p>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
-                    <p class="fs-3 mt-4">Formas de pagamento</p>
-                    <div class="d-flex">
+                    <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>
+                    <div class="d-flexd">
                         <i class="fab fa-cc-visa me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-cc-mastercard me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-pix" style="font-size: 1.5rem;"></i>

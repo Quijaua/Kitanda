@@ -204,7 +204,7 @@
                                     <div class="col">
                                         <div class="dropzone" id="dropzone-custom">
                                             <div class="fallback">
-                                                <input name="imagens" type="file" />
+                                                <input name="imagens" type="file" accept="image/png,image/jpeg,image/webp" />
                                             </div>
                                             <div class="dz-message">
                                                 <h3 class="dropzone-msg-title">
@@ -214,7 +214,7 @@
                                                 <span class="dropzone-msg-desc">Essas imagens serão mostradas na página do produto.</span>
                                             </div>
                                         </div>
-                                        <small class="form-hint text-end">Imagens em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1000px X 1000px</b>.</small>
+                                        <small class="form-hint text-end">Imagens em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1000px X 1000px</b>.</small>
                                     </div>
                                 </div>
 
@@ -465,7 +465,7 @@
             autoProcessQueue: false,
             url: "<?php echo INCLUDE_PATH_ADMIN; ?>back-end/product-image.php", // Nenhum envio será feito
             maxFilesize: 2,
-            acceptedFiles: "image/jpeg, image/png",
+            acceptedFiles: "image/jpeg,image/png,image/webp",
             maxFiles: maxFiles,
             addRemoveLinks: false,
             dictDefaultMessage: "Arraste e solte as imagens aqui ou clique para selecionar",

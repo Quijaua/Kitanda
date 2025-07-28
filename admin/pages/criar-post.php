@@ -185,7 +185,7 @@
                                     <div class="col">
                                         <label for="imagem" class="dropzone w-100" id="dropzone-custom">
                                             <div class="fallback">
-                                                <input name="imagem" id="imagem" type="file" class="d-none" />
+                                                <input name="imagem" id="imagem" type="file" class="d-none" accept="image/png,image/jpeg,image/webp" />
                                             </div>
                                             <div class="dz-message">
                                                 <h3 class="dropzone-msg-title">
@@ -195,7 +195,7 @@
                                                 <span class="dropzone-msg-desc">Essa imagem será mostrada na página do post.</span>
                                             </div>
                                         </label>
-                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
+                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
                                     </div>
                                 </div>
 

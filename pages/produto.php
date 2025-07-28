@@ -57,25 +57,29 @@ $stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE vendedora_id = ?");
 $stmt->execute([$produto['criado_por']]);
 $e = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// 2) Formata a URL da imagem de perfil
-$e['imagem'] = !empty($e['imagem'])
-    ? str_replace(
-        ' ',
-        '%20',
-        INCLUDE_PATH . "files/lojas/{$e['id']}/perfil/{$e['imagem']}"
-      )
-    : INCLUDE_PATH . "assets/preview-image/profile.jpg";
+if (!$e) {
+    $e = [];
+} else {
+    // 2) Formata a URL da imagem de perfil
+    $e['imagem'] = !empty($e['imagem'])
+        ? str_replace(
+            ' ',
+            '%20',
+            INCLUDE_PATH . "files/lojas/{$e['id']}/perfil/{$e['imagem']}"
+        )
+        : INCLUDE_PATH . "assets/preview-image/profile.jpg";
 
-// 3) Monta o campo “address” (Cidade/Estado ou “Não informado”)
-$address = 'Não informado';
-if (!empty($e['cidade']) && !empty($e['estado'])) {
-    $address = htmlspecialchars($e['cidade']) . '/' . htmlspecialchars($e['estado']);
-} elseif (!empty($e['cidade'])) {
-    $address = htmlspecialchars($e['cidade']);
-} elseif (!empty($e['estado'])) {
-    $address = htmlspecialchars($e['estado']);
+    // 3) Monta o campo “address” (Cidade/Estado ou “Não informado”)
+    $address = 'Não informado';
+    if (!empty($e['cidade']) && !empty($e['estado'])) {
+        $address = htmlspecialchars($e['cidade']) . '/' . htmlspecialchars($e['estado']);
+    } elseif (!empty($e['cidade'])) {
+        $address = htmlspecialchars($e['cidade']);
+    } elseif (!empty($e['estado'])) {
+        $address = htmlspecialchars($e['estado']);
+    }
+    $e['address'] = $address;
 }
-$e['address'] = $address;
 
 // 6) Busca “Outros Produtos” (limitado a 4)
 $stmt = $conn->prepare("

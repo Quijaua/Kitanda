@@ -111,20 +111,20 @@ function processPaymentData($data, $conn) {
         $content = array("layout" => "pagamento-recebido", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
         sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
 
-        $pedido['codigo_rastreio'] = 'RD123456789PT';
-        $pedido['transportadora'] = 'Correios';
-        $pedido['data_envio'] = $content['content']['pedido']['data_pagamento'];
-        $pedido['prazo_entrega'] = date('d/m/Y', strtotime($content['content']['pedido']['data_pagamento'] . ' +8 days'));
+        // $pedido['codigo_rastreio'] = 'RD123456789PT';
+        // $pedido['transportadora'] = 'Correios';
+        // $pedido['data_envio'] = $content['content']['pedido']['data_pagamento'];
+        // $pedido['prazo_entrega'] = date('d/m/Y', strtotime($content['content']['pedido']['data_pagamento'] . ' +8 days'));
 
-        // Enviar e-mail para finalizar o pagamento
-        $subject = "Seu pedido #{$pedido['pedido_id']} está a caminho";
-        $content = array("layout" => "produto-enviado", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
-        sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
+        // // Enviar e-mail para finalizar o pagamento
+        // $subject = "Seu pedido #{$pedido['pedido_id']} está a caminho";
+        // $content = array("layout" => "produto-enviado", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
+        // sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
 
-        // Enviar e-mail para finalizar o pagamento
-        $subject = "Seu pedido #{$pedido['pedido_id']} foi entregue";
-        $content = array("layout" => "pedido-entregue", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
-        sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
+        // // Enviar e-mail para finalizar o pagamento
+        // $subject = "Seu pedido #{$pedido['pedido_id']} foi entregue";
+        // $content = array("layout" => "pedido-entregue", "content" => array("name" => $usuario['nome'], "usuario" => $usuario, "pedido" => $pedido, "produtos" => $produtos, "link" => $pedido_link));
+        // sendMail($usuario['nome'], $usuario['email'], $project, $subject, $content);
     }
 
     $payment_date_created = $data["payment"]["dateCreated"] ?? NULL;
@@ -142,6 +142,16 @@ function processPaymentData($data, $conn) {
     $credit_date = $data["payment"]["creditDate"] ?? NULL;
     $estimated_credit_date = $data["payment"]["estimatedCreditDate"] ?? NULL;
     $webhook_date_created = $data["dateCreated"] ?? NULL;
+    $data_pagamento = $data["payment"]["paymentDate"] ?? NULL;
+
+    // Atualize o item no banco de dados
+    $sql = "UPDATE tb_pedidos SET status = :status, data_pagamento = :data_pagamento WHERE transacao_id = :transacao_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':data_pagamento', $data_pagamento);
+    $stmt->bindParam(':transacao_id', $payment_id);
+
+    $stmt->execute();
 
     // TENTA IDENTIFICAR A TRANSAÇÃO PELO ID, SE ENCONTRAR EXECUTA O UPDATE, SENÃO EXECUTA O CREATE
     $tabela = "tb_transacoes";

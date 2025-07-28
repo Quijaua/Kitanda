@@ -1,0 +1,71 @@
+{# ----------- Breadcrumb ----------- #}
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <ol class="breadcrumb breadcrumb-muted">
+                    <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
+                    <li class="breadcrumb-item active">Política de Privacidade</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ----------- Page body (Post completo) ----------- #}
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row row-cards">
+            <div class="col-lg-12">
+                <h3 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
+                    Política de Privacidade
+                </h3>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+                        {# Resumo do post (conteúdo HTML pronto) #}
+                        <div class="mt-3 mb-4">
+                            {{ privacy_policy|raw }}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="d-none d-md-block">
+                            <div class="sticky-top">
+
+                                <h3>Páginas de conteúdo</h3>
+
+                                <div class="nav nav-vertical nav-pills">
+
+                                    {% if use_privacy %}
+                                        <a class="nav-link" href="politica-de-privacidade" rel="noopener noreferrer" target="_blank">
+                                            Política e privacidade
+                                        </a>
+                                    {% endif %}
+
+                                    {% for pagina in paginas_estaticas %}
+                                        <a class="nav-link" href="{{ INCLUDE_PATH }}pagina/{{ pagina.slug|url_encode }}" rel="noopener noreferrer" target="_blank">
+                                            {{ pagina.titulo }}
+                                        </a>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

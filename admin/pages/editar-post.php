@@ -207,7 +207,7 @@
                                     <div class="col">
                                         <label for="imagem" class="dropzone w-100" id="dropzone-custom">
                                             <div class="fallback">
-                                                <input name="imagem" id="imagem" type="file" class="d-none" />
+                                                <input name="imagem" id="imagem" type="file" class="d-none" accept="image/png,image/jpeg,image/webp" />
                                             </div>
                                             <div class="dz-message" <?= isset($post['imagem']) && !empty($post['imagem']) ? "style='display: none;'" : ""; ?>>
                                                 <h3 class="dropzone-msg-title">
@@ -220,7 +220,7 @@
                                             <img class="previsualizacao" src="<?= INCLUDE_PATH . "files/blog/{$post['id']}/{$post['imagem']}" ?>" style="display: block; max-width: 100%; height: auto; margin: 0px auto;">
                                             <?php endif; ?>
                                         </label>
-                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
+                                        <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
                                     </div>
                                 </div>
 
@@ -275,7 +275,16 @@
                     </div>
 
                     <div class="d-flex">
-                        <button type="button" class="btn btn-1" onclick="location.reload();">Resetar</button>
+                        <!-- Botão Visualizar -->
+                        <a href="<?php echo INCLUDE_PATH . "post?id={$post['id']}"; ?>" target="_blank" class="btn btn-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-external-link">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+                                <path d="M11 13l9 -9" />
+                                <path d="M15 4h5v5" />
+                            </svg>
+                            Visualizar
+                        </a>
                         <button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-primary ms-auto">Salvar</button>
                     </div>
 

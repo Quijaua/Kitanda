@@ -193,8 +193,7 @@ if ($read) {
                       <div class="card-body">
                         <div class="row align-items-center">
                           <div class="col-auto">
-                            <span class="bg-green text-white avatar"
-                              ><!-- Download SVG icon from http://tabler.io/icons/icon/shopping-cart -->
+                            <span class="bg-green text-white avatar">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
@@ -216,7 +215,7 @@ if ($read) {
                           </div>
                           <div class="col">
                             <div class="font-weight-medium"><?= $vendas['pedidos'] . ' Pedido' . ($vendas['pedidos'] > 1 ? 's' : ''); ?></div>
-                            <div class="text-secondary">32 Enviados</div>
+                            <!-- <div class="text-secondary">32 Enviados</div> -->
                           </div>
                         </div>
                       </div>
@@ -252,15 +251,13 @@ if ($read) {
                             </span>
                           </div>
                           <div class="col">
-                            <div class="font-weight-medium"><?= $vendas['clientes'] . ' Cliente' . ($vendas['clientes'] > 1 ? 's' : ''); ?></div>
+                            <!-- <div class="font-weight-medium"><?= $vendas['clientes'] . ' Cliente' . ($vendas['clientes'] > 1 ? 's' : ''); ?></div> -->
                             <div class="text-secondary"><?= $vendas['total_clientes'] . ' Cliente' . ($vendas['total_clientes'] > 1 ? 's' : '') . ' Total'; ?></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
-
                 </div>
             </div>
 

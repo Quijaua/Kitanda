@@ -82,9 +82,61 @@
                     </div>
                     </div>
                 </div>
+            </div>
+
+            <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Notificações manuais</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/disparar-notificacao.php">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($pedido['id']) ?>">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="codigo_rastreamento" class="form-label required">Código de rastreio</label>
+                                        <input type="text" id="codigo_rastreamento" name="codigo_rastreamento" value="<?= htmlspecialchars($pedido['codigo_rastreamento'] ?? '') ?>" class="form-control" placeholder="RD123456789PT" required <?= ($pedido['rastreamento_status'] == 'enviado' || $pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="url_rastreamento" class="form-label required">Link de rastreio</label>
+                                        <input type="text" id="url_rastreamento" name="url_rastreamento" value="<?= htmlspecialchars($pedido['url_rastreamento'] ?? '') ?>" class="form-control" placeholder="https://exemplo.com/rastreio/abc123" required <?= ($pedido['rastreamento_status'] == 'enviado' || $pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="data_entrega" class="form-label">Data de Entrega</label>
+                                        <input type="date" id="data_entrega" name="data_entrega" value="<?= htmlspecialchars($pedido['data_entrega'] ?? '') ?>" class="form-control" <?= ($pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" name="btnSendOrder" class="btn btn-primary"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Notificar o cliente por e-mail de que o pedido está a caminho, incluindo o código e link de rastreamento."
+                                    <?= ($pedido['rastreamento_status'] == 'enviado' || $pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-truck"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" /></svg>
+                                    Pedido a caminho
+                                </button>
+                                <button type="submit" name="btnOrderDelivered" class="btn btn-success"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail confirmando a entrega do pedido ao cliente."
+                                    <?= ($pedido['rastreamento_status'] == 'entregue') ? 'disabled' : ''; ?>>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-package"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
+                                    Pedido entregue
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <!-- Linha do Tempo do Pedido -->
-                <div class="<?= (strtolower($pedido['status']) == 'pending') ? "col-8" : "col-12" ?>">
+            </div>
+            <?php endif; ?>
+
+            <!-- Linha do Tempo do Pedido -->
+            <div class="<?= (strtolower($pedido['status']) == 'pending') ? "col-8" : "col-12" ?>">
                 <div class="card">
                     <div class="card-header">
                     <h3 class="card-title">Linha do Tempo do Pedido</h3>
@@ -138,13 +190,13 @@
                         </ul>
                     </div>
                 </div>
-                </div>
-                <!-- Dados de Pagamento (exibe apenas se o pedido estiver pendente) -->
-                <?php if(strtolower($pedido['status']) == 'pending'): ?>
-                <div class="col-4">
+            </div>
+            <!-- Dados de Pagamento (exibe apenas se o pedido estiver pendente) -->
+            <?php if(strtolower($pedido['status']) == 'pending'): ?>
+            <div class="col-4">
                 <div class="card">
                     <div class="card-header">
-                    <h3 class="card-title">Dados de Pagamento</h3>
+                        <h3 class="card-title">Dados de Pagamento</h3>
                     </div>
                     <div class="card-body">
                     <?php if($pedido['forma_pagamento'] == 'PIX'): ?>
@@ -173,10 +225,10 @@
                     <?php endif; ?>
                     </div>
                 </div>
-                </div>
-                <?php endif; ?>
-                <!-- Itens do Pedido -->
-                <div class="col-12">
+            </div>
+            <?php endif; ?>
+            <!-- Itens do Pedido -->
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                     <h3 class="card-title">Itens do Pedido</h3>
@@ -210,7 +262,7 @@
                     <?php endif; ?>
                     </div>
                 </div>
-                </div>
+            </div>
 
         </div>
     </div>

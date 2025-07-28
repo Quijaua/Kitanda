@@ -130,7 +130,8 @@
                 </li>
                 <?php endif; ?>
 
-                <li class="nav-item <?= activeSidebarLink('geral'); ?> <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
+                <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                <li class="nav-item <?= activeSidebarLink('geral'); ?> <?= activeSidebarLink('webhook'); ?> <?= activeSidebarLink('funcoes'); ?> <?= activeSidebarLink('usuarios'); ?> <?= activeSidebarLink('rodape'); ?> <?= activeSidebarLink('aparencia'); ?> <?= activeSidebarLink('paginas'); ?> <?= activeSidebarLink('politica-de-privacidade'); ?> <?= activeSidebarLink('captcha'); ?> <?= activeSidebarLink('integracoes'); ?>">
                     <a class="nav-link" href="<?php echo INCLUDE_PATH_ADMIN; ?>geral" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler.io/icons/icon/settings -->
@@ -141,6 +142,7 @@
                         </span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <?php if (verificaPermissao($_SESSION['user_id'], 'novidades', 'read', $conn)): ?>
                 <li class="nav-item <?= activeSidebarLink('novidades'); ?> <?= activeSidebarLink('email_em_massa'); ?>">
@@ -194,8 +196,8 @@
                         <?= showSidebarLink('criar-categoria-post'); ?>
                         <?= showSidebarLink('editar-categoria-post'); ?>
                     " data-bs-popper="static">
-                        <a class="dropdown-item <?= activeSidebarLink('categorias-posts'); ?> <?= activeSidebarLink('criar-categoria-post'); ?> <?= activeSidebarLink('editar-categoria-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias-posts"> Categorias </a>
                         <a class="dropdown-item <?= activeSidebarLink('posts'); ?> <?= activeSidebarLink('criar-post'); ?> <?= activeSidebarLink('editar-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>posts"> Posts </a>
+                        <a class="dropdown-item <?= activeSidebarLink('categorias-posts'); ?> <?= activeSidebarLink('criar-categoria-post'); ?> <?= activeSidebarLink('editar-categoria-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias-posts"> Categorias </a>
                     </div>
                 </li>
                 <?php endif; ?>

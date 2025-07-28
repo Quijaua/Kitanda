@@ -159,8 +159,8 @@
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Valor</th>
-				<th>Método</th>
-                                <th>Data Crédito</th>
+				                <th>Método</th>
+                                <th>Data Pedido</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,7 +172,7 @@
                                 <td><?php echo $pedido['status']; ?></td>
                                 <td>R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></td>
                                 <td><?php echo $pedido['forma_pagamento']; ?></td>
-                                <td><?php echo date('d/m/Y', strtotime($pedido['data_pedido'])); ?></td>
+                                <td><?php echo date('d/m/Y H:m', strtotime($pedido['data_criacao'])); ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

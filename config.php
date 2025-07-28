@@ -30,13 +30,13 @@
     define('INCLUDE_PATH_USER',INCLUDE_PATH.'user/');
 
     // Consulta para obter o nome da aplicação
-    $stmt = $conn->query("SELECT nome, title, descricao, email, logo, theme FROM tb_checkout LIMIT 1");
+    $stmt = $conn->query("SELECT title, descricao, email, logo, theme FROM tb_checkout LIMIT 1");
     $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Projeto
 	$project = [
-        'name' => $projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
-        'title' => !empty($projeto['title']) ? $projeto['title'] : ($projeto['nome'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda"),
+        'name' => $projeto['title'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda",
+        'title' => !empty($projeto['title']) ? $projeto['title'] : ($projeto['title'] ?? $_ENV['PROJECT_NAME'] ?? "Kitanda"),
         'descricao' => $projeto['descricao'] ?: null,
         'email' => $projeto['email'],
         'logo' => !empty($projeto['logo']) ? INCLUDE_PATH . "assets/img/{$projeto['logo']}" : "",

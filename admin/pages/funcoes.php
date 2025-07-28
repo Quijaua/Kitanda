@@ -86,6 +86,7 @@
                 </h2>
                 <div class="text-secondary mt-1">Aqui estão as funções do sistema.</div>
             </div>
+            <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-funcao" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
@@ -94,6 +95,7 @@
                     Nova Função
                 </a>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -102,6 +104,12 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+
+            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+            <div class="col-lg-12">
+                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+            </div>
+            <?php exit; endif; ?>
 
             <?php if (!$only_own && !$read): ?>
             <div class="col-12">

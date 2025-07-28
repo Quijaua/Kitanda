@@ -5,7 +5,7 @@ include('../../config.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require './../../lib/vendor/autoload.php';
+require './../../vendor/autoload.php';
 
 /**
  * Função para enviar o e-mail de confirmação do cadastro.

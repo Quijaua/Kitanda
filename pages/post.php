@@ -70,11 +70,73 @@ $tagsString = formatarTags($post['tags']);
 // 6) Formata a data de publicação para “DD/MM/AAAA”
 $dataFormatada = date("d/m/Y", strtotime($post["data_publicacao"]));
 
-// 7) Retorna o contexto para o Twig
+// 7) Busca 3 produtos para exibir na sidebar
+$stmtSidebar = $conn->prepare("
+    SELECT p.id, p.titulo, p.descricao, p.link, pi.imagem
+    FROM tb_produtos p
+    LEFT JOIN (
+        SELECT produto_id, MIN(imagem) AS imagem
+        FROM tb_produto_imagens
+        GROUP BY produto_id
+    ) pi ON p.id = pi.produto_id
+    WHERE p.vitrine = 1
+    ORDER BY p.id DESC
+    LIMIT 3
+");
+$stmtSidebar->execute();
+$sidebar_produtos = $stmtSidebar->fetchAll(PDO::FETCH_ASSOC);
+
+// 8) Trunca a descrição para até 150 caracteres
+foreach ($sidebar_produtos as &$produto) {
+    $texto = trim(strip_tags($produto['descricao']));
+    if (mb_strlen($texto) > 150) {
+        $texto = mb_substr($texto, 0, 150) . '...';
+    }
+    $produto['descricao_curta'] = $texto;
+}
+unset($produto);
+
+// 9) Trunca a descrição para até 150 caracteres
+foreach ($sidebar_produtos as &$produto) {
+    $texto = trim(strip_tags($produto['descricao']));
+    if (mb_strlen($texto) > 150) {
+        $texto = mb_substr($texto, 0, 150) . '...';
+    }
+    $produto['descricao_curta'] = $texto;
+}
+unset($produto);
+
+// 10) Busca o post anterior (id < atual) e o próximo (id > atual)
+$stmtPrev = $conn->prepare("
+    SELECT id, titulo
+    FROM tb_blog_posts
+    WHERE id < ?
+    ORDER BY id DESC
+    LIMIT 1
+");
+$stmtPrev->execute([$id]);
+$prev_post = $stmtPrev->fetch(PDO::FETCH_ASSOC);
+
+$stmtNext = $conn->prepare("
+    SELECT id, titulo
+    FROM tb_blog_posts
+    WHERE id > ?
+    ORDER BY id ASC
+    LIMIT 1
+");
+$stmtNext->execute([$id]);
+$next_post = $stmtNext->fetch(PDO::FETCH_ASSOC);
+
+// 11) Retorna o contexto para o Twig
 return [
     'not_found'      => false,
     'post'           => $post,
     'categorias'     => $categorias,
     'tags_string'    => $tagsString,
     'data_publicacao'=> $dataFormatada,
+
+    'prev_post'      => $prev_post,
+    'next_post'      => $next_post,
+
+    'sidebar_produtos'=> $sidebar_produtos,
 ];

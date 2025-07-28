@@ -49,6 +49,12 @@
         <form id="registerFunction" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/register-function.php" method="post">
             <div class="row">
 
+                <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                <div class="col-lg-12">
+                    <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                </div>
+                <?php exit; endif; ?>
+
                 <?php if (!$create): ?>
                 <div class="col-lg-12">
                     <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>

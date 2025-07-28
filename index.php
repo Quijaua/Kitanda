@@ -57,6 +57,11 @@ $link = '';
 if (strpos($url, 'p/') === 0) {
     $link = substr($url, 2);
     $url  = 'produto';
+} else if (strpos($url, 'pagina/') === 0) {
+    $link = substr($url, 7);
+    $url  = 'pagina';
+} else if ($url === 'politica-de-privacidade/') {
+    $url  = 'politica-de-privacidade';
 }
 
 // 3.2) Busca o tipo de captcha via BD (você já tinha isso)
@@ -124,6 +129,7 @@ $faq                           = $resultado['faq'];
 $use_faq                       = $resultado['use_faq'];
 $facebook                      = $resultado['facebook'];
 $instagram                     = $resultado['instagram'];
+$whatsapp                      = $resultado['whatsapp'];
 $linkedin                      = $resultado['linkedin'];
 $twitter                       = $resultado['twitter'];
 $youtube                       = $resultado['youtube'];
@@ -201,6 +207,11 @@ foreach ($postsRaw as $post) {
     ];
 }
 
+// Busca todas as páginas cadastradas para exibir no rodapé
+$stmt = $conn->prepare("SELECT titulo, slug FROM tb_paginas_conteudo ORDER BY id ASC");
+$stmt->execute();
+$paginasEstaticas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Carregar as primeiras 10 empreendedoras para exibir no carrossel
 $limit = 10;
 $stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' ORDER BY nome LIMIT :limit");
@@ -265,6 +276,12 @@ if (isset($field) && isset($value)) {
 $context = [
     'is_home' => ($url === 'produtos'),
 
+    // OG defaults
+    'og_type'        => 'website',
+    'og_title'       => $title,
+    'og_description' => $descricao,
+    'og_image'       => INCLUDE_PATH . 'assets/img/'.$temaAtivo.'.jpg',
+
     // Informações básicas
     'logo'            => $logo,
     'nome'            => $nome,
@@ -296,6 +313,7 @@ $context = [
     // Redes sociais e links
     'facebook'        => $facebook,
     'instagram'       => $instagram,
+    'whatsapp'        => $whatsapp,
     'linkedin'        => $linkedin,
     'twitter'         => $twitter,
     'youtube'         => $youtube,
@@ -343,6 +361,9 @@ $context = [
 
     // Posts do rodapé
     'footerPosts'     => $footerPosts ?? [],
+
+    // Páginas do rodapé
+    'paginas_estaticas' => $paginasEstaticas ?? [],
 ];
 
 switch ($url) {
@@ -351,6 +372,24 @@ switch ($url) {
         $context_produto = include __DIR__ . '/pages/produto.php';
 
         $context = array_merge($context, $context_produto);
+
+        $context['og_type']  = 'product';
+
+        $context['og_title']       = $context_produto['produto']['nome'] ?? $title;
+        if (!empty($context_produto['produto']['descricao'])) {
+            $context['og_description'] = strip_tags($context_produto['produto']['descricao']);
+        }
+
+        $firstImage = $context_produto['imagens'][0] ?? null;
+        if (!empty($firstImage['imagem'])) {
+            $imgPath = $firstImage['imagem'];
+            $isAbsolute = str_starts_with($imgPath, 'http');
+            $context['og_image'] = $isAbsolute 
+                ? $imgPath 
+                : str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $imgPath);
+        } else {
+            $context['og_image'] = INCLUDE_PATH . "assets/preview-image/product.jpg";
+        }
         break;
 
     case 'produtos':
@@ -400,6 +439,17 @@ switch ($url) {
         $context_post = include __DIR__ . '/pages/post.php';
 
         $context = array_merge($context, $context_post);
+
+        $context['og_type']  = 'article';
+
+        $context['og_title']       = $context_post['post']['titulo'] ?? $title;
+        if (!empty($context_post['post']['resumo'])) {
+            $context['og_description'] = strip_tags($context_post['post']['resumo']);
+        }
+
+        if (!empty($context_post['post']['imagem'])) {
+            $context['og_image'] = $context_post['post']['imagem'];
+        }
         break;
 
     case 'blog-categoria':
@@ -425,6 +475,20 @@ switch ($url) {
 
     case 'contato':
         include __DIR__ . '/pages/contato.php';
+        break;
+
+    case 'pagina':
+        // Recebe o array de contexto montado dentro de pages/pagina.php:
+        $context_pagina = include __DIR__ . '/pages/pagina.php';
+
+        $context = array_merge($context, $context_pagina);
+        break;
+
+    case 'politica-de-privacidade':
+        // Recebe o array de contexto montado dentro de pages/pagina.php:
+        $context_politica_privacidade = include __DIR__ . '/pages/politica-de-privacidade.php';
+
+        $context = array_merge($context, $context_politica_privacidade);
         break;
 }
 
