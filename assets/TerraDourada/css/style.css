@@ -170,3 +170,9 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
         font-size: 1.5rem;
     }
 }
+
+.page-item.page-next, .page-item.page-prev {
+        flex: 0 0 50%;
+        text-align: left;
+        padding: 20px;
+}
