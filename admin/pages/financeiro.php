@@ -159,12 +159,15 @@
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Valor</th>
-				                <th>Método</th>
+		                <th>Método</th>
                                 <th>Data Pedido</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             <?php foreach($pedidos as $pedido) : ?>
+				<?php $pedido['status'] = $pedido['status'] == 'RECEIVED' ? "Pago" : ($pedido['status'] == 'CONFIRMED' ? "Pago" : ($pedido['status'] == 'PENDING' ? "Pendente" : ($pedido['status'] == 'OVERDUE' ? "Vencido" : ($pedido['status'] == 'CANCELED' ? "Cancelado" : "Indefinido")))); ?>
+
                             <tr>
 				<td><a href="compra?pedido=<?php echo $pedido['pedido_id']; ?>"><?php echo $pedido['pedido_id']; ?></a></td>
 				<td><?php echo $pedido['nome_cliente']; ?></td>
@@ -172,7 +175,7 @@
                                 <td><?php echo $pedido['status']; ?></td>
                                 <td>R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></td>
                                 <td><?php echo $pedido['forma_pagamento']; ?></td>
-                                <td><?php echo date('d/m/Y H:m', strtotime($pedido['data_criacao'])); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($pedido['data_criacao'])); ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
