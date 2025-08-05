@@ -320,7 +320,7 @@ if (isset($_POST['btnUpdNavColor'])) {
             $_SESSION['msg'] = 'As informações sobre sua instituição foram atualizadas com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'geral');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'aparencia');
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
         }

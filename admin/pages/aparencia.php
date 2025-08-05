@@ -241,6 +241,95 @@
             <div class="col-lg-12">
                 <div class="card">
 
+                    <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
+                        <div class="card-header">
+                            <h4 class="card-title">Cores</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="mb-3 row">
+                                <label for="nav_color" class="col-3 col-form-label required">Cor dos textos</label>
+                                <div class="col-2">
+                                    <div>
+                                        <input name="nav_color" id="nav_color"
+                                            type="text" class="form-control d-block" value="<?php echo $nav_color; ?>">
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                window.Coloris && (Coloris({
+                                                    el: "#nav_color",
+                                                    selectInput: false,
+                                                    alpha: false,
+                                                    format: "hex",
+                                                    swatches: [
+                                                        "#066fd1",
+                                                        "#45aaf2",
+                                                        "#6574cd",
+                                                        "#a55eea",
+                                                        "#f66d9b",
+                                                        "#fa4654",
+                                                        "#fd9644",
+                                                        "#f1c40f",
+                                                        "#7bd235",
+                                                        "#5eba00",
+                                                        "#2bcbba",
+                                                        "#17a2b8",
+                                                    ],
+                                                }))
+                                            })
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="nav_background" class="col-3 col-form-label required">Cor de fundo</label>
+                                <div class="col-2">
+                                    <div>
+                                        <input name="nav_background" id="nav_background"
+                                            type="text" class="form-control d-block" value="<?php echo $nav_background; ?>">
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                window.Coloris && (Coloris({
+                                                    el: "#nav_background",
+                                                    selectInput: false,
+                                                    alpha: false,
+                                                    format: "hex",
+                                                    swatches: [
+                                                        "#066fd1",
+                                                        "#45aaf2",
+                                                        "#6574cd",
+                                                        "#a55eea",
+                                                        "#f66d9b",
+                                                        "#fa4654",
+                                                        "#fd9644",
+                                                        "#f1c40f",
+                                                        "#7bd235",
+                                                        "#5eba00",
+                                                        "#2bcbba",
+                                                        "#17a2b8",
+                                                    ],
+                                                }))
+                                            })
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-end">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                <button type="submit" name="btnUpdNavColor" class="btn btn-primary ms-auto">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+
                     <form action="<?= INCLUDE_PATH_ADMIN ?>back-end/update.php" method="post">
                         <div class="card-header">
                             <h4 class="card-title">Tema</h4>
