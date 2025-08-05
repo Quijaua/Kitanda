@@ -15,6 +15,14 @@ $config['asaas_api_key'] = $_ENV['ASAAS_API_KEY'];
 include('../../back-end/config.php');
 include('../../config.php');
 
+if (!isset($_ENV['ASAAS_API_URL']) || empty($_ENV['ASAAS_API_URL'])) {
+    header('Location: ' . INCLUDE_PATH_ADMIN . 'webhook-erro');
+}
+
+if ((!isset($_ENV['ASAAS_API_KEY']) || empty($_ENV['ASAAS_API_KEY']))) {
+    header('Location: ' . INCLUDE_PATH_ADMIN . 'webhook-erro');
+}
+
 session_start();
 ob_start();
 
