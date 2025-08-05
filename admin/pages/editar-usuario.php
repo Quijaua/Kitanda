@@ -192,6 +192,19 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <?php if (isset($permissao_usuario['permissao_id']) && $permissao_usuario['permissao_id'] == 2): // Se for uma vendedora ?>
+                                            <div class="col-md-4">
+                                                <!-- Função -->
+                                                <div class="mb-3">
+                                                    <label for="status" class="form-label required">Status</label>
+                                                    <select id="status" name="status" class="form-select" required>
+                                                        <option value="" selected disabled>Selecione o status</option>
+                                                        <option value="1">Ativo</option>
+                                                        <option value="0">Inativo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
