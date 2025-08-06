@@ -1,9 +1,8 @@
-<?php 
+<?php
 header('Content-Type: application/json; charset=utf-8');
 
 include_once('../../config.php');
 
-// Consulta para obter o cep de origem do projeto
 $stmt = $conn->query("SELECT title, cep FROM tb_checkout LIMIT 1");
 $projeto = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -13,42 +12,36 @@ $config['cep_origem'] = $projeto['cep'];
 $config['melhor_envio_url'] = $_ENV['MELHOR_ENVIO_URL'];
 $config['melhor_envio_token'] = $_ENV['MELHOR_ENVIO_TOKEN'];
 
-// Fuso horário de São Paulo
 date_default_timezone_set('America/Sao_Paulo');
 
-// Recebe e valida dados do POST
 $cepDestinoRaw = $_POST['cep'] ?? '';
 $cepDestino    = preg_replace('/\D/', '', $cepDestinoRaw);
 
 if (!$cepDestino) {
     http_response_code(400);
-    echo json_encode([
-        'status'   => 'erro',
-        'mensagem' => 'CEP de destino inválido.'
-    ]);
+    echo json_encode(['status' => 'erro', 'mensagem' => 'CEP de destino inválido.']);
     exit;
 }
 
-// Recebe array de produtos do carrinho: cart[0][id], cart[0][quantity], etc.
 $cart = $_POST['cart'] ?? [];
 if (!is_array($cart) || empty($cart)) {
     http_response_code(400);
-    echo json_encode([
-        'status'   => 'erro',
-        'mensagem' => 'Carrinho vazio ou formato inválido.'
-    ]);
+    echo json_encode(['status' => 'erro', 'mensagem' => 'Carrinho vazio ou formato inválido.']);
     exit;
 }
 
-// Pesos e dimensões padrão (já que não há dados específicos de cada produto)
-$defaultHeight = 4;   // em cm
-$defaultWidth  = 12;  // em cm
-$defaultLength = 17;  // em cm
-$defaultWeight = 0.5; // em kg (por unidade, por exemplo)
+// Dimensões padrão (quando freight_dimension_id = 0)
+$defaultDimensao = [
+    'altura' => 4,
+    'largura' => 12,
+    'comprimento' => 17,
+    'peso' => 0.5
+];
 
-// Variáveis para acumular frete fixo e peso total para Melhor Envio
-$fixedTotal     = 0.0;
-$meTotalWeight  = 0.0;
+// Inicializa variáveis para acumular volume total e peso total
+$totalVolumeCm3 = 0;  // volume em cm³
+$totalPesoKg = 0;
+$fixedTotal = 0;
 
 foreach ($cart as $item) {
     $prodId   = intval($item['id'] ?? 0);
@@ -57,59 +50,88 @@ foreach ($cart as $item) {
         continue;
     }
 
-    // Busca o produto no banco para verificar se tem frete fixo ou padrão
-    $stmtProd = $conn->prepare("SELECT freight_type, freight_value FROM tb_produtos WHERE id = :id");
+    // Buscar dimensões e peso do produto
+    $stmtProd = $conn->prepare("
+        SELECT 
+            freight_type, freight_value, freight_dimension_id 
+        FROM tb_produtos 
+        WHERE id = :id
+    ");
     $stmtProd->bindParam(':id', $prodId, PDO::PARAM_INT);
     $stmtProd->execute();
     $produto = $stmtProd->fetch(PDO::FETCH_ASSOC);
 
     if (!$produto) {
-        // Se não encontrar o produto, considera como padrão ME
-        $meTotalWeight += $defaultWeight * $quantity;
-        continue;
-    }
-
-    $type  = $produto['freight_type'] ?? 'default';
-    $value = floatval($produto['freight_value'] ?? 0);
-
-    if ($type === 'fixed' && $value > 0) {
-        // Se for frete fixo, acumula o valor fixo * quantidade
-        $fixedTotal += $value * $quantity;
+        // Produto não encontrado: usa padrão
+        $altura = $defaultDimensao['altura'];
+        $largura = $defaultDimensao['largura'];
+        $comprimento = $defaultDimensao['comprimento'];
+        $peso = $defaultDimensao['peso'];
     } else {
-        // Caso contrário, considera peso padrão para Melhor Envio
-        $meTotalWeight += $defaultWeight * $quantity;
+        $type  = $produto['freight_type'] ?? 'default';
+        $value = floatval($produto['freight_value'] ?? 0);
+        $freight_dimension_id = intval($produto['freight_dimension_id'] ?? 0);
+
+        if ($type === 'fixed' && $value > 0) {
+            // Acumula frete fixo * quantidade
+            $fixedTotal += $value * $quantity;
+        }
+
+        if ($freight_dimension_id === 0) {
+            // Usa padrão
+            $altura = $defaultDimensao['altura'];
+            $largura = $defaultDimensao['largura'];
+            $comprimento = $defaultDimensao['comprimento'];
+            $peso = $defaultDimensao['peso'];
+        } else {
+            // Busca dimensões da dimensão personalizada
+            $stmtDim = $conn->prepare("SELECT altura, largura, comprimento, peso FROM tb_frete_dimensoes WHERE id = :id");
+            $stmtDim->bindParam(':id', $freight_dimension_id, PDO::PARAM_INT);
+            $stmtDim->execute();
+            $dim = $stmtDim->fetch(PDO::FETCH_ASSOC);
+
+            if ($dim) {
+                $altura = floatval($dim['altura']);
+                $largura = floatval($dim['largura']);
+                $comprimento = floatval($dim['comprimento']);
+                $peso = floatval($dim['peso']);
+            } else {
+                // Caso não encontre, usa padrão
+                $altura = $defaultDimensao['altura'];
+                $largura = $defaultDimensao['largura'];
+                $comprimento = $defaultDimensao['comprimento'];
+                $peso = $defaultDimensao['peso'];
+            }
+        }
     }
+
+    // Acumula volume e peso para Melhor Envio
+    $volumeProduto = $altura * $largura * $comprimento; // cm³
+    $totalVolumeCm3 += $volumeProduto * $quantity;
+    $totalPesoKg += $peso * $quantity;
 }
 
-// Se não houver itens para Melhor Envio, retornamos apenas frete fixo como única "opção"
-if ($meTotalWeight <= 0) {
-    echo json_encode([
-        'status'  => 'sucesso',
-        'options' => [
-            [
-                'id'             => 'fixed_total',
-                'name'           => 'Frete Fixo (total)',
-                'price'          => number_format($fixedTotal, 2, '.', ''),
-                'delivery_range' => ['min' => null, 'max' => null],
-                'company'        => ['id' => null, 'name' => 'Valor Fixo', 'picture' => null],
-                'error'          => null
-            ]
-        ]
-    ]);
-    exit;
+// Para o Melhor Envio precisamos enviar dimensões únicas do pacote.
+// Estimamos o lado de um cubo que tenha volume total acumulado:
+$ladoCm = pow($totalVolumeCm3, 1/3);
+
+// Se o volume for 0 (ex: carrinho vazio), usar dimensões padrão:
+if ($totalVolumeCm3 <= 0) {
+    $ladoCm = $defaultDimensao['altura']; // ou 4
+    $totalPesoKg = $defaultDimensao['peso'];
 }
 
-// Monta o payload para chamar a API do Melhor Envio apenas com o peso total calculado
+// Agora monta o payload com as dimensões do pacote calculadas e peso total
 $cepOrigem = preg_replace('/\D/', '', $config['cep_origem']);
 
 $payload = [
     'from'    => ['postal_code' => $cepOrigem],
     'to'      => ['postal_code' => $cepDestino],
     'package' => [
-        'height' => $defaultHeight,
-        'width'  => $defaultWidth,
-        'length' => $defaultLength,
-        'weight' => $meTotalWeight
+        'height' => ceil($ladoCm),
+        'width'  => ceil($ladoCm),
+        'length' => ceil($ladoCm),
+        'weight' => max(0.1, round($totalPesoKg, 2)) // peso mínimo 100g para Melhor Envio
     ],
     'options' => [
         'insurance_value' => 0,

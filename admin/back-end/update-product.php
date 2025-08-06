@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     $freight_type = $_POST['freight_type'] ?? 'default';
     $rawValue = $_POST['freight_value'] ?? '';
+    $freight_dimension_id = $_POST['freight_dimension_id'] ?? 0;
 
     if ($freight_type === 'fixed') {
         $num = str_replace(['.', ' '], ['', ''], $rawValue);
@@ -77,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         $conn->beginTransaction();
 
-        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por WHERE id = :produto_id");
+        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, freight_dimension_id = :freight_dimension_id, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por WHERE id = :produto_id");
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
@@ -86,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_INT);
         $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
         $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
+        $stmt->bindParam(':freight_dimension_id', $freight_dimension_id, PDO::PARAM_INT);
         $stmt->bindParam(':seo_nome', $seo_nome, PDO::PARAM_STR);
         $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
         $stmt->bindParam(':link', $link, PDO::PARAM_STR);

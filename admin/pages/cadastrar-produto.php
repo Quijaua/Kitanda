@@ -4,6 +4,25 @@
 
     // Verifica permissão
     if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador') {
+        // Dimensão padrão (simulada)
+        $defaultDimensao = [
+            'id' => 0,
+            'nome' => 'Padrão',
+            'altura' => 4,
+            'largura' => 12,
+            'comprimento' => 17,
+            'peso' => 0.5
+        ];
+
+        // Buscar do banco
+        $stmt = $conn->prepare("SELECT * FROM tb_frete_dimensoes");
+        $stmt->execute();
+        $dimensoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Junta e ordena
+        $dimensoes[] = $defaultDimensao;
+        usort($dimensoes, fn($a, $b) => strcmp($a['nome'], $b['nome']));
+
         // Define o ID da função “Vendedora”
         $funcaoVendedora = 2;
 
@@ -279,6 +298,20 @@
                                                     type="text" class="form-control mask-money" placeholder="0,00" autocomplete="off" disabled>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-3 row" id="divFreightDimension">
+                                    <label for="freight_dimension_id" class="col-3 col-form-label required">Medidas do Produto para Frete</label>
+                                    <div class="col">
+                                        <select name="freight_dimension_id" id="freight_dimension_id" class="form-select" placeholder="Selecione as medidas deste produto..." required>
+                                            <option value="" disabled>Selecione as medidas deste produto</option>
+                                            <?php foreach ($dimensoes as $dim): ?>
+                                                <option value="<?= $dim['id'] ?>" <?= ($dim['id'] == 0) ? 'selected' : '' ?>>
+                                                    <?= $dim['nome'] ?> (<?= $dim['altura'] ?>x<?= $dim['largura'] ?>x<?= $dim['comprimento'] ?> cm, <?= $dim['peso'] ?> kg)
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -686,9 +719,13 @@
             if ($(this).val() === 'fixed') {
                 $('#divFreightValue').slideDown();
                 $('#freight_value').prop('disabled', false);
+                $('#divFreightDimension').slideUp();
+                $('#freight_dimension_id').prop('disabled', true).val('');
             } else {
                 $('#divFreightValue').slideUp();
                 $('#freight_value').prop('disabled', true).val('');
+                $('#divFreightDimension').slideDown();
+                $('#freight_dimension_id').prop('disabled', false);
             }
         });
     });

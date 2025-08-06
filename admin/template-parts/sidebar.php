@@ -96,9 +96,13 @@
                         <?= showSidebarLink('categorias'); ?>
                         <?= showSidebarLink('criar-categoria'); ?>
                         <?= showSidebarLink('editar-categoria'); ?>
+                        <?= showSidebarLink('frete'); ?>
+                        <?= showSidebarLink('adicionar-frete'); ?>
+                        <?= showSidebarLink('editar-frete'); ?>
                     " data-bs-popper="static">
                         <a class="dropdown-item <?= activeSidebarLink('produtos'); ?> <?= activeSidebarLink('cadastrar-produto'); ?> <?= activeSidebarLink('editar-produto'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>produtos"> Produtos </a>
                         <a class="dropdown-item <?= activeSidebarLink('categorias'); ?> <?= activeSidebarLink('criar-categoria'); ?> <?= activeSidebarLink('editar-categoria'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias"> Categorias </a>
+                        <a class="dropdown-item <?= activeSidebarLink('frete'); ?> <?= activeSidebarLink('adicionar-frete'); ?> <?= activeSidebarLink('editar-frete'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>frete"> Frete </a>
                     </div>
                 </li>
                 <?php endif; ?>
