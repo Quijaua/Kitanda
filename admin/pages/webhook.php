@@ -159,117 +159,126 @@
     <div class="container-xl">
         <div class="row row-cards">
 
-            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
-            <div class="col-lg-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <?php include_once('./template-parts/general-sidebar.php'); ?>
 
-            <?php if (!$read): ?>
-            <div class="col-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <div class="col">
+                <div class="row row-cards">
 
-            <?php if (!$update): ?>
-            <div class="col-12">
-                <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
-            </div>
-            <?php endif; ?>
+                    <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
 
-            <!-- Aviso da webhook -->
-            <?php if ($webhook && (!$webhook['enabled'] || $webhook['interrupted'])): ?>
-            <div class="col-12">
-                <div class="alert alert-danger w-100" role="alert">
-                    <div class="d-flex">
-                        <div>
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
-                        </div>
-                        <div>
-                            <h4 class="alert-title">Atenção!</h4>
-                            <div class="text-secondary">Sua Webhook está inativa. <a href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" class="alert-link">Clique aqui</a> para corrigir.</div>
+                    <?php if (!$read): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
+
+                    <?php if (!$update): ?>
+                    <div class="col-12">
+                        <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Aviso da webhook -->
+                    <?php if ($webhook && (!$webhook['enabled'] || $webhook['interrupted'])): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger w-100" role="alert">
+                            <div class="d-flex">
+                                <div>
+                                    <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="alert-title">Atenção!</h4>
+                                    <div class="text-secondary">Sua Webhook está inativa. <a href="<?php echo INCLUDE_PATH_ADMIN; ?>webhook" class="alert-link">Clique aqui</a> para corrigir.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <?php endif; ?>    
+                    <?php endif; ?>    
 
-            <div class="col-lg-12">
-                <div class="card">
+                    <div class="col-lg-12">
+                        <div class="card">
 
-                    <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/webhook.php" method="post">
-                        <div class="card-header">
-                            <h4 class="card-title">Dados do Webhook</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3 row">
-                                <label for="enabled" class="col-3 col-form-label required">Este Webhook ficará ativo?</label>
-                                <div class="col">
-                                    <select name="enabled" id="enabled" class="form-control" required>
-                                        <option value="1" <?= (isset($enabled) && $enabled == 1) ? "selected" : ""; ?>>Sim</option>
-                                        <option value="0" <?= (isset($enabled) && $enabled == 0) ? "selected" : ""; ?>>Não</option>
-                                    </select>
+                            <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/webhook.php" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Dados do Webhook</h4>
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="webhookName" class="col-3 col-form-label required">Nome do Webhook</label>
-                                <div class="col">
-                                    <input name="webhook_name" id="webhookName"
-                                        type="text" class="form-control" value="<?php echo (isset($webhook_name)) ? $webhook_name : "Kitanda"; ?>" required>
-                                    <small class="form-hint">No máximo 50 caracteres.</small>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="email" class="col-3 col-form-label required">E-mail</label>
-                                <div class="col">
-                                    <input name="email" id="email"
-                                        type="text" class="form-control" value="<?php echo $email; ?>" required>
-                                    <small class="form-hint">Você será notificado neste e-mail em caso de falha na sincronia.</small>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="interrupted" class="col-3 col-form-label required">Fila de sincronização ativada?</label>
-                                <div class="col">
-                                    <select name="interrupted" id="interrupted" class="form-control" required>
-                                        <option value="0" <?= (isset($interrupted) && $interrupted == 0) ? "selected" : ""; ?>>Sim</option>
-                                        <option value="1" <?= (isset($interrupted) && $interrupted == 1) ? "selected" : ""; ?>>Não</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="sendType" class="col-3 col-form-label required">Fila de sincronização ativada?</label>
-                                <div class="col">
-                                    <select name="send_type" id="sendType" class="form-control" required>
-                                        <option value="SEQUENTIALLY" <?= (isset($send_type) && $send_type == "SEQUENTIALLY") ? "selected" : ""; ?>>Sequencial</option>
-                                        <option value="NON_SEQUENTIALLY"  <?= (isset($send_type) && $send_type == "NON_SEQUENTIALLY") ? "selected" : ""; ?>>Não sequencial</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <?php if (isset($webhook_id)) { ?>
-                                <input type="hidden" name="webhook_id" value="<?= $webhook_id; ?>">
-                            <?php } ?>
-
-                        </div>
-                        <div class="card-footer text-end">
-                            <div class="d-flex">
-                                <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
-                                
-                                <?php if ($addButton == true) { ?>
-                                    <button type="submit" name="btnAddWebhook" class="btn btn-primary ms-auto">Salvar</button>
-                                <?php } else { ?>
-                                    <div class="ms-auto">
-                                        <button type="submit" name="btnUpdWebhook" class="btn btn-primary me-2">Editar</button>
-                                        <button type="submit" name="btnDltWebhook" class="btn btn-danger <?= $disabledDelete; ?>" <?= $disabledDelete; ?>>Deletar Webhook</button>
+                                <div class="card-body">
+                                    <div class="mb-3 row">
+                                        <label for="enabled" class="col-3 col-form-label required">Este Webhook ficará ativo?</label>
+                                        <div class="col">
+                                            <select name="enabled" id="enabled" class="form-control" required>
+                                                <option value="1" <?= (isset($enabled) && $enabled == 1) ? "selected" : ""; ?>>Sim</option>
+                                                <option value="0" <?= (isset($enabled) && $enabled == 0) ? "selected" : ""; ?>>Não</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                <?php } ?>
-                            </div>
+                                    <div class="mb-3 row">
+                                        <label for="webhookName" class="col-3 col-form-label required">Nome do Webhook</label>
+                                        <div class="col">
+                                            <input name="webhook_name" id="webhookName"
+                                                type="text" class="form-control" value="<?php echo (isset($webhook_name)) ? $webhook_name : "Kitanda"; ?>" required>
+                                            <small class="form-hint">No máximo 50 caracteres.</small>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="email" class="col-3 col-form-label required">E-mail</label>
+                                        <div class="col">
+                                            <input name="email" id="email"
+                                                type="text" class="form-control" value="<?php echo $email; ?>" required>
+                                            <small class="form-hint">Você será notificado neste e-mail em caso de falha na sincronia.</small>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="interrupted" class="col-3 col-form-label required">Fila de sincronização ativada?</label>
+                                        <div class="col">
+                                            <select name="interrupted" id="interrupted" class="form-control" required>
+                                                <option value="0" <?= (isset($interrupted) && $interrupted == 0) ? "selected" : ""; ?>>Sim</option>
+                                                <option value="1" <?= (isset($interrupted) && $interrupted == 1) ? "selected" : ""; ?>>Não</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="sendType" class="col-3 col-form-label required">Fila de sincronização ativada?</label>
+                                        <div class="col">
+                                            <select name="send_type" id="sendType" class="form-control" required>
+                                                <option value="SEQUENTIALLY" <?= (isset($send_type) && $send_type == "SEQUENTIALLY") ? "selected" : ""; ?>>Sequencial</option>
+                                                <option value="NON_SEQUENTIALLY"  <?= (isset($send_type) && $send_type == "NON_SEQUENTIALLY") ? "selected" : ""; ?>>Não sequencial</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <?php if (isset($webhook_id)) { ?>
+                                        <input type="hidden" name="webhook_id" value="<?= $webhook_id; ?>">
+                                    <?php } ?>
+
+                                </div>
+                                <div class="card-footer text-end">
+                                    <div class="d-flex">
+                                        <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
+                                        
+                                        <?php if ($addButton == true) { ?>
+                                            <button type="submit" name="btnAddWebhook" class="btn btn-primary ms-auto">Salvar</button>
+                                        <?php } else { ?>
+                                            <div class="ms-auto">
+                                                <button type="submit" name="btnUpdWebhook" class="btn btn-primary me-2">Editar</button>
+                                                <button type="submit" name="btnDltWebhook" class="btn btn-danger <?= $disabledDelete; ?>" <?= $disabledDelete; ?>>Deletar Webhook</button>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
-                    </form>
+                    </div>
 
                 </div>
             </div>
+
         </div>
     </div>
 </div>

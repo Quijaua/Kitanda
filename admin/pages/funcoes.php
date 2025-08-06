@@ -105,125 +105,134 @@
     <div class="container-xl">
         <div class="row row-cards">
 
-            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
-            <div class="col-lg-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <?php include_once('./template-parts/general-sidebar.php'); ?>
 
-            <?php if (!$only_own && !$read): ?>
-            <div class="col-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <div class="col">
+                <div class="row row-cards">
 
-            <div class="col-12">
-                <div class="card">
-
-                    <div class="card-header">
-                        <h4 class="card-title">Funções</h4>
+                    <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
                     </div>
+                    <?php exit; endif; ?>
 
-                    <div class="card-body border-bottom py-3">
-                        <div class="d-flex">
-                            <div class="text-secondary">
-                                Exibir
-                                <div class="mx-2 d-inline-block">
-                                    <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
-                                        <option value="10" selected>10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select>
-                                </div>
-                                entradas
-                            </div>
-                            <div class="ms-auto text-secondary">
-                                Buscar:
-                                <div class="ms-2 d-inline-block">
-                                    <input type="text" class="form-control form-control-sm" id="search-input" aria-label="Buscar fatura">
-                                </div>
-                            </div>
-                        </div>
+                    <?php if (!$only_own && !$read): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
                     </div>
+                    <?php exit; endif; ?>
 
-                    <table id="funcoes" class="table card-table table-vcenter text-nowrap datatable">
-                        <thead>
-                            <tr>
-                                <th class="w-100">Nome do Função</th>
-                                <th>Total de Usuários</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($funcoes as $funcao) : ?>
-                            <tr>
-                                <td class="more-info" data-label="Name">
-                                    <?php echo $funcao["nome"]; ?>
-                                </td>
-                                <td><?php echo $funcao["total_usuarios"] ?? 0; ?></td>
-                                <td class="text-end">
-                                    <span class="dropdown">
-                                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <?php if ($update): ?>
-                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                                Editar
-                                            </a>
-                                            <?php elseif ($only_own || $read): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                                Detalhes
-                                            </a>
-                                            <?php endif; ?>
-                                            <?php if ($delete): ?>
-                                            <div class="dropdown-divider"></div>
-                                            <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $funcao['id']; ?>" data-name="<?php echo $funcao['nome']; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                                                Deletar
-                                            </button>
-                                            <?php endif; ?>
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Funções</h4>
+                            </div>
+
+                            <div class="card-body border-bottom py-3">
+                                <div class="d-flex">
+                                    <div class="text-secondary">
+                                        Exibir
+                                        <div class="mx-2 d-inline-block">
+                                            <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
                                         </div>
-                                    </span>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                        entradas
+                                    </div>
+                                    <div class="ms-auto text-secondary">
+                                        Buscar:
+                                        <div class="ms-2 d-inline-block">
+                                            <input type="text" class="form-control form-control-sm" id="search-input" aria-label="Buscar fatura">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="card-footer d-flex align-items-center">
-                        <p class="m-0 text-secondary">Exibindo <span id="start-entry">0</span> até <span id="end-entry">0</span> de <span id="total-entry">0</span> entradas</p>
+                            <table id="funcoes" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="w-100">Nome do Função</th>
+                                        <th>Total de Usuários</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($funcoes as $funcao) : ?>
+                                    <tr>
+                                        <td class="more-info" data-label="Name">
+                                            <?php echo $funcao["nome"]; ?>
+                                        </td>
+                                        <td><?php echo $funcao["total_usuarios"] ?? 0; ?></td>
+                                        <td class="text-end">
+                                            <span class="dropdown">
+                                                <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <?php if ($update): ?>
+                                                    <a class="dropdown-item" href="<?php echo INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
+                                                        <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                                                        Editar
+                                                    </a>
+                                                    <?php elseif ($only_own || $read): ?>
+                                                    <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-funcao?id={$funcao['id']}"; ?>">
+                                                        <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                                                        Detalhes
+                                                    </a>
+                                                    <?php endif; ?>
+                                                    <?php if ($delete): ?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $funcao['id']; ?>" data-name="<?php echo $funcao['nome']; ?>">
+                                                        <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                                        Deletar
+                                                    </button>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
 
-                        <ul class="pagination m-0 ms-auto" id="pagination-custom">
-                            <li class="page-item disabled" id="prev-page">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                        <path d="M15 6l-6 6l6 6"></path>
-                                    </svg>
-                                    anterior
-                                </a>
-                            </li>
-                            <!-- A paginação será gerada dinamicamente aqui -->
-                            <li class="page-item disabled" id="current-page">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item" id="next-page">
-                                <a class="page-link" href="#">
-                                    próximo
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                        <path d="M9 6l6 6l-6 6"></path>
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
+                            <div class="card-footer d-flex align-items-center">
+                                <p class="m-0 text-secondary">Exibindo <span id="start-entry">0</span> até <span id="end-entry">0</span> de <span id="total-entry">0</span> entradas</p>
+
+                                <ul class="pagination m-0 ms-auto" id="pagination-custom">
+                                    <li class="page-item disabled" id="prev-page">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+                                                <path d="M15 6l-6 6l6 6"></path>
+                                            </svg>
+                                            anterior
+                                        </a>
+                                    </li>
+                                    <!-- A paginação será gerada dinamicamente aqui -->
+                                    <li class="page-item disabled" id="current-page">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item" id="next-page">
+                                        <a class="page-link" href="#">
+                                            próximo
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+                                                <path d="M9 6l6 6l-6 6"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
             </div>
+
         </div>
     </div>
 </div>
