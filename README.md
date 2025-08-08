@@ -6,7 +6,7 @@ A Kitanda é um sistema de gerenciamento para lojas online Open source
 
 ## 📖 Sobre o Projeto
 
-A **Kitanda** é uma plataforma desenvolvida pela [Quijaua](https://quijaua.com) em consórcio com a **Nômade Tecnologias**, para atender à demanda do **Instituto Terra Dourada** dentro do projeto [Mulheres Empreendedoras da Amazônia](https://plantaformas.org/processes/mulheres-empreendedoras-amazonia).
+A **Kitanda** é uma plataforma desenvolvida pela [Quijaua](https://quijaua.com) em consórcio com a **Nômade Tecnologias**, para atender à demanda do **Instituto Terra Dourada** dentro do projeto [Mulheres Empreendedoras da Amazônia](https://plantaformas.org/processes/mulheres-empreendedoras-amazonia) e da **Ankara Moda Afro** — iniciativa da Casa de Cultura AfroGerais, também premiada no programa *Mover-se na Web*..
 
 Este projeto foi contemplado pela chamada pública **Mover-se na Web**, uma iniciativa do [Nic.br](https://nic.br).
 
