@@ -1,50 +1,96 @@
-# Kitanda
-Loja Virtual
+# 🛒 Kitanda
 
-## Instalação
+A Kitanda é um sistema de gerenciamento para lojas online Open source
 
-Faça download ou clone do plugin e coloque a pasta no diretório público da sua hospedagem. 
+---
 
-Execute o comando composer para instalar as bibliotecas
+## 📖 Sobre o Projeto
 
-```sh
-$ composer install
+A **Kitanda** é uma plataforma desenvolvida pela [Quijaua](https://quijaua.com) em consórcio com a **Nômade Tecnologias**, para atender à demanda do **Instituto Terra Dourada** dentro do projeto [Mulheres Empreendedoras da Amazônia](https://plantaformas.org/processes/mulheres-empreendedoras-amazonia).
+
+Este projeto foi contemplado pela chamada pública **Mover-se na Web**, uma iniciativa do [Nic.br](https://nic.br).
+
+A plataforma tem como objetivo apoiar o desenvolvimento de empreendedores locais da Amazônia, promovendo a **sustentabilidade** e o **crescimento de negócios na região**.
+
+O Kitanda conta com **integração nativa com o Asaas**, permitindo a automatização de cobranças e gestão de pagamentos de forma segura e eficiente.
+
+Este projeto teve início como um **fork do [Floema Doar](https://github.com/Quijaua/FloemaDoar)** — uma solução originalmente criada para recebimentos de doações.
+
+---
+
+## ⚙️ Instalação
+
+1. Faça o download ou clone o repositório e coloque a pasta no diretório público da sua hospedagem:
+
+```bash
+git clone https://github.com/seuusuario/kitanda.git
 ```
 
-### Configurando o sistema
-Antes de subir o ambiente é preciso configurá-lo. Para isso crie no servidor um arquivo `.env ` baseado no `.env_example` e preencha-o corretamente.
+2. Instale as dependências com o Composer:
 
-```sh
-# criando o arquivo
-$ cp .env_example .env
-
-# editando o arquivo (utilize o seu editor preferido)
-$ nano .env
+```bash
+composer install
 ```
 
-Crie um banco de dados pelo cPanel (ou soluções alternativas a ele) e restaure o banco de dados que está no diretório ***sql***, via PHPmyAdmin ou conforme sua preferência.
+---
 
-### Migrar banco de dados
-```sh
+## ⚒️ Configuração
+
+1. Copie o arquivo de exemplo `.env_example` e crie um `.env` com suas variáveis de ambiente:
+
+```bash
+cp .env_example .env
+nano .env
+```
+
+2. Crie um banco de dados e importe o arquivo SQL localizado na pasta `sql/`, usando o **phpMyAdmin** ou ferramenta similar.
+
+---
+
+## 🛠️ Migrações do Banco de Dados
+
+Execute as migrações com o Phinx:
+
+```bash
 vendor/bin/phinx migrate
 ```
 
-### Seeder
+---
 
-Em ambiente de produção rode
-```sh
+## 🌱 Seeders
+
+**Ambiente de produção:**
+
+```bash
 vendor/bin/phinx seed:run -s InsertInitialData -s InsertFuncoes
 ```
 
-Em ambiente de desenvolvimento rode
-```sh
+**Ambiente de desenvolvimento:**
+
+```bash
 composer require fakerphp/faker
 vendor/bin/phinx seed:run
 ```
 
-### Usuário administrador
-O banco de dados inicial inclui um usuário de role `admin` de **id** `1` e **email** `admin@admin.com`.
-Este usuário possui permissão de modificar informações da página principal.
+---
 
-- **email**: `admin@admin.com`
-- **senha**: `admin`
+## 🔐 Acesso Administrador
+
+Um usuário administrador já está incluído no banco inicial:
+
+- **Email**: `admin@admin.com`
+- **Senha**: `admin`
+
+Esse usuário possui permissões para gerenciar informações da página principal.
+
+---
+
+## 🧾 Documentação Completa
+
+Acesse a [Wiki do Projeto](https://github.com/Quijaua/Kitanda/wiki) para mais informações sobre
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob os termos da [MIT License](LICENSE).
