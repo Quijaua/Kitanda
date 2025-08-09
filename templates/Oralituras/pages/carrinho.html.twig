@@ -227,7 +227,7 @@
         }
 
         // Quando muda quantidade, dispara atualização via AJAX e recalcula subtotal
-        $('.quantidade-produto').on('click', function() {
+        $('.quantidade-produto').on('input', function() {
             var input = $(this);
             var quantidade = parseInt(input.val(), 10);
             if (isNaN(quantidade) || quantidade < 1) {
