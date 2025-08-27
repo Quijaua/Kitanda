@@ -41,12 +41,6 @@ cp .env_example .env
 nano .env
 ```
 
-2. Crie um banco de dados e importe o arquivo SQL localizado na pasta `sql/`, usando o **phpMyAdmin** ou ferramenta similar.
-
----
-
-## 🛠️ Migrações do Banco de Dados
-
 Execute as migrações com o Phinx:
 
 ```bash
@@ -66,7 +60,6 @@ vendor/bin/phinx seed:run -s InsertInitialData -s InsertFuncoes
 **Ambiente de desenvolvimento:**
 
 ```bash
-composer require fakerphp/faker
 vendor/bin/phinx seed:run
 ```
 
