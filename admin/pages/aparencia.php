@@ -159,7 +159,7 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label for="hover" class="col-3 col-form-label required">Hover</label>
+                                <label for="hover" class="col-3 col-form-label required">Ao passar o mouse</label>
                                 <div class="col-2">
                                     <div>
                                         <input name="hover" id="hover"

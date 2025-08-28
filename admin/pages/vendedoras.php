@@ -165,12 +165,10 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="row g-2 align-items-center">
       <div class="col">
         <h2 class="page-title">Vendedoras</h2>
-        <div class="text-secondary mt-1">Aqui estão as vendedoras cadastradas no sistema.</div>
       </div>
       <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
       <div class="col-auto ms-auto d-print-none">
         <a href="<?= ($create) ? INCLUDE_PATH_ADMIN."criar-usuario" : "#"; ?>" class="btn btn-info btn-3 <?= $disabledCreate; ?>" <?= $disabledCreate; ?>>
-          <!-- Ícone de Adicionar -->
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
               stroke-linecap="round" stroke-linejoin="round" class="icon icon-2">
@@ -238,7 +236,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Nome da Vendedora</th>
                 <th>E-mail</th>
                 <th>Telefone</th>
-                <th>Função</th>
                 <th>Status</th>
                 <th></th>
               </tr>
@@ -265,7 +262,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td data-label="Nome"><?php echo htmlspecialchars($usuario['nome']); ?></td>
                   <td data-label="E-mail"><?php echo htmlspecialchars($usuario['email']); ?></td>
                   <td data-label="Telefone"><?php echo !empty($usuario['phone']) ? $usuario['phone'] : '--'; ?></td>
-                  <td data-label="Função"><?php echo htmlspecialchars($usuario['funcao']); ?></td>
                   <!-- <td data-label="Status"><?php echo $usuario['status'] ? 'Ativo' : 'Inativo'; ?></td> -->
 
                   <td data-label="Status">

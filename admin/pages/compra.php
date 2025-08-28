@@ -63,12 +63,12 @@
                     <div class="row">
                         <div class="col-md-6">
                         <dl class="row">
-                            <dt class="col-sm-4">ID do Pedido:</dt>
+                            <dt class="col-sm-4">Código do Pedido:</dt>
                             <dd class="col-sm-8"><?= htmlspecialchars($pedido['pedido_id']); ?></dd>
                             <dt class="col-sm-4">Data Criação:</dt>
                             <dd class="col-sm-8"><?= date("d/m/Y H:i", strtotime($pedido['data_criacao'])); ?></dd>
-                            <dt class="col-sm-4">Status:</dt>
-                            <dd class="col-sm-8"><?= htmlspecialchars($pedido['status_traduzido']); ?></dd>
+                            <dt class="col-sm-4">Cliente:</dt>
+                            <dd class="col-sm-8"><a href="#"><?= htmlspecialchars($usuario['nome']); ?></a></dd>
                         </dl>
                         </div>
                         <div class="col-md-6">
@@ -77,6 +77,8 @@
                             <dd class="col-sm-8"><?= htmlspecialchars($pedido['forma_pagamento_traduzido']); ?></dd>
                             <dt class="col-sm-4">Total:</dt>
                             <dd class="col-sm-8">R$ <?= number_format($pedido['total'], 2, ',', '.'); ?></dd>
+                            <dt class="col-sm-4">Status:</dt>
+                            <dd class="col-sm-8"><?= htmlspecialchars($pedido['status_traduzido']); ?></dd>
                         </dl>
                         </div>
                     </div>
