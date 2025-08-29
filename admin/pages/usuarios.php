@@ -358,10 +358,10 @@ $(document).ready(function() {
         "responsive": true,
         "pageLength": 10,
         "buttons": ["csv", "excel", "pdf", "print"],
-        "columnDefs": [
-            // Colunas com índices 5 a 8 (Tiktok, Facebook, Instagram e Site) serão ocultas no layout principal
-            { "className": "none", "targets": [5, 6, 7, 8] }
-        ],
+        // "columnDefs": [
+        //     // Colunas com índices 5 a 8 (Tiktok, Facebook, Instagram e Site) serão ocultas no layout principal
+        //     { "className": "none", "targets": [5, 6, 7, 8] }
+        // ],
         "language": {
             "emptyTable": "Nenhum registro encontrado",
             "zeroRecords": "Nenhum registro corresponde à pesquisa",
