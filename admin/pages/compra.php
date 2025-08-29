@@ -1,5 +1,6 @@
 <?php
     $order_id = $_GET['pedido'] ?? null;
+
     if (!$order_id) {
         $_SESSION['error_msg'] = "Pedido não identificado.";
         header("Location: " . INCLUDE_PATH . "carrinho");
@@ -7,7 +8,11 @@
     }
 
     // Busca o pedido na tabela tb_pedidos usando o campo pedido_id
-    $stmt = $conn->prepare("SELECT * FROM tb_pedidos WHERE pedido_id = ?");
+    $stmt = $conn->prepare("
+    SELECT *, tb_clientes.id as cliente_id, tb_clientes.nome as cliente_nome FROM tb_pedidos
+    JOIN tb_clientes ON tb_pedidos.usuario_id = tb_clientes.id
+    WHERE pedido_id = ?
+    ");
     $stmt->execute([$order_id]);
     $pedido = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$pedido) {
@@ -68,7 +73,7 @@
                             <dt class="col-sm-4">Data Criação:</dt>
                             <dd class="col-sm-8"><?= date("d/m/Y H:i", strtotime($pedido['data_criacao'])); ?></dd>
                             <dt class="col-sm-4">Cliente:</dt>
-                            <dd class="col-sm-8"><a href="#"><?= htmlspecialchars($usuario['nome']); ?></a></dd>
+                            <dd class="col-sm-8"><a href="editar-usuario?id=<?= $pedido['cliente_id']; ?>"><?= htmlspecialchars($pedido['cliente_nome']); ?></a></dd>
                         </dl>
                         </div>
                         <div class="col-md-6">
