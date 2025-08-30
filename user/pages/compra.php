@@ -33,7 +33,7 @@
                 <h2 class="page-title">
                     Compra #<?= $pedido['pedido_id']; ?>
                 </h2>
-                <div class="text-secondary mt-1">Aqui estão os detalhes da sua compra.</div>
+                <div class="text-secondary mt-1">Detalhes da compra.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
