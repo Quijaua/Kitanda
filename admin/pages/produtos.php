@@ -28,14 +28,16 @@
         ");
         $stmt->execute();
     } else if ($only_own) {
-        $stmt = $conn->prepare("
-            SELECT p.*, pi.imagem 
-            FROM tb_produtos p
-            LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            WHERE p.criado_por = ?
-            GROUP BY p.id
-            ORDER BY p.id DESC
-        ");
+	$stmt = $conn->prepare("
+	    SELECT p.*, (
+	        SELECT pi.imagem 
+	        FROM tb_produto_imagens pi 
+	        WHERE pi.produto_id = p.id 
+	        LIMIT 1
+	    ) AS imagem
+	    FROM tb_produtos p
+	    ORDER BY p.id DESC
+	");
         $stmt->execute([$_SESSION['user_id']]);
     }
 
