@@ -220,7 +220,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </a>
                                         <?php elseif ($only_own || $read): ?>
                                         <!-- Botão Detalhes -->
-                                        <a href="<?= INCLUDE_PATH_ADMIN . "detalhes-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-info d-flex align-items-center gap-1">
+                                        <a href="<?= INCLUDE_PATH_ADMIN . "detalhes-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-info d-flex align-items-center gap-1" target="_self">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
                                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
                                                 <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
