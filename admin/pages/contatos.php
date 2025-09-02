@@ -12,9 +12,8 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                    Rodapé
+                    Contatos
                 </h2>
-                <div class="text-secondary mt-1">Altere configurações da parte inferior da página.</div>
             </div>
         </div>
     </div>
@@ -54,7 +53,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Dúvidas e Privacidade</h3>
                             <div class="mb-3 row">
-                                <label for="privacidade" class="col-3 col-form-label">Privacidade dos Doadores</label>
+                                <label for="privacidade" class="col-3 col-form-label">Política de privacidade</label>
                                 <div class="col">
                                     <input name="privacidade" id="privacidade"
                                         type="text" class="form-control" value="<?php echo $privacidade; ?>">

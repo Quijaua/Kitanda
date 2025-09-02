@@ -81,6 +81,7 @@
 
         $freight_type = $_POST['freight_type'] ?? 'default';
         $rawValue = $_POST['freight_value'] ?? '';
+        $freight_dimension_id = $_POST['freight_dimension_id'] ?? 0;
 
         if ($freight_type === 'fixed') {
             $num = str_replace(['.', ' '], ['', ''], $rawValue);
@@ -128,8 +129,8 @@
             }
 
             // Inserindo o produto no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, freight_type, freight_value, seo_nome, seo_descricao, link, criado_por) 
-                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :freight_type, :freight_value, :seo_nome, :seo_descricao, :link, :criado_por)");
+            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, freight_type, freight_value, freight_dimension_id, seo_nome, seo_descricao, link, criado_por) 
+                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :freight_type, :freight_value, :freight_dimension_id, :seo_nome, :seo_descricao, :link, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
             $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
@@ -137,6 +138,7 @@
             $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_STR);
             $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
             $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
+            $stmt->bindParam(':freight_dimension_id', $freight_dimension_id, PDO::PARAM_INT);
             $stmt->bindParam(':seo_nome', $seo_nome, PDO::PARAM_STR);
             $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
             $stmt->bindParam(':link', $link, PDO::PARAM_STR);

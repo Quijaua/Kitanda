@@ -105,7 +105,7 @@ if (!empty($pedido_id)) {
                 : INCLUDE_PATH . "assets/preview-image/product.jpg";
 
             $checkoutItems[] = [
-                'item_id'        => (int) $item['item_id'],
+                'id'             => (int) $item['item_id'],
                 'produto_id'     => (int) $item['produto_id'],
                 'produto_nome'   => $item['produto_nome'],
                 'produto_preco'  => (float) $item['produto_preco'],
@@ -195,7 +195,7 @@ if (!$isPedido) {
             : INCLUDE_PATH . "assets/preview-image/product.jpg";
 
         $checkoutItems[] = [
-            'item_id'        => (int) $item['carrinho_id'],
+            'id'             => (int) $item['carrinho_id'],
             'produto_id'     => (int) $item['produto_id'],
             'produto_nome'   => $item['produto_nome'],
             'produto_preco'  => (float) $item['produto_preco'],

@@ -74,52 +74,61 @@
     <div class="container-xl">
         <div class="row row-cards">
 
-            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
-            <div class="col-lg-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <?php include_once('./template-parts/general-sidebar.php'); ?>
 
-            <?php if (!$read): ?>
-            <div class="col-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <div class="col">
+                <div class="row row-cards">
 
-            <div class="col-12">
-                <div class="card">
-
-                    <div class="card-header">
-                        <h4 class="card-title">Configurar Captcha</h4>
+                    <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
                     </div>
+                    <?php exit; endif; ?>
 
-                    <div class="card-body border-bottom py-3">
-                        <!-- hCaptcha Section -->
-                        <div class="mb-4 row g-5 align-items-center">
-                            <div class="col-md-10">
-                                <h3 class="card-title">hCaptcha</h3>
-                                <p class="card-subtitle">É uma plataforma de CAPTCHA que fornece uma camada de segurança adicional, protegendo sites contra bots e ataques automatizados, garantindo que apenas usuários humanos possam interagir com seu conteúdo. Ao implementar o hCaptcha, você pode melhorar a segurança do seu site de forma simples e eficaz.</p>
+                    <?php if (!$read): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
+
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Configurar Captcha</h4>
                             </div>
-                            <div class="col-md-2 ms-auto d-print-none">
-                                <button class="mr-2 btn <?php echo ($hcaptcha_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalHcaptcha" <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($hcaptcha_public) ? "Editar Chaves" : "Configurar"; ?></button>
-                                <a href="https://www.hcaptcha.com" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
+
+                            <div class="card-body border-bottom py-3">
+                                <!-- hCaptcha Section -->
+                                <div class="mb-4 row g-5 align-items-center">
+                                    <div class="col-md-10">
+                                        <h3 class="card-title">hCaptcha</h3>
+                                        <p class="card-subtitle">É uma plataforma de CAPTCHA que fornece uma camada de segurança adicional, protegendo sites contra bots e ataques automatizados, garantindo que apenas usuários humanos possam interagir com seu conteúdo. Ao implementar o hCaptcha, você pode melhorar a segurança do seu site de forma simples e eficaz.</p>
+                                    </div>
+                                    <div class="col-md-2 ms-auto d-print-none">
+                                        <button class="mr-2 btn <?php echo ($hcaptcha_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalHcaptcha" <?php echo ($hcaptcha_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($hcaptcha_public) ? "Editar Chaves" : "Configurar"; ?></button>
+                                        <a href="https://www.hcaptcha.com" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
+                                    </div>
+                                </div>
+
+                                <!-- Cloudflare Turnstile Section -->
+                                <div class="mb-0 row g-5 align-items-center">
+                                    <div class="col-md-10">
+                                        <h3 class="card-title">Cloudflare Turnstile</h3>
+                                        <p class="card-subtitle">É uma alternativa inovadora e sem CAPTCHA oferecida pela Cloudflare. Em vez de apresentar desafios tradicionais, Turnstile permite que você proteja seu site contra bots e fraudes de forma mais eficiente, sem a necessidade de interação do usuário. Ele é ideal para uma experiência de navegação mais fluida e menos intrusiva.</p>
+                                    </div>
+                                    <div class="col-md-2 ms-auto d-print-none">
+                                        <button class="mr-2 btn <?php echo ($turnstile_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalTurnstile" <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($turnstile_public) ? "Editar Chaves" : "Configurar"; ?></button>
+                                        <a href="https://www.cloudflare.com/pt-br/application-services/products/turnstile/" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Cloudflare Turnstile Section -->
-                        <div class="mb-0 row g-5 align-items-center">
-                            <div class="col-md-10">
-                                <h3 class="card-title">Cloudflare Turnstile</h3>
-                                <p class="card-subtitle">É uma alternativa inovadora e sem CAPTCHA oferecida pela Cloudflare. Em vez de apresentar desafios tradicionais, Turnstile permite que você proteja seu site contra bots e fraudes de forma mais eficiente, sem a necessidade de interação do usuário. Ele é ideal para uma experiência de navegação mais fluida e menos intrusiva.</p>
-                            </div>
-                            <div class="col-md-2 ms-auto d-print-none">
-                                <button class="mr-2 btn <?php echo ($turnstile_public) ? "btn-secondary" : "btn-primary"; ?> btn-3 w-100 <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>" data-bs-toggle="modal" data-bs-target="#modalTurnstile" <?php echo ($turnstile_public) ? $disabledUpdate : $disabledCreate; ?>><?php echo ($turnstile_public) ? "Editar Chaves" : "Configurar"; ?></button>
-                                <a href="https://www.cloudflare.com/pt-br/application-services/products/turnstile/" target="_blank" class="mr-2 btn btn-link btn-3 w-100">Saiba Mais</a>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>

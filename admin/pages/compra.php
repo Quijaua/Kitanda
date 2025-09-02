@@ -1,5 +1,6 @@
 <?php
     $order_id = $_GET['pedido'] ?? null;
+
     if (!$order_id) {
         $_SESSION['error_msg'] = "Pedido não identificado.";
         header("Location: " . INCLUDE_PATH . "carrinho");
@@ -7,7 +8,11 @@
     }
 
     // Busca o pedido na tabela tb_pedidos usando o campo pedido_id
-    $stmt = $conn->prepare("SELECT * FROM tb_pedidos WHERE pedido_id = ?");
+    $stmt = $conn->prepare("
+    SELECT tb_pedidos.*, tb_clientes.id as cliente_id, tb_clientes.nome as cliente_nome FROM tb_pedidos
+    JOIN tb_clientes ON tb_pedidos.usuario_id = tb_clientes.id
+    WHERE pedido_id = ?
+    ");
     $stmt->execute([$order_id]);
     $pedido = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$pedido) {
@@ -33,7 +38,7 @@
                 <h2 class="page-title">
                     Compra #<?= $pedido['pedido_id']; ?>
                 </h2>
-                <div class="text-secondary mt-1">Aqui estão os detalhes da sua compra.</div>
+                <div class="text-secondary mt-1">Detalhes da compra.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
@@ -63,12 +68,12 @@
                     <div class="row">
                         <div class="col-md-6">
                         <dl class="row">
-                            <dt class="col-sm-4">ID do Pedido:</dt>
+                            <dt class="col-sm-4">Código do Pedido:</dt>
                             <dd class="col-sm-8"><?= htmlspecialchars($pedido['pedido_id']); ?></dd>
                             <dt class="col-sm-4">Data Criação:</dt>
                             <dd class="col-sm-8"><?= date("d/m/Y H:i", strtotime($pedido['data_criacao'])); ?></dd>
-                            <dt class="col-sm-4">Status:</dt>
-                            <dd class="col-sm-8"><?= htmlspecialchars($pedido['status_traduzido']); ?></dd>
+                            <dt class="col-sm-4">Cliente:</dt>
+                            <dd class="col-sm-8"><a href="detalhes-usuario?id=<?= $pedido['cliente_id']; ?>"><?= htmlspecialchars($pedido['cliente_nome']); ?></a></dd>
                         </dl>
                         </div>
                         <div class="col-md-6">
@@ -77,6 +82,8 @@
                             <dd class="col-sm-8"><?= htmlspecialchars($pedido['forma_pagamento_traduzido']); ?></dd>
                             <dt class="col-sm-4">Total:</dt>
                             <dd class="col-sm-8">R$ <?= number_format($pedido['total'], 2, ',', '.'); ?></dd>
+                            <dt class="col-sm-4">Status:</dt>
+                            <dd class="col-sm-8"><?= htmlspecialchars($pedido['status_traduzido']); ?></dd>
                         </dl>
                         </div>
                     </div>

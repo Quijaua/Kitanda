@@ -165,7 +165,7 @@
                             <?php foreach($posts as $post) : ?>
                             <tr>
                                 <td class="more-info" data-label="Título"><?php echo $post["titulo"]; ?></td>
-                                <td><?php echo date("d/m/Y H:i", strtotime($post["data_criacao"])); ?></td>
+                                <td><?php echo date("d/m/Y", strtotime($post["data_publicacao"])); ?></td>
                                 <td class="text-end">
                                     <div class="d-flex flex-wrap gap-2 align-items-center">
                                         <!-- Botão Visualizar -->

@@ -77,7 +77,6 @@ class InsertInitialData extends AbstractSeed
         $mensagensData = [
             [
                 'id' => 1,
-                'welcome_email' => 'Muito obrigado por colaborar com nossa instituição.',
                 'privacy_policy' => '<h4>SEÇÃO 1 - O QUE FAREMOS COM ESTA INFORMAÇÃO?</h4><p>Quando você realiza alguma transação...</p>', // Adapte se precisar
                 'use_privacy' => 1
             ]

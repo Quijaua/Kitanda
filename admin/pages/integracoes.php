@@ -72,49 +72,58 @@
     <div class="container-xl">
         <div class="row row-cards">
 
-            <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
-            <div class="col-lg-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <?php include_once('./template-parts/general-sidebar.php'); ?>
 
-            <?php if (!$read): ?>
-            <div class="col-12">
-                <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
-            </div>
-            <?php exit; endif; ?>
+            <div class="col">
+                <div class="row row-cards">
 
-            <?php if (!$update): ?>
-            <div class="col-lg-12">
-                <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
-            </div>
-            <?php endif; ?>
+                    <?php if (!getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
 
-            <div class="col-12">
-                <div class="card">
+                    <?php if (!$read): ?>
+                    <div class="col-12">
+                        <div class="alert alert-danger">Você não tem permissão para acessar esta página.</div>
+                    </div>
+                    <?php exit; endif; ?>
 
-                    <form id="integration_form" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="fb_pixel" class="form-label">Facebook Pixel</label>
-                                <textarea class="form-control" placeholder="Insira o código completo do Facebook Pixel aqui" id="fb_pixel" name="fb_pixel"><?php echo $fb_pixel ?></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="gtm" class="form-label">Google Tag Manager</label>
-                                <textarea class="form-control" placeholder="Insira o código completo do Google Tag Manager aqui" id="gtm" name="gtm"><?php echo $gtm; ?></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="g_analytics" class="form-label">Google Analytics</label>
-                                <textarea class="form-control" placeholder="Insira o código completo do Google Analytics aqui" id="g_analytics" name="g_analytics"><?php echo $g_analytics; ?></textarea>
-                            </div>
+                    <?php if (!$update): ?>
+                    <div class="col-lg-12">
+                        <div class="alert alert-info">Você pode visualizar os detalhes desta página, mas não pode editá-los.</div>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="col-12">
+                        <div class="card">
+
+                            <form id="integration_form" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="fb_pixel" class="form-label">Facebook Pixel</label>
+                                        <textarea class="form-control" placeholder="Insira o código completo do Facebook Pixel aqui" id="fb_pixel" name="fb_pixel"><?php echo $fb_pixel ?></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="gtm" class="form-label">Google Tag Manager</label>
+                                        <textarea class="form-control" placeholder="Insira o código completo do Google Tag Manager aqui" id="gtm" name="gtm"><?php echo $gtm; ?></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="g_analytics" class="form-label">Google Analytics</label>
+                                        <textarea class="form-control" placeholder="Insira o código completo do Google Analytics aqui" id="g_analytics" name="g_analytics"><?php echo $g_analytics; ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <button type="submit" name="btnIntegration" class="btn btn-primary" form="integration_form">Salvar</button>
+                                </div>
+                            </form>
+
                         </div>
-                        <div class="card-footer text-end">
-                            <button type="submit" name="btnIntegration" class="btn btn-primary" form="integration_form">Salvar</button>
-                        </div>
-                    </form>
+                    </div>
 
                 </div>
             </div>
+
         </div>
     </div>
 </div>

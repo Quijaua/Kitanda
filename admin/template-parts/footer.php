@@ -15,7 +15,7 @@
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
-                        <a href="https://github.com/Quijaua/Kitanda" class="link-secondary"><?= $project['name']; ?></a>.
+                        <?= $project['name']; ?>
                     </li>
                 </ul>
             </div>

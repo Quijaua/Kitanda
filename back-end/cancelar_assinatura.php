@@ -4,13 +4,6 @@
 
     include_once('../config.php');
 
-    $tabela_mensagem = "tb_mensagens";
-    $id = '1';
-    $stmt_mensagem = $conn->prepare("SELECT unregister_message FROM $tabela_mensagem WHERE id = :id");
-    $stmt_mensagem->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt_mensagem->execute();
-    $result_mensagem = $stmt_mensagem->fetch(PDO::FETCH_ASSOC);
-
     //Apagar Card
     $payment_id = filter_input(INPUT_GET, 'payment_id');
 
@@ -50,7 +43,7 @@
         if(!empty($payment_id)) {
             // Exibir a modal após salvar as informações
             $_SESSION['show_modal'] = "<script>$('#staticBackdrop').modal('toggle');</script>";
-            $_SESSION['msg'] = isset($result_mensagem['unregister_message']) ? $result_mensagem['unregister_message'] : 'A cobrança foi deletada com sucesso com sucesso!';
+            $_SESSION['msg'] = 'A cobrança foi deletada com sucesso com sucesso!';
 
             header("Location: " . INCLUDE_PATH_USER);
         } else {

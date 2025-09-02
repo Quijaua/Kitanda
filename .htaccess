@@ -7,3 +7,5 @@ RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
     Order allow,deny
     Deny from all
 </FilesMatch>
+
+Options -Indexes

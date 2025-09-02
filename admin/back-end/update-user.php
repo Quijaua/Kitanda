@@ -81,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditUser'])) {
     $nome       = trim($_POST['nome']);
     $submitted_email = trim($_POST['email']);
     $funcao_id  = intval($_POST['funcao_id']);
+    $post_status = isset($_POST['status']) ? intval($_POST['status']) : null;
 
     // Carrega os dados atuais do usuário
     $stmt = $conn->prepare("SELECT * FROM tb_clientes WHERE id = :id");
@@ -117,6 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditUser'])) {
         // Caso contrário, mantém os valores atuais
         $token = $currentUser['magic_link'];
         $newStatus = $currentUser['status'];
+    }
+
+    if (!is_null($post_status)) {
+        $newStatus = $post_status;
     }
 
     try {

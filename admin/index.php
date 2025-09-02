@@ -28,7 +28,7 @@ $user_id = $_SESSION['user_id'];
 // Consulta SQL
 $sql = "SELECT * FROM $tabela WHERE id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
-$sql_3 = "SELECT welcome_email, privacy_policy, use_privacy, unregister_message FROM $tabela_3 WHERE id = :id";
+$sql_3 = "SELECT privacy_policy, use_privacy FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
 date_default_timezone_set('America/Sao_Paulo');
 $now = date("Y-m-d");
@@ -150,10 +150,8 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
     // Verificar se o resultado_3 foi encontrado
     if ($resultado_3) {
         // Atribuir o valor da coluna à variável, ex.: "nome" = $nome
-        $welcome_email = $resultado_3['welcome_email'];
         $privacy_policy = $resultado_3['privacy_policy'];
         $use_privacy = $resultado_3['use_privacy'];
-        $unregister_message = $resultado_3['unregister_message'];
     } else {
         // ID não encontrado ou não existente
         $_SESSION['msg'] = "ID não encontrado.";

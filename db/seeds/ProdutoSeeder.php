@@ -25,6 +25,7 @@ class ProdutoSeeder extends AbstractSeed
             // Nome fixo com número aleatório
             $nome = "Nome do Produto " . $numeroAleatorio;
             $titulo = "Nome do Produto " . $numeroAleatorio;
+            $linktitulo = "Nome-do-Produto-" . $numeroAleatorio;
 //            $titulo = $faker->sentence(4);
 
             // Gerar nome da imagem baseado no nome do produto
@@ -44,7 +45,7 @@ class ProdutoSeeder extends AbstractSeed
                 'imagem' => 'produtos/' . $imagemNome,
                 'descricao' => $descricao,
                 'vitrine' => $faker->boolean(70), // 70% de chance de estar na vitrine
-                'link' => 'produto/' . $seoNome,
+                'link' => 'produto/' . $linktitulo,
                 'seo_nome' => $seoNome,
                 'seo_descricao' => $seoNome,
                 'criado_por' => $faker->numberBetween(1, 5), // Assumindo que existam 5 usuários admin
