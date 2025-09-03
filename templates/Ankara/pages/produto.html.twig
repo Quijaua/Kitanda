@@ -16,7 +16,11 @@
                 </svg>
                 <h3>Salvo com sucesso!</h3>
                 <div class="text-secondary">
+                    {% if produto.estoque %}
                     O produto foi adicionado ao seu carrinho.
+                    {% else %}
+                    Não temos esse produto a pronta entrega e enviaremos mensagem assim que estiver pronto e também o prazo de envio.
+                    {% endif %}
                 </div>
             </div>
             <div class="modal-footer">

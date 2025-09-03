@@ -143,6 +143,8 @@ function salvarPedido($customer_id, $dados_pagamento = null, $payment, $shipment
 
     // Insere cada item da compra na tabela tb_pedido_itens
     $stmtItem = $conn->prepare("INSERT INTO tb_pedido_itens (pedido_id, produto_id, nome, preco, quantidade, preco_total) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmtProdutoEstoque = $conn->prepare("UPDATE tb_produtos SET estoque = estoque - ? WHERE id = ?");
+    
     foreach ($produtos as $produto) {
         $stmtItem->execute([
             $pedidoId,
@@ -151,6 +153,11 @@ function salvarPedido($customer_id, $dados_pagamento = null, $payment, $shipment
             $produto['preco'],
             $produto['quantidade'],
             $produto['preco_total']
+        ]);
+
+        $stmtProdutoEstoque->execute([
+            $produto['quantidade'],
+            $produto['id']
         ]);
     }
 

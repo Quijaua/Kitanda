@@ -15,9 +15,7 @@
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
                     <h3>Salvo com sucesso!</h3>
-                    <div class="text-secondary">
-                        O produto foi adicionado ao seu carrinho.
-                    </div>
+                    <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
@@ -114,6 +112,7 @@
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
+                                                        data-produto-estoque="{{ produto.estoque }}"
                                                     >
                                                         Adicionar ao carrinho
                                                     </button>
@@ -176,6 +175,7 @@
             e.preventDefault();
 
             var produtoId = $(this).data("produto-id");
+            var produtoEstoque = $(this).data("produto-estoque");
             // Neste exemplo, fixamos quantidade = 1
             var quantidade = 1;
 
@@ -197,6 +197,7 @@
                         var myModal = new bootstrap.Modal(
                             document.getElementById('modal-success')
                         );
+                        document.getElementById("modalMsg").textContent = produtoEstoque ? 'O produto foi adicionado ao seu carrinho.' : 'Não temos esse produto a pronta entrega e enviaremos mensagem assim que estiver pronto e também o prazo de envio.';
                         myModal.show();
                     } else {
                         // Exibe modal de erro

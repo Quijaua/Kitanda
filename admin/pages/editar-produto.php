@@ -240,6 +240,14 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <label for="estoque" class="col-3 col-form-label required">Estoque</label>
+                                    <div class="col">
+                                        <input name="estoque" id="estoque"
+                                            type="number" class="form-control" value="<?= $produto['estoque']; ?>" required>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <label for="vitrine" class="col-3 col-form-label pt-0">Vitrine</label>
                                     <span class="col">
@@ -696,6 +704,9 @@
                     required: true,
                     minlength: 3
                 },
+                estoque: {
+                    required: true
+                },
                 preco: {
                     required: true,
                     price: true
@@ -716,6 +727,9 @@
                 titulo: {
                     required: "Por favor, insira o título do produto.",
                     minlength: "O título deve ter pelo menos 3 caracteres."
+                },
+                estoque: {
+                    required: "Informe o estoque do produto."
                 },
                 preco: {
                     required: "Informe o preço do produto.",
@@ -749,7 +763,7 @@
             submitHandler: function(form) {
                 // Impede o envio padrão do formulário
                 event.preventDefault(); 
-
+                console.log("Envia o formulário");
                 // Define os botões como variáveis
                 var btnSubmit = $("#btnSubmit");
                 var btnLoader = $("#btnLoader");

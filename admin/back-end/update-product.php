@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $produto_id = $_POST['produto_id'];
     $nome = trim($_POST['nome']);
     $titulo = trim($_POST['titulo']);
+    $estoque = intval($_POST['estoque']);
     $vitrine = isset($_POST['vitrine']) ? 1 : 0;
     $descricao = trim($_POST['descricao']);
     $preco = str_replace(['.', ','], ['', '.'], trim($_POST['preco']));
@@ -82,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $stmt->bindParam(':estoque', $estoque, PDO::PARAM_INT);
         $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $stmt->bindParam(':preco', $preco, PDO::PARAM_STR);
         $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_INT);
