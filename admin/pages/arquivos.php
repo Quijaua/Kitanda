@@ -365,8 +365,12 @@
             temp.val($(this).attr("href")).select();
             document.execCommand("copy");
             temp.remove();
-            $(this).addClass("d-none");
+            $(this).hide();
             $(this).parent().children("span").fadeIn(400);
+            setTimeout(() => {
+                $(this).parent().children("span").fadeOut(100);
+                $(this).fadeIn(400);
+            }, 2000);
         })
 
     });
