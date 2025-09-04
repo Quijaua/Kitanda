@@ -240,15 +240,13 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <div class="row">
                                     <label for="estoque" class="col-3 col-form-label required">Estoque</label>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <input name="estoque" id="estoque"
                                             type="number" class="form-control" value="<?= $produto['estoque']; ?>" required>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <label for="vitrine" class="col-3 col-form-label pt-0">Vitrine</label>
                                     <span class="col">
                                         <label for="vitrine" class="form-check form-switch form-switch-3">
