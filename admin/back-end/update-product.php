@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $seo_nome = trim($_POST['seo_nome']);
     $seo_descricao = trim($_POST['seo_descricao']);
     $link = trim($_POST['link']);
-    $criado_por = trim($_POST['criado_por']);
+    $criado_por = (isset($_POST['criado_por']) && !empty($_POST['criado_por'])) ? $_POST['criado_por'] : $_SESSION['user_id'];
 
     if (!filter_var(INCLUDE_PATH . $link, FILTER_VALIDATE_URL)) {
         echo json_encode(['status' => 'error', 'message' => 'O link informado não é válido.']);
