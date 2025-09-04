@@ -344,7 +344,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
 
         <!-- Tabler Core -->
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
+         <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js?1738096685" defer></script>
 
 		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-a11y.min.css" rel="stylesheet"/>
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler-a11y.min.js" defer></script>
