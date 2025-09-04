@@ -63,7 +63,7 @@
                 $empreendedoras[$key]['imagem'] = INCLUDE_PATH . "assets/preview-image/profile.jpg";
             }
         }
-        var_dump($empreendedoras);
+
     }
 ?>
 
