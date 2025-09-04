@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         $conn->beginTransaction();
 
-        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, freight_dimension_id = :freight_dimension_id, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por WHERE id = :produto_id");
+        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, estoque = :estoque, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, freight_dimension_id = :freight_dimension_id, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por WHERE id = :produto_id");
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);

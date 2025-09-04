@@ -130,8 +130,8 @@
             }
 
             // Inserindo o produto no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, descricao, preco, vitrine, freight_type, freight_value, freight_dimension_id, seo_nome, seo_descricao, link, criado_por) 
-                                    VALUES (:nome, :titulo, :descricao, :preco, :vitrine, :freight_type, :freight_value, :freight_dimension_id, :seo_nome, :seo_descricao, :link, :criado_por)");
+            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, estoque, descricao, preco, vitrine, freight_type, freight_value, freight_dimension_id, seo_nome, seo_descricao, link, criado_por) 
+                                    VALUES (:nome, :titulo, :estoque, :descricao, :preco, :vitrine, :freight_type, :freight_value, :freight_dimension_id, :seo_nome, :seo_descricao, :link, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
             $stmt->bindParam(':estoque', $estoque, PDO::PARAM_STR);

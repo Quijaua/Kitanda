@@ -63,6 +63,7 @@
                 $empreendedoras[$key]['imagem'] = INCLUDE_PATH . "assets/preview-image/profile.jpg";
             }
         }
+        var_dump($empreendedoras);
     }
 ?>
 
@@ -444,9 +445,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-0 row">
-                                    <label class="col-3 col-form-label required">Vendedora do Produto</label>
+                                    <label class="col-3 col-form-label">Vendedora do Produto</label>
                                     <div class="col">
-                                        <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                        <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." >
                                             <option value="">Selecione uma vendedora</option>
                                             <?php foreach ($empreendedoras as $e): ?>
                                             <?php $selected = ($e['id'] == $produto['criado_por']) ? 'selected' : ''; ?>

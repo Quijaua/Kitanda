@@ -380,9 +380,9 @@
                             <div class="card-body">
 
                                 <div class="mb-0 row">
-                                    <label class="col-3 col-form-label required">Vendedora do Produto</label>
+                                    <label class="col-3 col-form-label">Vendedora do Produto</label>
                                     <div class="col">
-                                        <select id="select-people" name="created_by" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                        <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." >
                                             <option value="">Selecione uma vendedora</option>
                                             <?php foreach ($empreendedoras as $e): ?>
                                             <option value="<?= $e['id']; ?>" data-custom-properties="<span class='avatar avatar-xs' style='background-image: url(<?= $e['imagem']; ?>)'></span>">
