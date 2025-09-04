@@ -242,7 +242,11 @@
                         <button type="button"
                                 class="btn btn-yellow text-red btn-pill btn-lg w-100 add-to-cart"
                                 data-produto-id="{{ produto.id }}">
+                            {% if produto.estoque %}
                             Adicionar ao carrinho
+                            {% else %}
+                            Encomendar
+                            {% endif %}
                         </button>
                     </div>
                 </div>

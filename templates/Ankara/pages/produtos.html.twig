@@ -114,7 +114,11 @@
                                                         data-produto-id="{{ produto.id }}"
                                                         data-produto-estoque="{{ produto.estoque }}"
                                                     >
+                                                        {% if produto.estoque %}
                                                         Adicionar ao carrinho
+                                                        {% else %}
+                                                        Encomendar
+                                                        {% endif %}
                                                     </button>
                                                 </div>
                                             </div>
