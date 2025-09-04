@@ -11,6 +11,7 @@ if (isset($_SESSION['user_id'])) {
             c.quantidade,
             p.link AS produto_link,
             p.nome AS produto_nome,
+            p.estoque as produto_estoque,
             p.preco AS produto_preco,
             pi.imagem AS produto_imagem,
             u.nome AS empreendedora
@@ -32,6 +33,7 @@ if (isset($_SESSION['user_id'])) {
             c.quantidade,
             p.link AS produto_link,
             p.nome AS produto_nome,
+            p.estoque as produto_estoque,
             p.preco AS produto_preco,
             pi.imagem AS produto_imagem,
             u.nome AS empreendedora
@@ -68,6 +70,7 @@ if ($stmt) {
             'produto_id'      => (int) $item['produto_id'],
             'produto_link'    => $item['produto_link'],
             'produto_nome'    => $item['produto_nome'],
+            'produto_estoque' => (int) $item['produto_estoque'],
             'produto_preco'   => (float) $item['produto_preco'],
             'produto_imagem'  => $imagemUrl,
             'empreendedora'   => $item['empreendedora'],
