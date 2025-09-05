@@ -99,32 +99,14 @@
                             <div class="mb-3">
                                 <label for="privacy_policy" class="form-label">Texto que vai ser exibido na página de privacidade</label>
                                 <textarea id="privacy_policy" name="privacy_policy" placeholder="Insira a mensagem de boas vindas que será enviada no email aqui" style="min-height: 300px"><?php echo $privacy_policy; ?></textarea>
+                                <script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/hugerte.min.js"></script>
+                                <script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/langs/pt_BR.js"></script>
                                 <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                    let options = {
+                                    hugerte.init({
                                         selector: '#privacy_policy',
-                                        height: 300,
-                                        menubar: false,
-                                        disabled: <?php echo $editorDisabled; ?>,
-                                        statusbar: false,
-                                        license_key: 'gpl',
-                                        plugins: [
-                                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
-                                            'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                                        ],
-                                        toolbar: 'undo redo | formatselect | ' +
-                                            'bold italic backcolor | alignleft aligncenter ' +
-                                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                                            'removeformat',
-                                        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
-                                    }
-                                    if (localStorage.getItem("tablerTheme") === 'dark') {
-                                        options.skin = 'oxide-dark';
-                                        options.content_css = 'dark';
-                                    }
-                                    tinyMCE.init(options);
-                                })
+                                        language: 'pt_BR',
+                                        plugins: 'accordion advlist anchor autolink autosave charmap code codesample directionality emoticons fullscreen help image insertdatetime link lists media nonbreaking pagebreak preview quickbars save searchreplace table template visualblocks visualchars wordcount',
+                                    });
                                 </script>
                             </div>
 
