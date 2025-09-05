@@ -207,6 +207,9 @@
                                                     </button>
                                                 </div>
                                             </div>
+                                            {% if not produto.estoque %}
+                                            <p class="mt-2 text-center text-secondary">Produzido especialmente para você! Início da produção após a confirmação do pagamento.</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +290,7 @@
                         var myModal = new bootstrap.Modal(
                             document.getElementById('modal-success')
                         );
-                        document.getElementById("modalMsg").textContent = produtoEstoque ? 'O produto foi adicionado ao seu carrinho.' : 'Não temos esse produto a pronta entrega e enviaremos mensagem assim que estiver pronto e também o prazo de envio.';
+                        document.getElementById("modalMsg").textContent = 'O produto foi adicionado ao seu carrinho.';
                         myModal.show();
                     } else {
                         // Exibe modal de erro

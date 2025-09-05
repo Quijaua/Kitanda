@@ -16,11 +16,7 @@
                 </svg>
                 <h3>Salvo com sucesso!</h3>
                 <div class="text-secondary">
-                    {% if produto.estoque %}
                     O produto foi adicionado ao seu carrinho.
-                    {% else %}
-                    Não temos esse produto a pronta entrega e enviaremos mensagem assim que estiver pronto e também o prazo de envio.
-                    {% endif %}
                 </div>
             </div>
             <div class="modal-footer">
@@ -251,6 +247,9 @@
                             {% endif %}
                         </button>
                     </div>
+                    {% if not produto.estoque %}
+                    <p class="mt-2 text-center text-secondary">Produzido especialmente para você! Início da produção após a confirmação do pagamento.</p>
+                    {% endif %}
                 </div>
 
             </div>
