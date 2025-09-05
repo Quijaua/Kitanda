@@ -256,6 +256,52 @@
         </div>
     </div>
 
+    <div class="container-xl mt-4">
+        {% if not user_id %}
+        <div class="row">
+            <div class="col-12 col-sm-6 mb-4">
+                <div class="col-sm-8 col-md-10">
+                    <a class="btn btn-yellow text-red btn-pill btn-md w-100" href="/login">
+                        Comprou esse artesanato? Deixe o seu depoimento
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <form id="form_depoimento" action="">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="depoimento" class="col-3 col-form-label">Envie seu depoimento</label>
+                    <div class="col">
+                        <input type="hidden" name="criado_por" id="criado_por" value="{{ user_id }}">
+                        <input type="hidden" name="produto_id" id="produto_id" value="{{ produto.id }}">
+                        <textarea name="depoimento" id="depoimento" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col mt-2">
+                        <button type="button" class="btn btn-primary" id="btn-depoimento">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+        <div class="row">
+            <div class="col-6">
+                <h2 class="mb-3">Depoimentos</h2>
+                <div class="row">
+                    {% for depoimento in depoimentos %}
+                    <div class="col-12 mt-2">
+                        <!-- Comentário -->
+                        <div class="d-flex flex-column border-bottom pb-3">
+                            <small class="text-muted mb-2">{{ depoimento.criado_em | date('d/m/Y') }}</small>
+                            <p class="mb-0">{{ depoimento.depoimento }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     {# ----------- “Outros Produtos” ----------- #}
     {% if outros_produtos is not empty %}
         <style>
@@ -353,5 +399,35 @@
                 }
             });
         });
+
+        $("#btn-depoimento").on("click", function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ INCLUDE_PATH }}back-end/depoimento/adicionar_depoimento.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    criado_por: $("#criado_por").val(),
+                    produto_id: $("#produto_id").val(),
+                    depoimento: $("#depoimento").val()
+                },
+                success: function(response) {
+                    if (response.status == "sucesso") {
+                        //var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
+                        //myModal.show();
+                        alert(response.mensagem);
+                        location.reload();
+                    } else {
+                        //var myErrorModal = new bootstrap.Modal(document.getElementById('modal-error'));
+                        //myErrorModal.show();
+                        alert('Erro ao enviar depoimento, tente mais tarde.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro na requisição AJAX: " + error);
+                }
+            });
+        })
     });
 </script>
