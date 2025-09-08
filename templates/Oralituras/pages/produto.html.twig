@@ -40,6 +40,39 @@
     </div>
 </div>
 
+{# ----------- Modais de Depoimento / Erro ----------- #}
+<div class="modal modal-blur fade" id="modal-depoimento" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon mb-2 text-green icon-lg">
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M9 12l2 2l4 -4" />
+                </svg>
+                <h3>Salvo com sucesso!</h3>
+                <div class="text-secondary">
+                    <p id="msg-depoimento"></p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" id="fechar-modal-depoimento" class="btn w-100">
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -416,10 +449,17 @@
                 },
                 success: function(response) {
                     if (response.status == "sucesso") {
-                        //var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
-                        //myModal.show();
-                        alert(response.mensagem);
-                        location.reload();
+                        var myModal = new bootstrap.Modal(document.getElementById('modal-depoimento'), {
+                            keyboard: false,
+                            backdrop: "static"
+                        });
+                        $("#msg-depoimento").text(response.mensagem);
+                        myModal.show();
+                        $("#fechar-modal-depoimento").on("click", function(e) {
+                            e.preventDefault();
+                            myModal.hide();
+                            location.reload();
+                        });
                     } else {
                         //var myErrorModal = new bootstrap.Modal(document.getElementById('modal-error'));
                         //myErrorModal.show();
