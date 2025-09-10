@@ -23,7 +23,7 @@
             SELECT p.*, pi.imagem 
             FROM tb_produtos p
             LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            GROUP BY p.id, pi.imagem
+            GROUP BY p.id, pi.produto_id
             ORDER BY p.id DESC
         ");
         $stmt->execute();
@@ -32,7 +32,8 @@
 	    SELECT p.*, (
 	        SELECT pi.imagem 
 	        FROM tb_produto_imagens pi 
-	        WHERE pi.produto_id = p.id 
+	        WHERE pi.produto_id = p.id
+            AND p.criado_por = ?
 	        LIMIT 1
 	    ) AS imagem
 	    FROM tb_produtos p
