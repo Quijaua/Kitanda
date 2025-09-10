@@ -49,9 +49,10 @@ $total_paginas = ($total_produtos > 0) ? ceil($total_produtos / $limite) : 1;
 
 // 6) Busca produtos paginados
 $sql = "
-    SELECT p.*
+    SELECT p.*, pi.imagem as imagem_produto
     FROM tb_categoria_produtos cp
     JOIN tb_produtos p ON cp.produto_id = p.id
+    LEFT JOIN tb_produto_imagens pi ON pi.produto_id = p.id
     WHERE cp.categoria_id = :categoria_id
       AND p.vitrine = 1
 ";
@@ -78,7 +79,7 @@ foreach ($produtosRaw as $produto) {
         ? str_replace(
             ' ',
             '%20',
-            INCLUDE_PATH . "files/blog/{$produto['id']}/{$produto['imagem']}"
+            INCLUDE_PATH . "files/produtos/{$produto['id']}/{$produto['imagem_produto']}"
           )
         : INCLUDE_PATH . "assets/preview-image/product.jpg";
 
