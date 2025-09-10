@@ -471,7 +471,7 @@ if (isset($_POST['btnUpdFooter'])) {
             $_SESSION['msg'] = 'As informações do rodapé foram atualizadas com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'rodape');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'contatos');
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
         }
