@@ -152,9 +152,6 @@ function makeDonation($dataForm, $config){
 
         // Iniciando variavel "$subscription_id"
         $subscription_id = null;
-
-
-
         
         // Recebe os dados do carrinho enviados pelo AJAX (por exemplo, via método POST)
         // Espera que os dados estejam no formato: cart[0][id], cart[0][quantity], etc.
@@ -175,9 +172,22 @@ function makeDonation($dataForm, $config){
             $quantity = (int)$item['quantity'];
 
             // Busca os dados reais do produto no banco
-            $stmt = $conn->prepare("SELECT p.id, p.nome, p.preco, pi.imagem AS produto_imagem FROM tb_produtos p LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id WHERE p.id = ?");
+            $stmt = $conn->prepare(
+                "SELECT p.id, p.nome, p.preco, f.altura, f.largura, f.comprimento, f.peso, pi.imagem AS produto_imagem
+                FROM tb_produtos p
+                LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
+                LEFT JOIN tb_frete_dimensoes f ON f.id = p.freight_dimension_id
+                WHERE p.id = ?"
+            );
             $stmt->execute([$id]);
             $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Busca os dados do remetente
+            $stmt = $conn->prepare(
+                "SELECT * FROM tb_checkout WHERE id = ?"
+            );
+            $stmt->execute([1]);
+            $remetente = $stmt->fetch(PDO::FETCH_ASSOC);
             
             // Se o produto for encontrado, monta os dados do item
             if ($produto) {
@@ -187,6 +197,10 @@ function makeDonation($dataForm, $config){
                                    : INCLUDE_PATH . "assets/preview-image/product.jpg";
                 $produto['quantidade'] = $quantity;
                 $produto['preco_total'] = $produto['preco'] * $quantity;
+                $produto['altura'] = $produto['altura'] ?? 4;
+                $produto['largura'] = $produto['largura'] ?? 12;
+                $produto['comprimento'] = $produto['comprimento'] ?? 17;
+                $produto['peso'] = $produto['peso'] ?? 0.5;
                 $subtotal += $produto['preco_total'];
                 
                 // Adiciona o produto ao array de produtos
@@ -352,6 +366,9 @@ function makeDonation($dataForm, $config){
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
 
+                $shipment_id = $_POST['shipping']['service_id'];
+                $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);
+
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'Crédito';
@@ -409,6 +426,9 @@ function makeDonation($dataForm, $config){
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
 
+                $shipment_id = $_POST['shipping']['service_id'];
+                $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);
+
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;
                 $resultado['compra']['pagamento'] = 'Boleto';
@@ -465,6 +485,9 @@ function makeDonation($dataForm, $config){
                 $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
                 $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+
+                $shipment_id = $_POST['shipping']['service_id'];
+                $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);
 
                 $resultado['compra']['data'] = date('d/m/Y');
                 $resultado['compra']['id'] = $pedido_id;
@@ -526,6 +549,198 @@ function makeDonation($dataForm, $config){
                 echo json_encode(['status' => 404, 'message' => 'Método de pagamento inválido!']);
                 break;
         }
-    
     }
 }
+
+#ETIQUETAS
+function criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente) {
+    $client = new \GuzzleHttp\Client();
+
+    try {
+        // 0. Criar etiqueta
+        $payload = [
+            "service" => intval($_POST['shipping']['service_id']), // precisa vir da cotação
+            "agency"  => $_POST['shipping']['agency_id'] ?? null,
+            "from" => [
+                "name"        => $remetente['nome'],
+                "phone"       => $remetente['telefone'],
+                "email"       => $remetente['email'],
+                "document"    => "87358053079", // CPF ou CNPJ da loja
+                "address"     => $remetente['rua'],
+                "complement"  => $remetente['complemento'] ?? "",
+                "number"      => $remetente['numero'],
+                "district"    => $remetente['bairro'],
+                "city"        => $remetente['cidade'],
+                "state_abbr"  => $remetente['estado'],
+                "country_id"  => "BR",
+                "postal_code" => $remetente['cep']
+            ],
+            "to" => [
+                "name"        => $dataForm['name'],
+                "phone"       => $dataForm['phone'],
+                "email"       => $dataForm['email'],
+                "document"    => preg_replace('/[^0-9]/', '', $dataForm['cpfCnpj']),
+                "address"     => $dataForm['street'],
+                "complement"  => $dataForm['complement'] ?? "",
+                "number"      => $dataForm['addressNumber'],
+                "district"    => $dataForm['district'],
+                "city"        => $dataForm['city'],
+                "state_abbr"  => $dataForm['state'],
+                "country_id"  => "BR",
+                "postal_code" => preg_replace('/[^0-9]/', '', $dataForm['postalCode'])
+            ],
+            "products" => array_map(function($produto) {
+                return [
+                    "name"   => $produto['nome'],
+                    "quantity" => $produto['quantidade'],
+                    "unitary_value" => $produto['preco'],
+                    "weight" => floatval($produto['peso']),
+                    "length" => intval($produto['altura']),
+                    "height" => intval($produto['largura']),
+                    "width"  => intval($produto['comprimento']),
+                ];
+            }, $produtos),
+            "volumes" => array_map(function($produto) {
+                return [
+                    "weight" => floatval($produto['peso']),
+                    "length" => intval($produto['altura']),
+                    "height" => intval($produto['largura']),
+                    "width"  => intval($produto['comprimento']),
+                ];
+            }, $produtos),
+            "options" => [
+                "insurance_value" => max(1, floatval($compra['total'])),
+                "receipt" => false,
+                "own_hand" => false,
+                "reverse" => false,
+                "non_commercial" => true
+            ]
+        ];
+
+        $cartResponse = $client->post($config['melhor_envio_url'] . 'me/cart', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $config['melhor_envio_token']
+            ],
+            'json' => $payload
+        ]);
+
+        $cartData = json_decode($cartResponse->getBody()->getContents(), true);
+
+        // Pega o ID da etiqueta criada
+        $orderId = $cartData['id'] ?? null;
+        if (!$orderId) {
+            throw new Exception("Nenhuma etiqueta foi criada no carrinho");
+        }
+
+        // 1. Realizar o checkout
+        $checkout = $client->request('POST', $config['melhor_envio_url'] . "me/shipment/checkout", [
+            "form_params" => [
+                'orders' => [$orderId]
+            ],
+            "headers" => [
+                "Accept" => "application/json",
+                "Content-Type" => "application/x-www-form-urlencoded",
+                "Authorization" => "Bearer " . trim($config['melhor_envio_token'])
+            ],
+        ]);
+
+        $checkoutData = json_decode($checkout->getBody()->getContents(), true);
+        $purchaseId = $checkoutData['purchase']['id'];
+
+        // 2. Gerar a etiqueta
+        $generate = $client->request('POST', $config['melhor_envio_url'] . "me/shipment/generate", [
+            "form_params" => [
+                'orders' => [$orderId]
+            ],
+            "headers" => [
+                "Accept" => "application/json",
+                "Content-Type" => "application/x-www-form-urlencoded",
+                "Authorization" => "Bearer " . trim($config['melhor_envio_token'])
+            ],
+        ]);
+
+    } catch (Exception $e) {
+        error_log("Erro gerar etiqueta: " . $e->getMessage());
+        return [
+            "status" => false,
+            "message" => $e->getMessage()
+        ];
+    }
+}
+
+
+
+// === Função utilitária para gerar etiquetas ===
+function gerarEtiquetaMelhorEnvio($dataForm, $config, $produtos, $compra) {
+    $client = new GuzzleHttp\Client();
+
+    $payload = [
+        "service" => $_POST['shipping']['service_id'], // precisa vir da cotação
+        "agency"  => $_POST['shipping']['agency_id'] ?? null,
+        "from" => [
+            "name"        => "Loja Exemplo", // <<< SUBSTITUA PELOS SEUS DADOS FIXOS
+            "phone"       => "11999999999",
+            "email"       => "contato@sualoja.com.br",
+            "document"    => "00000000000", // CPF ou CNPJ da loja
+            "address"     => "Rua de Origem",
+            "complement"  => "Sala 1",
+            "number"      => "123",
+            "district"    => "Centro",
+            "city"        => "São Paulo",
+            "state_abbr"  => "SP",
+            "country_id"  => "BR",
+            "postal_code" => "01001000"
+        ],
+        "to" => [
+            "name"        => $dataForm['name'],
+            "phone"       => $dataForm['phone'] ?? "11999999999",
+            "email"       => $dataForm['email'],
+            "document"    => $dataForm['cpf'] ?? "00000000000",
+            "address"     => $dataForm['street'],
+            "complement"  => $dataForm['complement'] ?? "",
+            "number"      => $dataForm['addressNumber'],
+            "district"    => $dataForm['district'],
+            "city"        => $dataForm['city'],
+            "state_abbr"  => $dataForm['state'],
+            "country_id"  => "BR",
+            "postal_code" => preg_replace('/[^0-9]/', '', $dataForm['postalCode'])
+        ],
+        "products" => array_map(function($produto) {
+            return [
+                "name"   => $produto['nome'],
+                "quantity" => $produto['quantidade'],
+                "unitary_value" => $produto['preco'],
+                "weight" => 0.3, // <<< AJUSTAR peso real
+                "length" => 16,  // <<< AJUSTAR dimensões reais
+                "height" => 2,
+                "width"  => 11
+            ];
+        }, $produtos),
+        "options" => [
+            "insurance_value" => $compra['total'],
+            "receipt" => false,
+            "own_hand" => false,
+            "reverse" => false,
+            "non_commercial" => true
+        ]
+    ];
+
+    try {
+        $response = $client->post($config['melhor_envio_url'] . "shipments", [
+            "headers" => [
+                "Accept" => "application/json",
+                "Authorization" => "Bearer " . $config['melhor_envio_token'],
+                "Content-Type" => "application/json"
+            ],
+            "json" => $payload
+        ]);
+
+        return json_decode($response->getBody(), true);
+    } catch (Exception $e) {
+        error_log("Erro ao gerar etiqueta: " . $e->getMessage());
+        return null;
+    }
+}
+

@@ -916,6 +916,8 @@ function loadShippingOptions(cep, cartItems) {
                      'name="shipping_method" '+
                      'id="'+ radioId +'" '+
                      'value="'+ opt.id +'" '+
+                     'data-service_id="'+ opt.id +'" ' +
+                     'data-company_id="'+ opt.id +'" ' +
                      'data-price="'+ opt.price +'">'+
               '<label class="form-check-label" for="'+ radioId +'">'+
                 priceText + ' - ' + opt.company.name + ' - ' + deadlineText +
@@ -1669,7 +1671,8 @@ $(document).ready(function() {
             var shipping = {
                 valor: $('#frete_valor').data('value'),
                 cep: $('#field-zipcode').val(),
-                shipping_method: $('input[name="shipping_method"]:checked').val()
+                shipping_method: $('input[name="shipping_method"]:checked').val(),
+                service_id: $('input[name="shipping_method"]:checked').data('service_id'),
             }
 
             // Cria o array com os itens do carrinho
@@ -1861,7 +1864,8 @@ $(document).ready(function() {
         var shipping = {
             valor: $('#frete_valor').data('value'),
             cep: $('#field-zipcode').val(),
-            shipping_method: $('input[name="shipping_method"]:checked').val()
+            shipping_method: $('input[name="shipping_method"]:checked').val(),
+            service_id: $('input[name="shipping_method"]:checked').data('service_id'),
         }
 
         // Exemplo de array com os itens do carrinho
