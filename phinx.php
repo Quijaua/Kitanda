@@ -25,11 +25,11 @@ return
         ],
         'development' => [
             'adapter' => 'mysql',
-            'host' => getenv('DB_HOST') ?: 'mysql_db',
-            'name' => getenv('DB_NAME') ?: 'app_db',
-            'user' => getenv('DB_USERNAME') ?: 'root',
-            'pass' => getenv('DB_PASSWORD') ?: 'root',
-            'port' => getenv('DB_PORT') ?: 3306,
+            'host' => $_ENV['DB_HOST'],
+            'name' => $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USERNAME'],
+            'pass' => $_ENV['DB_PASSWORD'],
+            'port' => $_ENV['DB_PORT'],
             'charset' => 'utf8mb4',
         ],
         'testing' => [
