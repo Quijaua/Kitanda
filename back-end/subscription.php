@@ -565,7 +565,7 @@ function criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente) 
                 "name"        => $remetente['nome'],
                 "phone"       => $remetente['telefone'],
                 "email"       => $remetente['email'],
-                "document"    => "87358053079", // CPF ou CNPJ da loja
+                "document"    => $remetente['cpfCnpj'],
                 "address"     => $remetente['rua'],
                 "complement"  => $remetente['complemento'] ?? "",
                 "number"      => $remetente['numero'],

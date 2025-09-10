@@ -109,6 +109,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $estado = $resultado['estado'];
         $telefone = $resultado['telefone'];
         $email = $resultado['email'];
+        $cpfCnpj = $resultado['cpfCnpj'];
         $nav_color = $resultado['nav_color'];
         $nav_background = $resultado['nav_background'];
         $background = $resultado['background'];

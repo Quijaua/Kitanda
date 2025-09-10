@@ -187,6 +187,13 @@
                                         type="text" class="form-control" value="<?php echo $email; ?>" <?php echo ($email == '') ? 'disabled' : '';?>>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label for="cpfCnpj" class="col-3 col-form-label">CPF</label>
+                                <div class="col">
+                                    <input name="cpfCnpj" id="cpfCnpj"
+                                        type="text" class="form-control" value="<?php echo $cpfCnpj; ?>" >
+                                </div>
+                            </div>
 
                             <h3 class="card-title">Endereço</h3>
                             <div class="mb-3 row">
