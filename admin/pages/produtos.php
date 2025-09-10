@@ -23,7 +23,7 @@
             SELECT p.*, pi.imagem 
             FROM tb_produtos p
             LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            GROUP BY p.id
+            GROUP BY p.id, pi.imagem
             ORDER BY p.id DESC
         ");
         $stmt->execute();
