@@ -76,7 +76,7 @@ $produtosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $produtos = [];
 foreach ($produtosRaw as $produto) {
     // Imagem de capa do produto
-    $imagemUrl = !empty($produto['imagem'])
+    $imagemUrl = isset($produto['imagem_produto'])
         ? str_replace(
             ' ',
             '%20',
