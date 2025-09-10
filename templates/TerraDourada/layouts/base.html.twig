@@ -39,10 +39,10 @@
     <meta property="og:title"       content="{{ og_title }}" />
     <meta property="og:description" content="{{ og_description|slice(0,120) ~ '...' }}" />
     <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
-    <meta property="og:site_name"   content="{{ nome }}" />
+    <meta property="og:site_name"   content="{{ title ?: nome }}" />
     <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />
-    <meta name="twitter:site"       content="@{{ nome }}" />
+    <meta name="twitter:site"       content="@{{ title ?: nome }}" />
     <meta name="twitter:title"      value="{{ title }}" />
     <meta name="twitter:url"        value="{{ INCLUDE_PATH }}" />
     <meta name="twitter:image"      value="{{ INCLUDE_PATH }}assets/img/{{ logo }}" />
@@ -72,7 +72,7 @@
             {
                 "@type": "Organization",
                 "@id": "{{ INCLUDE_PATH }}#organization",
-                "name": "{{ nome }}",
+                "name": "{{ title ?: nome }}",
                 "url": "{{ INCLUDE_PATH }}",
                 "logo": {
                     "@type": "ImageObject",
@@ -82,7 +82,7 @@
                     "contentUrl": "{{ INCLUDE_PATH }}assets/img/{{ logo }}",
                     "width": 140,
                     "height": 64,
-                    "caption": "{{ nome }}"
+                    "caption": "{{ title ?: nome }}"
                 },
                 "image": { "@id": "{{ INCLUDE_PATH }}#/schema/logo/image" }
             }

@@ -359,7 +359,7 @@
                                         {% if user.newsletter %}checked{% endif %}
                                     >
                                     <span class="form-check-label">
-                                        Quero receber as novidades de {{ nome }}.
+                                        Quero receber as novidades de {{ title ?: nome }}.
                                     </span>
                                 </label>
                                 <hr class="my-3">
@@ -379,7 +379,7 @@
                                         Declaro que li e aceito as
                                         <a href="/politica-de-privacidade/" target="_blank">condições de compra</a>,
                                         <a href="/politica-de-privacidade/" target="_blank">políticas de cancelamento</a> e os
-                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ nome }}.
+                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ title ?: nome }}.
                                     </span>
                                     <div id="input-terms-error" class="text-danger d-none">
                                         <small>Por favor, aceite os termos de uso para prosseguir</small>
