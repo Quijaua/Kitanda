@@ -17,11 +17,16 @@ if ($read) {
     $userId  = $_SESSION['user_id'];
 
     // Total de clientes cadastrados na plataforma
-    $sqlClientes = "SELECT COUNT(DISTINCT email) AS total_customers FROM tb_clientes";
+    $sqlClientes = "
+    SELECT COUNT(DISTINCT p.usuario_id) AS total_customers FROM tb_pedidos p
+    JOIN tb_clientes c ON p.usuario_id = c.id
+    WHERE p.transacao_id IS NOT NULL
+    AND p.asaas_usuario_id IS NOT NULL
+    ";
     $stmtClientes = $conn->prepare($sqlClientes);
     $stmtClientes->execute();
     $clientesResult = $stmtClientes->fetch(PDO::FETCH_ASSOC);
-    $totalCustomers = (int)$clientesResult['total_customers'];
+    $totalCustomers = (int)$clientesResult['total_customers'] ?? 0;
 
     $sql = "
       SELECT
