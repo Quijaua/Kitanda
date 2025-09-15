@@ -555,6 +555,7 @@ function makeDonation($dataForm, $config){
 #ETIQUETAS
 function criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente) {
     $client = new \GuzzleHttp\Client();
+    $isRemetenteCnpj = strlen(preg_replace('/[^0-9]/', '', $remetente['cpfCnpj'])) > 11;
 
     try {
         // 0. Criar etiqueta
@@ -565,7 +566,7 @@ function criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente) 
                 "name"        => $remetente['nome'],
                 "phone"       => $remetente['telefone'],
                 "email"       => $remetente['email'],
-                "document"    => $remetente['cpfCnpj'],
+                $isRemetenteCnpj ? "company_document" : "document"    => $remetente['cpfCnpj'],
                 "address"     => $remetente['rua'],
                 "complement"  => $remetente['complemento'] ?? "",
                 "number"      => $remetente['numero'],

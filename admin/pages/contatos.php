@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="cpfCnpj" class="col-3 col-form-label">CPF</label>
+                                <label for="cpfCnpj" class="col-3 col-form-label">CPF / CNPJ</label>
                                 <div class="col">
                                     <input name="cpfCnpj" id="cpfCnpj"
                                         type="text" class="form-control" value="<?php echo $cpfCnpj; ?>" >
