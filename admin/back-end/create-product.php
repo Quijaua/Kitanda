@@ -75,6 +75,7 @@
         $titulo = trim($_POST['titulo']);
         $estoque = trim($_POST['estoque']);
         $vitrine = isset($_POST['vitrine']) ? 1 : 0;
+        $peso = floatval($_POST['peso']);
         $descricao = trim($_POST['descricao']);
         $preco = trim($_POST['preco']);
         $preco = str_replace('.', '', $preco);
@@ -130,14 +131,15 @@
             }
 
             // Inserindo o produto no banco de dados
-            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, estoque, descricao, preco, vitrine, freight_type, freight_value, freight_dimension_id, seo_nome, seo_descricao, link, criado_por) 
-                                    VALUES (:nome, :titulo, :estoque, :descricao, :preco, :vitrine, :freight_type, :freight_value, :freight_dimension_id, :seo_nome, :seo_descricao, :link, :criado_por)");
+            $stmt = $conn->prepare("INSERT INTO tb_produtos (nome, titulo, estoque, descricao, preco, vitrine, peso, freight_type, freight_value, freight_dimension_id, seo_nome, seo_descricao, link, criado_por) 
+                                    VALUES (:nome, :titulo, :estoque, :descricao, :preco, :vitrine, :peso, :freight_type, :freight_value, :freight_dimension_id, :seo_nome, :seo_descricao, :link, :criado_por)");
             $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
             $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
             $stmt->bindParam(':estoque', $estoque, PDO::PARAM_STR);
             $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
             $stmt->bindParam(':preco', $preco, PDO::PARAM_STR);
             $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_STR);
+            $stmt->bindParam(':peso', $peso, PDO::PARAM_STR);
             $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
             $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
             $stmt->bindParam(':freight_dimension_id', $freight_dimension_id, PDO::PARAM_INT);

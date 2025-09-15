@@ -53,7 +53,7 @@ foreach ($cart as $item) {
     // Buscar dimensões e peso do produto
     $stmtProd = $conn->prepare("
         SELECT 
-            freight_type, freight_value, freight_dimension_id 
+            freight_type, freight_value, freight_dimension_id, peso 
         FROM tb_produtos 
         WHERE id = :id
     ");
@@ -66,7 +66,7 @@ foreach ($cart as $item) {
         $altura = $defaultDimensao['altura'];
         $largura = $defaultDimensao['largura'];
         $comprimento = $defaultDimensao['comprimento'];
-        $peso = $defaultDimensao['peso'];
+        $peso = $produto['peso'] ?? $defaultDimensao['peso'];
     } else {
         $type  = $produto['freight_type'] ?? 'default';
         $value = floatval($produto['freight_value'] ?? 0);
@@ -82,7 +82,7 @@ foreach ($cart as $item) {
             $altura = $defaultDimensao['altura'];
             $largura = $defaultDimensao['largura'];
             $comprimento = $defaultDimensao['comprimento'];
-            $peso = $defaultDimensao['peso'];
+            $peso = $produto['peso'] ?? $defaultDimensao['peso'];
         } else {
             // Busca dimensões da dimensão personalizada
             $stmtDim = $conn->prepare("SELECT altura, largura, comprimento, peso FROM tb_frete_dimensoes WHERE id = :id");
@@ -94,13 +94,13 @@ foreach ($cart as $item) {
                 $altura = floatval($dim['altura']);
                 $largura = floatval($dim['largura']);
                 $comprimento = floatval($dim['comprimento']);
-                $peso = floatval($dim['peso']);
+                $peso = $produto['peso'] ?? floatval($dim['peso']);
             } else {
                 // Caso não encontre, usa padrão
                 $altura = $defaultDimensao['altura'];
                 $largura = $defaultDimensao['largura'];
                 $comprimento = $defaultDimensao['comprimento'];
-                $peso = $defaultDimensao['peso'];
+                $peso = $produto['peso'] ?? $defaultDimensao['peso'];
             }
         }
     }

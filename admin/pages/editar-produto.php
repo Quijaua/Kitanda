@@ -262,7 +262,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="mb-3 row">
                                     <label for="estoque" class="col-3 col-form-label required">Estoque</label>
                                     <div class="col-md-3">
                                         <input name="estoque" id="estoque"
@@ -277,6 +277,14 @@
                                             <span class="form-check-label form-check-label-off">Não</span>
                                         </label>
                                     </span>
+                                </div>
+
+                                <div class="row">
+                                    <label for="peso" class="col-3 col-form-label required">Peso</label>
+                                    <div class="col-md-3">
+                                        <input name="peso" id="peso"
+                                            type="number" class="form-control" value="<?= $produto['peso']; ?>" >
+                                    </div>
                                 </div>
 
                             </div>
