@@ -65,6 +65,27 @@
         }
 
     }
+
+    if (getNomePermissao($_SESSION['user_id'], $conn) === 'Vendedor') {
+        // Dimensão padrão (simulada)
+        $defaultDimensao = [
+            'id' => 0,
+            'nome' => 'Padrão',
+            'altura' => 4,
+            'largura' => 12,
+            'comprimento' => 17,
+            'peso' => 0.5
+        ];
+
+        // Buscar do banco
+        $stmt = $conn->prepare("SELECT * FROM tb_frete_dimensoes");
+        $stmt->execute();
+        $dimensoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Junta e ordena
+        $dimensoes[] = $defaultDimensao;
+        usort($dimensoes, fn($a, $b) => strcmp($a['nome'], $b['nome']));
+    }
 ?>
 
 <?php
