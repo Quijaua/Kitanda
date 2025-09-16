@@ -364,7 +364,7 @@ function makeDonation($dataForm, $config){
                 $customer_id = asaas_CriarCliente($dataForm, $config);
                 $payment = asaas_CriarCobrancaCartao($customer_id, $dataForm, $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
-                $pedido_id = salvarPedido($customer_id, null, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                $pedido_id = salvarPedido($customer_id, $payment, $shipment, $dataForm, $compra, $produtos, $config, null);
 
                 $shipment_id = $_POST['shipping']['service_id'];
                 $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);
@@ -424,7 +424,7 @@ function makeDonation($dataForm, $config){
                 $payment = asaas_CriarCobrancaBoleto($customer_id, $dataForm, $config);
                 $boleto = asaas_ObterLinhaDigitavelBoleto($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
-                $pedido_id = salvarPedido($customer_id, $boleto, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                $pedido_id = salvarPedido($customer_id, $payment, $shipment, $dataForm, $compra, $produtos, $config, $boleto);
 
                 $shipment_id = $_POST['shipping']['service_id'];
                 $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);
@@ -484,7 +484,7 @@ function makeDonation($dataForm, $config){
                 $payment = asaas_CriarCobrancaPix($customer_id, $dataForm, $config);
                 $pix = asaas_ObterQRCodePix($subscription_id, $payment['id'], $config);
                 // $shipment = melhorEnvioGetTracking($_POST['shipping'], $config);
-                $pedido_id = salvarPedido($customer_id, $pix, $payment, $shipment, $dataForm, $compra, $produtos, $config);
+                $pedido_id = salvarPedido($customer_id, $payment, $shipment, $dataForm, $compra, $produtos, $config, $pix);
 
                 $shipment_id = $_POST['shipping']['service_id'];
                 $etiqueta = criarGerarEtiqueta($config, $dataForm, $produtos, $compra, $remetente);

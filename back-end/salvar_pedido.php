@@ -1,5 +1,5 @@
 <?php
-function salvarPedido($customer_id, $dados_pagamento = null, $payment, $shipment, $dataForm, $compra, $produtos, $config) {
+function salvarPedido($customer_id, $payment, $shipment, $dataForm, $compra, $produtos, $config, $dados_pagamento = null) {
 	include('config.php');
 
     // echo "Data Form";
