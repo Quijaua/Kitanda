@@ -279,14 +279,6 @@
                                     </span>
                                 </div>
 
-                                <div class="row">
-                                    <label for="peso" class="col-3 col-form-label required">Peso</label>
-                                    <div class="col-md-3">
-                                        <input name="peso" id="peso"
-                                            type="number" class="form-control" value="<?= $produto['peso']; ?>" >
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>
@@ -384,6 +376,14 @@
                                             <input class="form-check-input" type="radio" name="freight_type" id="freight_fixed" value="fixed" <?= ($produto['freight_type'] === 'fixed' ? 'checked' : '') ?> />
                                             <label class="form-check-label" for="freight_fixed">Frete de valor fixo</label>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-3 row">
+                                    <label for="peso" class="col-3 col-form-label">Peso</label>
+                                    <div class="col-md-3">
+                                        <input name="peso" id="peso"
+                                            type="number" class="form-control" value="<?= $produto['peso']; ?>" >
                                     </div>
                                 </div>
 

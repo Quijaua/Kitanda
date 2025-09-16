@@ -215,14 +215,6 @@
                                     </span>
                                 </div>
 
-                                <div class="row">
-                                    <label for="peso" class="col-3 col-form-label">Peso</label>
-                                    <div class="col-md-3">
-                                        <input name="peso" id="peso"
-                                            type="number" class="form-control" >
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>
@@ -333,6 +325,14 @@
                                                     type="text" class="form-control mask-money" placeholder="0,00" autocomplete="off" disabled>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="peso" class="col-3 col-form-label">Peso</label>
+                                    <div class="col-md-3">
+                                        <input name="peso" id="peso"
+                                            type="number" class="form-control" >
                                     </div>
                                 </div>
 
