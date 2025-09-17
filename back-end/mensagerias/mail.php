@@ -11,7 +11,7 @@
         $smtp_password = $_ENV['SMTP_PASSWORD'];
         $smtp_secure = $_ENV['SMTP_SECURE'];
         $smtp_port = $_ENV['SMTP_PORT'];
-        $smtp_email = $project['email_vendedora'] ?? $_ENV['SMTP_EMAIL'] ?? $project['email'];
+        $smtp_email = $_ENV['SMTP_FROM'] ?? $project['email'] ?? $project['email_vendedora'];
         $smtp_title = $project['nome_vendedora'] ?? $project['name'];
 
         // Verificação de configuração SMTP
@@ -42,6 +42,7 @@
             // Configurações do email
             $mail->setFrom($smtp_email, $smtp_title);
             $mail->addAddress($email, $name);
+            $mail->addReplyTo($project['email'], 'Atendimento - ' . $project['name']);
 
             // Conteúdo do email
             $mail->isHTML(true); // Formato do email para HTML
