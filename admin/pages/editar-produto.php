@@ -263,28 +263,26 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="estoque" class="col-3 col-form-label required">Estoque</label>
-                                    <div class="col-md-3">
+                                    <div class="col">
+                                        <label for="codigo_produto" class="col-form-label">Código do produto</label>
+                                        <input name="codigo_produto" id="codigo_produto"
+                                            type="text" class="form-control" value="<?= $produto['codigo_produto']; ?>" >
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="estoque" class="col-form-label required">Estoque</label>
                                         <input name="estoque" id="estoque"
                                             type="number" class="form-control" value="<?= $produto['estoque']; ?>" required>
                                     </div>
 
-                                    <label for="vitrine" class="col-3 col-form-label pt-0">Vitrine</label>
-                                    <span class="col">
-                                        <label for="vitrine" class="form-check form-switch form-switch-3">
+                                    <span class="col mt-2">
+                                        <label for="vitrine" class="col-form-label pt-0">Vitrine</label>
+                                        <label for="vitrine" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="vitrine" id="vitrine" type="checkbox" class="form-check-input" value="1" <?= ($produto['vitrine'] == 1) ? "checked" : "" ?>>
                                             <span class="form-check-label form-check-label-on">Sim</span>
                                             <span class="form-check-label form-check-label-off">Não</span>
                                         </label>
                                     </span>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="titulo" class="col-3 col-form-label">Código</label>
-                                    <div class="col">
-                                        <input name="codigo_produto" id="codigo_produto"
-                                            type="text" class="form-control" value="<?= $produto['codigo_produto']; ?>" >
-                                    </div>
                                 </div>
 
                             </div>
