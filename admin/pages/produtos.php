@@ -156,7 +156,7 @@
                         <thead>
                             <tr>
                                 <th>Nome do Produto</th>
-                                <!-- <th>Título</th> -->
+                                <th>Código</th>
                                 <th>Preço</th>
                                 <th>Vitrine</th>
                                 <th>Data de Criação</th>
@@ -179,7 +179,7 @@
                                         <?php echo $produto["nome"]; ?>
                                     </div>
                                 </td>
-                                <!-- <td><?php echo $produto["titulo"]; ?></td> -->
+                                <td><?php echo $produto["codigo_produto"]; ?></td>
                                 <td><?php echo $produto["preco"]; ?></td>
                                 <td>
                                     <label for="vitrine" class="form-check form-switch form-switch-3">

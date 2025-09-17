@@ -215,6 +215,14 @@
                                     </span>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <label for="titulo" class="col-3 col-form-label">Código</label>
+                                    <div class="col">
+                                        <input name="codigo_produto" id="codigo_produto"
+                                            type="text" class="form-control" >
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

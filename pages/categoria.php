@@ -107,6 +107,7 @@ foreach ($produtosRaw as $produto) {
     $produtos[] = [
         'id'               => $produto['id'],
         'titulo'           => $produto['titulo'],
+        'codigo_produto'   => $produto['codigo_produto'],
         'preco'            => $produto['preco'],
         'link'             => $produto['link'],
         'empreendedora'    => $produto['empreendedora'],
