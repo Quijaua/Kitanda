@@ -33,10 +33,10 @@
 	        SELECT pi.imagem 
 	        FROM tb_produto_imagens pi 
 	        WHERE pi.produto_id = p.id
-            AND p.criado_por = ?
 	        LIMIT 1
 	    ) AS imagem
 	    FROM tb_produtos p
+        WHERE p.criado_por = ?
 	    ORDER BY p.id DESC
 	");
         $stmt->execute([$_SESSION['user_id']]);
