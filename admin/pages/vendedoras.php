@@ -311,6 +311,13 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
                                 Editar
                             </a>
+                            <?php if(getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH_ADMIN . "minha-loja?vendedora_id={$usuario['id']}"; ?>">
+                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                                Editar Loja
+                            </a>
+                            <?php endif; ?>
                             <?php elseif ($only_own || $read): ?>
                             <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->

@@ -20,7 +20,14 @@
         WHERE vendedora_id = ? 
         LIMIT 1
     ");
-    $stmt->execute([$_SESSION['user_id']]);
+
+    // Permite que o admin veja e edite os dados da loja de outra vendedora
+    if(getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador' && isset($_GET['vendedora_id'])) {
+        $stmt->execute([$_GET['vendedora_id']]);
+    } else {
+        $stmt->execute([$_SESSION['user_id']]);
+    }
+
     $loja = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $loja['imagem_path'] = !empty($loja['imagem'])
@@ -223,9 +230,12 @@
                 // Cria um objeto FormData a partir do formulário
                 var formData = new FormData(form);
 
-                // Adiciona um novo campo
+                // Adiciona novos campos
                 <?php if (isset($loja['id'])): ?>
                 formData.append("loja_id", <?= $loja['id']; ?>);
+                <?php endif; ?>
+                <?php if (isset($_GET['vendedora_id'])): ?>
+                formData.append("vendedora_id", <?= $_GET['vendedora_id']; ?>);
                 <?php endif; ?>
                 formData.append("action", "atualizar-loja");
 

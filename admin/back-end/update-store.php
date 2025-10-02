@@ -73,7 +73,7 @@ function uploadImagem($loja_id, $conn) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'atualizar-loja') {
     $loja_id = $_POST['loja_id'] ?? null;
-    $vendedora_id = $_SESSION['user_id'];
+    $vendedora_id = isset($_POST['vendedora_id']) ? $_POST['vendedora_id'] : $_SESSION['user_id'];
     $nome       = trim($_POST['nome']);
     $telefone   = trim($_POST['telefone']);
     $site       = trim($_POST['site']);
