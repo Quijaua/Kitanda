@@ -219,6 +219,9 @@
                     {% if produto.estoque %}
                     <p class="text-secondary mb-0 me-4">Estoque: {{ produto.estoque }}</p>
                     {% endif %}
+                    {% if produto.prazo_criacao %}
+                    <p class="text-secondary mb-0 me-4">Prazo de criação: {{ produto.prazo_criacao }}</p>
+                    {% endif %}
                 </div>
 
                 <div class="d-flex align-items-center mb-6">

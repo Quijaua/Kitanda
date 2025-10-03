@@ -285,6 +285,24 @@
                                     </span>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <span class="col mt-2">
+                                        <label for="somente_encomenda" class="col-form-label pt-0">Somente sob encomenda</label>
+                                        <label for="somente_encomenda" class="form-check form-switch form-switch-3 mt-2">
+                                            <input name="somente_encomenda" id="somente_encomenda" type="checkbox" class="form-check-input" value="1" <?= ($produto['somente_encomenda'] == 1) ? "checked" : "" ?>>
+                                            <span class="form-check-label form-check-label-on">Sim</span>
+                                            <span class="form-check-label form-check-label-off">Não</span>
+                                        </label>
+                                    </span>
+
+                                    <div id="prazo_criacao_wrapper" class="col <?php if (!$produto['somente_encomenda']) echo 'd-none'; ?>">
+                                        <label for="prazo_criacao" class="col-form-label">Prazo de Criação</label>
+                                        <input name="prazo_criacao" id="prazo_criacao"
+                                            type="text" class="form-control" value="<?= $produto['prazo_criacao']; ?>" >
+                                    </div>
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -850,6 +868,15 @@
                         btnLoader.addClass("d-none");
                     }
                 });
+            }
+        });
+
+        $("#somente_encomenda").on("change", function() {
+            if ($(this).is(":checked")) {
+                $("#prazo_criacao_wrapper").removeClass("d-none");
+            } else {
+                $("#prazo_criacao_wrapper").addClass("d-none");
+                $("#prazo_criacao").val("");
             }
         });
     });
