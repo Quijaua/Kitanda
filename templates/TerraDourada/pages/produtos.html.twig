@@ -81,32 +81,32 @@
                     <li class="text-yellow fw-bold fs-2">
                         <a href="/categoria?id=1">
                             <img src="/assets/TerraDourada/images/decoracao.png" alt="Decoração" title="Decoração" />
+				<p class="text-center text-yellow fw-bold fs-1">Decoração</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Decoração</span></a> -->
                     </li>
                     <li class="text-yellow fw-bold fs-2">
                         <a href="/categoria?id=2">
-                            <img src="/assets/TerraDourada/images/joias.png" alt="Jóias e Biojoias" title="Jóias e Biojoias" />
+                            <img src="/assets/TerraDourada/images/joias.png" alt="Biojóias" title="Biojóias" />
+                                <p class="text-center text-yellow fw-bold fs-1">Biojóias</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Jóias e Biojoias</span></a> -->
                     </li>
                     <li class="text-yellow fw-bold fs-2">
                         <a href="/categoria?id=3">
                             <img src="/assets/TerraDourada/images/acessorios.png" alt="Acessórios" title="Acessórios" />
+                                <p class="text-center text-yellow fw-bold fs-1">Acessórios</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Acessórios</span></a> -->
                     </li>
                     <li class="text-yellow fw-bold fs-2">
                         <a href="/categoria?id=4">
                             <img src="/assets/TerraDourada/images/utilitarios.png" alt="Utilitários" title="Utilitários" />
+                                <p class="text-center text-yellow fw-bold fs-1">Utilitários</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Utilitários</span></a> -->
                     </li>
                     {#<li class="text-yellow fw-bold fs-2">
                         <a href="/categoria?id=5">
                             <img src="/assets/TerraDourada/images/brinquedos.png" alt="Brinquedos" title="Brinquedos" />
+				<p class="text-center text-yellow fw-bold fs-1">Brinquedos</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Brinquedos</span></a> -->
                     </li> #}
                 </ul>
             </div>
@@ -120,13 +120,13 @@
                 <div class="col">
                     <h1 class="text-terra fs-1">Nossos produtos</h1>
                     <div class="text-secondary mt-1">
-                        {% if total_produtos > 0 %}
+{#                        {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
                                min((pagina_atual * limite), total_produtos) ~
                                ' de ' ~ total_produtos ~ ' produtos' }}
                         {% else %}
                             Nenhum produto encontrado
-                        {% endif %}
+                        {% endif %} #}
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
