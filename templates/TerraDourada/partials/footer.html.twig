@@ -72,10 +72,10 @@
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Fale com a gente</strong></p>
+                    <p class="fs-3 h2">Fale com a gente</p>
                     <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
-                    <h6 class="mt-4">Siga-nos</h6>
+                    <p class="mt-4 fs-3 h2">Siga-nos</p>
                     <div class="social-icons">
                     <a href="{{ facebook ?: '#' }}" target="_blank"
                        rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
@@ -98,7 +98,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Informações gerais</strong></p>
+                    <p class="fs-3 h2">Informações gerais</p>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
@@ -127,7 +127,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Contato</strong></p>
+                    <p class="fs-3 h2">Contato</p>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
                     <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>
@@ -136,7 +136,7 @@
                         <i class="fab fa-cc-mastercard me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-pix" style="font-size: 1.5rem;"></i>
                     </div>
-                <p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
+                <p class="footer-linkd mt-5 footer-kitanda">
                     <a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
                         Usamos Kitanda | Open source
                     </a>
