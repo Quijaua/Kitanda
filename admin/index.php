@@ -198,7 +198,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         <meta http-equiv="Content-Language" content="pt-BR">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><?= $project['title'] ?: $project['name']; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+	<meta name=viewport content="width=device-width, initial-scale=1">
 
         <!-- Descrição -->
         <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
