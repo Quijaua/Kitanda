@@ -30,11 +30,11 @@
                                 {% endif %}
 
                                 {# Título e link para o artigo #}
-                                <h5 class="card-title">
+                                <p class="card-title">
                                     <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
                                         {{ post.titulo }}
                                     </a>
-                                </h5>
+                                </p>
 
                                 {# Data de publicação #}
                                 <small class="text-muted">
@@ -76,26 +76,34 @@
                     <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <p class="mt-4 fs-3 h2">Siga-nos</p>
-                    <div class="social-icons">
-                    <a href="{{ facebook ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-facebook"></i>
-                    </a>
-                    <a href="{{ instagram ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-instagram"></i>
-                    </a>
-                    <a href="{{ youtube ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-youtube"></i>
-                    </a>
-                    <a href="{{ website ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                        <i class="bi fa-2x bi-globe-americas p-2"></i>
-                    </a>
+                    <nav aria-label="Redes sociais" class="social-icons">
+                        <a href="{{ facebook ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar página no Facebook"
+                            {% if not facebook %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ instagram ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar perfil no Instagram"
+                            {% if not instagram %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ youtube ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar canal no YouTube"
+                            {% if not youtube %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-youtube" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ website ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar site oficial"
+                            {% if not website %}class="d-none"{% endif %}>
+                            <i class="bi fa-2x bi-globe-americas p-2" aria-hidden="true"></i>
+                        </a>
                     </div>
                     {% endif %}
-                </div>
+                </nav>
                 
                 <div class="col-lg-3 mb-4">
                     <p class="fs-3 h2">Informações gerais</p>

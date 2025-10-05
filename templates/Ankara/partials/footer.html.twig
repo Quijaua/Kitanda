@@ -68,11 +68,11 @@
                                 {% endif %}
 
                                 {# Título e link para o artigo #}
-                                <h5 class="card-title">
+                                <p class="card-title">
                                     <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
                                         {{ post.titulo }}
                                     </a>
-                                </h5>
+                                </p>
 
                                 {# Data de publicação #}
                                 <small class="text-muted">
@@ -123,39 +123,63 @@
             <div class="col-md-3">
                 <p class="btn-whatsapp"><a href="#"><i class="ti ti-brand-whatsapp"></i> Fale com a gente</a></p>
 
-                <div class="social-icons">
-                <a href="{{ facebook ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-facebook"></i>
-                </a>
-                <a href="{{ instagram ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-instagram p-2"></i>
-                </a>
-                <a href="{{ linkedin ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-linkedin p-2"></i>
-                </a>
-                <a href="{{ twitter ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-twitter p-2"></i>
-                </a>
-                <a href="{{ youtube ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-youtube p-2"></i>
-                </a>
-                <a href="{{ website ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                    <i class="ti ti-globe-americas p-2"></i>
-                </a>
-                <a href="{{ tiktok ?: '#' }}"   target="_blank"
-                    rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-tiktok p-2"></i>
-                </a>
-                <a href="{{ linktree ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
-                    <i class="ti ti-share p-2"></i>
-                </a>
+                <nav aria-label="Redes sociais" class="social-icons">
+                    <a href="{{ facebook ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar página no Facebook"
+                        {% if not facebook %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ instagram ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no Instagram"
+                        {% if not instagram %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-instagram p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ linkedin ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no LinkedIn"
+                        {% if not linkedin %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-linkedin p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ twitter ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no X (antigo Twitter)"
+                        {% if not twitter %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-twitter p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ youtube ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar canal no YouTube"
+                        {% if not youtube %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-youtube p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ website ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar site oficial"
+                        {% if not website %}class="d-none"{% endif %}>
+                        <i class="ti ti-globe-americas p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ tiktok ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no TikTok"
+                        {% if not tiktok %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-tiktok p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ linktree ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar página no Linktree"
+                        {% if not linktree %}class="d-none"{% endif %}>
+                        <i class="ti ti-share p-2" aria-hidden="true"></i>
+                    </a>
+
 
                 <div class="font-weight-light" style="font-size:13px;margin-top:5px">
                     {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
@@ -171,7 +195,7 @@
                         Usamos Kitanda | Open source
                     </a>
                 </p>
-            </div>
+            </nav>
         </div>
     </div>
 </div>
