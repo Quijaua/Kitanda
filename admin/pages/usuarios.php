@@ -195,63 +195,59 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td data-label="Função"><?php echo htmlspecialchars($usuario['funcao']); ?></td>
                   <td data-label="Status"><?php echo $usuario['status'] ? 'Ativo' : 'Inativo'; ?></td>
 
-<td class="text-end">
-                                    <div class="d-flex flex-wrap gap-2 align-items-center">
-                                        <!-- Botão Visualizar -->
-                                        <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-external-link">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
-                                                <path d="M11 13l9 -9" />
-                                                <path d="M15 4h5v5" />
-                                            </svg>
-                                            Visualizar
-                                        </a>
+                  <td class="text-end">
+                      <div class="d-flex flex-wrap gap-2 align-items-center">
+                          <!-- Botão Visualizar -->
+                          <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-external-link">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+                                  <path d="M11 13l9 -9" />
+                                  <path d="M15 4h5v5" />
+                              </svg>
+                              Visualizar
+                          </a>
 
-                                        <?php if ($update): ?>
-                                        <!-- Botão Editar -->
-                                        <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
-                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                <path d="M16 5l3 3"></path>
-                                            </svg>
-                                            Editar
-                                        </a>
-                                        <?php elseif ($only_own || $read): ?>
-                                        <!-- Botão Detalhes -->
-                                        <a href="<?= INCLUDE_PATH_ADMIN . "detalhes-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-info d-flex align-items-center gap-1" target="_self">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
-                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                <path d="M16 5l3 3"></path>
-                                            </svg>
-                                            Detalhes
-                                        </a>
-                                        <?php endif; ?>
+                          <?php if ($update): ?>
+                          <!-- Botão Editar -->
+                          <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
+                                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                  <path d="M16 5l3 3"></path>
+                              </svg>
+                              Editar
+                          </a>
+                          <?php elseif ($only_own || $read): ?>
+                          <!-- Botão Detalhes -->
+                          <a href="<?= INCLUDE_PATH_ADMIN . "detalhes-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-info d-flex align-items-center gap-1" target="_self">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
+                                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                  <path d="M16 5l3 3"></path>
+                              </svg>
+                              Detalhes
+                          </a>
+                          <?php endif; ?>
 
-                                        <?php if ($delete): ?>
-                                        <!-- Espaçamento antes do botão Deletar -->
-                                        <div class="ms-auto"></div>
-                                        
-                                        <!-- Botão Deletar -->
-                                        <a type="button" class="btn btn-6 btn-outline-danger d-flex align-items-center gap-1 btn-delete" data-id="<?php echo $usuario['id']; ?>" data-name="<?php echo $usuario['nome']; ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-trash">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                <path d="M4 7l16 0" />
-                                                <path d="M10 11l0 6" />
-                                                <path d="M14 11l0 6" />
-                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                            </svg>
-                                            Apagar
-                                        </a>
-                                        <?php endif; ?>
-                                    </div>
-                                    
-                                </td>
+                          <?php if ($delete): ?>
+                          <!-- Espaçamento antes do botão Deletar -->
+                          <div class="ms-auto"></div>
+                          
+                          <!-- Botão Deletar -->
+                          <a type="button" class="btn btn-6 btn-outline-danger d-flex align-items-center gap-1 btn-delete" data-id="<?php echo $usuario['id']; ?>" data-name="<?php echo $usuario['nome']; ?>">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-trash">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M4 7l16 0" />
+                                  <path d="M10 11l0 6" />
+                                  <path d="M14 11l0 6" />
+                                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                              </svg>
+                              Apagar
+                          </a>
+                          <?php endif; ?>
                       </div>
-                    </span>
                   </td>
                 </tr>
               <?php endforeach; ?>

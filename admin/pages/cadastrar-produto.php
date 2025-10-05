@@ -161,7 +161,6 @@
                     <div class="alert alert-danger w-100" role="alert">
                         <div class="d-flex">
                             <div>
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                             </div>
                             <div>
@@ -199,19 +198,19 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col">
+                                    <div class="col-2">
                                         <label for="codigo_produto" class="col-form-label">Código do produto</label>
                                         <input name="codigo_produto" id="codigo_produto"
                                             type="text" class="form-control" >
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-2">
                                         <label for="estoque" class="col-form-label required">Estoque</label>
                                         <input name="estoque" id="estoque"
                                             type="number" class="form-control" required>
                                     </div>
 
-                                    <span class="col mt-2">
+                                    <span class="col-2 mt-2">
                                         <label for="vitrine" class="col-form-label pt-0">Vitrine</label>
                                         <label for="vitrine" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="vitrine" id="vitrine" type="checkbox" class="form-check-input" >
@@ -219,10 +218,8 @@
                                             <span class="form-check-label form-check-label-off">Não</span>
                                         </label>
                                     </span>
-                                </div>
 
-                                <div class="mb-3 row">
-                                    <span class="col mt-2">
+                                    <span class="col-3 mt-2">
                                         <label for="somente_encomenda" class="col-form-label pt-0">Somente sob encomenda</label>
                                         <label for="somente_encomenda" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="somente_encomenda" id="somente_encomenda" type="checkbox" class="form-check-input">
@@ -231,8 +228,8 @@
                                         </label>
                                     </span>
 
-                                    <div id="prazo_criacao_wrapper" class="col d-none">
-                                        <label for="prazo_criacao" class="col-form-label">Prazo de Criação</label>
+                                    <div id="prazo_criacao_wrapper" class="col-2 d-none">
+                                        <label for="prazo_criacao" class="col-form-label">Prazo de criação</label>
                                         <input name="prazo_criacao" id="prazo_criacao"
                                             type="text" class="form-control">
                                     </div>
@@ -355,13 +352,13 @@
                                     <label for="peso" class="col-3 col-form-label">Peso</label>
                                     <div class="col-md-3">
                                         <input name="peso" id="peso"
-                                            type="number" class="form-control" >
+                                            type="number" class="form-control" placeholder="0.5">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 mt-3 row" id="divFreightDimension">
                                     <label for="freight_dimension_id" class="col-3 col-form-label required">Medidas do Produto para Frete</label>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <select name="freight_dimension_id" id="freight_dimension_id" class="form-select" placeholder="Selecione as medidas deste produto..." required>
                                             <option value="" disabled>Selecione as medidas deste produto</option>
                                             <?php foreach ($dimensoes as $dim): ?>
@@ -510,7 +507,7 @@
                     </div>
 
                     <div class="d-flex">
-                        <button type="button" class="btn btn-1" onclick="location.reload();">Resetar</button>
+                        <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
                         <button type="submit" name="btnCreateProduct" class="btn btn-primary ms-auto">Salvar</button>
                     </div>
 

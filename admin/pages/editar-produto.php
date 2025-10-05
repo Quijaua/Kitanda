@@ -263,19 +263,19 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col">
+                                    <div class="col-2">
                                         <label for="codigo_produto" class="col-form-label">Código do produto</label>
                                         <input name="codigo_produto" id="codigo_produto"
                                             type="text" class="form-control" value="<?= $produto['codigo_produto']; ?>" >
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-2">
                                         <label for="estoque" class="col-form-label required">Estoque</label>
                                         <input name="estoque" id="estoque"
                                             type="number" class="form-control" value="<?= $produto['estoque']; ?>" required>
                                     </div>
 
-                                    <span class="col mt-2">
+                                    <span class="col-2 mt-2">
                                         <label for="vitrine" class="col-form-label pt-0">Vitrine</label>
                                         <label for="vitrine" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="vitrine" id="vitrine" type="checkbox" class="form-check-input" value="1" <?= ($produto['vitrine'] == 1) ? "checked" : "" ?>>
@@ -283,10 +283,8 @@
                                             <span class="form-check-label form-check-label-off">Não</span>
                                         </label>
                                     </span>
-                                </div>
 
-                                <div class="mb-3 row">
-                                    <span class="col mt-2">
+                                    <span class="col-3 mt-2">
                                         <label for="somente_encomenda" class="col-form-label pt-0">Somente sob encomenda</label>
                                         <label for="somente_encomenda" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="somente_encomenda" id="somente_encomenda" type="checkbox" class="form-check-input" value="1" <?= ($produto['somente_encomenda'] == 1) ? "checked" : "" ?>>
@@ -295,7 +293,7 @@
                                         </label>
                                     </span>
 
-                                    <div id="prazo_criacao_wrapper" class="col <?php if (!$produto['somente_encomenda']) echo 'd-none'; ?>">
+                                    <div id="prazo_criacao_wrapper" class="col-2 <?php if (!$produto['somente_encomenda']) echo 'd-none'; ?>">
                                         <label for="prazo_criacao" class="col-form-label">Prazo de Criação</label>
                                         <input name="prazo_criacao" id="prazo_criacao"
                                             type="text" class="form-control" value="<?= $produto['prazo_criacao']; ?>" >
@@ -583,7 +581,7 @@
                     <input type="hidden" name="imagens_removidas" id="imagens_removidas">
 
                     <div class="d-flex">
-                        <button type="button" class="btn btn-1" onclick="location.reload();">Resetar</button>
+                        <a  class="btn btn-1" href="<?php echo INCLUDE_PATH . "p/{$produto['link']}"; ?>" target="_blank">Visualizar</a>
                         <button type="submit" name="btnUpdateProduct" class="btn btn-primary ms-auto">Salvar</button>
                     </div>
 
