@@ -22,7 +22,7 @@
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
                 <h3>Salvo com sucesso!</h3>
-                <div class="text-secondary">
+                <div class="text-primary">
                     O produto foi adicionado ao seu carrinho.
                 </div>
             </div>
@@ -205,30 +205,28 @@
 
             {# Coluna Direita: Detalhes do Produto #}
             <div class="col-md-6">
-                <h3 style="font-size: 2.5rem; line-height: normal;">
+                <h1 style="font-size: 2.5rem; line-height: normal;">
                     {{ produto.nome }}
-                </h3>
-                <h3>{{ produto.codigo_produto }}</h3>
-                <h3 class="h1 text-yellow mb-6">
+                </h1>
+                <p class="fs-3"><strong>Códido do produto:</strong> {{ produto.codigo_produto }}</p>
+                <p class="h1 text-yellow mb-6">
                     R$ {{ produto.preco }}
-                </h3>
-
-                <p class="h3 mb-2">Descrição:</p>
-                <div class="fs-2 text-secondary mb-7">
+                </p>
+                <div class="fs-3 mb-7">
                     {{ produto.descricao|raw }}
                     {% if produto.estoque %}
-                    <p class="text-secondary mb-0 me-4">Estoque: {{ produto.estoque }}</p>
+                    <p class="mb-0 me-4"><strong>Estoque:</strong> {{ produto.estoque }}</p>
                     {% endif %}
                     {% if produto.prazo_criacao %}
-                    <p class="text-secondary mb-0 me-4">Prazo de criação: {{ produto.prazo_criacao }}</p>
+                    <p class="mb-0 me-4"><strong>Prazo de criação:</strong> {{ produto.prazo_criacao }}</p>
                     {% endif %}
                 </div>
 
                 <div class="d-flex align-items-center mb-6">
-                    <p class="text-secondary mb-0 me-4">Compartilhar</p>
+                    <p class="mb-0 me-4">Compartilhar</p>
                     <div class="d-flex align-items-center">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ produto.url }}"
-                           class="text-dark" target="_blank">
+                           class="text-dark" target="_blank" aria-label="Compartilhar no Facebook">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                  stroke-width="2" stroke-linecap="round"
@@ -239,7 +237,7 @@
                         </a>
 
                         <a href="https://api.whatsapp.com/send?text={{ produto.nome }}%20{{ produto.url }}"
-                           class="text-dark" target="_blank">
+                           class="text-dark" target="_blank" aria-label="Compartilhar no WhatsApp">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                  stroke-width="2" stroke-linecap="round"
@@ -255,7 +253,7 @@
 
                         <a href="mailto:?subject={{ produto.nome }}
                                   &body=Confira este produto: {{ produto.url }}"
-                           class="text-dark">
+                           class="text-dark" aria-label="Compartilhar por Email">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                  stroke-width="2" stroke-linecap="round"
@@ -276,10 +274,10 @@
                                value="1" min="1">
                     </div>
                     <div class="col-sm-8 col-md-10">
-                        <button type="button"
+                        <button id="add-to-cart" type="button"
                                 class="btn btn-yellow btn-pill btn-lg w-100 add-to-cart"
                                 data-produto-id="{{ produto.id }}"
-                                data-produto-estoque={{ produto.estoque }}>
+                                data-produto-estoque={{ produto.estoque }}  aria-label="Adicionar ao carrinho">
                                     {% if produto.estoque %}
                                     Adicionar ao carrinho
                                     {% else %}
@@ -364,7 +362,7 @@
         <div class="row">
             <div class="col-12 col-sm-6 mb-4">
                 <div class="col-sm-8 col-md-10">
-                    <a class="btn btn-yellow text-red btn-pill btn-md w-100" href="/login">
+                    <a class="btn btn-yellow btn-pill btn-md w-100" href="/login">
                         Comprou esse artesanato? Deixe o seu depoimento
                     </a>
                 </div>
@@ -392,6 +390,7 @@
             </div>
         </form>
         {% endif %}
+
         <div class="row">
             <div class="col-6">
                 <h2 class="mb-3">Depoimentos</h2>

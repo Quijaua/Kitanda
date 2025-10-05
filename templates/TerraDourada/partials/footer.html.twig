@@ -61,7 +61,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer marrom">
+    <footer id="TerraDourada-rodape" class="footer marrom">
         <div class="container">
             <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
@@ -101,9 +101,10 @@
                             {% if not website %}class="d-none"{% endif %}>
                             <i class="bi fa-2x bi-globe-americas p-2" aria-hidden="true"></i>
                         </a>
-                    </div>
+                    </nav>
+                    
                     {% endif %}
-                </nav>
+                </div>
                 
                 <div class="col-lg-3 mb-4">
                     <p class="fs-3 h2">Informações gerais</p>
