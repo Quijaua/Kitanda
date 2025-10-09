@@ -22,7 +22,13 @@
     }
 
     // Busca os itens do pedido na tabela tb_pedido_itens
-    $stmtItens = $conn->prepare("SELECT * FROM tb_pedido_itens WHERE pedido_id = ?");
+    // $stmtItens = $conn->prepare("SELECT * FROM tb_pedido_itens WHERE pedido_id = ?");
+    $stmtItens = $conn->prepare("
+        SELECT pi.*, tpi.imagem as imagem, tp.link as link FROM tb_pedido_itens pi
+        JOIN tb_produtos tp ON tp.id = pi.produto_id
+        LEFT JOIN tb_produto_imagens tpi ON tpi.produto_id = pi.produto_id
+        WHERE pedido_id = ?
+    ");
     $stmtItens->execute([$pedido['id']]);
     $itens = $stmtItens->fetchAll(PDO::FETCH_ASSOC);
 
@@ -255,7 +261,15 @@
                         <tbody>
                             <?php foreach($itens as $item): ?>
                             <tr>
-                            <td><?= htmlspecialchars($item['nome']); ?></td>
+                            <td>
+                                <?php $item['imagem'] = !empty($item['imagem']) ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $item['produto_id'] . "/" . $item['imagem']) : INCLUDE_PATH . "assets/preview-image/product.jpg"; ?>
+                                <div>
+                                    <a class="d-flex py-1 align-items-center" href="<?php echo INCLUDE_PATH . "p/{$item['link']}"; ?>">
+                                        <span class="avatar avatar-2 me-2" style="background-image: url(<?php echo $item['imagem']; ?>)"></span>
+                                        <?= htmlspecialchars($item['nome']); ?>
+                                    </a>
+                                </div>
+                            </td>
                             <td><?= $item['quantidade']; ?></td>
                             <td>R$ <?= number_format($item['preco'], 2, ',', '.'); ?></td>
                             <td>R$ <?= number_format($item['preco_total'], 2, ',', '.'); ?></td>
