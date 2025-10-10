@@ -24,10 +24,11 @@
     // Busca os itens do pedido na tabela tb_pedido_itens
     // $stmtItens = $conn->prepare("SELECT * FROM tb_pedido_itens WHERE pedido_id = ?");
     $stmtItens = $conn->prepare("
-        SELECT DISTINCT pi.*, tpi.imagem as imagem, tp.link as link FROM tb_pedido_itens pi
+        SELECT pi.*, MIN(tpi.imagem) as imagem, tp.link as link FROM tb_pedido_itens pi
         JOIN tb_produtos tp ON tp.id = pi.produto_id
         LEFT JOIN tb_produto_imagens tpi ON tpi.produto_id = pi.produto_id
         WHERE pedido_id = ?
+        GROUP BY tpi.produto_id
     ");
     $stmtItens->execute([$pedido['id']]);
     $itens = $stmtItens->fetchAll(PDO::FETCH_ASSOC);
