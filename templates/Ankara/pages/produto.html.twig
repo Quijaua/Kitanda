@@ -345,11 +345,6 @@
             </div>
         </div>
         {% else %}
-        {% if not depoimentos %}
-        <div class="row">
-            <div class="col-6">Esse artesanato está esperando a sua voz ✨ Seja o primeiro a deixar um depoimento.</div>
-        </div>
-        {% endif %}
         <form id="form_depoimento" action="">
             <div class="row">
                 <div class="col mb-3">
@@ -381,6 +376,11 @@
                     {% endfor %}
                 </div>
             </div>
+            {% if not depoimentos %}
+            <div class="col-12 mt-2">
+                <div class="col-6">Esse artesanato está esperando a sua voz ✨ Seja o primeiro a deixar um depoimento.</div>
+            </div>
+            {% endif %}
         </div>
     </div>
 
