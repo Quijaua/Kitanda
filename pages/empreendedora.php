@@ -74,6 +74,7 @@ unset($produto);
 
 // 5) Retorna o array de contexto para o Twig
 return [
+    'title'    => $e['nome'],
     'e'        => $e,
     'produtos' => $produtos,
 ];

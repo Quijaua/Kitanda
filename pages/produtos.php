@@ -116,6 +116,7 @@ $paginationHtml = criarPaginacao($pagina_atual, $total_paginas, $limite);
 
 // 6) Monta o array de contexto desta página
 $context_produtos = [
+    'title'           => 'Produtos',
     'produtos'        => $produtos,
     'limite'          => $limite,
     'pagina_atual'    => $pagina_atual,

@@ -273,8 +273,18 @@ if (isset($field) && isset($value)) {
 // dentro de um array $context que será passado ao Twig. Se você precisar usar
 // outras variáveis em alguma view específica, basta adicionar neste array.
 
+// Monta a url completa para o canonical
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$request_uri = $_SERVER['REQUEST_URI'];
+$full_url = $protocol . '://' . $host . $request_uri;
+
+// var_dump($nome);
+// die;
+
 $context = [
     'is_home' => ($url === 'produtos'),
+    'canonical' => $full_url,
 
     // OG defaults
     'og_type'        => 'website',

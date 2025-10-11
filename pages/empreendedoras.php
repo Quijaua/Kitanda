@@ -42,6 +42,7 @@ unset($e);
 
 // 3) Retorna para o index.php (via include) as variáveis que o Twig vai precisar
 return [
+    'title'          => 'Empreendedoras',
     'empreendedoras' => $empreendedoras,
     'limit'          => $limit,
     'initial_count'  => count($empreendedoras),

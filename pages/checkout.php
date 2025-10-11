@@ -264,6 +264,7 @@ $userDataSession = [
 
 // 4) Retorna todo o contexto para o Twig
 return [
+    'title'         => 'Checkout',
     'isPedido'      => $isPedido,
     'pedido'        => $pedido,
     'user'          => $userData,
