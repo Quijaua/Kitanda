@@ -81,7 +81,6 @@ if ($stmt) {
 
 // 3) Retorna contexto para o Twig
 return [
-    'title'     => 'Meu Carrinho',
     'cartItems' => $cartItems,
     'has_items' => count($cartItems) > 0,
 ];

@@ -122,7 +122,7 @@ unset($p);
 
 // 7) Retorna todas as variáveis que o Twig precisa:
 return [
-    'title'          => $produto['nome'],
+    'page_title'          => $produto['nome'],
     'produto'        => $produto,
     'e'              => $e,
     'imagens'        => $imagens,

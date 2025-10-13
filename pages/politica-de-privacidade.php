@@ -23,7 +23,6 @@ if (empty($privacy_policy)) {
 
 // 11) Retorna o contexto para o Twig
 return [
-    'title'          => 'Politica de privacidade',
     'not_found'      => false,
     'privacy_policy' => $privacy_policy,
 ];

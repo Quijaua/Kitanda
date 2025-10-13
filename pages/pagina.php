@@ -43,7 +43,6 @@ $dataFormatada = date("d/m/Y", strtotime($pagina["criado_em"]));
 
 // 11) Retorna o contexto para o Twig
 return [
-    'page_title'          => 'Home',
     'not_found'      => false,
     'pagina'           => $pagina,
     'data_publicacao'=> $dataFormatada,

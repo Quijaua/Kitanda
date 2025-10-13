@@ -65,7 +65,6 @@ foreach ($postsRaw as $post) {
 
 // 4) Retorna tudo para o index.php
 return [
-    'title'              => 'Blog',
     'categorias'         => $categorias,
     'posts'              => $posts,
     'initial_count'      => $qtdPostsIniciais,

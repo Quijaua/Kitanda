@@ -50,7 +50,7 @@ $twig->addGlobal('app', [
 // -----------------------------------------------------------------------------
 
 // 3.1) Pega a “URL amigável” ou fallback para 'produtos'
-$url = isset($_GET['url']) ? $_GET['url'] : 'produtos';
+$url = isset($_GET['url']) ? $_GET['url'] : 'pagina';
 $link = '';
 
 // Se for URL começando com "p/", converte para rota 'produto'
@@ -279,11 +279,8 @@ $host = $_SERVER['HTTP_HOST'];
 $request_uri = $_SERVER['REQUEST_URI'];
 $full_url = $protocol . '://' . $host . $request_uri;
 
-// var_dump($nome);
-// die;
-
 $context = [
-    'is_home' => ($url === 'produtos'),
+    'is_home' => ($url === 'pagina'),
     'canonical' => $full_url,
 
     // OG defaults
@@ -405,6 +402,7 @@ switch ($url) {
     case 'produtos':
         // Recebe o array de contexto montado dentro de pages/produtos.php:
         $context_produtos = include __DIR__ . '/pages/produtos.php';
+        $context['page_title'] = 'Produtos';
 
         $context = array_merge($context, $context_produtos);
         break;
@@ -426,6 +424,7 @@ switch ($url) {
     case 'empreendedoras':
         // Recebe o array de contexto montado dentro de pages/empreendedoras.php:
         $context_empreendedoras = include __DIR__ . '/pages/empreendedoras.php';
+        $context['page_title'] = 'Empreendedoras';
 
         $context = array_merge($context, $context_empreendedoras);
         break;
@@ -440,6 +439,7 @@ switch ($url) {
     case 'blog':
         // Recebe o array de contexto montado dentro de pages/blog.php:
         $context_blog = include __DIR__ . '/pages/blog.php';
+        $context['page_title'] = 'Blog';
 
         $context = array_merge($context, $context_blog);
         break;
@@ -472,6 +472,7 @@ switch ($url) {
     case 'carrinho':
         // Recebe o array de contexto montado dentro de pages/carrinho.php:
         $context_carrinho = include __DIR__ . '/pages/carrinho.php';
+        $context['page_title'] = 'Meu carrinho';
 
         $context = array_merge($context, $context_carrinho);
         break;
@@ -479,6 +480,7 @@ switch ($url) {
     case 'checkout':
         // Recebe o array de contexto montado dentro de pages/checkout.php:
         $context_checkout = include __DIR__ . '/pages/checkout.php';
+        $context['page_title'] = 'Checkout';
 
         $context = array_merge($context, $context_checkout);
         break;
@@ -490,6 +492,7 @@ switch ($url) {
     case 'pagina':
         // Recebe o array de contexto montado dentro de pages/pagina.php:
         $context_pagina = include __DIR__ . '/pages/pagina.php';
+        $context['page_title'] = 'Página inicial';
 
         $context = array_merge($context, $context_pagina);
         break;
@@ -497,6 +500,7 @@ switch ($url) {
     case 'politica-de-privacidade':
         // Recebe o array de contexto montado dentro de pages/pagina.php:
         $context_politica_privacidade = include __DIR__ . '/pages/politica-de-privacidade.php';
+        $context['page_title'] = 'Politica de privacidade';
 
         $context = array_merge($context, $context_politica_privacidade);
         break;

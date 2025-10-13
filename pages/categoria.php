@@ -171,7 +171,7 @@ $paginationHtml = criarPaginacao(
 
 // 9) Retorna para o Twig
 return [
-    'title'           => $categoria['nome'],
+    'page_title'      => $categoria['nome'],
     'not_found'       => false,
     'categoria'       => $categoria,
     'produtos'        => $produtos,

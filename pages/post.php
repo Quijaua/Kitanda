@@ -129,7 +129,7 @@ $next_post = $stmtNext->fetch(PDO::FETCH_ASSOC);
 
 // 11) Retorna o contexto para o Twig
 return [
-    'title'          => $post['titulo'],
+    'page_title'          => $post['titulo'],
     'not_found'      => false,
     'post'           => $post,
     'categorias'     => $categorias,
