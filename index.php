@@ -50,7 +50,7 @@ $twig->addGlobal('app', [
 // -----------------------------------------------------------------------------
 
 // 3.1) Pega a “URL amigável” ou fallback para 'produtos'
-$url = isset($_GET['url']) ? $_GET['url'] : 'pagina';
+$url = isset($_GET['url']) ? $_GET['url'] : 'produtos';
 $link = '';
 
 // Se for URL começando com "p/", converte para rota 'produto'
@@ -280,7 +280,7 @@ $request_uri = $_SERVER['REQUEST_URI'];
 $full_url = $protocol . '://' . $host . $request_uri;
 
 $context = [
-    'is_home' => ($url === 'pagina'),
+    'is_home' => ($url === 'produtos'),
     'canonical' => $full_url,
 
     // OG defaults
@@ -402,7 +402,11 @@ switch ($url) {
     case 'produtos':
         // Recebe o array de contexto montado dentro de pages/produtos.php:
         $context_produtos = include __DIR__ . '/pages/produtos.php';
-        $context['page_title'] = 'Produtos';
+        if(str_contains($request_uri, 'produtos')) {
+            $context['page_title'] = 'Produtos';
+        } else {
+            $context['page_title'] = 'Página inicial';
+        }
 
         $context = array_merge($context, $context_produtos);
         break;
