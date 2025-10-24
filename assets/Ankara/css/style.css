@@ -239,3 +239,27 @@ left: calc(-1rem + -28px) !important;
 button.glider-next {
 right: calc(-1rem + -28px) !important;
 }
+
+.verde {background-color: #788f22}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.entrepreneur-card {
+    background: white;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.entrepreneur-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+}

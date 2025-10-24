@@ -26,6 +26,7 @@
     <link href="{{ INCLUDE_PATH }}assets/{{ app.theme }}/css/style.css" rel="stylesheet">
     <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery.min.js"></script>
     <link href="{{ INCLUDE_PATH }}dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.css" rel="stylesheet" />
 
     {# Se existir hcaptcha ou turnstile, inclua aqui #}
     {% if hcaptcha is defined and hcaptcha %}
@@ -171,6 +172,73 @@
             {{ page_content|raw }}
         </div>
 
+        {% if (td_entrepreneurs and is_home) or not td_entrepreneurs %}
+        <!-- Entrepreneurs Section -->
+        <section id="entrepreneurs" class="section-padding verde">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h2 class="text-white fw-bold mb-4 fs-1">Conheça nossas empreendedoras</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-light me-2 rounded-circle btn-glider-prev" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - anteriores">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-light rounded-circle btn-glider-next" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - próximas">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glider mt-4">
+
+                    {% if empreendedoras %}
+
+                        {% for e in empreendedoras %}
+                        <div class="mb-4">
+                            <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center">
+                                {% if e.tem_imagem %}
+                                <div class="entrepreneur-card">
+                                    <span class="avatar avatar-xl rounded-circle"
+                                        style="background-image: url('{{ e.imagem }}'); width: 120px; height: 120px;"></span>
+                                </div>
+                                {% else %}
+                                <div class="entrepreneur-card">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                {% endif %}
+                                <p class="text-white fw-bold fs-3">{{ e.nome }}</p>
+                                <p class="text-white-50 small fs-4">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+                                                    <path d="M17.657 16.657l-4.243 4.243
+                                                            a2 2 0 0 1 -2.827 0
+                                                            l-4.244 -4.243
+                                                            a8 8 0 1 1 11.314 0z"/>
+                                </svg>
+                                {{ e.address }}</p>
+                            </a>
+                        </div>
+                        {% endfor %}
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
         {# Inclui o footer #}
         {% include 'partials/footer.html.twig' %}
 
@@ -185,11 +253,50 @@
     <script src="{{ INCLUDE_PATH }}dist/libs/fslightbox/index.js"                    defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler.min.js" defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/kitanda.min.js" defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.js"          defer></script>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-a11y.min.css" rel="stylesheet"/>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler-a11y.min.js" defer></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             new TablerA11y({ position: 'bottom-right' });
+        });
+    </script>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const glideEl = document.querySelector('.glider');
+            if (glideEl) {
+                new Glider(glideEl, {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    draggable: true,
+                    rewind: true,
+                    arrows: {
+                        prev: ".btn-glider-prev",
+                        next: ".btn-glider-next"
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 4,
+                            }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 2,
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                            }
+                        }
+                    ]
+                });
+            }
         });
     </script>
 
