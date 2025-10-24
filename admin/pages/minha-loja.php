@@ -138,8 +138,8 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <label class="form-label required">Mini Bio <small>(máx. 300 caracteres)</small></label>
-                                    <textarea class="form-control" name="mini_bio" rows="3" maxlength="300" required><?= htmlspecialchars($loja['mini_bio'] ?? '') ?></textarea>
+                                    <label class="form-label required">Mini Bio <small>(máx. 400 caracteres)</small></label>
+                                    <textarea class="form-control" name="mini_bio" rows="3" maxlength="400" required><?= htmlspecialchars($loja['mini_bio'] ?? '') ?></textarea>
                                 </div>
                             </div>
                         </div>
