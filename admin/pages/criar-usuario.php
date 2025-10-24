@@ -9,6 +9,8 @@
     $funcoes = $stmtFuncoes->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<link href="<?php echo INCLUDE_PATH; ?>dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
+
 <!-- Page header -->
 <div class="page-header d-print-none">
     <div class="container-xl">
@@ -120,7 +122,14 @@
                                         <!-- Campo de senha (visível apenas se "Cadastrar senha agora" estiver selecionado) -->
                                         <div class="mb-3" id="passwordFields">
                                             <label for="senha" class="form-label required">Senha</label>
-                                            <input id="senha" name="senha" type="password" class="form-control" required>
+                                            <div class="input-group input-group-flat">
+                                                <input id="senha" name="senha" type="password" class="form-control" required>
+                                                <span class="input-group-text">
+                                                    <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('senha', this); return false;">
+                                                        <i class="ti ti-eye icon icon-1"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
                                             <label class="form-check form-switch form-switch-2 mt-2">
                                                 <input id="email_senha" name="email_senha" class="form-check-input" type="checkbox" value="1" checked>
                                                 <span class="form-check-label">Enviar senha para o e-mail do novo usuário?</span>
@@ -209,4 +218,33 @@
             updateEmailBoasVindas();
         });
     });
+</script>
+
+<!-- Exibir/Ocultar Senha -->
+<script>
+    function togglePassword(inputId, toggleLink) {
+        var input = document.getElementById(inputId);
+        var icon = toggleLink.querySelector('i');
+        if (input.type === "password") {
+            input.type = "text";
+            toggleLink.title = "Ocultar senha";
+            toggleLink.setAttribute("aria-label", "Ocultar senha");
+            toggleLink.setAttribute("data-bs-original-title", "Ocultar senha");
+            // Altera o ícone para "eye-off"
+            if (icon) {
+                icon.classList.remove("ti-eye");
+                icon.classList.add("ti-eye-off");
+            }
+        } else {
+            input.type = "password";
+            toggleLink.title = "Mostrar senha";
+            toggleLink.setAttribute("aria-label", "Mostrar senha");
+            toggleLink.setAttribute("data-bs-original-title", "Mostrar senha");
+            // Altera o ícone para "eye"
+            if (icon) {
+                icon.classList.remove("ti-eye-off");
+                icon.classList.add("ti-eye");
+            }
+        }
+    }
 </script>
