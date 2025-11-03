@@ -12,7 +12,7 @@
 }
 
 .breadcrumb a {
-color: var(--tblr-yellow);
+color: var(--tblr-red);
 font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 }
 
@@ -92,6 +92,8 @@ margin: 0 auto 20px;
 font-size: 40px;
 color: white;
 }
+
+.conteudo {font-size:14pt}
 
 .product-card {
 border: none;
