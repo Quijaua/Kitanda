@@ -214,7 +214,7 @@ $paginasEstaticas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Carregar as primeiras 10 empreendedoras para exibir no carrossel
 $limit = 10;
-$stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' ORDER BY nome LIMIT :limit");
+$stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' AND id != 1 ORDER BY nome LIMIT :limit");
 $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 $stmt->execute();
 $empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -9,6 +9,7 @@ $stmt = $conn->prepare("
     SELECT *
     FROM tb_lojas
     WHERE nome != ''
+    AND id != 1
     ORDER BY nome
     LIMIT :limit
 ");
