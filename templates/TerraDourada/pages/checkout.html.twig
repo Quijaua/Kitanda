@@ -624,6 +624,8 @@
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
 
+                                        <div id="pix-status-container"></div>
+
                                         <div class="d-flex">
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/circle-check -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -1732,6 +1734,7 @@ $(document).ready(function() {
                 dataType: 'JSON',
                 success: function(response) {
                     window.respostaGlobal = response.id; // Guarda a resposta globalmente, se necessário
+                    window.responseOrder = response.order // Id do pedido
                 },
                 error: function(xhr, status, error) {
                     console.error("Erro no envio:", error);
@@ -1790,6 +1793,9 @@ $(document).ready(function() {
                             if (data.pix_payload) {
                                 $("#pix-text").val(data.pix_payload);
                             }
+
+                            checkPaymentStatus(window.responseOrder);
+
                         }
 
                     })
@@ -1819,6 +1825,7 @@ $(document).ready(function() {
             })
             .fail(function(xhr, status, error) {
                 console.error("Erro no AJAX:", status, error);
+                console.error("Server Response:", xhr.responseText);
 
                 $(".alert").remove();
                 $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
@@ -1959,7 +1966,6 @@ $(document).ready(function() {
 
 
 
-
                 //Remove botão carregando
                 $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');
                 $(this).addClass('d-block').removeClass('d-none');
@@ -2028,5 +2034,35 @@ $(document).ready(function() {
             $(this).addClass('d-block').removeClass('d-none');
         });
     });
+
+    function checkPaymentStatus(pedidoId) {
+        const checkInterval = setInterval(() => {
+            fetch(`/back-end/check-payment-status.php?pedido_id=${pedidoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('checkPaymentStatus data', data);
+                    if (data.forma_pagamento === 'PIX' && data.status === 'CONFIRMED') {
+                        clearInterval(checkInterval);
+                        showConfirmationScreen(data);
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+        }, 5000); // Verifica a cada 5 segundos
+    }
+
+    function showConfirmationScreen(data) {
+        $('#pix-section').addClass('d-none');
+        const confirmationHtml = `
+            <div class="pix-confirmation-success" style="padding: 12px;">
+                <h2>Pagamento PIX Confirmado!</h2>
+                <p>Seu pagamento foi processado com sucesso.</p>
+                <p>Data: ${new Date().toLocaleString()}</p>
+            </div>
+            <hr>
+        `;
+        
+        document.getElementById('pix-status-container').innerHTML = confirmationHtml;
+    }
+    
 });
 </script>
