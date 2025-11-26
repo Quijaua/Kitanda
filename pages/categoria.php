@@ -56,6 +56,7 @@ $sql = "
     LEFT JOIN tb_clientes u ON u.id = p.criado_por
     WHERE cp.categoria_id = :categoria_id
       AND p.vitrine = 1
+    GROUP BY p.id
 ";
 if ($busca !== '') {
     $sql .= " AND (p.nome LIKE :busca OR p.descricao LIKE :busca)";
