@@ -12,7 +12,7 @@
                 <!-- <a class="nav-link dropdown-toggle show" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true"> -->
                     <span class="avatar avatar-sm" style="background-image: url(<?= $usuario['imagem']; ?>)"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div><?php echo $clientes[0]['nome'] ?? $cliente_nome; ?></div>
+                        <div><?php echo $nome_logado; ?></div>
                         <div class="mt-1 small text-secondary"><?php echo $permissao; ?></div>
                     </div>
                 </a>

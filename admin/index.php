@@ -26,7 +26,7 @@ $id = 1;
 $user_id = $_SESSION['user_id'];
 
 // Consulta SQL
-$sql = "SELECT tk.*, tc.nome as nome_cliente FROM $tabela as tk JOIN $tabela_5 as tc WHERE tk.id = :id AND tc.id = 1";
+$sql = "SELECT tk.*, tc.nome as nome_logado FROM $tabela AS tk JOIN tb_clientes as tc ON tc.id = $user_id WHERE tk.id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT privacy_policy, use_privacy FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
@@ -82,7 +82,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
     if ($resultado) {
         // Atribuir o valor da coluna à variável, ex.: "nome" = $nome
         $nome = $resultado['nome'];
-        $cliente_nome = $resultado['nome_cliente'];
+        $nome_logado = $resultado['nome_logado'];
         $permissao = getNomePermissao($_SESSION['user_id'], $conn);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
