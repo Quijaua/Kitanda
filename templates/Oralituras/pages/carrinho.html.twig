@@ -101,6 +101,7 @@
                                                 <a href="#" class="text-muted">
                                                     {{ item.empreendedora }}
                                                 </a>
+                                                <p class="text-secondary mb-0 me-4">Estoque: {{ item.produto_estoque }}</p>
                                             </div>
                                             <h3 class="h2 mb-4">
                                                 R$ {{ item.produto_preco|number_format(2, ',', '.') }}
@@ -117,6 +118,7 @@
                                                class="form-control quantidade-produto"
                                                value="{{ item.quantidade }}"
                                                min="1"
+                                               max="{{ item.produto_estoque ? item.produto_estoque : NULL }}"
                                                data-price="{{ item.produto_preco }}"
                                                data-produto-id="{{ item.produto_id }}">
                                     </div>
@@ -150,10 +152,10 @@
                                         R$ {{ total|number_format(2, ',', '.') }}
                                     </td>
                                 </tr>
-                                <tr>
+                                {# <tr>
                                     <td>Desconto</td>
                                     <td class="w-10 fw-bold text-end">R$ 0,00</td>
-                                </tr>
+                                </tr> #}
                             </tbody>
                         </table>
 

@@ -86,6 +86,7 @@ foreach ($postsRaw as $post) {
 
 // 5) Retorna o contexto para o Twig
 return [
+    'page_title'             => $categoria['nome'],
     'not_found'         => false,
     'categoria'         => $categoria,
     'posts'             => $posts,

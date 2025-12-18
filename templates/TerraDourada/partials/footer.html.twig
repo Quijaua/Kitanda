@@ -30,11 +30,11 @@
                                 {% endif %}
 
                                 {# Título e link para o artigo #}
-                                <h5 class="card-title">
+                                <p class="card-title">
                                     <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
                                         {{ post.titulo }}
                                     </a>
-                                </h5>
+                                </p>
 
                                 {# Data de publicação #}
                                 <small class="text-muted">
@@ -54,12 +54,14 @@
 
     <div class="row text-center">
         <div class="col-12 mb-4 text-sm-center">
+	 <a href="https://moverse.ceweb.br" target="_blank">
             <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
+	 </a>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer marrom">
+    <footer id="TerraDourada-rodape" class="footer marrom">
         <div class="container">
             <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
@@ -70,33 +72,42 @@
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Fale com a gente</strong></p>
+                    <p class="fs-3 h2">Fale com a gente</p>
                     <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
-                    <h6 class="mt-4">Siga-nos</h6>
-                    <div class="social-icons">
-                    <a href="{{ facebook ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-facebook"></i>
-                    </a>
-                    <a href="{{ instagram ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-instagram"></i>
-                    </a>
-                    <a href="{{ youtube ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                        <i class="fab fa-2x fa-youtube"></i>
-                    </a>
-                    <a href="{{ website ?: '#' }}" target="_blank"
-                       rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                        <i class="bi fa-2x bi-globe-americas p-2"></i>
-                    </a>
-                    </div>
+                    <p class="mt-4 fs-3 h2">Siga-nos</p>
+                    <nav aria-label="Redes sociais" class="social-icons">
+                        <a href="{{ facebook ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar página no Facebook"
+                            {% if not facebook %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ instagram ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar perfil no Instagram"
+                            {% if not instagram %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ youtube ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar canal no YouTube"
+                            {% if not youtube %}class="d-none"{% endif %}>
+                            <i class="fab fa-2x fa-youtube" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ website ?: '#' }}" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visitar site oficial"
+                            {% if not website %}class="d-none"{% endif %}>
+                            <i class="bi fa-2x bi-globe-americas p-2" aria-hidden="true"></i>
+                        </a>
+                    </nav>
+                    
                     {% endif %}
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Informações gerais</strong></p>
+                    <p class="fs-3 h2">Informações gerais</p>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
@@ -125,7 +136,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3"><strong>Contato</strong></p>
+                    <p class="fs-3 h2">Contato</p>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
                     <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>
@@ -134,7 +145,7 @@
                         <i class="fab fa-cc-mastercard me-2" style="font-size: 1.5rem;"></i>
                         <i class="fab fa-pix" style="font-size: 1.5rem;"></i>
                     </div>
-                <p class="footer-linkd mt-5 footer-kitanda font-weight-bold">
+                <p class="footer-linkd mt-5 footer-kitanda">
                     <a href="https://github.com/Quijaua/Kitanda" rel="noopener noreferrer" target="_blank">
                         Usamos Kitanda | Open source
                     </a>
@@ -145,7 +156,7 @@
 
     <div class="row">
         <div class="col-12">
-           <p class="mb-0">&copy; 2024 {{ nome }} Mulheres Empreendedoras da Amazônia. Todos os direitos reservados.</p>
+           <p class="mb-0">&copy; 2024 {{ title ?: nome }} Mulheres Empreendedoras da Amazônia. Todos os direitos reservados.</p>
         </div>
     </div>
 

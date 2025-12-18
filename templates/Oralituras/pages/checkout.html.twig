@@ -359,7 +359,7 @@
                                         {% if user.newsletter %}checked{% endif %}
                                     >
                                     <span class="form-check-label">
-                                        Quero receber as novidades de {{ nome }}.
+                                        Quero receber as novidades de {{ title ?: nome }}.
                                     </span>
                                 </label>
                                 <hr class="my-3">
@@ -379,7 +379,7 @@
                                         Declaro que li e aceito as
                                         <a href="/politica-de-privacidade/" target="_blank">condições de compra</a>,
                                         <a href="/politica-de-privacidade/" target="_blank">políticas de cancelamento</a> e os
-                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ nome }}.
+                                        <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ title ?: nome }}.
                                     </span>
                                     <div id="input-terms-error" class="text-danger d-none">
                                         <small>Por favor, aceite os termos de uso para prosseguir</small>
@@ -603,6 +603,8 @@
                             <div class="col-md-12">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
+
+                                        <div id="pix-status-container"></div>
 
                                         <div class="d-flex">
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/circle-check -->
@@ -913,6 +915,8 @@ function loadShippingOptions(cep, cartItems) {
                         'name="shipping_method" ' +
                         'id="'+ radioId +'" ' +
                         'value="'+ opt.id +'" ' +
+                        'data-service_id="'+ opt.id +'" ' +
+                        'data-company_id="'+ opt.id +'" ' +
                         'data-price="'+ opt.price +'">' +
                     '<label class="form-check-label" for="'+ radioId +'">' +
                         priceText + ' - ' + companyName + ' - ' + deadlineText +
@@ -1667,7 +1671,8 @@ $(document).ready(function() {
             var shipping = {
                 valor: $('#frete_valor').data('value'),
                 cep: $('#field-zipcode').val(),
-                shipping_method: $('input[name="shipping_method"]:checked').val()
+                shipping_method: $('input[name="shipping_method"]:checked').val(),
+                service_id: $('input[name="shipping_method"]:checked').data('service_id'),
             }
 
             // Cria o array com os itens do carrinho
@@ -1727,6 +1732,7 @@ $(document).ready(function() {
                 dataType: 'JSON',
                 success: function(response) {
                     window.respostaGlobal = response.id; // Guarda a resposta globalmente, se necessário
+                    window.responseOrder = response.order // Id do pedido
                 },
                 error: function(xhr, status, error) {
                     console.error("Erro no envio:", error);
@@ -1785,6 +1791,9 @@ $(document).ready(function() {
                             if (data.pix_payload) {
                                 $("#pix-text").val(data.pix_payload);
                             }
+
+                            checkPaymentStatus(window.responseOrder);
+
                         }
 
                     })
@@ -1814,6 +1823,7 @@ $(document).ready(function() {
             })
             .fail(function(xhr, status, error) {
                 console.error("Erro no AJAX:", status, error);
+                console.error("Server Response:", xhr.responseText);
 
                 $(".alert").remove();
                 $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
@@ -1859,7 +1869,8 @@ $(document).ready(function() {
         var shipping = {
             valor: $('#frete_valor').data('value'),
             cep: $('#field-zipcode').val(),
-            shipping_method: $('input[name="shipping_method"]:checked').val()
+            shipping_method: $('input[name="shipping_method"]:checked').val(),
+            service_id: $('input[name="shipping_method"]:checked').data('service_id'),
         }
 
         // Exemplo de array com os itens do carrinho
@@ -2022,5 +2033,35 @@ $(document).ready(function() {
             $(this).addClass('d-block').removeClass('d-none');
         });
     });
+
+    function checkPaymentStatus(pedidoId) {
+        const checkInterval = setInterval(() => {
+            fetch(`/back-end/check-payment-status.php?pedido_id=${pedidoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('checkPaymentStatus data', data);
+                    if (data.forma_pagamento === 'PIX' && data.status === 'CONFIRMED') {
+                        clearInterval(checkInterval);
+                        showConfirmationScreen(data);
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+        }, 5000); // Verifica a cada 5 segundos
+    }
+
+    function showConfirmationScreen(data) {
+        $('#pix-section').addClass('d-none');
+        const confirmationHtml = `
+            <div class="pix-confirmation-success" style="padding: 12px;">
+                <h2>Pagamento PIX Confirmado!</h2>
+                <p>Seu pagamento foi processado com sucesso.</p>
+                <p>Data: ${new Date().toLocaleString()}</p>
+            </div>
+            <hr>
+        `;
+        
+        document.getElementById('pix-status-container').innerHTML = confirmationHtml;
+    }
+
 });
 </script>

@@ -3,7 +3,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-3">
-                <span class="h5">{{ nome }}</span><br />
+                <span class="h5">{{ title ?: nome }}</span><br />
                 <div class="font-weight-light" style="font-size:13px;margin-top:5px">
                     {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
                     {{ cidade }} - {{ estado }} CEP: {{ cep }}<br />

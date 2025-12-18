@@ -115,8 +115,9 @@
                 INSERT INTO tb_clientes 
                 (roles, nome, email, password, magic_link, status) 
                 VALUES 
-                (2, :nome, :email, :senha, :magic_link, 0)
+                (:funcao_id, :nome, :email, :senha, :magic_link, 0)
             ");
+            $stmtInsert->bindParam(':funcao_id', $funcao_id);
             $stmtInsert->bindParam(':nome', $nome);
             $stmtInsert->bindParam(':email', $email);
             $stmtInsert->bindParam(':senha', $senhaHash);

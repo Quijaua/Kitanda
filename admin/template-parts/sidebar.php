@@ -25,8 +25,9 @@
         </button>
         <div class="navbar-brand navbar-brand-autodark">
             <a href="<?= INCLUDE_PATH_ADMIN; ?>painel">
-		<h1>Kitanda</h1>
-<!--                <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+<!--                <h1><?php echo $project['title'];  ?></h1> -->
+<!--                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" style="width: 220px;">
             </a>
         </div>
         <div class="navbar-nav flex-row d-lg-none">
@@ -180,6 +181,7 @@
                     <?= activeSidebarLink('criar-post'); ?>
                     <?= activeSidebarLink('editar-post'); ?>
                     <?= activeSidebarLink('categorias-posts'); ?>
+                    <?= activeSidebarLink('arquivos'); ?>
                     <?= activeSidebarLink('criar-categoria-post'); ?>
                     <?= activeSidebarLink('editar-categoria-post'); ?>
                 ">
@@ -202,6 +204,7 @@
                     " data-bs-popper="static">
                         <a class="dropdown-item <?= activeSidebarLink('posts'); ?> <?= activeSidebarLink('criar-post'); ?> <?= activeSidebarLink('editar-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>posts"> Posts </a>
                         <a class="dropdown-item <?= activeSidebarLink('categorias-posts'); ?> <?= activeSidebarLink('criar-categoria-post'); ?> <?= activeSidebarLink('editar-categoria-post'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>categorias-posts"> Categorias </a>
+                        <a class="dropdown-item <?= activeSidebarLink('arquivos'); ?> <?= activeSidebarLink('criar-arquivo'); ?> <?= activeSidebarLink('editar-arquivo'); ?>" href="<?php echo INCLUDE_PATH_ADMIN; ?>arquivos"> Arquivos </a>
                     </div>
                 </li>
                 <?php endif; ?>

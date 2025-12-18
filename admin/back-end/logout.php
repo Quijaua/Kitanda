@@ -22,6 +22,6 @@ session_destroy();
 // Inicia nova sessão só para a mensagem
 session_start();
 ob_start();
-$_SESSION['msgcad'] = "Deslogado com sucesso!";
+$_SESSION['msgcad'] = "Até logo! Sua sessão foi encerrada com sucesso.";
 header("Location: " . INCLUDE_PATH . "login/");
 exit();

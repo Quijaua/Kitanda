@@ -3,11 +3,12 @@
     <style>
         .btn-terra {
             background-color: #F39505;
-            color: #ffffff;
+            color: #000;
             border: none;
         }
         .btn-terra:hover {
             background-color: #cc9d1f;
+            color:#000
         }
         .pagination-terra .page-link {
             color: #F39505;
@@ -16,7 +17,7 @@
         .pagination-terra .page-item.active .page-link {
             background-color: #F39505;
             border-color: #F39505;
-            color: #ffffff;
+            color: #000;
         }
     </style>
 
@@ -36,9 +37,7 @@
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
                     <h3>Salvo com sucesso!</h3>
-                    <div class="text-secondary">
-                        O produto foi adicionado ao seu carrinho.
-                    </div>
+                    <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
@@ -76,44 +75,59 @@
         </div>
     </div>
     -->
-    <div class="page-header d-print-none mt-0 py-2" style="background: #F7EFE6;">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <ul class="list-group list-group-horizontal list-inline d-flex gap-5 justify-content-center">
-                    <li class="text-yellow fw-bold fs-2">
-                        <a href="/categoria?id=1">
-                            <img src="/assets/TerraDourada/images/decoracao.png" alt="Decoração" title="Decoração" />
+    
+
+<div class="page-header d-print-none mt-0 py-2" style="background: #F7EFE6;">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col-12">
+                <ul class="list-unstyled d-flex flex-wrap justify-content-center gap-3 gap-md-4 gap-lg-5 mb-0">
+                    <li class="text-center">
+                        <a href="/categoria?id=1" class="text-decoration-none">
+                            <img src="/assets/TerraDourada/images/decoracao.png" 
+                                 alt="Categoria Decoração em Artesanato" 
+                                 title="Decoração em Artesanato"
+                                 class="img-fluid mb-2"
+                                 style="max-width: 120px;" />
+                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Decoração</span></a> -->
                     </li>
-                    <li class="text-yellow fw-bold fs-2">
-                        <a href="/categoria?id=1">
-                            <img src="/assets/TerraDourada/images/joias.png" alt="Jóias e Biojoias" title="Jóias e Biojoias" />
+                    <li class="text-center">
+                        <a href="/categoria?id=2" class="text-decoration-none">
+                            <img src="/assets/TerraDourada/images/joias.png" 
+                                 alt="Categoria Biojóias em Artesanato" 
+                                 title="Biojóias em Artesanato"
+                                 class="img-fluid mb-2"
+                                 style="max-width: 120px;" />
+                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Jóias e Biojoias</span></a> -->
                     </li>
-                    <li class="text-yellow fw-bold fs-2">
-                        <a href="/categoria?id=1">
-                            <img src="/assets/TerraDourada/images/acessorios.png" alt="Acessórios" title="Acessórios" />
+                    <li class="text-center">
+                        <a href="/categoria?id=3" class="text-decoration-none">
+                            <img src="/assets/TerraDourada/images/acessorios.png" 
+                                 alt="Categoria Acessórios em Artesanato" 
+                                 title="Acessórios em Artesanato"
+                                 class="img-fluid mb-2"
+                                 style="max-width: 120px;" />
+                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Acessórios</span></a> -->
                     </li>
-                    <li class="text-yellow fw-bold fs-2">
-                        <a href="/categoria?id=1">
-                            <img src="/assets/TerraDourada/images/utilitarios.png" alt="Utilitários" title="Utilitários" />
+                    <li class="text-center">
+                        <a href="/categoria?id=4" class="text-decoration-none">
+                            <img src="/assets/TerraDourada/images/utilitarios.png" 
+                                 alt="Categoria Utilitários em Artesanato" 
+                                 title="Utilitários em Artesanato"
+                                 class="img-fluid mb-2"
+                                 style="max-width: 105px;" />
+                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</p>
                         </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Utilitários</span></a> -->
                     </li>
-                    {#<li class="text-yellow fw-bold fs-2">
-                        <a href="/categoria?id=1">
-                            <img src="/assets/TerraDourada/images/brinquedos.png" alt="Brinquedos" title="Brinquedos" />
-                        </a>
-                        <!-- <a href="#" class="text-yellow fw-bold fs-2"><span>Brinquedos</span></a> -->
-                    </li> #}
                 </ul>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Page header -->
     <div class="page-header d-print-none">
@@ -122,13 +136,13 @@
                 <div class="col">
                     <h1 class="text-terra fs-1">Nossos produtos</h1>
                     <div class="text-secondary mt-1">
-                        {% if total_produtos > 0 %}
+{#                        {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
                                min((pagina_atual * limite), total_produtos) ~
                                ' de ' ~ total_produtos ~ ' produtos' }}
                         {% else %}
                             Nenhum produto encontrado
-                        {% endif %}
+                        {% endif %} #}
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
@@ -192,6 +206,7 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
                                                     <h1 class="mb-1">{{ produto.titulo }}</h1>
+                                                    <p class="fs-4 text-muted">{{ produto.codigo_produto }}</p>
                                                     <p>Produzido por: {{ produto.empreendedora }}</p>
                                                     <h2 class="text-yellow">
                                                         R$ {{ precoFormatado }}
@@ -199,11 +214,19 @@
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
+                                                        data-produto-estoque="{{ produto.estoque }}"
                                                     >
+                                                        {% if produto.estoque %}
                                                         Adicionar ao carrinho
+                                                        {% else %}
+                                                        Encomendar
+                                                        {% endif %}
                                                     </button>
                                                 </div>
                                             </div>
+                                            {% if not produto.estoque %}
+                                            <p class="mt-2 text-center text-secondary">Produzido especialmente para você! Início da produção após a confirmação do pagamento.</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -262,6 +285,7 @@
             e.preventDefault();
 
             var produtoId = $(this).data("produto-id");
+            var produtoEstoque = $(this).data("produto-estoque");
             // Neste exemplo, fixamos quantidade = 1
             var quantidade = 1;
 
@@ -283,6 +307,7 @@
                         var myModal = new bootstrap.Modal(
                             document.getElementById('modal-success')
                         );
+                        document.getElementById("modalMsg").textContent = 'O produto foi adicionado ao seu carrinho.';
                         myModal.show();
                     } else {
                         // Exibe modal de erro

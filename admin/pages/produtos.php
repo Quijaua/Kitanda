@@ -23,7 +23,7 @@
             SELECT p.*, pi.imagem 
             FROM tb_produtos p
             LEFT JOIN tb_produto_imagens pi ON p.id = pi.produto_id
-            GROUP BY p.id
+            GROUP BY p.id, pi.produto_id
             ORDER BY p.id DESC
         ");
         $stmt->execute();
@@ -32,10 +32,11 @@
 	    SELECT p.*, (
 	        SELECT pi.imagem 
 	        FROM tb_produto_imagens pi 
-	        WHERE pi.produto_id = p.id 
+	        WHERE pi.produto_id = p.id
 	        LIMIT 1
 	    ) AS imagem
 	    FROM tb_produtos p
+        WHERE p.criado_por = ?
 	    ORDER BY p.id DESC
 	");
         $stmt->execute([$_SESSION['user_id']]);
@@ -155,10 +156,10 @@
                         <thead>
                             <tr>
                                 <th>Nome do Produto</th>
-                                <!-- <th>Título</th> -->
+                                <th>Código</th>
                                 <th>Preço</th>
                                 <th>Vitrine</th>
-                                <th>Data de Criação</th>
+                                <!-- <th>Data de Criação</th> -->
                                 <th></th>
                             </tr>
                         </thead>
@@ -178,7 +179,7 @@
                                         <?php echo $produto["nome"]; ?>
                                     </div>
                                 </td>
-                                <!-- <td><?php echo $produto["titulo"]; ?></td> -->
+                                <td><?php echo $produto["codigo_produto"]; ?></td>
                                 <td><?php echo $produto["preco"]; ?></td>
                                 <td>
                                     <label for="vitrine" class="form-check form-switch form-switch-3">
@@ -190,39 +191,32 @@
                                         <span class="form-check-label form-check-label-off">Não</span>
                                     </label>
                                 </td>
-                                <td><?php echo date("d/m/Y H:i", strtotime($produto["data_criacao"])); ?></td>
+                                <!-- <td><?php echo date("d/m/Y H:i", strtotime($produto["data_criacao"])); ?></td> -->
                                 <td class="text-end">
-                                    <span class="dropdown">
-                                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH . "p/{$produto['link']}"; ?>" target="_blank">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/external-link -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
-                                                Visualizar
-                                            </a>
-                                            <?php if ($update): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                                Editar
-                                            </a>
-                                            <?php elseif ($only_own || $read): ?>
-                                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                                Detalhes
-                                            </a>
-                                            <?php endif; ?>
-                                            <?php if ($delete): ?>
-                                            <div class="dropdown-divider"></div>
-                                            <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $produto['id']; ?>" data-name="<?php echo $produto['nome']; ?>">
-                                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                                                Deletar
-                                            </button>
-                                            <?php endif; ?>
-                                        </div>
-                                    </span>
+                                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                                        <a href="<?php echo INCLUDE_PATH . "p/{$produto['link']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
+                                            Visualizar
+                                        </a>
+                                        <?php if ($update): ?>
+                                        <a href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                                            Editar
+                                        </a>
+                                        <?php elseif ($only_own || $read): ?>
+                                        <a href="<?= INCLUDE_PATH_ADMIN . "editar-produto?id={$produto['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                                            Detalhes
+                                        </a>
+                                        <?php endif; ?>
+                                        <div class="ms-auto"></div>
+                                        <?php if ($delete): ?>
+                                        <a type="button" class="btn btn-6 btn-outline-danger d-flex align-items-center gap-1 btn-delete" data-id="<?php echo $produto['id']; ?>" data-name="<?php echo $produto['nome']; ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                            Apagar
+                                        </a>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

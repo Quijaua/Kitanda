@@ -17,11 +17,16 @@ if ($read) {
     $userId  = $_SESSION['user_id'];
 
     // Total de clientes cadastrados na plataforma
-    $sqlClientes = "SELECT COUNT(DISTINCT email) AS total_customers FROM tb_clientes";
+    $sqlClientes = "
+    SELECT COUNT(DISTINCT p.usuario_id) AS total_customers FROM tb_pedidos p
+    JOIN tb_clientes c ON p.usuario_id = c.id
+    WHERE p.transacao_id IS NOT NULL
+    AND p.asaas_usuario_id IS NOT NULL
+    ";
     $stmtClientes = $conn->prepare($sqlClientes);
     $stmtClientes->execute();
     $clientesResult = $stmtClientes->fetch(PDO::FETCH_ASSOC);
-    $totalCustomers = (int)$clientesResult['total_customers'];
+    $totalCustomers = (int)$clientesResult['total_customers'] ?? 0;
 
     $sql = "
       SELECT
@@ -108,7 +113,7 @@ if ($read) {
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h2 class="page-title">
-                	Dashboard
+                	Painel
                 </h2>
             </div>
         </div>
@@ -181,14 +186,14 @@ if ($read) {
                             </span>
                           </div>
                           <div class="col">
-                            <div class="font-weight-medium"><?= $vendas['vendas'] . ' venda' . ($vendas['vendas'] > 1 ? 's' : ''); ?></div>
+                            <div class="font-weight-medium"><a href="/admin/financeiro"><?= $vendas['vendas'] . ' venda' . ($vendas['vendas'] > 1 ? 's' : ''); ?></a></div>
                             <div class="text-secondary"><?= $vendas['pendentes']; ?> aguardando pagamento</div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6 col-lg-3">
+                  <div class="col-sm-6 col-lg-3" style="display:none">
                     <div class="card card-sm">
                       <div class="card-body">
                         <div class="row align-items-center">
@@ -252,7 +257,7 @@ if ($read) {
                           </div>
                           <div class="col">
                             <!-- <div class="font-weight-medium"><?= $vendas['clientes'] . ' Cliente' . ($vendas['clientes'] > 1 ? 's' : ''); ?></div> -->
-                            <div class="text-secondary"><?= $vendas['total_clientes'] . ' Cliente' . ($vendas['total_clientes'] > 1 ? 's' : '') . ' Total'; ?></div>
+                            <div class="text-secondary"><a href="/admin/clientes"><?= $vendas['total_clientes'] . ' Cliente' . ($vendas['total_clientes'] > 1 ? 's' : '') . ' Total'; ?></a></div>
                           </div>
                         </div>
                       </div>

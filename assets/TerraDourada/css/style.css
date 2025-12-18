@@ -15,10 +15,10 @@
     --tblr-warning: #fd9e06 !important;
 }
 
-
 .text-yellow {color: #AD5202 !important}
-
-
+.add-to-cart {color:#000}
+.btn.btn-yellow.fw-bold.btn-pill.w-100.add-to-cart:hover, #add-to-cart:hover {color: #642e00;}
+#TerraDourada-rodape .list-unstyled {line-height: 30px;}
 .laranja-claro {background-color: #fd9e06}
 .marrom {background-color: #ad5202}
 .marrom-escuro {background-color:#642e00}

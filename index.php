@@ -50,7 +50,7 @@ $twig->addGlobal('app', [
 // -----------------------------------------------------------------------------
 
 // 3.1) Pega a “URL amigável” ou fallback para 'produtos'
-$url = isset($_GET['url']) ? $_GET['url'] : 'produtos';
+$url = isset($_GET['url']) ? $_GET['url'] : 'home';
 $link = '';
 
 // Se for URL começando com "p/", converte para rota 'produto'
@@ -214,7 +214,7 @@ $paginasEstaticas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Carregar as primeiras 10 empreendedoras para exibir no carrossel
 $limit = 10;
-$stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' ORDER BY nome LIMIT :limit");
+$stmt = $conn->prepare("SELECT * FROM tb_lojas WHERE nome != '' AND id != 1 ORDER BY nome LIMIT :limit");
 $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 $stmt->execute();
 $empreendedoras = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -273,8 +273,15 @@ if (isset($field) && isset($value)) {
 // dentro de um array $context que será passado ao Twig. Se você precisar usar
 // outras variáveis em alguma view específica, basta adicionar neste array.
 
+// Monta a url completa para o canonical
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$request_uri = $_SERVER['REQUEST_URI'];
+$full_url = $protocol . '://' . $host . $request_uri;
+
 $context = [
-    'is_home' => ($url === 'produtos'),
+    'is_home' => ($url === 'home'),
+    'canonical' => $full_url,
 
     // OG defaults
     'og_type'        => 'website',
@@ -392,9 +399,22 @@ switch ($url) {
         }
         break;
 
+    case 'home':
+        // Recebe o array de contexto montado dentro de pages/produtos.php:
+        $context_produtos = include __DIR__ . '/pages/home.php';
+        $context['page_title'] = 'Página inicial';
+
+        $context = array_merge($context, $context_produtos);
+        break;
+
     case 'produtos':
         // Recebe o array de contexto montado dentro de pages/produtos.php:
         $context_produtos = include __DIR__ . '/pages/produtos.php';
+        if(str_contains($request_uri, 'produtos')) {
+            $context['page_title'] = 'Produtos';
+        } else {
+            $context['page_title'] = 'Página inicial';
+        }
 
         $context = array_merge($context, $context_produtos);
         break;
@@ -416,6 +436,7 @@ switch ($url) {
     case 'empreendedoras':
         // Recebe o array de contexto montado dentro de pages/empreendedoras.php:
         $context_empreendedoras = include __DIR__ . '/pages/empreendedoras.php';
+        $context['page_title'] = 'Empreendedoras';
 
         $context = array_merge($context, $context_empreendedoras);
         break;
@@ -430,6 +451,7 @@ switch ($url) {
     case 'blog':
         // Recebe o array de contexto montado dentro de pages/blog.php:
         $context_blog = include __DIR__ . '/pages/blog.php';
+        $context['page_title'] = 'Blog';
 
         $context = array_merge($context, $context_blog);
         break;
@@ -462,6 +484,7 @@ switch ($url) {
     case 'carrinho':
         // Recebe o array de contexto montado dentro de pages/carrinho.php:
         $context_carrinho = include __DIR__ . '/pages/carrinho.php';
+        $context['page_title'] = 'Meu carrinho';
 
         $context = array_merge($context, $context_carrinho);
         break;
@@ -469,6 +492,7 @@ switch ($url) {
     case 'checkout':
         // Recebe o array de contexto montado dentro de pages/checkout.php:
         $context_checkout = include __DIR__ . '/pages/checkout.php';
+        $context['page_title'] = 'Checkout';
 
         $context = array_merge($context, $context_checkout);
         break;
@@ -480,6 +504,7 @@ switch ($url) {
     case 'pagina':
         // Recebe o array de contexto montado dentro de pages/pagina.php:
         $context_pagina = include __DIR__ . '/pages/pagina.php';
+        $context['page_title'] = 'Página inicial';
 
         $context = array_merge($context, $context_pagina);
         break;
@@ -487,6 +512,7 @@ switch ($url) {
     case 'politica-de-privacidade':
         // Recebe o array de contexto montado dentro de pages/pagina.php:
         $context_politica_privacidade = include __DIR__ . '/pages/politica-de-privacidade.php';
+        $context['page_title'] = 'Politica de privacidade';
 
         $context = array_merge($context, $context_politica_privacidade);
         break;

@@ -15,9 +15,7 @@
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
                     <h3>Salvo com sucesso!</h3>
-                    <div class="text-secondary">
-                        O produto foi adicionado ao seu carrinho.
-                    </div>
+                    <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
@@ -108,17 +106,26 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
                                                     <h2 class="mb-0">{{ produto.titulo }}</h2>
+                                                    <h3>{{ produto.codigo_produto }}</h3>
                                                     <h2 class="text-red">
                                                         R$ {{ precoFormatado }}
                                                     </h2>
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
+                                                        data-produto-estoque="{{ produto.estoque }}"
                                                     >
+                                                        {% if produto.estoque %}
                                                         Adicionar ao carrinho
+                                                        {% else %}
+                                                        Encomendar
+                                                        {% endif %}
                                                     </button>
                                                 </div>
                                             </div>
+                                            {% if not produto.estoque %}
+                                            <p class="mt-2 text-center text-secondary">Produzido especialmente para você! Início da produção após a confirmação do pagamento.</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -176,6 +183,7 @@
             e.preventDefault();
 
             var produtoId = $(this).data("produto-id");
+            var produtoEstoque = $(this).data("produto-estoque");
             // Neste exemplo, fixamos quantidade = 1
             var quantidade = 1;
 
@@ -197,6 +205,7 @@
                         var myModal = new bootstrap.Modal(
                             document.getElementById('modal-success')
                         );
+                        document.getElementById("modalMsg").textContent = 'O produto foi adicionado ao seu carrinho.';
                         myModal.show();
                     } else {
                         // Exibe modal de erro

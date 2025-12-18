@@ -83,6 +83,13 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/kitanda.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
 
+<style>
+.logo-login {
+width: 220px;
+  filter: grayscale(100%) brightness(0%);
+}
+</style>
+
         <?php if (isset($hcaptcha)): ?>
             <!-- hCaptcha -->
             <script src="https://hcaptcha.com/1/api.js" async defer></script>
@@ -98,9 +105,8 @@
 
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
-                    <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
-			<h1>Kitanda</h1>
-<!--                        <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+                    <a href="<?php echo INCLUDE_PATH; ?>" class="navbar-brand navbar-brand-autodark">
+			<img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" class="logo-login">
                     </a>
                 </div>
                 <div class="card card-md">

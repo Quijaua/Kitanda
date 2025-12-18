@@ -107,7 +107,37 @@ $message = '
                                                                 <table class="icon icon-lg bg-blue " cellspacing="0" cellpadding="0" role="presentation">
                                                                     <tr>
                                                                         <td valign="middle" align="center">
-                                                                            <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="icon-tabler icons-tabler-filled icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 2a1 1 0 0 1 .993 .883l.007 .117v1.068l13.071 .935a1 1 0 0 1 .929 1.024l-.01 .114l-1 7a1 1 0 0 1 -.877 .853l-.113 .006h-12v2h10a3 3 0 1 1 -2.995 3.176l-.005 -.176l.005 -.176c.017 -.288 .074 -.564 .166 -.824h-5.342a3 3 0 1 1 -5.824 1.176l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-12.17h-1a1 1 0 0 1 -.993 -.883l-.007 -.117a1 1 0 0 1 .883 -.993l.117 -.007h2zm0 16a1 1 0 1 0 0 2a1 1 0 0 0 0 -2zm11 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2z" /></svg>
+<img src="data:image/png;base64,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
++QbmAHKFdgAAAABJRU5ErkJggg==" alt="Carrinho" />
                                                                         </td>
                                                                     </tr>
                                                                 </table>

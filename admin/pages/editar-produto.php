@@ -63,6 +63,28 @@
                 $empreendedoras[$key]['imagem'] = INCLUDE_PATH . "assets/preview-image/profile.jpg";
             }
         }
+
+    }
+
+    if (getNomePermissao($_SESSION['user_id'], $conn) === 'Vendedor') {
+        // Dimensão padrão (simulada)
+        $defaultDimensao = [
+            'id' => 0,
+            'nome' => 'Padrão',
+            'altura' => 4,
+            'largura' => 12,
+            'comprimento' => 17,
+            'peso' => 0.5
+        ];
+
+        // Buscar do banco
+        $stmt = $conn->prepare("SELECT * FROM tb_frete_dimensoes");
+        $stmt->execute();
+        $dimensoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Junta e ordena
+        $dimensoes[] = $defaultDimensao;
+        usort($dimensoes, fn($a, $b) => strcmp($a['nome'], $b['nome']));
     }
 ?>
 
@@ -240,15 +262,43 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <label for="vitrine" class="col-3 col-form-label pt-0">Vitrine</label>
-                                    <span class="col">
-                                        <label for="vitrine" class="form-check form-switch form-switch-3">
+                                <div class="mb-3 row">
+                                    <div class="col-2">
+                                        <label for="codigo_produto" class="col-form-label">Código do produto</label>
+                                        <input name="codigo_produto" id="codigo_produto"
+                                            type="text" class="form-control" value="<?= $produto['codigo_produto']; ?>" >
+                                    </div>
+
+                                    <div class="col-2">
+                                        <label for="estoque" class="col-form-label required">Estoque</label>
+                                        <input name="estoque" id="estoque"
+                                            type="number" class="form-control" value="<?= $produto['estoque']; ?>" required>
+                                    </div>
+
+                                    <span class="col-2 mt-2">
+                                        <label for="vitrine" class="col-form-label pt-0">Vitrine</label>
+                                        <label for="vitrine" class="form-check form-switch form-switch-3 mt-2">
                                             <input name="vitrine" id="vitrine" type="checkbox" class="form-check-input" value="1" <?= ($produto['vitrine'] == 1) ? "checked" : "" ?>>
                                             <span class="form-check-label form-check-label-on">Sim</span>
                                             <span class="form-check-label form-check-label-off">Não</span>
                                         </label>
                                     </span>
+
+                                    <span class="col-3 mt-2">
+                                        <label for="somente_encomenda" class="col-form-label pt-0">Somente sob encomenda</label>
+                                        <label for="somente_encomenda" class="form-check form-switch form-switch-3 mt-2">
+                                            <input name="somente_encomenda" id="somente_encomenda" type="checkbox" class="form-check-input" value="1" <?= ($produto['somente_encomenda'] == 1) ? "checked" : "" ?>>
+                                            <span class="form-check-label form-check-label-on">Sim</span>
+                                            <span class="form-check-label form-check-label-off">Não</span>
+                                        </label>
+                                    </span>
+
+                                    <div id="prazo_criacao_wrapper" class="col-2 <?php if (!$produto['somente_encomenda']) echo 'd-none'; ?>">
+                                        <label for="prazo_criacao" class="col-form-label">Prazo de Criação</label>
+                                        <input name="prazo_criacao" id="prazo_criacao"
+                                            type="text" class="form-control" value="<?= $produto['prazo_criacao']; ?>" >
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -351,6 +401,14 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 mt-3 row">
+                                    <label for="peso" class="col-3 col-form-label">Peso</label>
+                                    <div class="col-md-3">
+                                        <input name="peso" id="peso"
+                                            type="number" class="form-control" value="<?= $produto['peso']; ?>" >
+                                    </div>
+                                </div>
+
                                 <div class="mb-3 mt-3 row" id="divFreightValue" style="display: <?= ($produto['freight_type'] === 'default' ? 'none' : '') ?>">
                                     <label for="freight_value" class="col-3 col-form-label required">Valor do Frete (R$)</label>
                                     <div class="col row">
@@ -438,9 +496,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-0 row">
-                                    <label class="col-3 col-form-label required">Vendedora do Produto</label>
+                                    <label class="col-3 col-form-label">Vendedora do Produto</label>
                                     <div class="col">
-                                        <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." required>
+                                        <select id="select-people" name="criado_por" class="form-select" placeholder="Selecione a vendedora deste produto..." >
                                             <option value="">Selecione uma vendedora</option>
                                             <?php foreach ($empreendedoras as $e): ?>
                                             <?php $selected = ($e['id'] == $produto['criado_por']) ? 'selected' : ''; ?>
@@ -523,7 +581,7 @@
                     <input type="hidden" name="imagens_removidas" id="imagens_removidas">
 
                     <div class="d-flex">
-                        <button type="button" class="btn btn-1" onclick="location.reload();">Resetar</button>
+                        <a  class="btn btn-1" href="<?php echo INCLUDE_PATH . "p/{$produto['link']}"; ?>" target="_blank">Visualizar</a>
                         <button type="submit" name="btnUpdateProduct" class="btn btn-primary ms-auto">Salvar</button>
                     </div>
 
@@ -696,6 +754,9 @@
                     required: true,
                     minlength: 3
                 },
+                estoque: {
+                    required: true
+                },
                 preco: {
                     required: true,
                     price: true
@@ -716,6 +777,9 @@
                 titulo: {
                     required: "Por favor, insira o título do produto.",
                     minlength: "O título deve ter pelo menos 3 caracteres."
+                },
+                estoque: {
+                    required: "Informe o estoque do produto."
                 },
                 preco: {
                     required: "Informe o preço do produto.",
@@ -749,7 +813,7 @@
             submitHandler: function(form) {
                 // Impede o envio padrão do formulário
                 event.preventDefault(); 
-
+                console.log("Envia o formulário");
                 // Define os botões como variáveis
                 var btnSubmit = $("#btnSubmit");
                 var btnLoader = $("#btnLoader");
@@ -802,6 +866,15 @@
                         btnLoader.addClass("d-none");
                     }
                 });
+            }
+        });
+
+        $("#somente_encomenda").on("change", function() {
+            if ($(this).is(":checked")) {
+                $("#prazo_criacao_wrapper").removeClass("d-none");
+            } else {
+                $("#prazo_criacao_wrapper").addClass("d-none");
+                $("#prazo_criacao").val("");
             }
         });
     });
@@ -880,30 +953,12 @@
     });
 </script>
 
-<!-- Campo Descrição com TinyMCE -->
+<script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/hugerte.min.js"></script>
+<script src="<?php echo INCLUDE_PATH; ?>dist/libs/hugerte/langs/pt_BR.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let options = {
-            selector: '#descricao',
-            height: 300,
-            menubar: false,
-            statusbar: false,
-                license_key: 'gpl',
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
-                'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
-        }
-        if (localStorage.getItem("tablerTheme") === 'dark') {
-            options.skin = 'oxide-dark';
-            options.content_css = 'dark';
-        }
-        tinyMCE.init(options);
-    })
+    hugerte.init({
+        selector: '#descricao',
+        language: 'pt_BR',
+        plugins: 'accordion advlist anchor autolink autosave charmap code codesample directionality emoticons fullscreen help image insertdatetime link lists media nonbreaking pagebreak preview quickbars save searchreplace table template visualblocks visualchars wordcount',
+    });
 </script>

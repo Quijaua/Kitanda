@@ -192,7 +192,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <?php if (isset($permissao_usuario['permissao_id']) && $permissao_usuario['permissao_id'] == 2): // Se for uma vendedora ?>
+                                            <?php //if (isset($permissao_usuario['permissao_id']) && $permissao_usuario['permissao_id'] == 2): // Se for uma vendedora ?>
                                             <div class="col-md-4">
                                                 <!-- Função -->
                                                 <div class="mb-3">
@@ -204,7 +204,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <?php endif; ?>
+                                            <?php //endif; ?>
                                         </div>
                                     </div>
                                 </div>

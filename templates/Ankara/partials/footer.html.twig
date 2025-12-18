@@ -4,8 +4,10 @@
     <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
         <div class="container-xl">
             <div class="row text-center">
-                <h2 class="text-red">Nome da seção</h2>
-                <h1 style="font-size: 3rem; line-height: normal;">Título do artigo ipsum dolore magna aliqua ipsum dolore magna massa tellus pretium</h1>
+                <p style="font-size: 2rem; line-height: normal;">
+		Ankara Moda Afro — Tecnologia que transforma realidades<br />
+		Clique para saber mais sobre o projeto que está gerando oportunidade, renda e inclusão digital a partir da cultura afro-brasileira.
+		</p>
             </div>
         </div>
     </div>
@@ -19,9 +21,10 @@
                 </div>
                 <div class="col-lg-8">
                     <p class="text-uppercase mb-2 cor-ankara-1">Nossa História</p>
-                    <h2 class="fw-bold mb-4 sub-titulo">Título do artigo ipsum dolore magna aliqua ipsum dolore magna</h2>
-                    <h4 class="mb-3 descricao">Título do artigo ipsum dolore magna aliqua</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <h2 class="fw-bold mb-4 sub-titulo">Carliene Silva – Guardiã das Águas e dos Saberes Ancestrais</h2>
+			<p>Nascida em 06 de abril de 1981, Carliene Silva cresceu entre cânticos, tambores e axé. Desde menina, acompanhava seus pais no Ilê Asé Odejun Queá, onde aprendeu o valor da fé, da coletividade e da força das tradições afro-brasileiras. Por volta dos anos 2000, seu caminho espiritual se firmou definitivamente.</p>
+			<p>Foi escolhida para servir a Yemanjá, tornando-se Ekedi, uma das mais nobres funções do Candomblé, símbolo de confiança, zelo e dedicação.</p>
+			<p>Com serenidade e firme propósito, Carliene se tornou uma presença essencial na vida do Ilê Asé Odejun Queá e da Casa de Cultura Afro Gerais (CCAG), em Pirapora/MG. Transmite saberes, acolhe, orienta e inspira, fortalecendo o axé que une gerações. Guardiã dos rituais, da memória e das tradições, ela representa a continuidade viva do legado ancestral. Uma mulher de fé, coragem e amor que transforma sua devoção em serviço e sua história em luz para o caminho de muitos...</p>
                 </div>
             </div>
         </div>
@@ -30,7 +33,9 @@
 
     <div class="row text-center">
         <div class="col-12 mb-4 text-sm-center">
+	  <a href="https://moverse.ceweb.br" target="_blank">
             <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
+	  </a>
         </div>
     </div>
 
@@ -66,11 +71,11 @@
                                 {% endif %}
 
                                 {# Título e link para o artigo #}
-                                <h5 class="card-title">
+                                <p class="card-title">
                                     <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
                                         {{ post.titulo }}
                                     </a>
-                                </h5>
+                                </p>
 
                                 {# Data de publicação #}
                                 <small class="text-muted">
@@ -121,39 +126,63 @@
             <div class="col-md-3">
                 <p class="btn-whatsapp"><a href="#"><i class="ti ti-brand-whatsapp"></i> Fale com a gente</a></p>
 
-                <div class="social-icons">
-                <a href="{{ facebook ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not facebook %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-facebook"></i>
-                </a>
-                <a href="{{ instagram ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not instagram %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-instagram p-2"></i>
-                </a>
-                <a href="{{ linkedin ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not linkedin %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-linkedin p-2"></i>
-                </a>
-                <a href="{{ twitter ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not twitter %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-twitter p-2"></i>
-                </a>
-                <a href="{{ youtube ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not youtube %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-youtube p-2"></i>
-                </a>
-                <a href="{{ website ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not website %}class="d-none"{% endif %}>
-                    <i class="ti ti-globe-americas p-2"></i>
-                </a>
-                <a href="{{ tiktok ?: '#' }}"   target="_blank"
-                    rel="noopener noreferrer" {% if not tiktok %}class="d-none"{% endif %}>
-                    <i class="ti ti-brand-tiktok p-2"></i>
-                </a>
-                <a href="{{ linktree ?: '#' }}" target="_blank"
-                    rel="noopener noreferrer" {% if not linktree %}class="d-none"{% endif %}>
-                    <i class="ti ti-share p-2"></i>
-                </a>
+                <nav aria-label="Redes sociais" class="social-icons">
+                    <a href="{{ facebook ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar página no Facebook"
+                        {% if not facebook %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-facebook" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ instagram ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no Instagram"
+                        {% if not instagram %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-instagram p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ linkedin ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no LinkedIn"
+                        {% if not linkedin %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-linkedin p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ twitter ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no X (antigo Twitter)"
+                        {% if not twitter %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-twitter p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ youtube ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar canal no YouTube"
+                        {% if not youtube %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-youtube p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ website ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar site oficial"
+                        {% if not website %}class="d-none"{% endif %}>
+                        <i class="ti ti-globe-americas p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ tiktok ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar perfil no TikTok"
+                        {% if not tiktok %}class="d-none"{% endif %}>
+                        <i class="ti ti-brand-tiktok p-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="{{ linktree ?: '#' }}" target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar página no Linktree"
+                        {% if not linktree %}class="d-none"{% endif %}>
+                        <i class="ti ti-share p-2" aria-hidden="true"></i>
+                    </a>
+
 
                 <div class="font-weight-light" style="font-size:13px;margin-top:5px">
                     {{ rua ~ ', ' ~ (numero ?: 'S/N') ~ ' - ' ~ bairro }}<br />
@@ -169,7 +198,7 @@
                         Usamos Kitanda | Open source
                     </a>
                 </p>
-            </div>
+            </nav>
         </div>
     </div>
 </div>
@@ -178,7 +207,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 p-2">
-                &copy; 2025 - {{ nome }} - Todos os direitos reservados
+                &copy; 2025 - {{ title ?: nome }} - Todos os direitos reservados
                 </div>
                 <div class="col-md-6 d-flex flex-row-reverse p-2">
                     <a href="{{ INCLUDE_PATH }}login" rel="noopener noreferrer"  class="text-white mx-2" target="_blank">Área de cliente</a> | 

@@ -23,7 +23,7 @@
 
         <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item dropdown">
-                <a href="{{ INCLUDE_PATH }}admin/painel" class="nav-link text-dark d-flex lh-1 p-0 px-2">
+                <a href="{{ INCLUDE_PATH }}admin/painel" class="nav-link text-dark d-flex lh-1 p-0 px-2" aria-label="Acessar minha conta">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +40,7 @@
             </div>
             <div class="d-none d-md-flex">
                 <div class="nav-item dropdown d-none d-md-flex me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-dark px-0 position-relative">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-dark px-0 position-relative" aria-label="Ver carrinho de compras">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -79,10 +79,10 @@
             </div>
             <div class="navbar-nav flex-row order-md-last">
                 <div class="nav-item dropdown d-md-flex d-md-none me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="Ver carrinho de compras">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                  class="icon icon-1 text-red icon-tabler icons-tabler-outline icon-tabler-shopping-cart-copy">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -119,7 +119,13 @@
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/pagina/sobre">
+                        <span class="nav-link-title text-dark fw-semibold">SOBRE NÓS</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/pagina/oficinas">
                         <span class="nav-link-title text-dark fw-semibold">OFICINAS</span>
                     </a>
                 </li>
@@ -129,8 +135,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span class="nav-link-title text-dark fw-semibold">SOBRE NÓS</span>
+                    <a class="nav-link" href="{{ INCLUDE_PATH }}empreendedoras">
+                        <span class="nav-link-title text-dark fw-semibold">EMPREENDEDORES</span>
                     </a>
                 </li>
                 <li class="nav-item">

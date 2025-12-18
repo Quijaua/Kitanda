@@ -26,7 +26,7 @@ $id = 1;
 $user_id = $_SESSION['user_id'];
 
 // Consulta SQL
-$sql = "SELECT * FROM $tabela WHERE id = :id";
+$sql = "SELECT tk.*, tc.nome as nome_logado FROM $tabela AS tk JOIN tb_clientes as tc ON tc.id = $user_id WHERE tk.id = :id";
 $sql_2 = "SELECT fb_pixel, gtm, g_analytics FROM $tabela_2 WHERE id = :id";
 $sql_3 = "SELECT privacy_policy, use_privacy FROM $tabela_3 WHERE id = :id";
 $sql_5 = "SELECT * FROM $tabela_5 WHERE roles != 1 AND id = :id";
@@ -78,12 +78,11 @@ $resultado_6 = $stmt_6->fetchAll(PDO::FETCH_ASSOC);
 $resultado_7 = $stmt_7->fetch(PDO::FETCH_ASSOC);
 $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
 
-
-
     // Verificar se o resultado foi encontrado
     if ($resultado) {
         // Atribuir o valor da coluna à variável, ex.: "nome" = $nome
         $nome = $resultado['nome'];
+        $nome_logado = $resultado['nome_logado'];
         $permissao = getNomePermissao($_SESSION['user_id'], $conn);
         $logo = $resultado['logo'];
         $title = $resultado['title'];
@@ -109,6 +108,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         $estado = $resultado['estado'];
         $telefone = $resultado['telefone'];
         $email = $resultado['email'];
+        $cpfCnpj = $resultado['cpfCnpj'];
         $nav_color = $resultado['nav_color'];
         $nav_background = $resultado['nav_background'];
         $background = $resultado['background'];
@@ -197,7 +197,7 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         <meta http-equiv="Content-Language" content="pt-BR">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title><?= $project['title'] ?: $project['name']; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+	<meta name=viewport content="width=device-width, initial-scale=1">
 
         <!-- Descrição -->
         <meta name="description" content="<?= htmlspecialchars(mb_substr($project['descricao'], 0, 160)); ?>">
@@ -337,14 +337,13 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/jsvectormap/dist/maps/world-merc.js?1738096685" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/dropzone/dist/dropzone-min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/fslightbox/index.js?1738096684" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/libs/tinymce/tinymce.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/nouislider/dist/nouislider.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/libs/melloware/coloris/dist/umd/coloris.min.js?1738096684" defer></script>
 
         <!-- Tabler Core -->
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
-        <script src="<?php echo INCLUDE_PATH; ?>dist/js/demo.min.js?1738096685" defer></script>
+         <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js?1738096685" defer></script>
 
 		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-a11y.min.css" rel="stylesheet"/>
 		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler-a11y.min.js" defer></script>

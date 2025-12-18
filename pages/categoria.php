@@ -49,11 +49,14 @@ $total_paginas = ($total_produtos > 0) ? ceil($total_produtos / $limite) : 1;
 
 // 6) Busca produtos paginados
 $sql = "
-    SELECT p.*
+    SELECT p.*, pi.imagem as imagem_produto, u.nome as empreendedora
     FROM tb_categoria_produtos cp
     JOIN tb_produtos p ON cp.produto_id = p.id
+    LEFT JOIN tb_produto_imagens pi ON pi.produto_id = p.id
+    LEFT JOIN tb_clientes u ON u.id = p.criado_por
     WHERE cp.categoria_id = :categoria_id
       AND p.vitrine = 1
+    GROUP BY p.id
 ";
 if ($busca !== '') {
     $sql .= " AND (p.nome LIKE :busca OR p.descricao LIKE :busca)";
@@ -74,11 +77,11 @@ $produtosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $produtos = [];
 foreach ($produtosRaw as $produto) {
     // Imagem de capa do produto
-    $imagemUrl = !empty($produto['imagem'])
+    $imagemUrl = isset($produto['imagem_produto'])
         ? str_replace(
             ' ',
             '%20',
-            INCLUDE_PATH . "files/blog/{$produto['id']}/{$produto['imagem']}"
+            INCLUDE_PATH . "files/produtos/{$produto['id']}/{$produto['imagem_produto']}"
           )
         : INCLUDE_PATH . "assets/preview-image/product.jpg";
 
@@ -105,8 +108,10 @@ foreach ($produtosRaw as $produto) {
     $produtos[] = [
         'id'               => $produto['id'],
         'titulo'           => $produto['titulo'],
+        'codigo_produto'   => $produto['codigo_produto'],
         'preco'            => $produto['preco'],
         'link'             => $produto['link'],
+        'empreendedora'    => $produto['empreendedora'],
         'imagem'           => $imagemUrl,
         'categorias'       => $catsList,
     ];
@@ -167,6 +172,7 @@ $paginationHtml = criarPaginacao(
 
 // 9) Retorna para o Twig
 return [
+    'page_title'      => $categoria['nome'],
     'not_found'       => false,
     'categoria'       => $categoria,
     'produtos'        => $produtos,

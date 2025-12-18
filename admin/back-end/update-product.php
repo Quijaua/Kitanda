@@ -44,7 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $produto_id = $_POST['produto_id'];
     $nome = trim($_POST['nome']);
     $titulo = trim($_POST['titulo']);
+    $estoque = intval($_POST['estoque']);
+    $codigo_produto = trim($_POST['codigo_produto']);
     $vitrine = isset($_POST['vitrine']) ? 1 : 0;
+    $peso = floatval($_POST['peso']);
     $descricao = trim($_POST['descricao']);
     $preco = str_replace(['.', ','], ['', '.'], trim($_POST['preco']));
 
@@ -64,7 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $seo_nome = trim($_POST['seo_nome']);
     $seo_descricao = trim($_POST['seo_descricao']);
     $link = trim($_POST['link']);
-    $criado_por = trim($_POST['criado_por']);
+    $criado_por = (isset($_POST['criado_por']) && !empty($_POST['criado_por'])) ? $_POST['criado_por'] : $_SESSION['user_id'];
+    $somente_encomenda = isset($_POST['somente_encomenda']) ? 1 : 0;
+    $prazo_criacao = isset($_POST['prazo_criacao']) ? $_POST['prazo_criacao'] : null;
 
     if (!filter_var(INCLUDE_PATH . $link, FILTER_VALIDATE_URL)) {
         echo json_encode(['status' => 'error', 'message' => 'O link informado não é válido.']);
@@ -78,13 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         $conn->beginTransaction();
 
-        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, descricao = :descricao, preco = :preco, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, freight_dimension_id = :freight_dimension_id, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por WHERE id = :produto_id");
+        $stmt = $conn->prepare("UPDATE tb_produtos SET nome = :nome, titulo = :titulo, estoque = :estoque, codigo_produto = :codigo_produto, descricao = :descricao, preco = :preco, peso = :peso, vitrine = :vitrine, freight_type = :freight_type, freight_value = :freight_value, freight_dimension_id = :freight_dimension_id, seo_nome = :seo_nome, seo_descricao = :seo_descricao, link = :link, criado_por = :criado_por, somente_encomenda = :somente_encomenda, prazo_criacao = :prazo_criacao WHERE id = :produto_id");
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $stmt->bindParam(':estoque', $estoque, PDO::PARAM_INT);
+        $stmt->bindParam(':codigo_produto', $codigo_produto, PDO::PARAM_STR);
         $stmt->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $stmt->bindParam(':preco', $preco, PDO::PARAM_STR);
         $stmt->bindParam(':vitrine', $vitrine, PDO::PARAM_INT);
+        $stmt->bindParam(':peso', $peso, PDO::PARAM_STR);
         $stmt->bindParam(':freight_type', $freight_type, PDO::PARAM_STR);
         $stmt->bindParam(':freight_value', $freight_value, PDO::PARAM_STR);
         $stmt->bindParam(':freight_dimension_id', $freight_dimension_id, PDO::PARAM_INT);
@@ -92,6 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt->bindParam(':seo_descricao', $seo_descricao, PDO::PARAM_STR);
         $stmt->bindParam(':link', $link, PDO::PARAM_STR);
         $stmt->bindParam(':criado_por', $criado_por, PDO::PARAM_STR);
+        $stmt->bindParam(':somente_encomenda', $somente_encomenda, PDO::PARAM_INT);
+        $stmt->bindParam(':prazo_criacao', $prazo_criacao, PDO::PARAM_STR);
         $stmt->execute();
 
         $stmtSel = $conn->prepare("SELECT categoria_id FROM tb_categoria_produtos WHERE produto_id = :produto_id");

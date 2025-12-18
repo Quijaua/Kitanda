@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title ?: nome }}</title>
+    <title>{{ page_title }} - {{ title }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -26,6 +26,7 @@
     <link href="{{ INCLUDE_PATH }}assets/{{ app.theme }}/css/style.css" rel="stylesheet">
     <script src="{{ INCLUDE_PATH }}assets/google/jquery/jquery.min.js"></script>
     <link href="{{ INCLUDE_PATH }}dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
+    <link href="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.css" rel="stylesheet" />
 
     {# Se existir hcaptcha ou turnstile, inclua aqui #}
     {% if hcaptcha is defined and hcaptcha %}
@@ -34,13 +35,13 @@
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     {% endif %}
 
-    <link rel="canonical" href="{{ INCLUDE_PATH }}" />
+    <link rel="canonical" href="{{ canonical }}" />
     <meta property="og:locale"      content="pt_BR" />
     <meta property="og:type"        content="{{ og_type }}" />
     <meta property="og:title"       content="{{ og_title }}" />
     <meta property="og:description" content="{{ og_description|slice(0,120) ~ '...' }}" />
     <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
-    <meta property="og:site_name"   content="{{ nome }}" />
+    <meta property="og:site_name"   content="{{ title ?: nome }}" />
     <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />
     <meta name="twitter:site"       content="@Kitanda" />
@@ -73,7 +74,7 @@
             {
                 "@type": "Organization",
                 "@id": "{{ INCLUDE_PATH }}#organization",
-                "name": "{{ nome }}",
+                "name": "{{ title ?: nome }}",
                 "url": "{{ INCLUDE_PATH }}",
                 "logo": {
                     "@type": "ImageObject",
@@ -83,7 +84,7 @@
                     "contentUrl": "{{ INCLUDE_PATH }}assets/img/{{ logo }}",
                     "width": 140,
                     "height": 64,
-                    "caption": "{{ nome }}"
+                    "caption": "{{ title ?: nome }}"
                 },
                 "image": { "@id": "{{ INCLUDE_PATH }}#/schema/logo/image" }
             }
@@ -112,9 +113,8 @@
                 <div class="col-lg-6 p-4">
                     <p class="text-uppercase mb-2 cor-ankara-2">uma ação da Casa de Cultura AfroGerais</p>
                     <h1 class="display-4 fw-bold mb-4">Ankara Moda Afro</h1>
-                    <p class="lead mb-4 descricao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <button class="btn btn-yellow sbtn-lg cor-ankara-1">Saiba mais</button>
-
+                    <p class="lead mb-4 descricao">A plataforma Ankara Moda Afro surgiu com o objetivo de promover o empoderamento econômico e digital de mulheres negras, em especial aquelas de comunidades periféricas e de terreiro na cidade de Pirapora/MG. A iniciativa visa garantir acesso à qualificação profissional e à inclusão no mercado digital, através do desenvolvimento de um aplicativo de vendas e capacitação em empreendedorismo, mídias sociais, marketing digital e e-commerce. </p>
+                    <a href="/pagina/sobre" class="btn btn-yellow sbtn-lg cor-ankara-1" rel="noopener noreferrer">Saiba mais</a>
                     <img src="/assets/Ankara/imagens/home-1-imagem.webp" class="p-2 d-flex d-md-none">
                 </div>
             </div>
@@ -138,8 +138,11 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-4">
-                    <h2 class="fw-bold mb-3 sub-titulo">Título do artigo ipsum dolore magna aliqua</h2>
-                    <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <h2 class="fw-bold mb-3 sub-titulo">Tecnologia que conecta, cultura que transforma</h2>
+			<p class="descricao">A Casa de Cultura Afro Gerais – CCAG, de Pirapora-MG, celebra sua conquista na Chamada Mover-se na Web, iniciativa nacional do CGI.br e Ceweb.br/NIC.br que incentiva projetos com impacto social por meio da tecnologia.</p>
+			<p class="descricao">O reconhecimento fortalece nosso compromisso em ampliar oportunidades e geração de renda para pessoas em vulnerabilidade, historicamente excluídas do ambiente digital.</p>
+			<p class="descricao">Unindo cultura, identidade e inovação, promovemos acesso, autonomia e protagonismo.</p>
+			<p class="descricao">Onde a cultura pulsa, a tecnologia conecta — e vidas são transformadas.</p>
                 </div>
             </div>
         </div>
@@ -153,8 +156,8 @@
             <div class="row align-items-center p-2">
                 <div class="col-lg-6">
                     <p class="text-uppercase mb-2 cor-ankara-1">Histórias e empreenderismo</p>
-                    <h2 class="fw-bold mb-3">Título do artigo ipsum dolore magna aliqua</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <h2 class="sub-titulo mb-3">Nalvinha de Yemanjá</h2>
+                    <p class="descricao">Rosinalva Teixeira Silva, ou simplesmente Nalvinha de Yemanjá, é uma força ancestral que une fé, cultura e resistência nas margens do Rio São Francisco. Yalorixá, servidora pública e gestora social, Rosinalva é sucessora de Maria Curtinha, fundadora do Ilê Axé Odejun Quea e da Casa de Cultura Afro Gerais (CCAG), símbolo da preservação da cultura afro-brasileira em Pirapora/MG. À frente da CCAG, coordena projetos que unem arte, educação e religiosidade, de oficinas de costura e capoeira a festas tradicionais como a de Iemanjá e o Afoxé Odoyá. Reconhecida com o prêmio Mulher Nota 10, Nalvinha representa o poder feminino barranqueiro: herdeira das águas e da sabedoria dos Orixás, transforma sua ancestralidade em ação social, promovendo igualdade racial, fortalecimento comunitário e o florescimento da identidade negra no Norte de Minas.</p>
                 </div>
                 <div class="col-lg-6 p-3 p-md-0">
                     <div class="product-image pb-2">
@@ -171,6 +174,73 @@
             {{ page_content|raw }}
         </div>
 
+        {% if (td_entrepreneurs and is_home) or not td_entrepreneurs %}
+        <!-- Entrepreneurs Section -->
+        <section id="entrepreneurs" class="section-padding" style=background-color:#c62828;padding:10px">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h2 class="text-white fw-bold mb-4 fs-1 mt-4">Conheça nossas empreendedoras</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-light me-2 rounded-circle btn-glider-prev" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - anteriores">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-light rounded-circle btn-glider-next" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - próximas">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glider mt-4">
+
+                    {% if empreendedoras %}
+
+                        {% for e in empreendedoras %}
+                        <div class="mb-4">
+                            <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center">
+                                {% if e.tem_imagem %}
+                                <div class="entrepreneur-card">
+                                    <span class="avatar avatar-xl rounded-circle"
+                                        style="background-image: url('{{ e.imagem }}'); width: 120px; height: 120px;"></span>
+                                </div>
+                                {% else %}
+                                <div class="entrepreneur-card">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                {% endif %}
+                                <p class="text-white fw-bold fs-3">{{ e.nome }}</p>
+                                <p class="text-white-50 small fs-4">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+                                                    <path d="M17.657 16.657l-4.243 4.243
+                                                            a2 2 0 0 1 -2.827 0
+                                                            l-4.244 -4.243
+                                                            a8 8 0 1 1 11.314 0z"/>
+                                </svg>
+                                {{ e.address }}</p>
+                            </a>
+                        </div>
+                        {% endfor %}
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
         {# Inclui o footer #}
         {% include 'partials/footer.html.twig' %}
 
@@ -185,11 +255,50 @@
     <script src="{{ INCLUDE_PATH }}dist/libs/fslightbox/index.js"                    defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler.min.js" defer></script>
     <script src="{{ INCLUDE_PATH }}dist/js/kitanda.min.js" defer></script>
+    <script src="{{ INCLUDE_PATH }}dist/libs/npm/glider-js@1/glider.min.js"          defer></script>
     <link href="{{ INCLUDE_PATH }}dist/css/tabler-a11y.min.css" rel="stylesheet"/>
     <script src="{{ INCLUDE_PATH }}dist/js/tabler-a11y.min.js" defer></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             new TablerA11y({ position: 'bottom-right' });
+        });
+    </script>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const glideEl = document.querySelector('.glider');
+            if (glideEl) {
+                new Glider(glideEl, {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    draggable: true,
+                    rewind: true,
+                    arrows: {
+                        prev: ".btn-glider-prev",
+                        next: ".btn-glider-next"
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 4,
+                            }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 2,
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                            }
+                        }
+                    ]
+                });
+            }
         });
     </script>
 

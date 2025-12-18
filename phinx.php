@@ -25,12 +25,12 @@ return
         ],
         'development' => [
             'adapter' => 'mysql',
-            'host'    => $_ENV['DB_HOST'],
-            'name'    => $_ENV['DB_NAME_DEVELOPMENT'] ?? $_ENV['DB_NAME'],
-            'user'    => $_ENV['DB_USERNAME'],
-            'pass'    => $_ENV['DB_PASSWORD'],
-            'port'    => $_ENV['DB_PORT'],
-            'charset' => 'utf8',
+            'host' => $_ENV['DB_HOST'],
+            'name' => $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USERNAME'],
+            'pass' => $_ENV['DB_PASSWORD'],
+            'port' => $_ENV['DB_PORT'],
+            'charset' => 'utf8mb4',
         ],
         'testing' => [
             'adapter' => 'mysql',

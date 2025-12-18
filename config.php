@@ -122,6 +122,10 @@
             return 'Administrador';
         }
 
+        if ($usuario['roles'] == 2) {
+            return 'Vendedor';
+        }
+
         $stmt = $conn->prepare("
             SELECT f.nome
             FROM tb_funcoes f

@@ -23,7 +23,7 @@
 
         <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item dropdown">
-                <a href="{{ INCLUDE_PATH }}admin/painel" class="nav-link text-dark d-flex lh-1 p-0 px-2">
+                <a href="{{ INCLUDE_PATH }}admin/painel" class="nav-link text-dark d-flex lh-1 p-0 px-2" aria-label="Acessar Minha Conta">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +40,7 @@
             </div>
             <div class="d-none d-md-flex">
                 <div class="nav-item dropdown d-none d-md-flex me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-dark px-0 position-relative">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-dark px-0 position-relative" aria-label="Ver carrinho de compras">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -79,7 +79,7 @@
             </div>
             <div class="nav-item dropdown d-md-flex d-md-none">
                 <div class="nav-item dropdown d-md-flex d-md-none me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="Ver carrinho de compras">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"

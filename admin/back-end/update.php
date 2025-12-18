@@ -437,9 +437,10 @@ if (isset($_POST['btnUpdFooter'])) {
 
         $telefone = $_POST['telefone'];
         $email = $_POST['email'];
+        $cpfCnpj = $_POST['cpfCnpj'];
 
         // Atualize o item no banco de dados
-        $sql = "UPDATE $tabela SET privacidade = :privacidade, faq = :faq, use_faq = :use_faq, facebook = :facebook, instagram = :instagram, whatsapp = :whatsapp, linkedin = :linkedin, twitter = :twitter, youtube = :youtube, website = :website, tiktok = :tiktok, linktree = :linktree, cep = :cep, rua = :rua, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, telefone = :telefone, email = :email WHERE id = :id";
+        $sql = "UPDATE $tabela SET privacidade = :privacidade, faq = :faq, use_faq = :use_faq, facebook = :facebook, instagram = :instagram, whatsapp = :whatsapp, linkedin = :linkedin, twitter = :twitter, youtube = :youtube, website = :website, tiktok = :tiktok, linktree = :linktree, cep = :cep, rua = :rua, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, telefone = :telefone, email = :email, cpfCnpj = :cpfCnpj WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':privacidade', $privacidade);
         $stmt->bindParam(':faq', $faq);
@@ -461,6 +462,7 @@ if (isset($_POST['btnUpdFooter'])) {
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':telefone', $telefone);
         $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':cpfCnpj', $cpfCnpj);
         $stmt->bindParam(':id', $id);
 
         try {
@@ -471,7 +473,7 @@ if (isset($_POST['btnUpdFooter'])) {
             $_SESSION['msg'] = 'As informações do rodapé foram atualizadas com sucesso!';
 
             //Voltar para a pagina do formulario
-            header('Location: ' . INCLUDE_PATH_ADMIN . 'rodape');
+            header('Location: ' . INCLUDE_PATH_ADMIN . 'contatos');
         } catch (PDOException $e) {
             echo "Erro na atualização: " . $e->getMessage();
         }

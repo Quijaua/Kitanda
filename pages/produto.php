@@ -96,6 +96,17 @@ $stmt = $conn->prepare("
 $stmt->execute([$produto['id']]);
 $outros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// 7) Busca os depoimentos do produto
+$stmt = $conn->prepare("
+    SELECT *
+    FROM tb_depoimentos
+    WHERE produto_id = ?
+");
+$stmt->execute([$produto['id']]);
+$depoimentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$user_id = $_SESSION['user_id'] ?? null;
+
 // Ajusta URL e preço para cada “outro produto”
 foreach ($outros as &$p) {
     $p['imagem'] = !empty($p['imagem'])
@@ -111,9 +122,12 @@ unset($p);
 
 // 7) Retorna todas as variáveis que o Twig precisa:
 return [
+    'page_title'          => $produto['nome'],
     'produto'        => $produto,
     'e'              => $e,
     'imagens'        => $imagens,
     'outros_produtos'=> $outros,
+    'depoimentos'    => $depoimentos,
+    'user_id'        => $user_id,
 ];
 ?>

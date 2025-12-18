@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ title ?: nome }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
-    <meta name="viewport"    content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name=viewport content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ INCLUDE_PATH }}assets/img/favicon.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="{{ INCLUDE_PATH }}assets/img/favicon.png" />
     <meta name="msapplication-TileImage"
@@ -38,7 +38,7 @@
     <meta property="og:title"       content="{{ og_title }}" />
     <meta property="og:description" content="{{ og_description|slice(0,120) ~ '...' }}" />
     <meta property="og:url"         content="{{ INCLUDE_PATH }}" />
-    <meta property="og:site_name"   content="{{ nome }}" />
+    <meta property="og:site_name"   content="{{ title ?: nome }}" />
     <meta property="og:image"       content="{{ og_image }}" />
     <meta name="twitter:card"       content="summary_large_image" />
     <meta name="twitter:site"       content="@Kitanda" />
@@ -71,7 +71,7 @@
             {
                 "@type": "Organization",
                 "@id": "{{ INCLUDE_PATH }}#organization",
-                "name": "{{ nome }}",
+                "name": "{{ title ?: nome }}",
                 "url": "{{ INCLUDE_PATH }}",
                 "logo": {
                     "@type": "ImageObject",
@@ -81,7 +81,7 @@
                     "contentUrl": "{{ INCLUDE_PATH }}assets/img/{{ logo }}",
                     "width": 140,
                     "height": 64,
-                    "caption": "{{ nome }}"
+                    "caption": "{{ title ?: nome }}"
                 },
                 "image": { "@id": "{{ INCLUDE_PATH }}#/schema/logo/image" }
             }

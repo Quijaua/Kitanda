@@ -235,8 +235,9 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <tr>
                 <th>Nome da Vendedora</th>
                 <th>E-mail</th>
-                <th>Telefone</th>
+                <!-- <th>Telefone</th> -->
                 <th>Status</th>
+                <th></th>
                 <th></th>
               </tr>
             </thead>
@@ -261,7 +262,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tr>
                   <td data-label="Nome"><?php echo htmlspecialchars($usuario['nome']); ?></td>
                   <td data-label="E-mail"><?php echo htmlspecialchars($usuario['email']); ?></td>
-                  <td data-label="Telefone"><?php echo !empty($usuario['phone']) ? $usuario['phone'] : '--'; ?></td>
+                  <!-- <td data-label="Telefone"><?php echo !empty($usuario['phone']) ? $usuario['phone'] : '--'; ?></td> -->
                   <!-- <td data-label="Status"><?php echo $usuario['status'] ? 'Ativo' : 'Inativo'; ?></td> -->
 
                   <td data-label="Status">
@@ -280,54 +281,56 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                   <td>
                     <div class="d-flex align-items-center justify-content-end">
-                        <?php if ($usuario['status'] === 1) : ?>
-                            <a onclick="modalShow(
-                                    'Inativar vendedora',
-                                    'Tem certeza que deseja inativar essa vendedora?',
-                                    'danger',
-                                    () => window.location.href = 'back-end/toggle_status.php?id=<?= $usuario['id']; ?>'
-                                )"
-                            >
-                                <span class="status-btn status-inativo ms-8">
-                                    <span class="status-circle"></span>
-                                    Inativar
-                                </span>
-                            </a>
-                        <?php else: ?>
-                            <a class="text-decoration-none" href="<?= INCLUDE_PATH_ADMIN; ?>back-end/toggle_status.php?id=<?= $usuario['id']; ?>">
-                                <span class="status-btn status-ativo ms-8">
-                                    Ativar
-                                    <span class="status-circle"></span>
-                                </span>
-                            </a>
-                        <?php endif; ?>
+                      <?php if ($usuario['status'] === 1) : ?>
+                          <a onclick="modalShow(
+                                  'Inativar vendedora',
+                                  'Tem certeza que deseja inativar essa vendedora?',
+                                  'danger',
+                                  () => window.location.href = 'back-end/toggle_status.php?id=<?= $usuario['id']; ?>'
+                              )"
+                          >
+                              <span class="status-btn status-inativo ms-8">
+                                  <span class="status-circle"></span>
+                                  Inativar
+                              </span>
+                          </a>
+                      <?php else: ?>
+                          <a class="text-decoration-none" href="<?= INCLUDE_PATH_ADMIN; ?>back-end/toggle_status.php?id=<?= $usuario['id']; ?>">
+                              <span class="status-btn status-ativo ms-8">
+                                  Ativar
+                                  <span class="status-circle"></span>
+                              </span>
+                          </a>
+                      <?php endif; ?>
+                    </div>
+                  </td>
 
-                        <span class="dropdown ms-2">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Ações</button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <?php if ($update): ?>
-                            <a class="dropdown-item" href="<?php echo INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                Editar
-                            </a>
-                            <?php elseif ($only_own || $read): ?>
-                            <a class="dropdown-item" href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
-                                Detalhes
-                            </a>
-                            <?php endif; ?>
-                            <?php if ($delete): ?>
-                            <div class="dropdown-divider"></div>
-                            <button type="button" class="dropdown-item text-danger btn-delete" data-id="<?php echo $usuario['id']; ?>" data-name="<?php echo $usuario['nome']; ?>">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/edit -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                                Deletar
-                            </button>
-                            <?php endif; ?>
-                        </div>
-                        </span>
+                  <td class="text-end">
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                      <?php if ($update): ?>
+                        <a href="<?php echo INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                          Editar
+                        </a>
+                      <?php if(getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
+                        <a href="<?php echo INCLUDE_PATH_ADMIN . "minha-loja?vendedora_id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                          Editar Loja
+                        </a>
+                      <?php endif; ?>
+                      <?php elseif ($only_own || $read): ?>
+                        <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-secondary d-flex align-items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 icon-tabler-edit"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path><path d="M16 5l3 3"></path></svg>
+                          Detalhes
+                        </a>
+                      <?php endif; ?>
+                      <div class="ms-auto"></div>
+                      <?php if ($delete): ?>
+                        <a type="button" class="btn btn-6 btn-outline-danger d-flex align-items-center gap-1 btn-delete" data-id="<?php echo $usuario['id']; ?>" data-name="<?php echo $usuario['nome']; ?>">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon icon-2 text-danger icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                          Apagar
+                        </a>
+                      <?php endif; ?>
                     </div>
                   </td>
                 </tr>
