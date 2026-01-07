@@ -188,7 +188,7 @@
             <form action="<?php INCLUDE_PATH_ADMIN; ?>back-end/captcha.php" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">Configurar hCaptcha</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                 </div>
 
                 <?php if (!$update && $hcaptcha['button']): ?>
@@ -272,7 +272,7 @@
             <form action="<?php INCLUDE_PATH_ADMIN; ?>back-end/captcha.php" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">Configurar Turnstile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                 </div>
 
                 <?php if (!$update && $turnstile['button']): ?>

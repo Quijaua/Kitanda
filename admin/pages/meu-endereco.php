@@ -100,7 +100,7 @@
         cep = cep.replace(/\D/g, "");
         if (cep.length < 8) {
             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">CEP deve conter no mínimo 8 dígitos<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">CEP deve conter no mínimo 8 dígitos<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
             $("#field-zipcode").addClass('is-invalid').focus();
             return;
         }
@@ -238,7 +238,7 @@
 
                             // Caso contrário, exibe a mensagem de erro
                             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                         }
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
@@ -248,7 +248,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

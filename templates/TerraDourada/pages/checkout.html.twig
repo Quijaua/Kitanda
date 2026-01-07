@@ -34,7 +34,7 @@
 <div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <!-- Ícone de sucesso -->
@@ -62,7 +62,7 @@
 <div class="modal modal-blur fade" id="modal-validar" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <!-- Ícone de sucesso -->
@@ -1011,7 +1011,7 @@ $('#btn-step-shipping-continue').on('click', function() {
 
     if (selected.length === 0) {
         $(".alert").remove();
-        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
         return;
     }
 
@@ -1820,7 +1820,7 @@ $(document).ready(function() {
                     $("#btn-step2-continue").addClass('d-block').removeClass('d-none');
 
                     $(".alert").remove();
-                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                 }
             })
             .fail(function(xhr, status, error) {
@@ -1828,7 +1828,7 @@ $(document).ready(function() {
                 console.error("Server Response:", xhr.responseText);
 
                 $(".alert").remove();
-                $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                 //Remove botão carregando
                 $(".progress-subscription").addClass('d-none').removeClass('d-flex');
@@ -2012,12 +2012,12 @@ $(document).ready(function() {
 
                 $(".alert").remove();
                 if (response.error) {
-                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                 }
 
                 if (response.errors) {
                     response.errors.forEach((error) => {
-                        $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + error.description + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + error.description + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                     })
                 }
 
@@ -2027,7 +2027,7 @@ $(document).ready(function() {
             console.error("Erro no AJAX:", status, error);
 
             $(".alert").remove();
-            $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
             //Remove botão carregando
             $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');

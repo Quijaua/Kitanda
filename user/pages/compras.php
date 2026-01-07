@@ -51,7 +51,7 @@
       <div class="modal-header">
         <!-- Título que será atualizado com o ID da compra -->
         <h5 class="modal-title" id="modal-track-title">Rastrear Compra #</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
       </div>
       <div class="modal-body">
         <!-- A timeline será preenchida dinamicamente -->
