@@ -2,6 +2,7 @@
     --background: #FFFFFF;
     --tblr-red: #CC2229;
     --tblr-red-rgb: 204, 34, 41;
+    --bg-red: #81161A;
     --tblr-yellow: #F39505;
     --tblr-yellow-rgb: 255, 210, 22;
     --tblr-breadcrumb-divider: "|";
@@ -183,3 +184,5 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
 #paginas {
 	font-size: 15pt;
 }
+
+.bg-red {background: var(--bg-red);}

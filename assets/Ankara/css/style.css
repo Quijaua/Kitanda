@@ -1,12 +1,14 @@
 :root {
 --background: #FFFFFF;
---tblr-red: #CC2229;
+--tblr-red: #cc2229;
 --tblr-red-rgb: 204, 34, 41;
---tblr-yellow: #FFD216;
+--bg-red: #81161a;
+--tblr-yellow: #ffd216;
 --tblr-yellow-rgb: 255, 210, 22;
 --tblr-breadcrumb-divider: "|";
 --tblr-breadcrumb-divider-color: #FFFFFF;
---primary-red: #d32f2f;
+--primary-red: #7e1b1b;
+--secondary-red: #7f1a1a;
 --primary-yellow: #ffd216; 
 --text-dark: #333;
 }
@@ -15,13 +17,20 @@
 color: var(--tblr-red);
 font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 }
+.vermelho .breadcrumb a {
+color: rgba(var(--tblr-yellow-rgb),var(--tblr-text-opacity))!important;
+font-weight: var(--tblr-breadcrumb-item-active-font-weight);
+}
 
 .breadcrumb-item.active {
 font-weight: normal !important;
 }
 
+.vermelho .breadcrumb-item+.breadcrumb-item::before {
+color: var(--primary-yellow) !important;
+}
 .breadcrumb-item+.breadcrumb-item::before {
-color: #FFFFFF !important;
+color: var(--primary-red) !important;
 }
 .product-breadcrumb .breadcrumb-item+.breadcrumb-item::before,
 .cart-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
@@ -31,7 +40,7 @@ color: #000000 !important;
 .pagination-ankara .page-item.active .page-link {
 background-color: #FFD216;
 border-color: #FFD216;
-color: #CC2229;
+color: var(--primary-red);
 }
 
 .navbar-brand img {
@@ -39,7 +48,7 @@ height: 40px;
 }
 
 .hero-section {
-background: linear-gradient(135deg, var(--primary-red) 0%, #c62828 100%);
+background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
 color: white;
 position: relative;
 overflow: hidden;
@@ -75,6 +84,10 @@ padding: 0;
 background: var(--primary-red);
 color: white;
 padding: 60px 0;
+}
+
+#entrepreneurs.section-padding {
+background-color: var(--secondary-red);
 }
 
 .colorful-icon {
@@ -118,7 +131,7 @@ color: #999;
 .btn-yellow {
 background: var(--primary-yellow);
 border: none;
-color: var(--text-dark);
+color: var(--primary-red) !important;
 font-weight: 600;
 padding: 12px 30px;
 border-radius: 25px;
@@ -126,7 +139,7 @@ border-radius: 25px;
 
 .btn-yellow:hover {
 background: #ffcc02;
-color: var(--text-dark);
+color: var(--primary-red) !important;
 }
 
 .blog-card {
@@ -243,6 +256,8 @@ right: calc(-1rem + -28px) !important;
 }
 
 .verde {background-color: #788f22}
+
+.vermelho {background-color: var(--bg-red);}
 
 .section-padding {
     padding: 80px 0;

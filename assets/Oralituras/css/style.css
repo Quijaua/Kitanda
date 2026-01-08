@@ -2,6 +2,7 @@
     --background: #BCC1BF;
     --tblr-red: #400F19;
     --tblr-red-rgb: 204, 34, 41;
+    --bg-red: #81161A;
     --tblr-yellow: #400F19;
     --tblr-yellow-rgb: 64, 15, 25;
     --tblr-breadcrumb-divider: "|";
@@ -42,3 +43,5 @@
 }
 
 .steps {--tblr-steps-color: var(--tblr-btn-hover-bg) !important}
+
+.bg-red {background: var(--bg-red);}
