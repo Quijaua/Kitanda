@@ -178,6 +178,7 @@ margin: 0;
 
 .cor-ankara-1 {color: var(--primary-red)}
 .cor-ankara-2 {color: var(--primary-yellow)}
+.pre-titulo {font-size:14px!important;font-weight:normal!important;}
 .sub-titulo {font-size:25pt}
 .descricao {font-size:14pt}
 

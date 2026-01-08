@@ -105,11 +105,9 @@
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h2 class="mb-0">{{ produto.titulo }}</h2>
-                                                    <h3>{{ produto.codigo_produto }}</h3>
-                                                    <h2 class="text-red">
-                                                        R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    <h3 class="h2 mb-0">{{ produto.titulo }}</h3>
+                                                    <p class="h3 text-muted">{{ produto.codigo_produto }}</p>
+                                                    <p class="h2 text-red">R$ {{ precoFormatado }}</p>
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"

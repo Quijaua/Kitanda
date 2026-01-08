@@ -24,7 +24,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
                     <path d="M9 12l2 2l4 -4"/>
                 </svg>
-                <h3>Tem certeza?</h3>
+                <h2 class="h3">Tem certeza?</h2>
                 <div class="text-secondary">Deseja remover o produto do seu carrinho?</div>
             </div>
             <div class="modal-footer">
@@ -68,9 +68,9 @@
         <div class="row g-4">
 
             <div class="col-md-12">
-                <h3 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
+                <h1 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
                     Meu Carrinho
-                </h3>
+                </h1>
             </div>
 
             {# ----------------------------- Lista de Itens ----------------------------- #}
@@ -106,9 +106,9 @@
                                                 </a>
                                                 <p class="text-secondary mb-0 me-4">Estoque: {{ item.produto_estoque }}</p>
                                             </div>
-                                            <h3 class="h2 mb-4">
+                                            <p class="h2 mb-4">
                                                 R$ {{ item.produto_preco|number_format(2, ',', '.') }}
-                                            </h3>
+                                            </p>
                                             <a href="#" class="text-muted remove-item"
                                                data-item-id="{{ item.carrinho_id }}"
                                                data-produto-id="{{ item.produto_id }}">
@@ -140,7 +140,7 @@
             <div class="col-md-4">
                 <div class="card bg-dark-lt">
                     <div class="card-body">
-                        <h3 class="card-title">Resumo do pedido</h3>
+                        <h2 class="h2 card-title">Resumo do pedido</h2>
 
                         {% set total = 0 %}
                         {% for item in cartItems %}

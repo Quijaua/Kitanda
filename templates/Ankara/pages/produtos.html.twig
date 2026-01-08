@@ -14,7 +14,7 @@
                         <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
-                    <h3>Salvo com sucesso!</h3>
+                    <h2 class="h3">Salvo com sucesso!</h2>
                     <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
@@ -43,7 +43,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title text-ankara sub-titulo">Produtos</h2>
+                    <h1 class="page-title text-ankara sub-titulo">Produtos</h1>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <form method="GET" class="d-flex">
@@ -106,10 +106,10 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
                                                     <h2 class="mb-0">{{ produto.titulo }}</h2>
-                                                    <h3>{{ produto.codigo_produto }}</h3>
-                                                    <h2 class="text-red">
+                                                    <p class="h3">{{ produto.codigo_produto }}</p>
+                                                    <p class="h2 text-red">
                                                         R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    </p>
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
@@ -161,7 +161,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="alert-title">Nenhum Produto (Ankara)</h4>
+                                    <h2 class="alert-title">Nenhum Produto (Ankara)</h2>
                                     <div class="text-secondary">
                                         O tema Ankara não encontrou produtos para exibir.
                                     </div>

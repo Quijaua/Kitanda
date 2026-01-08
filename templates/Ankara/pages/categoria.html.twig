@@ -19,7 +19,7 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <p class="h2 text-yellow mb-0">Categoria</p>
                     <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Categoria não encontrada</h1>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <p class="alert-title">Alerta do Sistema</p>
                                 <div class="text-secondary">Não encontramos esta categoria.</div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <p class="h2 text-yellow mb-0">Categoria</p>
                     <h1 class="text-white" style="font-size: 3rem; line-height: normal;">{{ categoria.nome }}</h1>
                 </div>
             </div>
@@ -85,7 +85,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h1 class="text-terra fs-1">Nossos produtos</h1>
+                    <h2 class="text-terra fs-1">Nossos produtos</h2>
                     <div class="text-secondary mt-1">
                         {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
@@ -160,12 +160,12 @@
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
-                                                    <h3>{{ produto.codigo_produto }}</h3>
+                                                    <h3 class="h1 mb-1">{{ produto.titulo }}</h3>
+                                                    <p class="h3">{{ produto.codigo_produto }}</p>
                                                     <p>Produzido por: {{ produto.empreendedora }}</p>
-                                                    <h2 class="text-yellow">
+                                                    <p class="h2 text-yellow">
                                                         R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    </p>
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
