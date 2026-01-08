@@ -175,7 +175,7 @@ if (isset($_GET["token"])) {
             <div class="text-center mb-4">
                 <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
 			<h1>Kitanda</h1>
-<!--                    <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+<!--                    <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
                 </a>
             </div>
             <div class="card card-md">

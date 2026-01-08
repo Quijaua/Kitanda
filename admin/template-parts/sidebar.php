@@ -26,8 +26,8 @@
         <div class="navbar-brand navbar-brand-autodark">
             <a href="<?= INCLUDE_PATH_ADMIN; ?>painel">
 <!--                <h1><?php echo $project['title'];  ?></h1> -->
-<!--                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
-                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" style="width: 220px;">
+<!--                <img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+                <img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" style="width: 220px;">
             </a>
         </div>
         <div class="navbar-nav flex-row d-lg-none">

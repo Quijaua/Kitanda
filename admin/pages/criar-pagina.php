@@ -286,7 +286,7 @@
                     $label.find('img.previsualizacao').remove();
 
                     // 2) Cria a tag <img> com a imagem carregada
-                    var $img = $('<img class="previsualizacao" />')
+                    var $img = $('<img class="previsualizacao" alt="" aria-hidden="true" />')
                                 .attr('src', evt.target.result)
                                 .css({
                                     'display': 'block',

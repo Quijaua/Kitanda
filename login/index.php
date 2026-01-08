@@ -106,7 +106,7 @@ width: 220px;
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
                     <a href="<?php echo INCLUDE_PATH; ?>" class="navbar-brand navbar-brand-autodark">
-			<img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" class="logo-login">
+			<img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" class="logo-login">
                     </a>
                 </div>
                 <div class="card card-md">

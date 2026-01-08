@@ -700,12 +700,12 @@
                                                 {% if pedido and pedido.forma_pagamento == 'PIX' %}
                                                     <img class="w-100 p-5"
                                                         src="data:image/png;base64,{{ pedido.pix_encodedImage }}"
-                                                        alt="QR Code"
+                                                        alt="QR Code para realizar o pagamento via Pix deste pedido"
                                                         id="pix-qrcode">
                                                 {% else %}
                                                     <img class="w-100 p-5"
                                                         src="#"
-                                                        alt="QR Code"
+                                                        alt="QR Code para realizar o pagamento via Pix deste pedido"
                                                         id="pix-qrcode">
                                                 {% endif %}
 

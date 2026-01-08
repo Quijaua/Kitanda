@@ -82,10 +82,13 @@
                                 <div class="col-3 row g-2 g-md-3 mt-0">
                                     <div class="col-12 mt-0">
                                         <a data-fslightbox="gallery"
-                                           href="{{ item.produto_imagem }}">
-                                            <div class="img-responsive img-responsive-1x1 rounded-3 border"
-                                                 style="background-image: url({{ item.produto_imagem }});">
-                                            </div>
+                                           href="{{ item.produto_imagem }}"
+                                           aria-label="Abrir imagem ampliada do produto {{ item.produto_nome }}">
+                                            <img
+                                                src="{{ item.produto_imagem }}"
+                                                alt="{{ item.produto_nome }}"
+                                                class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                                            >
                                         </a>
                                     </div>
                                 </div>

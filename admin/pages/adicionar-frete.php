@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4 d-flex align-items-center justify-content-center">
-                                        <img src="<?= INCLUDE_PATH; ?>assets/img/package-icon.png" alt="Ícone de pacote" style="height: 250px;">
+                                        <img src="<?= INCLUDE_PATH; ?>assets/img/package-icon.png" alt="" aria-hidden="true" style="height: 250px;">
                                     </div>
                                 </div>
                             </div>

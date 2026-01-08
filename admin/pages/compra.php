@@ -217,7 +217,7 @@
                         <div class="text-center">
                         <p>Pagamento via Pix pendente. Use o QR Code abaixo para pagar:</p>
                         <?php if(!empty($pedido['pix_encodedImage'])): ?>
-                            <img src="data:image/png;base64,<?= $pedido['pix_encodedImage']; ?>" alt="QR Code Pix" style="max-width: 200px;">
+                            <img src="data:image/png;base64,<?= $pedido['pix_encodedImage']; ?>" alt="QR Code para realizar o pagamento via Pix deste pedido" style="max-width: 200px;">
                         <?php else: ?>
                             <p>QR Code não disponível.</p>
                         <?php endif; ?>

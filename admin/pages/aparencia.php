@@ -346,7 +346,8 @@
                                             <?php if ($current_theme == 'Ankara') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
                                             <img src="<?= INCLUDE_PATH ?>assets/Ankara/thumbs/ankara.webp"
-                                                alt="Tema Ankara" 
+                                                alt=""
+                                                aria-hidden="true"
                                                 class="form-imagecheck-image">
                                         </span>
                                         <div class="fs-2 mt-2 text-center">Ankara</div>
@@ -362,7 +363,8 @@
                                             <?php if ($current_theme == 'TerraDourada') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
                                             <img src="<?= INCLUDE_PATH ?>assets/TerraDourada/thumbs/terradourada.webp"
-                                                alt="Tema TerraDourada" 
+                                                alt=""
+                                                aria-hidden="true"
                                                 class="form-imagecheck-image">
                                         </span>
                                         <div class="fs-2 mt-2 text-center">Terra Dourada</div>
@@ -379,7 +381,8 @@
                                             <?php if ($current_theme == 'Oralituras') { echo "checked"; } ?>>
                                         <span class="form-imagecheck-figure">
                                             <img src="<?= INCLUDE_PATH ?>assets/Oralituras/thumbs/oralituras.webp" 
-                                                alt="Tema TerraDourada" 
+                                                alt=""
+                                                aria-hidden="true"
                                                 class="form-imagecheck-image">
                                         </span>
                                         <div class="fs-2 mt-2 text-center">Oralituras</div>

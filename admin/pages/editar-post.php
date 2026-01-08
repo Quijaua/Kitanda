@@ -217,7 +217,7 @@
                                                 <span class="dropzone-msg-desc">Essa imagem será mostrada na página do post.</span>
                                             </div>
                                             <?php if (isset($post['imagem']) && !empty($post['imagem'])): ?>
-                                            <img class="previsualizacao" src="<?= INCLUDE_PATH . "files/blog/{$post['id']}/{$post['imagem']}" ?>" style="display: block; max-width: 100%; height: auto; margin: 0px auto;">
+                                            <img class="previsualizacao" src="<?= INCLUDE_PATH . "files/blog/{$post['id']}/{$post['imagem']}" ?>" alt="" aria-hidden="true" style="display: block; max-width: 100%; height: auto; margin: 0px auto;">
                                             <?php endif; ?>
                                         </label>
                                         <small class="form-hint text-end">Imagem em <b>.png, .jpg, .jpeg, .webp</b> até <b>2MB</b>. Sugerimos dimensões de <b>1200px X 630px</b>.</small>
@@ -417,7 +417,7 @@
                     $label.find('img.previsualizacao').remove();
 
                     // 2) Cria a tag <img> com a imagem carregada
-                    var $img = $('<img class="previsualizacao" />')
+                    var $img = $('<img class="previsualizacao" alt="" aria-hidden="true" />')
                                 .attr('src', evt.target.result)
                                 .css({
                                     'display': 'block',
