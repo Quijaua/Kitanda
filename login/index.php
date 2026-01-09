@@ -83,12 +83,21 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/kitanda.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/libs/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet"/>
 
-<style>
-.logo-login {
-width: 220px;
-  filter: grayscale(100%) brightness(0%);
-}
-</style>
+        <style>
+            .logo-login {
+                width: 220px;
+                filter: grayscale(100%) brightness(0%);
+            }
+
+            .alert.alert-danger:focus-visible {
+                outline: 3px solid #d63939;
+                outline-offset: 2px;
+            }
+            .alert.alert-success:focus-visible {
+                outline: 3px solid #2fb344;
+                outline-offset: 2px;
+            }
+        </style>
 
         <?php if (isset($hcaptcha)): ?>
             <!-- hCaptcha -->
@@ -106,34 +115,32 @@ width: 220px;
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
                     <a href="<?php echo INCLUDE_PATH; ?>" class="navbar-brand navbar-brand-autodark">
-			<img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" class="logo-login">
+			            <img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" class="logo-login">
                     </a>
                 </div>
                 <div class="card card-md">
                     <div class="card-body">
                         <h2 class="h2 text-center mb-4">Entrar na sua conta</h2>
-                        <p class="text-danger mb-3">
-                            <?php
-                                if(isset($_SESSION['msg'])){
-                                    echo $_SESSION['msg'];
-                                    unset($_SESSION['msg']);
-                                    echo "<br>";
-                                }
-                            ?>
-                        </p>
-                        <p class="text-success mb-3">
-                            <?php
-                                if(isset($_SESSION['msgcad'])){
-                                    echo $_SESSION['msgcad'];
-                                    unset($_SESSION['msgcad']);
-                                    echo "<br>";
-                                }
-                            ?>
-                        </p>
+
+                        <?php if (isset($_SESSION['msg'])): ?>
+                            <div id="login-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">
+                                <?= $_SESSION['msg']; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['msgcad'])): ?>
+                            <div id="login-success" tabindex="-1" class="alert alert-success mb-3" role="status" aria-live="polite">
+                                <?= $_SESSION['msgcad']; ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/login.php" method="post">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Endereço de e-mail</label>
-                                <input name="email" id="email" type="email" class="form-control" placeholder="seu@email.com" required>
+                                <input name="email" id="email" type="email" placeholder="seu@email.com" 
+                                    class="form-control <?php echo isset($_SESSION['msg']) ? 'is-invalid' : ''; ?>"
+                                    aria-invalid="<?php echo isset($_SESSION['msg']) ? 'true' : 'false'; ?>"
+                                    <?php if (isset($_SESSION['msg'])): ?>aria-describedby="login-error"<?php endif; ?> required>
                             </div>
                             <div class="mb-2">
                                 <label for="password" class="form-label">
@@ -143,9 +150,12 @@ width: 220px;
                                     </span>
                                 </label>
                                 <div class="input-group input-group-flat">
-                                    <input name="password" id="password" type="password" class="form-control" placeholder="Sua senha" required>
+                                    <input name="password" id="password" type="password" placeholder="Sua senha" 
+                                        class="form-control <?php echo isset($_SESSION['msg']) ? 'is-invalid' : ''; ?>"
+                                        aria-invalid="<?php echo isset($_SESSION['msg']) ? 'true' : 'false'; ?>"
+                                        <?php if (isset($_SESSION['msg'])): ?>aria-describedby="login-error"<?php endif; ?> required>
                                     <span class="input-group-text">
-                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
+                                        <a href="#" class="link-secondary" title="Mostrar senha" aria-label="Mostrar senha" aria-pressed="false" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
                                             <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
@@ -192,6 +202,10 @@ width: 220px;
                         icon.classList.remove("ti-eye");
                         icon.classList.add("ti-eye-off");
                     }
+                    toggleLink.setAttribute(
+                        "aria-pressed",
+                        input.type === "text" ? "true" : "false"
+                    );
                 } else {
                     input.type = "password";
                     toggleLink.title = "Mostrar senha";
@@ -202,9 +216,33 @@ width: 220px;
                         icon.classList.remove("ti-eye-off");
                         icon.classList.add("ti-eye");
                     }
+                    toggleLink.setAttribute(
+                        "aria-pressed",
+                        input.type === "text" ? "true" : "false"
+                    );
                 }
             }
         </script>
+
+        <?php if (isset($_SESSION['msg'])): ?>
+            <script>
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('login-error').focus();
+                });
+            </script>
+        <?php unset($_SESSION['msg']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['msgcad'])): ?>
+            <?php if (!isset($_SESSION['msg'])): ?>
+            <script>
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('login-success').focus();
+                });
+            </script>
+            <?php endif; ?>
+        <?php unset($_SESSION['msgcad']); ?>
+        <?php endif; ?>
 
     </body>
 </html>

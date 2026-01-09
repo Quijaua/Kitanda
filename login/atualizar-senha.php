@@ -204,23 +204,23 @@
                 <div class="card card-md">
                     <div class="card-body">
                         <h2 class="h2 text-center mb-4">Atualizar Senha</h2>
-                        <p class="text-danger mb-3">
-                            <?php
-                                if(isset($_SESSION['msgcad'])){
-                                    echo $_SESSION['msgcad'];
-                                    unset($_SESSION['msgcad']);
-                                    echo "<br>";
-                                }
-                            ?>
-                        </p>
-                        <form action="<?php echo INCLUDE_PATH; ?>login/atualizar-senha.php?token=<?php echo $token; ?>" method="post">
-                            <p id="message"></p>
+
+                        <?php if (isset($_SESSION['msg'])): ?>
+                            <div id="password-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">
+                                <?= $_SESSION['msg']; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <form action="<?php echo INCLUDE_PATH; ?>login/atualizar-senha.php?token=<?php echo $token; ?>" method="post" onsubmit="return validatePasswordOnSubmit()">
+
+                            <p id="password-feedback" class="text-danger" role="alert" aria-live="assertive"></p>
+
                             <div class="mb-3">
                                 <label for="password" class="form-label">Senha</label>
                                 <div class="input-group input-group-flat">
-                                    <input name="password" id="password" type="password" class="form-control" placeholder="Sua nova senha" onblur="validatePassword()" required>
+                                    <input name="password" id="password" type="password" class="form-control" placeholder="Sua nova senha" aria-describedby="password-feedback" aria-invalid="false" oninput="validatePassword()" required>
                                     <span class="input-group-text">
-                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
+                                        <a href="#" class="link-secondary" title="Mostrar senha" aria-label="Mostrar senha" aria-pressed="false" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
                                             <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
@@ -229,9 +229,9 @@
                             <div class="mb-2">
                                 <label for="confirmPassword" class="form-label">Confirmar Senha</label>
                                 <div class="input-group input-group-flat">
-                                    <input name="confirmPassword" id="confirmPassword" type="password" class="form-control" placeholder="Confirme sua senha" onblur="validatePassword()" required>
+                                    <input name="confirmPassword" id="confirmPassword" type="password" class="form-control" placeholder="Confirme sua senha" aria-describedby="password-feedback" aria-invalid="false" oninput="validatePassword()" required>
                                     <span class="input-group-text">
-                                        <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('confirmPassword', this); return false;">
+                                        <a href="#" class="link-secondary" title="Mostrar senha" aria-label="Mostrar senha" aria-pressed="false" data-bs-toggle="tooltip" onclick="togglePassword('confirmPassword', this); return false;">
                                             <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
@@ -262,6 +262,17 @@
 
         <!-- Exibir/Ocultar Senha -->
         <script>
+            function validatePasswordOnSubmit() {
+                const feedback = document.getElementById("password-feedback");
+
+                if (feedback.textContent !== "") {
+                    feedback.focus();
+                    return false;
+                }
+
+                return true;
+            }
+
             function togglePassword(inputId, toggleLink) {
                 var input = document.getElementById(inputId);
                 var icon = toggleLink.querySelector('i');
@@ -275,6 +286,10 @@
                         icon.classList.remove("ti-eye");
                         icon.classList.add("ti-eye-off");
                     }
+                    toggleLink.setAttribute(
+                        "aria-pressed",
+                        input.type === "text" ? "true" : "false"
+                    );
                 } else {
                     input.type = "password";
                     toggleLink.title = "Mostrar senha";
@@ -285,6 +300,10 @@
                         icon.classList.remove("ti-eye-off");
                         icon.classList.add("ti-eye");
                     }
+                    toggleLink.setAttribute(
+                        "aria-pressed",
+                        input.type === "text" ? "true" : "false"
+                    );
                 }
             }
         </script>
@@ -292,26 +311,42 @@
         <!-- Validar Senha -->
         <script>
             function validatePassword() {
-                var password = document.getElementById("password").value;
-                var confirmPassword = document.getElementById("confirmPassword").value;
-                var SendNewPassword = document.getElementById("SendNewPassword");
+                const password = document.getElementById("password");
+                const confirmPassword = document.getElementById("confirmPassword");
+                const feedback = document.getElementById("password-feedback");
+                const button = document.getElementById("SendNewPassword");
 
-                if (password.length < 7) {
-                    document.getElementById("message").innerHTML = "A senha deve ter no mínimo 8 caracteres";
-                    document.getElementById("message").style.color = "red";
-                    SendNewPassword.disabled = true;
-                } else {
-                    if (password !== confirmPassword) {
-                        document.getElementById("message").innerHTML = "As senhas não coincidem";
-                        document.getElementById("message").style.color = "red";
-                        SendNewPassword.disabled = true;
-                    } else {
-                        document.getElementById("message").innerHTML = "";
-                        SendNewPassword.disabled = false;
-                    }
+                password.setAttribute("aria-invalid", "false");
+                confirmPassword.setAttribute("aria-invalid", "false");
+
+                if (password.value.length < 8) {
+                    feedback.textContent = "A senha deve ter no mínimo 8 caracteres.";
+                    password.setAttribute("aria-invalid", "true");
+                    button.disabled = true;
+                    return;
                 }
+
+                if (password.value !== confirmPassword.value) {
+                    feedback.textContent = "As senhas não coincidem.";
+                    password.setAttribute("aria-invalid", "true");
+                    confirmPassword.setAttribute("aria-invalid", "true");
+                    button.disabled = true;
+                    return;
+                }
+
+                feedback.textContent = "";
+                button.disabled = false;
             }
         </script>
+
+        <?php if (isset($_SESSION['msg'])): ?>
+            <script>
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('password-error').focus();
+                });
+            </script>
+        <?php unset($_SESSION['msg'], $_SESSION['captcha_error']); ?>
+        <?php endif; ?>
 
     </body>
 </html>
