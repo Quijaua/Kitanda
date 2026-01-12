@@ -62,6 +62,8 @@
 
     <!-- Footer -->
     <footer id="TerraDourada-rodape" class="footer marrom">
+        <h2 class="visually-hidden">Rodapé do site</h2>
+
         <div class="container">
             <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
@@ -72,7 +74,7 @@
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <h2 class="fs-3">Fale com a gente</h2>
+                    <h3 class="fs-3">Fale com a gente</h3>
                     <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <p class="mt-4 fs-3 h2">Siga-nos</p>
@@ -107,7 +109,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <h2 class="fs-3">Informações gerais</h2>
+                    <h3 class="fs-3">Informações gerais</h3>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
@@ -136,7 +138,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <h2 class="fs-3">Contato</h2>
+                    <h3 class="fs-3">Contato</h3>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
                     <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>

@@ -99,6 +99,27 @@
 <body>
     <script src="{{ INCLUDE_PATH }}dist/js/kitanda-theme.min.js" defer></script>
 
+    <style>
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+
+    <a href="#conteudo-principal" class="skip-link">
+        Pular para o conteúdo principal
+    </a>
+
     <div class="spage">
         {# Inclui o header #}
         {% include 'partials/header.html.twig' %}
@@ -170,7 +191,7 @@
     {% endif %}
 
 
-        <div class="page-wrapper">
+        <div id="conteudo-principal" class="page-wrapper">
             {{ page_content|raw }}
         </div>
 

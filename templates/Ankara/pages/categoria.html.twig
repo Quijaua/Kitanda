@@ -246,7 +246,7 @@
                         success: function(response) {
                             if (response.status === "sucesso") {
                                 // Atualiza badge do carrinho
-                                $("#cart-count")
+                                $(".cart-count")
                                     .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
                                     .show();
                                 // Exibe modal de sucesso

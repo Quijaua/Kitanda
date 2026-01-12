@@ -22,7 +22,7 @@
     </style>
 
     {# ----------- Modais de Sucesso / Erro ----------- #}
-    <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-success-title">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -36,7 +36,7 @@
                         <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
-                    <h2 class="h3">Salvo com sucesso!</h2>
+                    <h2 id="modal-success-title" class="h3">Salvo com sucesso!</h2>
                     <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
@@ -309,7 +309,7 @@
                 success: function(response) {
                     if (response.status === "sucesso") {
                         // Atualiza badge do carrinho
-                        $("#cart-count")
+                        $(".cart-count")
                             .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
                             .show();
                         // Exibe modal de sucesso

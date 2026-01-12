@@ -109,6 +109,26 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+    <style>
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+
+    <a href="#conteudo-principal" class="skip-link">
+        Pular para o conteúdo principal
+    </a>
 
     <div class="page">
         {# Inclui o header #}
@@ -120,7 +140,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <span class="mb-3 fs-3" style="color: #fd9e06">Uma iniciativa do Instituto Terra Dourada</span>
+                    <span class="mb-3 fs-3" style="color: #b36a00">Uma iniciativa do Instituto Terra Dourada</span>
                     <h1 class="display-4 fw-bold mb-4">Mulheres Empreendedoras da Amazônia</h1>
                     <p class="lead mb-4">
                     Arte, tradição e sustentabilidade em cada peça.<br />
@@ -134,7 +154,7 @@
     {% endif %}
 
 
-        <div class="page-wrapper">
+        <div id="conteudo-principal" class="page-wrapper">
             {{ page_content|raw }}
         </div>
 

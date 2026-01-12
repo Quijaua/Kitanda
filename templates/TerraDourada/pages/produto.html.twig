@@ -7,7 +7,7 @@
 #}
 
 {# ----------- Modais de Sucesso / Erro ----------- #}
-<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-success-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -21,7 +21,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
-                <h2 class="h3">Salvo com sucesso!</h2>
+                <h2 id="modal-success-title" class="h3">Salvo com sucesso!</h2>
                 <div class="text-primary">
                     O produto foi adicionado ao seu carrinho.
                 </div>
@@ -48,7 +48,7 @@
 </div>
 
 {# ----------- Modais de Depoimento / Erro ----------- #}
-<div class="modal modal-blur fade" id="modal-depoimento" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-depoimento" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-depoimento-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-status bg-success"></div>
@@ -60,7 +60,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
-                <h2 class="h3">Salvo com sucesso!</h2>
+                <h2 id="modal-depoimento-title" class="h3">Salvo com sucesso!</h2>
                 <div class="text-secondary">
                     <p id="msg-depoimento"></p>
                 </div>
@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-error-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -98,7 +98,7 @@
                              l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
                     <path d="M12 16h.01" />
                 </svg>
-                <h2 class="h3">Erro ao salvar o produto no carrinho!</h2>
+                <h2 id="modal-error-title" class="h3">Erro ao salvar o produto no carrinho!</h2>
                 <div class="text-secondary">
                     Ocorreu um erro ao tentar adicionar o item ao seu carrinho.
                     Por favor, tente novamente mais tarde.
@@ -497,7 +497,7 @@
                 },
                 success: function(response) {
                     if (response.status == "sucesso") {
-                        $("#cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
+                        $(".cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
                         var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
                         myModal.show();
                     } else {

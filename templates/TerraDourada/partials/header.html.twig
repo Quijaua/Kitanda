@@ -14,7 +14,7 @@
                     <img class="navbar-brand-image-disable"
                          src="{{ INCLUDE_PATH }}assets/img/{{ logo }}" alt="TerraDourada">
                 {% else %}
-                    <p class="h1 mb-0">TerraDourada</p>
+                    <p class="fs-1 mb-0">TerraDourada</p>
                 {% endif %}
             </a>
         </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="d-none d-md-flex">
                 <div class="nav-item dropdown d-none d-md-flex me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="Ver carrinho de compras">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="{{ cartCount > 9 ? '9+' : cartCount }} itens no carrinho Meu Carrinho">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -99,8 +99,7 @@
                             </svg>
                         {% endif %}
 
-                        <span id="cart-count"
-                              class="badge bg-red badge-notification text-red-fg position-absolute"
+                        <span class="cart-count badge bg-red badge-notification text-red-fg position-absolute"
                               style="top: 0; right: 0; transform: translate(50%,-50%);
                               {% if cartCount <= 0 %}display: none;{% endif %}">
                             {{ cartCount > 9 ? '9+' : cartCount }}
@@ -131,7 +130,7 @@
             </div>
             <div class="d-md-flex d-md-none">
                 <div class="nav-item dropdown d-md-flex d-md-none me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="Ver carrinho de compras">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="{{ cartCount > 9 ? '9+' : cartCount }} itens no carrinho Meu Carrinho">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -156,8 +155,7 @@
                             </svg>
                         {% endif %}
 
-                        <span id="cart-count"
-                              class="badge bg-red badge-notification text-red-fg position-absolute"
+                        <span class="cart-count badge bg-red badge-notification text-red-fg position-absolute"
                               style="top: 0; right: 0; transform: translate(50%,-50%);
                               {% if cartCount <= 0 %}display: none;{% endif %}">
                             {{ cartCount > 9 ? '9+' : cartCount }}
