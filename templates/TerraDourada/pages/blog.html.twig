@@ -70,7 +70,7 @@
                             {# Botão “anterior” #}
                             <button
                                 class="glider-prev btn btn-icon btn-lg"
-                                aria-label="Anterior">
+                                aria-label="Anterior" aria-controls="glider-categorias" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      width="24" height="24"
                                      viewBox="0 0 24 24" fill="none"
@@ -97,7 +97,7 @@
                             {# Botão “próximo” #}
                             <button
                                 class="glider-next btn btn-icon btn-lg"
-                                aria-label="Próximo">
+                                aria-label="Próximo" aria-controls="glider-categorias" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      width="24" height="24"
                                      viewBox="0 0 24 24" fill="none"
@@ -225,18 +225,45 @@
     {# 4.1) Carrega o JS do Glider.js #}
     <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        new Glider(document.querySelector(".glider"), {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          draggable: true,
-          arrows: {
-            prev: ".glider-prev",
-            next: ".glider-next"
-          }
+        document.addEventListener("DOMContentLoaded", function () {
+            const gliderEl = document.querySelector(".glider");
+            const btnPrev = document.querySelector(".glider-prev");
+            const btnNext = document.querySelector(".glider-next");
+
+            if (!gliderEl) return;
+
+            const glider = new Glider(gliderEl, {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                draggable: true,
+                arrows: {
+                    prev: btnPrev,
+                    next: btnNext
+                }
+            });
+
+            function updateArrowState() {
+                const prevDisabled = btnPrev.classList.contains("disabled");
+                const nextDisabled = btnNext.classList.contains("disabled");
+
+                // Botão anterior
+                btnPrev.disabled = prevDisabled;
+                btnPrev.setAttribute("aria-disabled", prevDisabled.toString());
+
+                // Botão próximo
+                btnNext.disabled = nextDisabled;
+                btnNext.setAttribute("aria-disabled", nextDisabled.toString());
+            }
+
+            // Atualiza ao iniciar
+            updateArrowState();
+
+            // Atualiza sempre que o glider muda
+            gliderEl.addEventListener("glider-animated", updateArrowState);
+            gliderEl.addEventListener("glider-refresh", updateArrowState);
         });
-      });
     </script>
+
 
     {# 4.2) Carrega o AJAX de “Ver mais posts” (usa jQuery) #}
     <script>

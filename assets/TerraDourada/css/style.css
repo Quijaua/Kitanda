@@ -93,7 +93,7 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
 
 .news-card {
     border-radius: 15px;
-    overflow: hidden;
+    /* overflow: hidden; */
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
 }
@@ -186,3 +186,100 @@ header {background-color: #AD5202 !important; color: #FFFFFF}
 }
 
 .bg-red {background: var(--bg-red);}
+
+.glider .outline-section {
+    margin: 9px;
+}
+
+/* Para qualquer elemento focável */
+:focus {
+    outline: none;
+}
+
+/* Foco visível real */
+:focus-visible {
+    outline: 3px solid #F39505; /* amarelo TerraDourada */
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* Links */
+a:focus-visible {
+    text-decoration: underline;
+}
+
+a.nome-produto:focus-visible h3 {
+    width: max-content;
+    outline: 3px solid #F39505; /* amarelo TerraDourada */
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* Botões */
+button:not(.btn-success):not(.btn-3):not(.btn-close):focus-visible,
+.btn:not(.btn-success):not(.btn-3):not(.btn-close):focus-visible {
+    color: #000;
+    background-color: rgba(243, 149, 5, 0.4);
+}
+button:focus-visible,
+.btn:focus-visible {
+    box-shadow: none !important;
+    outline: 3px solid #F39505 !important;
+    outline-offset: 3px !important;
+}
+.btn.btn-pill:focus-visible {
+    border-radius: 10rem !important;
+}
+.btn.btn-success:focus-visible {
+    outline: 3px solid #2fb344 !important;
+}
+
+.navbar a:focus-visible {
+    background-color: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 3px rgba(243,149,5,0.5);
+    border-radius: 6px;
+}
+
+.page-header a:focus-visible {
+    outline: 3px solid #F39505;
+    outline-offset: 6px;
+    border-radius: 12px;
+}
+
+.add-to-cart:focus-visible {
+    box-shadow: none;
+}
+
+.pagination-terra .page-link:focus-visible {
+    color: #000;
+    background-color: rgb(243,149,5,0.4);
+    box-shadow: 0 0 0 3px rgba(243,149,5,0.5);
+}
+
+.glider a:focus-visible{
+    text-decoration: none;
+}
+
+.glider a:focus-visible .outline-section {
+    outline: 3px solid #fff;
+    outline-offset: 6px;
+    border-radius: 12px;
+}
+
+.glider-contain button.btn.glider-prev:focus-visible,
+.glider-contain button.btn.glider-next:focus-visible {
+    outline-offset: 13px !important;
+}
+
+.pagination .page-link:focus-visible {
+    color: #000;
+    background-color: rgb(243,149,5,0.4);
+    box-shadow: 0 0 0 3px rgba(243,149,5,0.5);
+    text-decoration: none;
+}
+
+#list-posts a:focus-visible .card {
+    outline: 3px solid #F39505;
+    outline-offset: 6px;
+    border-radius: 12px;
+}

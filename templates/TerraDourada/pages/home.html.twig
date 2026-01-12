@@ -82,7 +82,7 @@
             <div class="col-12">
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center gap-3 gap-md-4 gap-lg-5 mb-0">
                     <li class="text-center">
-                        <a href="/categoria?id=1" class="text-decoration-none">
+                        <a href="/categoria?id=1" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/decoracao.png" 
                                  alt="" 
                                  aria-hidden="true"
@@ -93,7 +93,7 @@
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=2" class="text-decoration-none">
+                        <a href="/categoria?id=2" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/joias.png" 
                                  alt="" 
                                  aria-hidden="true"
@@ -104,7 +104,7 @@
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=3" class="text-decoration-none">
+                        <a href="/categoria?id=3" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/acessorios.png" 
                                  alt="" 
                                  aria-hidden="true"
@@ -115,7 +115,7 @@
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=4" class="text-decoration-none">
+                        <a href="/categoria?id=4" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/utilitarios.png" 
                                  alt="" 
                                  aria-hidden="true"
@@ -285,12 +285,17 @@
 {# ----------- Script para adicionar ao carrinho via AJAX ----------- #}
 <script>
     $(document).ready(function() {
+
+        let lastFocusedElement = null;
+
         $(".add-to-cart").on("click", function(e) {
             e.preventDefault();
 
+            // Guarda o botão que disparou a ação
+            lastFocusedElement = this;
+
             var produtoId = $(this).data("produto-id");
             var produtoEstoque = $(this).data("produto-estoque");
-            // Neste exemplo, fixamos quantidade = 1
             var quantidade = 1;
 
             $.ajax({
@@ -303,18 +308,36 @@
                 },
                 success: function(response) {
                     if (response.status === "sucesso") {
+
                         // Atualiza badge do carrinho
                         $("#cart-count")
                             .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
                             .show();
-                        // Exibe modal de sucesso
-                        var myModal = new bootstrap.Modal(
-                            document.getElementById('modal-success')
+
+                        const modalEl = document.getElementById('modal-success');
+
+                        // Atualiza mensagem
+                        document.getElementById("modalMsg").textContent =
+                            'O produto foi adicionado ao seu carrinho.';
+
+                        // Instancia o modal
+                        const myModal = new bootstrap.Modal(modalEl);
+
+                        // Quando o modal fechar, devolve o foco
+                        modalEl.addEventListener(
+                            'hidden.bs.modal',
+                            function handleModalClose() {
+                                if (lastFocusedElement) {
+                                    lastFocusedElement.focus();
+                                }
+                                // Remove o listener para evitar duplicação
+                                modalEl.removeEventListener('hidden.bs.modal', handleModalClose);
+                            }
                         );
-                        document.getElementById("modalMsg").textContent = 'O produto foi adicionado ao seu carrinho.';
+
                         myModal.show();
+
                     } else {
-                        // Exibe modal de erro
                         var myErrorModal = new bootstrap.Modal(
                             document.getElementById('modal-error')
                         );
@@ -323,7 +346,7 @@
                 },
                 error: function(xhr, status, error) {
                     console.error("Erro na requisição AJAX: " + error);
-                    // Opcional: exibir modal de erro genérico
+
                     var myErrorModal = new bootstrap.Modal(
                         document.getElementById('modal-error')
                     );
@@ -331,5 +354,6 @@
                 }
             });
         });
+
     });
 </script>

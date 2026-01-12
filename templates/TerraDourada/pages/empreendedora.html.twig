@@ -28,10 +28,11 @@
             {# Coluna da imagem de perfil #}
             <div class="col-md-4">
                 <a id="mainImageLink" data-fslightbox="gallery" href="{{ e.imagem }}">
-                    <div id="mainImage"
-                         class="img-responsive img-responsive-1x1 rounded-3 border"
-                         style="background-image: url({{ e.imagem }}); cursor: pointer;">
-                    </div>
+                    <img
+                        src="{{ e.imagem }}"
+                        alt="{{ e.nome }}"
+                        class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                    >
                 </a>
             </div>
 

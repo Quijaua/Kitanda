@@ -117,7 +117,7 @@
                             <ul class="pagination">
                                 {% if prev_post %}
                                     <li class="page-item page-prev">
-                                        <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="text-decoration-none">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="page-link text-decoration-none">
                                             <div class="page-item-subtitle">anterior</div>
                                             <div class="page-item-title">{{ prev_post.titulo }}</div>
                                         </a>
@@ -133,7 +133,7 @@
 
                                 {% if next_post %}
                                     <li class="page-item page-prev">
-                                        <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="text-decoration-none text-end">
+                                        <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="page-link text-decoration-none text-end">
                                             <div class="page-item-subtitle">próximo</div>
                                             <div class="page-item-title">{{ next_post.titulo }}</div>
                                         </a>
@@ -152,7 +152,7 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-3 col-12 p-4">
+            <div id="list-posts" class="col-md-3 col-12 p-4">
                 <p class="h1 text-yellow">Conheça nossa loja</p>
 
                 {% for produto in sidebar_produtos %}
