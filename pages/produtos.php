@@ -85,16 +85,62 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
     $html .= '<li class="page-item ' . $prev_disabled . '">
                 <a class="page-link" href="' . $prev_link . '" tabindex="-1" aria-disabled="' . ($pagina_atual == 1 ? 'true' : 'false') . '">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
-                    Anterior
+                    <span class="d-none d-md-inline-flex">Anterior</span>
                 </a>
               </li>';
 
-    // Criar botões de página
-    for ($i = 1; $i <= $total_paginas; $i++) {
+    // Função para criar botão de página
+    function pageItem($i, $pagina_atual, $limite) {
         $active = $pagina_atual == $i ? 'active' : '';
-        $html .= '<li class="page-item ' . $active . '">
+        return '<li class="page-item ' . $active . '">
                     <a class="page-link" href="?pagina=' . $i . '&limite=' . $limite . '">' . $i . '</a>
-                  </li>';
+                </li>';
+    }
+
+    // Lógica para criar intervalo de páginas
+    $showPages = [];
+
+    if ($total_paginas <= 7) {
+        // Se poucas páginas, mostrar todas
+        for ($i = 1; $i <= $total_paginas; $i++) {
+            $showPages[] = $i;
+        }
+    } else {
+        // Sempre mostrar a primeira página
+        $showPages[] = 1;
+
+        if ($pagina_atual <= 3) {
+            // Primeiras páginas (1,2,3) → mostrar até a 4ª
+            for ($i = 2; $i <= 4; $i++) {
+                $showPages[] = $i;
+            }
+            $showPages[] = '...';
+        } elseif ($pagina_atual >= $total_paginas - 2) {
+            // Últimas páginas → mostrar as 3 anteriores e atuais
+            $showPages[] = '...';
+            for ($i = $total_paginas - 3; $i <= $total_paginas - 1; $i++) {
+                $showPages[] = $i;
+            }
+        } else {
+            // Páginas intermediárias → mostrar uma antes e uma depois
+            $showPages[] = '...';
+            $showPages[] = $pagina_atual - 1;
+            $showPages[] = $pagina_atual;
+            $showPages[] = $pagina_atual + 1;
+            $showPages[] = '...';
+        }
+
+        // Sempre mostrar a última página
+        $showPages[] = $total_paginas;
+    }
+
+    // Renderizar os botões de página
+    foreach ($showPages as $p) {
+        if ($p === '...') {
+            $html .= '<li class="page-item disabled"><span class="page-link">…</span></li>';
+        } else {
+            $html .= pageItem($p, $pagina_atual, $limite);
+        }
     }
 
     // Botão "Próximo"
@@ -102,7 +148,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
     $next_link = $pagina_atual < $total_paginas ? '?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite : '#';
     $html .= '<li class="page-item ' . $next_disabled . '">
                 <a class="page-link" href="' . $next_link . '" aria-disabled="' . ($pagina_atual == $total_paginas ? 'true' : 'false') . '">
-                    Próximo
+                    <span class="d-none d-md-inline-flex">Próximo</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
                 </a>
               </li>';
