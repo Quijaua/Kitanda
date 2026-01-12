@@ -515,7 +515,7 @@
                             <div class="col-md-12" id="shipping-step">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
-                                        <h2 class="card-title">Método de Envio</h2>
+                                        <h2 class="card-title">Método de envio</h2>
                                         <!-- container onde os radios serão inseridos -->
                                         <div id="shipping-options" class="d-flex flex-column gap-2">
                                             <!-- radios serão gerados aqui -->
@@ -1538,6 +1538,8 @@ $(document).ready(function() {
                         // Oculta a Etapa 1 e exibe a Etapa 2
                         $('#step-1').addClass('d-none');
                         $('#step-2').removeClass('d-none');
+
+                        $('#btn-edit-info').focus();
 
                         if (pedidoExiste) {
                             $('#step-item-1').removeClass('active');
