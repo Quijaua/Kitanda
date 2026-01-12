@@ -143,12 +143,7 @@
                                     <?php if (isset($_SESSION['msg'])): ?>aria-describedby="login-error"<?php endif; ?> required>
                             </div>
                             <div class="mb-2">
-                                <label for="password" class="form-label">
-                                    Senha
-                                    <span class="form-label-description">
-                                        <a href="<?php echo INCLUDE_PATH; ?>login/recuperar-senha.php">Esqueci a senha</a>
-                                    </span>
-                                </label>
+                                <label for="password" class="form-label">Senha</label>
                                 <div class="input-group input-group-flat">
                                     <input name="password" id="password" type="password" placeholder="Sua senha" 
                                         class="form-control <?php echo isset($_SESSION['msg']) ? 'is-invalid' : ''; ?>"
@@ -159,6 +154,9 @@
                                             <i class="ti ti-eye icon icon-1"></i>
                                         </a>
                                     </span>
+                                </div>
+                                <div class="mt-1 mb-3">
+                                    <a href="<?php echo INCLUDE_PATH; ?>login/recuperar-senha.php">Esqueci a senha</a>
                                 </div>
                             </div>
                             <div class="mb-4">
