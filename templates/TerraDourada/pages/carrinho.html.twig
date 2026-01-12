@@ -68,9 +68,9 @@
         <div class="row g-4">
 
             <div class="col-md-12">
-                <h3 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
+                <h1 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
                     Meu Carrinho
-                </h3>
+                </h1>
             </div>
 
             {# ----------------------------- Lista de Itens ----------------------------- #}
@@ -97,7 +97,7 @@
                                         <div>
                                             <a href="{{ INCLUDE_PATH }}p/{{ item.produto_link }}"
                                                class="text-body nome-produto">
-                                                <h3 class="h2 mb-0">{{ item.produto_nome }}</h3>
+                                                <h2 class="h2 mb-0">{{ item.produto_nome }}</h2>
                                             </a>
                                             <div class="text-secondary mb-3">
                                                 Produzido por:
@@ -106,9 +106,9 @@
                                                 </a>
                                                 <p class="text-secondary mb-0 me-4">Estoque: {{ item.produto_estoque }}</p>
                                             </div>
-                                            <h3 class="h2 mb-4">
+                                            <p class="fs-2 mb-4">
                                                 R$ {{ item.produto_preco|number_format(2, ',', '.') }}
-                                            </h3>
+                                            </p>
                                             <a href="#" class="text-muted remove-item"
                                                data-item-id="{{ item.carrinho_id }}"
                                                data-produto-id="{{ item.produto_id }}">
@@ -131,7 +131,7 @@
                     {% endfor %}
                 {% else %}
                     <div id="cart-empty">
-                        <h2>Seu carrinho está vazio :(</h2>
+                        <p class="fs-2 fw-bold">Seu carrinho está vazio :(</p>
                     </div>
                 {% endif %}
             </div>
@@ -140,7 +140,7 @@
             <div class="col-md-4">
                 <div class="card bg-dark-lt">
                     <div class="card-body">
-                        <h3 class="card-title">Resumo do pedido</h3>
+                        <h2 class="card-title">Resumo do pedido</h2>
 
                         {% set total = 0 %}
                         {% for item in cartItems %}

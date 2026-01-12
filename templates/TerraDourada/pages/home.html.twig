@@ -71,6 +71,8 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col-12">
+                <h2 class="visually-hidden">Categorias de produtos</h2>
+
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center gap-3 gap-md-4 gap-lg-5 mb-0">
                     <li class="text-center">
                         <a href="/categoria?id=1" class="text-decoration-none d-block">
@@ -80,7 +82,7 @@
                                  title="Decoração em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</p>
+                            <h3 class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</h3>
                         </a>
                     </li>
                     <li class="text-center">
@@ -91,7 +93,7 @@
                                  title="Biojóias em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</p>
+                            <h3 class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</h3>
                         </a>
                     </li>
                     <li class="text-center">
@@ -102,7 +104,7 @@
                                  title="Acessórios em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</p>
+                            <h3 class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</h3>
                         </a>
                     </li>
                     <li class="text-center">
@@ -113,7 +115,7 @@
                                  title="Utilitários em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 105px;" />
-                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</p>
+                            <h3 class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</h3>
                         </a>
                     </li>
                 </ul>
@@ -200,12 +202,12 @@
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
+                                                    <h3 class="h1 mb-1">{{ produto.titulo }}</h3>
                                                     <p class="fs-4 text-muted">{{ produto.codigo_produto }}</p>
                                                     <p>Produzido por: {{ produto.empreendedora }}</p>
-                                                    <h2 class="text-yellow">
+                                                    <p class="h2 text-yellow">
                                                         R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    </p>
                                                     <button 
                                                         class="btn btn-terra fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
