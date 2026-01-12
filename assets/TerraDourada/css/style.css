@@ -13,19 +13,54 @@
     --accent-color: #FF8C00;
     --text-dark: #2C3E50; */
     --tblr-btn-hover-bg: #fd9e06 !important;
-    --tblr-warning: #fd9e06 !important;
+    --tblr-warning: #784A01 !important;
 }
 
-.text-yellow {color: #AD5202 !important}
+.text-yellow {color: #794A02 !important}
+.text-yellow-dark {color: #734702 !important}
+.text-secondary {color: #4F596A !important}
+.text-muted {color: #4F596A !important}
 .add-to-cart {color:#000}
-.btn.btn-yellow.fw-bold.btn-pill.w-100.add-to-cart:hover, #add-to-cart:hover {color: #642e00;}
+.btn.btn-yellow.fw-bold.btn-pill.w-100.add-to-cart:hover, #add-to-cart:hover {color: #642e00}
 #TerraDourada-rodape .list-unstyled {line-height: 30px;}
 .laranja-claro {background-color: #fd9e06}
-.marrom {background-color: #ad5202}
+.marrom {background-color: #6F3502}
 .marrom-escuro {background-color:#642e00}
-.verde {background-color: #788f22}
+.verde {background-color: #505F17}
 
-header {background-color: #AD5202 !important; color: #FFFFFF}
+header {background-color: #6F3502 !important; color: #FFFFFF}
+.nav.nav-vertical .nav-link {color: #4F596A !important}
+
+.page-item-subtitle {color: #4F596A !important}
+.page-item.active .page-link {color: #000 !important;}
+.page-item .page-link {color: #734702 !important;}
+
+.page-item.disabled .page-item-subtitle,
+.page-item.disabled .page-item-title {color: #475A75 !important}
+
+.breadcrumb.breadcrumb-muted .breadcrumb-item a {color: #4C5565}
+
+.alert {
+    border-left: .25rem solid #185C94 !important;
+}
+.alert .alert-icon,
+.alert .alert-title {
+    color: #185C94 !important;
+}
+
+.btn-terra {
+    background-color: #F39505;
+    color: #000;
+    border: none;
+}
+.btn-terra:hover {
+    background-color: #cc9d1f;
+    color:#000
+}
+
+.table thead th {
+    color: #485161 !important;
+}
 
 .text-orange {color: #fd9e06}
 

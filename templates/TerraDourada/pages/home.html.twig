@@ -1,15 +1,6 @@
 {% block content %}
     {# Estilos específicos para TerraDourada: #}
     <style>
-        .btn-terra {
-            background-color: #F39505;
-            color: #000;
-            border: none;
-        }
-        .btn-terra:hover {
-            background-color: #cc9d1f;
-            color:#000
-        }
         .pagination-terra .page-link {
             color: #F39505;
             border-color: #F39505;
@@ -89,7 +80,7 @@
                                  title="Decoração em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</p>
+                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</p>
                         </a>
                     </li>
                     <li class="text-center">
@@ -100,7 +91,7 @@
                                  title="Biojóias em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</p>
+                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</p>
                         </a>
                     </li>
                     <li class="text-center">
@@ -111,7 +102,7 @@
                                  title="Acessórios em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</p>
+                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</p>
                         </a>
                     </li>
                     <li class="text-center">
@@ -122,7 +113,7 @@
                                  title="Utilitários em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 105px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</p>
+                            <p class="text-yellow-dark fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</p>
                         </a>
                     </li>
                 </ul>
@@ -216,7 +207,7 @@
                                                         R$ {{ precoFormatado }}
                                                     </h2>
                                                     <button 
-                                                        class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
+                                                        class="btn btn-terra fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
                                                         data-produto-estoque="{{ produto.estoque }}"
                                                     >

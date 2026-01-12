@@ -473,7 +473,7 @@
         
                                 {% if not pedido %}
                                     <div class="d-flex align-items-center justify-content-between mt-3" id="usuario-info">
-                                        <button type="button" id="btn-edit-info" class="btn btn-yellow btn-pill">Alterar informações</button>
+                                        <button type="button" id="btn-edit-info" class="btn btn-terra btn-pill">Alterar informações</button>
                                         <a href="#" id="link-not-me" class="text-muted">Não sou eu</a>
                                     </div>
                                 {% endif %}
@@ -509,7 +509,7 @@
                                             <div class="text-muted">Carregando opções...</div>
                                         </div>
                                         <!-- Botão para avançar para a etapa de pagamento -->
-                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
+                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
                                         <div id="change-shipping-button" class="d-none text-center">
                                             <a href="#" id="change-shipping-option" class="text-muted">Alterar</a>
                                         </div>
@@ -537,7 +537,7 @@
                                             </label>
                                         </div>
 
-                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">
+                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mt-3 d-none">
                                             <span>Avançar</span>
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/arrow-narrow-right -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
@@ -603,7 +603,7 @@
                                         </div>
 
                                         <div id="confirm-payment" class="d-none text-center">
-                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mb-3">CONFIRMAR PAGAMENTO</button>
+                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mb-3">CONFIRMAR PAGAMENTO</button>
                                             <div class="progress progress-subscription mb-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
                                                     Processando requisição...
@@ -682,7 +682,7 @@
 
                                                 <a href="{{ pedido and pedido.forma_pagamento == 'BOLETO' ? pedido.link_boleto : '#' }}"
                                                 target="_blank"
-                                                class="btn btn-6 btn-yellow btn-pill w-100"
+                                                class="btn btn-6 btn-terra btn-pill w-100"
                                                 id="boleto-link">
                                                     Visualizar boleto
                                                 </a>
@@ -867,7 +867,7 @@
                     {% if not pedido %}
                         <button type="button"
                                 id="btn-step1-continue"
-                                class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3">
+                                class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mt-3">
                         Continuar
                         </button>
                     {% endif %}
