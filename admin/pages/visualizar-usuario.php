@@ -46,16 +46,16 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <h1 class="page-title">
-                    Editar Usuário
+                    Visualizar Usuário
                 </h1>
-                <div class="text-secondary mt-1">Edite as informações do usuário e sua função.</div>
+                <div class="text-secondary mt-1">Visualize as informações do usuário e sua função.</div>
             </div>
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
                     <nav aria-label="Caminho de navegação">
                         <ol class="breadcrumb breadcrumb-muted">
                             <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>usuarios">Usuários</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Editar Usuário</li>
+                            <li class="breadcrumb-item active" aria-current="page">Visualizar Usuário</li>
                         </ol>
                     </nav>
                 </div>
@@ -63,10 +63,6 @@
         </div>
     </div>
 </div>
-
-<?php if (!$update): ?>
-<fieldset disabled>
-<?php endif; ?>
 
 <!-- Page body -->
 <div class="page-body">
@@ -121,102 +117,90 @@
                                 <h2 class="card-title">Informações do Usuário</h2>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- Nome -->
-                                        <div class="mb-3">
-                                            <label for="nome" class="form-label required">Nome</label>
-                                            <input id="nome" name="nome" type="text" class="form-control" required value="<?= $usuario['nome']; ?>">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <!-- E-mail -->
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label required">E-mail</label>
-                                                    <div class="input-icon">
-                                                        <span class="input-icon-addon">
-                                                            <!-- Ícone de E-mail -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-mail">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                                                <path d="M3 7l9 6l9 -6" />
-                                                            </svg>
-                                                        </span>
-                                                        <div class="input-group" id="resendCodeContent">
-                                                        <?php 
-                                                        // Se o usuário estiver confirmado (status == 1) e o magic_link estiver preenchido, não permite alteração do e-mail
-                                                        if ($usuario['status'] == 1 && empty($usuario['magic_link'])) {
-                                                            echo '<input id="email" name="email_disabled" type="email" class="form-control" value="' . htmlspecialchars($usuario['email']) . '" disabled readonly>';
-                                                            // Input oculto para enviar o e-mail atual
-                                                            echo '<input type="hidden" name="email" value="' . htmlspecialchars($usuario['email']) . '">';
-                                                        } else {
-                                                            echo '<input id="email" name="email" type="email" class="form-control" required value="' . htmlspecialchars($usuario['email']) . '">';
-                                                        }
-                                                        ?>
-                                                        <?php if ($usuario['status'] != 1): ?>
-                                                        <button type="button" class="btn btn-icon copy-btn" 
-                                                            title="Copiar código para finalizar registro?" 
-                                                            data-bs-toggle="tooltip" data-bs-placement="top" 
-                                                            data-link="<?= INCLUDE_PATH . "login/finalize-registration.php?token={$usuario['magic_link']}"; ?>">
-                                                            <!-- Ícone original -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
-                                                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                                                class="icon icon-1">
-                                                                <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667-2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1-2.667 2.667h-8.666a2.667 2.667 0 0 1-2.667-2.667z"></path>
-                                                                <path d="M4.012 16.737a2.005 2.005 0 0 1-1.012-1.737v-10c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"></path>
-                                                            </svg>
-                                                        </button>
-                                                        <a class="btn" href="<?= INCLUDE_PATH_ADMIN; ?>back-end/resend-code.php?id=<?= $usuario['id']; ?>" id="btnResendCode" title="Reenviar código para <?= htmlspecialchars($usuario['email']); ?>?" data-bs-toggle="tooltip" data-bs-placement="top">
-                                                            <div id="resendCodeLoader" class="spinner-border spinner-border-sm text-secondary me-2 d-none" role="status"></div>
-                                                            <span id="resendCodeText">Reenviar Código</span>
-                                                        </a>
-                                                        <?php endif; ?>
+                                <fieldset disabled>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- Nome -->
+                                            <div class="mb-3">
+                                                <label for="nome" class="form-label required">Nome</label>
+                                                <input id="nome" name="nome" type="text" class="form-control" required value="<?= $usuario['nome']; ?>">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <!-- E-mail -->
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label required">E-mail</label>
+                                                        <div class="input-icon">
+                                                            <span class="input-icon-addon">
+                                                                <!-- Ícone de E-mail -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler icons-tabler-outline icon-tabler-mail">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                                    <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+                                                                    <path d="M3 7l9 6l9 -6" />
+                                                                </svg>
+                                                            </span>
+                                                            <div class="input-group" id="resendCodeContent">
+                                                            <?php 
+                                                            // Se o usuário estiver confirmado (status == 1) e o magic_link estiver preenchido, não permite alteração do e-mail
+                                                            if ($usuario['status'] == 1 && empty($usuario['magic_link'])) {
+                                                                echo '<input id="email" name="email_disabled" type="email" class="form-control" value="' . htmlspecialchars($usuario['email']) . '" disabled readonly>';
+                                                                // Input oculto para enviar o e-mail atual
+                                                                echo '<input type="hidden" name="email" value="' . htmlspecialchars($usuario['email']) . '">';
+                                                            } else {
+                                                                echo '<input id="email" name="email" type="email" class="form-control" required value="' . htmlspecialchars($usuario['email']) . '">';
+                                                            }
+                                                            ?>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <?php if ($usuario['status'] == 1 && empty($usuario['magic_link'])): ?>
-                                                    <small class="form-hint">O cadastro foi concluído. Por motivos de segurança, o e-mail não poderá ser alterado.</small>
-                                                    <?php else: ?>
-                                                    <small class="form-hint">Uma mensagem será enviada para este e-mail para concluir o registro do usuário.</small>
-                                                    <?php endif; ?>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <!-- Função -->
-                                                <div class="mb-3">
-                                                    <label for="funcao" class="form-label required">Função</label>
-                                                    <select id="funcao" name="funcao_id" class="form-select" required>
-                                                        <option value="">Selecione a função</option>
-                                                        <?php foreach($funcoes as $funcao): ?>
-                                                        <option value="<?php echo $funcao['id']; ?>" <?= isset($permissao_usuario['permissao_id']) && $funcao['id'] == $permissao_usuario['permissao_id'] ? 'selected' : ''; ?>>
-                                                            <?= $funcao['nome']; ?>
-                                                        </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                <div class="col-md-6">
+                                                    <!-- Função -->
+                                                    <div class="mb-3">
+                                                        <label for="funcao" class="form-label required">Função</label>
+                                                        <select id="funcao" name="funcao_id" class="form-select" required>
+                                                            <option value="">Selecione a função</option>
+                                                            <?php foreach($funcoes as $funcao): ?>
+                                                            <option value="<?php echo $funcao['id']; ?>" <?= isset($permissao_usuario['permissao_id']) && $funcao['id'] == $permissao_usuario['permissao_id'] ? 'selected' : ''; ?>>
+                                                                <?= $funcao['nome']; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <?php //if (isset($permissao_usuario['permissao_id']) && $permissao_usuario['permissao_id'] == 2): // Se for uma vendedora ?>
-                                            <div class="col-md-4">
-                                                <!-- Função -->
-                                                <div class="mb-3">
-                                                    <label for="status" class="form-label required">Status</label>
-                                                    <select id="status" name="status" class="form-select" required>
-                                                        <option value="" disabled <?= $usuario['status'] === null ? 'selected' : '' ?>>Selecione o status</option>
-                                                        <option value="1" <?= $usuario['status'] == 1 ? 'selected' : '' ?>>Ativo</option>
-                                                        <option value="0" <?= $usuario['status'] == 0 ? 'selected' : '' ?>>Inativo</option>
-                                                    </select>
+                                                <?php //if (isset($permissao_usuario['permissao_id']) && $permissao_usuario['permissao_id'] == 2): // Se for uma vendedora ?>
+                                                <div class="col-md-4">
+                                                    <!-- Função -->
+                                                    <div class="mb-3">
+                                                        <label for="status" class="form-label required">Status</label>
+                                                        <select id="status" name="status" class="form-select" required>
+                                                            <option value="" disabled <?= $usuario['status'] === null ? 'selected' : '' ?>>Selecione o status</option>
+                                                            <option value="1" <?= $usuario['status'] == 1 ? 'selected' : '' ?>>Ativo</option>
+                                                            <option value="0" <?= $usuario['status'] == 0 ? 'selected' : '' ?>>Inativo</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
+                                                <?php //endif; ?>
                                             </div>
-                                            <?php //endif; ?>
                                         </div>
                                     </div>
-                                </div>
+                                </fieldset>
                             </div>
+                            <?php if ($update): ?>
                             <div class="card-footer text-end">
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-1" onclick="location.reload();">Cancelar</button>
-                                    <button type="submit" name="btnEditUser" class="btn btn-primary ms-auto">Salvar</button>
+                                <div class="d-flex justify-content-end">
+                                    <!-- Botão Editar -->
+                                    <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-edit">
+                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                            <path d="M16 5l3 3"></path>
+                                        </svg>
+                                        Editar
+                                    </a>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -224,10 +208,6 @@
         </form>
     </div>
 </div>
-
-<?php if (!$update): ?>
-</fieldset>
-<?php endif; ?>
 
 <!-- Botao para copiar codigo -->
 <script>

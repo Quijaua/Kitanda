@@ -198,7 +198,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td class="text-end">
                       <div class="d-flex flex-wrap gap-2 align-items-center">
                           <!-- Botão Visualizar -->
-                          <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                          <a href="<?= INCLUDE_PATH_ADMIN . "visualizar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-external-link">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                   <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
