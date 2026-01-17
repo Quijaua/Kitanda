@@ -27,7 +27,7 @@
 
             {# Coluna da imagem de perfil #}
             <div class="col-md-4">
-                <a id="mainImageLink" data-fslightbox="gallery" href="{{ e.imagem }}">
+                <a id="mainImageLink" data-fslightbox="gallery" href="{{ e.imagem }}" class="img-wcag">
                     <img
                         src="{{ e.imagem }}"
                         alt="{{ e.nome }}"
@@ -134,7 +134,7 @@
                             {% for produto in produtos %}
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="card card-ankara">
-                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block img-wcag">
                                             <img src="{{ produto.imagem }}"
                                                     class="card-img-top"
                                                     alt="{{ produto.titulo }}">

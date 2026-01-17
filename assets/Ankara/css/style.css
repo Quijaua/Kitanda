@@ -13,8 +13,12 @@
 --text-dark: #333;
 }
 
+a.img-wcag {
+    color: #000;
+}
+
 .breadcrumb a {
-color: var(--tblr-red);
+color: #AE0000 !important;
 font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 }
 .vermelho .breadcrumb a {
@@ -38,17 +42,28 @@ color: #000000 !important;
 }
 
 .pagination-ankara .page-item.active .page-link {
-background-color: #FFD216;
-border-color: #FFD216;
-color: var(--primary-red);
+background-color: #ffd216 !important;
+border-color: #ffd216 !important;
+color: #254362 !important;
+}
+.pagination-ankara .page-item .page-link {
+    color: #3e5676 !important;
 }
 
 .navbar-brand img {
 height: 40px;
 }
+.navbar .navbar-nav .nav-link .badge {
+    color: #f9fbfe !important;
+    background-color: #b10000 !important;
+}
+.nav.nav-vertical a.nav-link {
+    color: #445a79 !important;
+}
 
 .hero-section {
-background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+background-color: var(--primary-red);
+background-image: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
 color: white;
 position: relative;
 overflow: hidden;
@@ -128,9 +143,38 @@ justify-content: center;
 color: #999;
 }
 
+.text-red {color: #b60000 !important}
+.text-danger {color: #b60000 !important}
+.text-warning {color: #8F3C04 !important}
 .text-muted {color: #4F596A !important}
-.text-secondary {color: #4F596A !important}
+.text-secondary {color: #4b5567 !important}
 .page-item span {color: #43566F !important}
+
+#input-terms-error.text-danger {color: #9e0000 !important;}
+
+.card.bg-dark-lt .text-muted,
+.card.bg-dark-lt .text-secondary {
+    color: #414d60 !important;
+}
+
+.card.bg-dark-lt a {
+    color: #044C90 !important;
+}
+
+.form-floating label {
+    color: #474D55 !important;
+}
+
+caption {
+    color: #434d5a !important;
+}
+table thead th {
+    color: #314e71 !important;
+}
+
+.steps .step-item {
+    color: #2c587d !important;
+}
 
 .btn-yellow {
 background: var(--primary-yellow);
@@ -150,6 +194,10 @@ color: var(--primary-red) !important;
 border-radius: 12px;
 overflow: hidden;
 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-terra .text-yellow {
+    color: #6B5600 !important;
 }
 
 .blog-image {
