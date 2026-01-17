@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
             p.preco AS produto_preco,
             p.codigo_produto AS produto_codigo,
             pi.imagem AS produto_imagem,
+            pi.alt AS produto_alt,
             u.nome AS empreendedora
         FROM tb_carrinho c
         JOIN tb_produtos p ON c.produto_id = p.id
@@ -38,6 +39,7 @@ if (isset($_SESSION['user_id'])) {
             p.preco AS produto_preco,
             p.codigo_produto AS produto_codigo,
             pi.imagem AS produto_imagem,
+            pi.alt AS produto_alt,
             u.nome AS empreendedora
         FROM tb_carrinho c
         JOIN tb_produtos p ON c.produto_id = p.id
@@ -75,6 +77,7 @@ if ($stmt) {
             'produto_estoque' => (int) $item['produto_estoque'],
             'produto_preco'   => (float) $item['produto_preco'],
             'produto_imagem'  => $imagemUrl,
+            'produto_alt'     => $item['produto_alt'],
             'empreendedora'   => $item['empreendedora'],
             'quantidade'      => (int) $item['quantidade'],
             'codigo'          => $item['produto_codigo'],

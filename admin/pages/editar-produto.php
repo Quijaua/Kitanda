@@ -158,6 +158,9 @@
     .dz-progress {
         display: none;
     }
+    .dropzone .dz-preview {
+        max-width: 150px;
+    }
 
     .preview-product {
         position: absolute;
@@ -658,6 +661,33 @@
                             };
 
                             dropzoneInstance.displayExistingFile(mockFile, mockFile.dataURL);
+
+                            // Evita duplicar o ALT (só cria se ainda não existir)
+                            if (!mockFile.previewElement.querySelector('.alt-input')) {
+
+                                // adiciona campo ALT já preenchido
+                                let altInput = document.createElement("input");
+                                altInput.type = "text";
+                                altInput.placeholder = "Descrição alternativa (ALT)";
+                                altInput.classList.add("form-control", "alt-input");
+                                altInput.style.marginTop = "8px";
+                                altInput.style.width = "100%";
+                                altInput.value = image.alt || "";
+                                altInput.disabled = true;
+
+                                mockFile.altText = image.alt || "";
+
+                                altInput.addEventListener("input", function() {
+                                    mockFile.altText = this.value;
+                                });
+
+                                mockFile.previewElement.appendChild(altInput);
+                            } else {
+                                let altInput = mockFile.previewElement.querySelector('.alt-input');
+                                altInput.value = image.alt || "";
+                                altInput.disabled = true;
+                            }
+
                             uploadedFiles++;
                         });
 
@@ -686,6 +716,25 @@
                     });
 
                     file.previewElement.appendChild(removeButton);
+
+                    // Evita duplicar o ALT (só cria se ainda não existir)
+                    if (!file.previewElement.querySelector('.alt-input')) {
+                        // ADICIONAR ALT
+                        let altInput = document.createElement("input");
+                        altInput.type = "text";
+                        altInput.placeholder = "Descrição alternativa (ALT)";
+                        altInput.classList.add("form-control", "alt-input");
+                        altInput.style.marginTop = "8px";
+                        altInput.style.width = "100%";
+
+                        file.altText = "";
+
+                        altInput.addEventListener("input", function() {
+                            file.altText = this.value;
+                        });
+
+                        file.previewElement.appendChild(altInput);
+                    }
                 });
 
                 // Corrigindo erro ao remover arquivo
@@ -833,8 +882,13 @@
 
                 // Adiciona imagens ao formulário
                 myDropzone.files.forEach(file => {
-                    formData.append('imagens[]', file); // Adiciona cada imagem ao FormData
+                    if (!file.dataURL) {
+                        formData.append('imagens[]', file);
+                        formData.append('alts[]', file.altText || '');
+                    }
                 });
+
+                formData.append('imagens_removidas', document.getElementById("imagens_removidas").value);
 
                 // Realiza o AJAX para enviar os dados
                 $.ajax({

@@ -112,6 +112,9 @@
     .dz-progress {
         display: none;
     }
+    .dropzone .dz-preview {
+        max-width: 150px;
+    }
 
     .preview-product {
         position: absolute;
@@ -574,11 +577,22 @@
 
                     uploadedFiles++;
 
-                    // Garante que a primeira imagem da fila será usada como prévia
-                    if (!firstImageSet && myDropzone.files.length > 0) {
-                        setPreviewImage(myDropzone.files[0]); // Usa a primeira imagem da fila
-                    }
+                    // Campo ALT
+                    const altInput = document.createElement("input");
+                    altInput.type = "text";
+                    altInput.placeholder = "Descrição alternativa (ALT)";
+                    altInput.classList.add("form-control");
+                    altInput.style.marginTop = "8px";
+                    altInput.style.width = "100%";
 
+                    // Guarda o alt no objeto file
+                    file.altText = "";
+
+                    altInput.addEventListener("input", function() {
+                        file.altText = this.value;
+                    });
+
+                    // Remove button
                     let removeButton = document.createElement("button");
                     removeButton.innerHTML = "X";
                     removeButton.classList.add("dz-remove-custom");
@@ -589,6 +603,7 @@
                         myDropzone.removeFile(file);
                     });
 
+                    file.previewElement.appendChild(altInput);
                     file.previewElement.appendChild(removeButton);
                 });
 
@@ -727,6 +742,7 @@
                 // Adiciona imagens ao formulário
                 myDropzone.files.forEach(file => {
                     formData.append('imagens[]', file); // Adiciona cada imagem ao FormData
+                    formData.append('alts[]', file.altText ?? '');
                 });
 
                 // Realiza o AJAX para enviar os dados

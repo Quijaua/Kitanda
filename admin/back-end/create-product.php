@@ -30,8 +30,12 @@
 
         $id = 0;
 
+        $alts = isset($_POST['alts']) ? $_POST['alts'] : [];
+
         foreach ($_FILES['imagens']['name'] as $key => $arquivo) {
             $extensao = pathinfo($arquivo, PATHINFO_EXTENSION);
+            $alt = $alts[$key] ?? '';
+
             if (!in_array(strtolower($extensao), $_UP['extensoes'])) {
                 echo json_encode(['status' => 'error', 'message' => 'A extensão da imagem é inválida.']);
                 continue;
@@ -56,9 +60,10 @@
             }
 
             if (move_uploaded_file($_FILES['imagens']['tmp_name'][$key], $_UP['pasta'] . $nome_final)) {
-                $stmt = $conn->prepare("INSERT INTO $tabela (produto_id, imagem) VALUES (:produto_id, :imagem)");
+                $stmt = $conn->prepare("INSERT INTO $tabela (produto_id, imagem, alt) VALUES (:produto_id, :imagem, :alt)");
                 $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
                 $stmt->bindParam(':imagem', $nome_final, PDO::PARAM_STR);
+                $stmt->bindParam(':alt', $alt, PDO::PARAM_STR);
                 $stmt->execute();
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Erro ao fazer upload da imagem.']);

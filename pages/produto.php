@@ -31,7 +31,7 @@ if (empty($produto)) {
 
 // 2) Busca todas as imagens (para galeria/miniaturas)
 $stmt = $conn->prepare("
-    SELECT imagem
+    SELECT imagem, alt
     FROM tb_produto_imagens
     WHERE produto_id = ?
 ");
@@ -83,10 +83,10 @@ if (!$e) {
 
 // 6) Busca “Outros Produtos” (limitado a 4)
 $stmt = $conn->prepare("
-    SELECT p.*, pi.imagem
+    SELECT p.*, pi.imagem, pi.alt
     FROM tb_produtos p
     LEFT JOIN (
-        SELECT produto_id, MIN(imagem) AS imagem
+        SELECT produto_id, MIN(imagem) AS imagem, MIN(alt) AS alt
         FROM tb_produto_imagens
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id

@@ -25,10 +25,10 @@ $total_paginas = ceil($total_produtos / $limite);
 
 // Consulta para buscar os produtos paginados (com busca)
 $sql = "
-    SELECT p.*, pi.imagem, c.nome AS empreendedora 
+    SELECT p.*, pi.imagem, pi.alt, c.nome AS empreendedora 
     FROM tb_produtos p
     LEFT JOIN (
-        SELECT produto_id, MIN(imagem) AS imagem
+        SELECT produto_id, MIN(imagem) AS imagem, MIN(alt) AS alt
         FROM tb_produto_imagens 
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id
