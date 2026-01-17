@@ -133,10 +133,12 @@
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
-                    <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>produtos">Produtos</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Cadastrar Produto</li>
-                    </ol>
+                    <nav aria-label="Caminho de navegação">
+                        <ol class="breadcrumb breadcrumb-muted">
+                            <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>produtos">Produtos</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cadastrar Produto</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>

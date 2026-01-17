@@ -160,7 +160,7 @@
 
     {% if (td_entrepreneurs and is_home) or not td_entrepreneurs %}
     <!-- Entrepreneurs Section -->
-    <section id="entrepreneurs" class="section-padding verde">
+    <section id="entrepreneurs" class="section-padding verde" aria-labelledby="titulo-empreendedoras">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -168,23 +168,23 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-light me-2 rounded-circle btn-glider-prev" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - anteriores">
+                        <button class="btn btn-light me-2 rounded-circle btn-glider-prev" style="width: 40px; height: 40px;" aria-label="Mostrar empreendedoras anteriores">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <button class="btn btn-light rounded-circle btn-glider-next" style="width: 40px; height: 40px;" aria-label="Navegação por Vendedoras - próximas">
+                        <button class="btn btn-light rounded-circle btn-glider-next" style="width: 40px; height: 40px;" aria-label="Mostrar próximas empreendedoras">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
             </div>
             
-            <div class="glider mt-4">
+            <div class="glider mt-4" role="region" aria-label="Lista de empreendedoras">
 
                 {% if empreendedoras %}
 
                     {% for e in empreendedoras %}
                     <div class="mb-4">
-                        <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center">
+                        <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center" aria-label="Ver perfil da empreendedora {{ e.nome }}">
                             <div class="outline-section">
                                 {% if e.tem_imagem %}
                                 <div class="entrepreneur-card">

@@ -134,7 +134,7 @@
                                     <div class="text-secondary">
                                         Exibir
                                         <div class="mx-2 d-inline-block">
-                                            <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
+                                            <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas">
                                                 <option value="10" selected>10</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
@@ -325,7 +325,7 @@
             <div class="toast show align-items-center bg-${color}-lt border-${type}" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body">${message}</div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar notificação"></button>
                 </div>
             </div>
         </div>`;
