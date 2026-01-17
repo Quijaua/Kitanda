@@ -78,7 +78,7 @@
             </div>
             <div class="d-none d-md-flex">
                 <div class="nav-item dropdown d-none d-md-flex me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="{{ cartCount > 9 ? '9+' : cartCount }} itens no carrinho Meu Carrinho">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -111,6 +111,9 @@
                         </span>
 
                         Meu Carrinho
+                        <span class="visually-hidden">
+                            ({{ cartCount > 9 ? '9+' : cartCount }} itens)
+                        </span>
                     </a>
                 </div>
             </div>
@@ -134,7 +137,7 @@
             </div>
             <div class="d-md-flex d-md-none">
                 <div class="nav-item dropdown d-md-flex d-md-none me-3">
-                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative" aria-label="{{ cartCount > 9 ? '9+' : cartCount }} itens no carrinho Meu Carrinho">
+                    <a href="{{ INCLUDE_PATH }}carrinho" class="nav-link text-white fw-semibold px-0 position-relative">
                         {% if cartCount > 0 %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -164,6 +167,10 @@
                               {% if cartCount <= 0 %}display: none;{% endif %}">
                             {{ cartCount > 9 ? '9+' : cartCount }}
                             <span class="visually-hidden">itens no carrinho</span>
+                        </span>
+
+                        <span class="visually-hidden">
+                            Meu Carrinho ({{ cartCount > 9 ? '9+' : cartCount }} itens)
                         </span>
                     </a>
                 </div>

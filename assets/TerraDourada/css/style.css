@@ -67,7 +67,8 @@ header {background-color: #6F3502 !important; color: #FFFFFF}
 .navbar-brand img {height: 80px;}
 
 .hero-section {
-    background: url('/assets/TerraDourada/images/hero-mea.webp');
+    background-color: #0b1019;
+    background-image: url('/assets/TerraDourada/images/hero-mea.webp');
     background-size: cover;
     background-position: center;
     color: #fff;
@@ -76,6 +77,15 @@ header {background-color: #6F3502 !important; color: #FFFFFF}
 }
 
 .navbar-toggler {color: #FFF;}
+
+@media (max-width: 768px) {
+    .navbar-collapse.collapse:not(.show) a {
+    pointer-events: none !important;
+    }
+    .navbar-collapse.collapse:not(.show) a:focus {
+    outline: none !important;
+    }
+}
 
 .category-icon {
     width: 80px;

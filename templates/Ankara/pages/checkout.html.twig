@@ -755,77 +755,83 @@
 
                     {# Tabela de itens com id para facilitar o JS #}
                     <table class="table table-sm table-borderless">
+                        <caption class="visually-hidden">
+                            Itens do pedido: produto, quantidade e subtotal
+                        </caption>
                         <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th class="w-1 text-center">Quant.</th>
-                            <th class="text-center">Subtotal</th>
-                            {# Se já existe “pedido” (confirmação), não mostra coluna de exclusão #}
-                            {% if not isPedido %}
-                            <th class="w-1 text-center"></th>
-                            {% endif %}
-                        </tr>
-                        </thead>
-                        <tbody id="checkout-items">
-                        {% if checkoutItems is not empty %}
-                            {% for item in checkoutItems %}
-                            <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.item_id }}">
-                                <td>{{ item.produto_nome|e }}</td>
-                                <td class="w-1 text-center">{{ item.quantidade }}</td>
-                                <td class="text-center">
-                                R$ {{ (item.produto_preco * item.quantidade)|number_format(2, ',', '.') }}
-                                </td>
-                                {# Mostra ícone de lixeira apenas se NÃO há “pedido” #}
-                                {% if not pedido %}
-                                <td class="w-1 text-center">
-                                    <a href="#" class="text-muted remove-checkout-item" data-item-id="{{ item.item_id }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-1 icon-tabler icon-tabler-trash">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <path d="M4 7l16 0" />
-                                        <path d="M10 11l0 6" />
-                                        <path d="M14 11l0 6" />
-                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                    </svg>
-                                    </a>
-                                </td>
+                            <tr>
+                                <th id="th-produto" scope="col">Produto</th>
+                                <th id="th-quantidade" scope="col" class="w-1 text-center">Quant.</th>
+                                <th id="th-subtotal" scope="col" class="text-center">Subtotal</th>
+                                {% if not isPedido %}
+                                    <th id="th-acoes" scope="col" class="w-1 text-center">Ações</th>
                                 {% endif %}
                             </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                            <td colspan="{% if not pedido %}4{% else %}3{% endif %}" class="text-center">
-                                Nenhum item adicionado.
-                            </td>
-                            </tr>
-                        {% endif %}
+                        </thead>
+                        <tbody id="checkout-items">
+                            {% if checkoutItems is not empty %}
+                                {% for item in checkoutItems %}
+                                <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.id }}">
+                                    <th id="row-{{ item.id }}" scope="row">{{ item.produto_nome|e }}</th>
+                                    <td headers="th-quantidade row-{{ item.id }}" class="text-center">{{ item.quantidade }}</td>
+                                    <td headers="th-subtotal row-{{ item.id }}" class="text-center">
+                                        R$ {{ (item.produto_preco * item.quantidade)|number_format(2, ',', '.') }}
+                                    </td>
+                                    {% if not pedido %}
+                                        <td headers="th-acoes row-{{ item.id }}" class="w-1 text-center">
+                                            <a href="#" class="text-muted remove-checkout-item" data-item-id="{{ item.id }}" aria-label="Remover item do pedido">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-1 icon-tabler icon-tabler-trash">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 7l16 0" />
+                                                    <path d="M10 11l0 6" />
+                                                    <path d="M14 11l0 6" />
+                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="{% if not pedido %}4{% else %}3{% endif %}" class="text-center">
+                                        Nenhum item adicionado.
+                                    </td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
+
 
                     <hr class="my-3">
 
                     {# Valores de frete e desconto com data-value para uso no JS #}
                     <table class="table table-sm table-borderless">
+                        <caption class="visually-hidden">
+                            Valores adicionais do pedido
+                        </caption>
                         <tbody>
-                        <tr>
-                            <td class="fw-bold">Frete</td>
-                            <td id="frete_valor"
-                                class="w-10 fw-bold text-end"
-                                data-value="{{ frete }}">
-                            R$ {{ frete|number_format(2, ',', '.') }}
-                            </td>
-                        </tr>
-                        {# <tr>
-                            <td class="fw-bold">Desconto</td>
-                            <td id="desconto_valor"
-                                class="w-10 fw-bold text-end"
-                                data-value="{{ desconto }}">
-                            R$ {{ desconto|number_format(2, ',', '.') }}
-                            </td>
-                        </tr> #}
+                            <tr>
+                                <th id="th-frete" scope="row" class="fw-bold">Frete</th>
+                                <td headers="th-frete" 
+                                    id="frete_valor"
+                                    class="w-10 fw-bold text-end"
+                                    data-value="{{ frete }}">
+                                R$ {{ frete|number_format(2, ',', '.') }}
+                                </td>
+                            </tr>
+                            {# <tr>
+                                <td class="fw-bold">Desconto</td>
+                                <td id="desconto_valor"
+                                    class="w-10 fw-bold text-end"
+                                    data-value="{{ desconto }}">
+                                    R$ {{ desconto|number_format(2, ',', '.') }}
+                                </td>
+                            </tr> #}
                         </tbody>
                     </table>
 
@@ -833,15 +839,19 @@
 
                     {# Total geral, também com data-value para JS #}
                     <table class="table table-sm table-borderless mb-0">
+                        <caption class="visually-hidden">
+                            Valor total do pedido
+                        </caption>
                         <tbody>
-                        <tr>
-                            <td class="fs-3 fw-bold">TOTAL</td>
-                            <td id="total_valor"
-                                class="fs-3 w-10 fw-bold text-end"
-                                data-value="{{ total }}">
-                            R$ {{ total|number_format(2, ',', '.') }}
-                            </td>
-                        </tr>
+                            <tr>
+                                <th id="th-total" scope="row" class="fs-3 fw-bold">TOTAL</th>
+                                <td headers="th-total" 
+                                    id="total_valor"
+                                    class="fs-3 w-10 fw-bold text-end"
+                                    data-value="{{ total }}">
+                                    R$ {{ total|number_format(2, ',', '.') }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -855,7 +865,7 @@
                     {% endif %}
                     </div>
                 </div>
-                </div>
+            </div>
 
         </div>
     </div>

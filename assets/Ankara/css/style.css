@@ -128,6 +128,10 @@ justify-content: center;
 color: #999;
 }
 
+.text-muted {color: #4F596A !important}
+.text-secondary {color: #4F596A !important}
+.page-item span {color: #43566F !important}
+
 .btn-yellow {
 background: var(--primary-yellow);
 border: none;
@@ -164,6 +168,15 @@ font-weight: 500;
 
 .navbar-nav .nav-link:hover {
 color: var(--primary-red) !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse.collapse:not(.show) a {
+    pointer-events: none !important;
+    }
+    .navbar-collapse.collapse:not(.show) a:focus {
+    outline: none !important;
+    }
 }
 
 .menu {

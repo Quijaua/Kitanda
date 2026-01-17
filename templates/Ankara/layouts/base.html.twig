@@ -221,7 +221,7 @@
 
                         {% for e in empreendedoras %}
                         <div class="mb-4" role="region" aria-label="Lista de empreendedoras">
-                            <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center" aria-label="Ver perfil da empreendedora {{ e.nome }}">
+                            <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center">
                                 {% if e.tem_imagem %}
                                 <div class="entrepreneur-card">
                                     <span class="avatar avatar-xl rounded-circle"
@@ -233,7 +233,7 @@
                                 </div>
                                 {% endif %}
                                 <h3 class="text-white fw-bold fs-3">{{ e.nome }}</h3>
-                                <p class="text-white-50 small fs-4">
+                                <p class="text-white small fs-4">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24"
                                                     viewBox="0 0 24 24"

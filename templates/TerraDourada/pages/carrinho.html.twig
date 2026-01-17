@@ -50,6 +50,8 @@
 
 {# --------------------------- Page header (breadcrumb) -------------------------- #}
 <div class="page-header d-print-none mt-0 pt-4">
+    <h1 class="visually-hidden">Meu Carrinho</h1>
+
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
@@ -118,7 +120,9 @@
                                     </div>
                                     <div class="col-2">
                                         <input type="number"
+                                               id="quantidade-produto-{{ item.carrinho_id }}"
                                                class="form-control quantidade-produto"
+                                               aria-label="Quantidade do produto"
                                                value="{{ item.quantidade }}"
                                                min="1"
                                                max="{{ item.produto_estoque ? item.produto_estoque : NULL }}"
@@ -148,9 +152,12 @@
                         {% endfor %}
 
                         <table class="table table-sm table-borderless">
+                            <caption class="visually-hidden">
+                                Itens do carrinho de compras
+                            </caption>
                             <tbody>
                                 <tr>
-                                    <td>Itens do carrinho</td>
+                                    <th scope="row">Itens do carrinho</th>
                                     <td id="cart-total" class="w-10 fw-bold text-end">
                                         R$ {{ total|number_format(2, ',', '.') }}
                                     </td>
@@ -165,9 +172,12 @@
                         <hr class="my-2">
 
                         <table class="table table-sm table-borderless">
+                            <caption class="visually-hidden">
+                                Valor total do carrinho de compras
+                            </caption>
                             <tbody>
                                 <tr>
-                                    <td class="fw-bold">TOTAL</td>
+                                    <th scope="row" class="fw-bold">TOTAL</th>
                                     <td id="cart-total-final" class="w-10 fw-bold text-end">
                                         R$ {{ total|number_format(2, ',', '.') }}
                                     </td>

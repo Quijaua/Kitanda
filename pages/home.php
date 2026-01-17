@@ -52,77 +52,79 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Função para criar os links de paginação
 function criarPaginacao($pagina_atual, $total_paginas, $limite) {
+
     if ($total_paginas <= 1) {
-        return '<div class="d-flex">
-                    <ul class="pagination ms-auto mb-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
-                                Anterior
-                            </a>
-                        </li>
-                        <div class="d-flex">
-                            <ul class="pagination ms-auto mb-0">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            </ul>
-                        </div>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-disabled="true">
-                                Próximo
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>';
+        return '
+        <nav aria-label="Paginação">
+            <ul class="pagination ms-auto mb-0">
+
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                        <span class="d-none d-md-inline-flex">Anterior</span>
+                    </span>
+                </li>
+
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">1</span>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">
+                        <span class="d-none d-md-inline-flex">Próximo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+                    </span>
+                </li>
+
+            </ul>
+        </nav>';
     }
 
-    $html = '<div class="d-flex">
+    $html = '<nav aria-label="Paginação">
                 <ul class="pagination ms-auto mb-0">';
 
-    // Botão "Anterior"
-    $prev_disabled = ($pagina_atual == 1) ? 'disabled' : '';
-    $prev_link = $pagina_atual > 1 ? '?pagina=' . ($pagina_atual - 1) . '&limite=' . $limite : '#';
-    $html .= '<li class="page-item ' . $prev_disabled . '">
-                <a class="page-link" href="' . $prev_link . '" tabindex="-1" aria-disabled="' . ($pagina_atual == 1 ? 'true' : 'false') . '">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
-                    <span class="d-none d-md-inline-flex">Anterior</span>
-                </a>
-              </li>';
-
-    // Função para criar botão de página
-    function pageItem($i, $pagina_atual, $limite) {
-        $active = $pagina_atual == $i ? 'active' : '';
-        return '<li class="page-item ' . $active . '">
-                    <a class="page-link" href="?pagina=' . $i . '&limite=' . $limite . '">' . $i . '</a>
-                </li>';
+    /** ANTERIOR **/
+    if ($pagina_atual > 1) {
+        $html .= '
+        <li class="page-item">
+            <a class="page-link"
+               href="?pagina=' . ($pagina_atual - 1) . '&limite=' . $limite . '"
+               aria-label="Ir para a página anterior">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                <span class="d-none d-md-inline-flex">Anterior</span>
+            </a>
+        </li>';
+    } else {
+        $html .= '
+        <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                <span class="d-none d-md-inline-flex">Anterior</span>
+            </span>
+        </li>';
     }
 
-    // Lógica para criar intervalo de páginas
+    /** LÓGICA DE PÁGINAS **/
     $showPages = [];
 
     if ($total_paginas <= 7) {
-        // Se poucas páginas, mostrar todas
         for ($i = 1; $i <= $total_paginas; $i++) {
             $showPages[] = $i;
         }
     } else {
-        // Sempre mostrar a primeira página
         $showPages[] = 1;
 
         if ($pagina_atual <= 3) {
-            // Primeiras páginas (1,2,3) → mostrar até a 4ª
             for ($i = 2; $i <= 4; $i++) {
                 $showPages[] = $i;
             }
             $showPages[] = '...';
         } elseif ($pagina_atual >= $total_paginas - 2) {
-            // Últimas páginas → mostrar as 3 anteriores e atuais
             $showPages[] = '...';
-            for ($i = $total_paginas - 3; $i <= $total_paginas - 1; $i++) {
+            for ($i = $total_paginas - 3; $i < $total_paginas; $i++) {
                 $showPages[] = $i;
             }
         } else {
-            // Páginas intermediárias → mostrar uma antes e uma depois
             $showPages[] = '...';
             $showPages[] = $pagina_atual - 1;
             $showPages[] = $pagina_atual;
@@ -130,30 +132,54 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
             $showPages[] = '...';
         }
 
-        // Sempre mostrar a última página
         $showPages[] = $total_paginas;
     }
 
-    // Renderizar os botões de página
     foreach ($showPages as $p) {
         if ($p === '...') {
-            $html .= '<li class="page-item disabled"><span class="page-link">…</span></li>';
+            $html .= '
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">…</span>
+            </li>';
+        } elseif ($p == $pagina_atual) {
+            $html .= '
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">' . $p . '</span>
+            </li>';
         } else {
-            $html .= pageItem($p, $pagina_atual, $limite);
+            $html .= '
+            <li class="page-item">
+                <a class="page-link"
+                   href="?pagina=' . $p . '&limite=' . $limite . '"
+                   aria-label="Ir para a página ' . $p . '">
+                    ' . $p . '
+                </a>
+            </li>';
         }
     }
 
-    // Botão "Próximo"
-    $next_disabled = ($pagina_atual == $total_paginas) ? 'disabled' : '';
-    $next_link = $pagina_atual < $total_paginas ? '?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite : '#';
-    $html .= '<li class="page-item ' . $next_disabled . '">
-                <a class="page-link" href="' . $next_link . '" aria-disabled="' . ($pagina_atual == $total_paginas ? 'true' : 'false') . '">
-                    <span class="d-none d-md-inline-flex">Próximo</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
-                </a>
-              </li>';
+    /** PRÓXIMO **/
+    if ($pagina_atual < $total_paginas) {
+        $html .= '
+        <li class="page-item">
+            <a class="page-link"
+               href="?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite . '"
+               aria-label="Ir para a próxima página">
+                <span class="d-none d-md-inline-flex">Próxima</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+            </a>
+        </li>';
+    } else {
+        $html .= '
+        <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">
+                <span class="d-none d-md-inline-flex">Próxima</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+            </span>
+        </li>';
+    }
 
-    $html .= '</ul></div>';
+    $html .= '</ul></nav>';
 
     return $html;
 }

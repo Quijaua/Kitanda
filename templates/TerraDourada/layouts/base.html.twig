@@ -141,7 +141,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <span class="mb-3 fs-3" style="color: #b36a00">Uma iniciativa do Instituto Terra Dourada</span>
-                    <h1 class="display-4 fw-bold mb-4">Mulheres Empreendedoras da Amazônia</h1>
+                    <h2 class="display-4 fw-bold mb-4">Mulheres Empreendedoras da Amazônia</h2>
                     <p class="lead mb-4">
                     Arte, tradição e sustentabilidade em cada peça.<br />
                     Ao comprar aqui, você apoia mulheres que transformam saberes ancestrais em identidade e resistência
@@ -184,7 +184,7 @@
 
                     {% for e in empreendedoras %}
                     <div class="mb-4">
-                        <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center" aria-label="Ver perfil da empreendedora {{ e.nome }}">
+                        <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}" class="text-center">
                             <div class="outline-section">
                                 {% if e.tem_imagem %}
                                 <div class="entrepreneur-card">

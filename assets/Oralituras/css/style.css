@@ -17,6 +17,15 @@
     --tblr-btn-color: var(--tblr-yellow-fg);
 }
 
+@media (max-width: 768px) {
+    .navbar-collapse.collapse:not(.show) a {
+    pointer-events: none !important;
+    }
+    .navbar-collapse.collapse:not(.show) a:focus {
+    outline: none !important;
+    }
+}
+
 
 .btn:hover {
 	color: #400F19;
