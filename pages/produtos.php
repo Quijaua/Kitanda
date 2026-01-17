@@ -60,7 +60,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
 
                 <li class="page-item disabled">
                     <span class="page-link" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
                         <span class="d-none d-md-inline-flex">Anterior</span>
                     </span>
                 </li>
@@ -72,7 +72,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
                 <li class="page-item disabled">
                     <span class="page-link" aria-hidden="true">
                         <span class="d-none d-md-inline-flex">Próximo</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
                     </span>
                 </li>
 
@@ -90,7 +90,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
             <a class="page-link"
                href="?pagina=' . ($pagina_atual - 1) . '&limite=' . $limite . '"
                aria-label="Ir para a página anterior">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
                 <span class="d-none d-md-inline-flex">Anterior</span>
             </a>
         </li>';
@@ -98,7 +98,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
         $html .= '
         <li class="page-item disabled">
             <span class="page-link" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
                 <span class="d-none d-md-inline-flex">Anterior</span>
             </span>
         </li>';
@@ -166,7 +166,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
                href="?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite . '"
                aria-label="Ir para a próxima página">
                 <span class="d-none d-md-inline-flex">Próxima</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
             </a>
         </li>';
     } else {
@@ -174,7 +174,7 @@ function criarPaginacao($pagina_atual, $total_paginas, $limite) {
         <li class="page-item disabled">
             <span class="page-link" aria-hidden="true">
                 <span class="d-none d-md-inline-flex">Próxima</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
             </span>
         </li>';
     }

@@ -105,7 +105,7 @@
                                         <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
                                             <img src="{{ produto.imagem }}"
                                                  class="card-img-top"
-                                                 alt="{{ produto.titulo }}">
+                                                 alt="{{ produto.titulo }}{% if produto.empreendedora %} - Produzido por {{ produto.empreendedora }}{% endif %}{% if produto.codigo_produto %} - Código {{ produto.codigo_produto }}{% endif %}">
                                         </a>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">

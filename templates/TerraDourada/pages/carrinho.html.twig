@@ -89,7 +89,7 @@
                                             aria-label="Abrir imagem ampliada do produto {{ item.produto_nome }}">
                                             <img
                                                 src="{{ item.produto_imagem }}"
-                                                alt="{{ item.produto_nome }}"
+                                                alt="{{ item.produto_nome }}{% if item.empreendedora %} - Produzido por {{ item.empreendedora }}{% endif %}{% if item.produto_id %} - Código {{ item.produto_id }}{% endif %}"
                                                 class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
                                             >
                                         </a>

@@ -13,6 +13,7 @@ if (isset($_SESSION['user_id'])) {
             p.nome AS produto_nome,
             p.estoque as produto_estoque,
             p.preco AS produto_preco,
+            p.codigo_produto AS produto_codigo,
             pi.imagem AS produto_imagem,
             u.nome AS empreendedora
         FROM tb_carrinho c
@@ -35,6 +36,7 @@ if (isset($_SESSION['user_id'])) {
             p.nome AS produto_nome,
             p.estoque as produto_estoque,
             p.preco AS produto_preco,
+            p.codigo_produto AS produto_codigo,
             pi.imagem AS produto_imagem,
             u.nome AS empreendedora
         FROM tb_carrinho c
@@ -75,6 +77,7 @@ if ($stmt) {
             'produto_imagem'  => $imagemUrl,
             'empreendedora'   => $item['empreendedora'],
             'quantidade'      => (int) $item['quantidade'],
+            'codigo'          => $item['produto_codigo'],
         ];
     }
 }
