@@ -41,9 +41,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Criar Nova Página
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui você pode criar novas páginas.</div>
             </div>
             <!-- Page title actions -->
@@ -83,7 +83,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Erro!</h4>
+                                <h4 class="alert-title">Erro!</h2>
                                 <div class="text-secondary"><?php echo $_SESSION['error_msg']; ?></div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Informações principais</h4>
+                                <h2 class="card-title">Informações principais</h2>
                             </div>
                             <div class="card-body">
 
@@ -127,7 +127,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Imagem</h4>
+                                <h2 class="card-title">Imagem</h2>
                             </div>
                             <div class="card-body">
 
@@ -157,7 +157,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Conteúdo</h4>
+                                <h2 class="card-title">Conteúdo</h2>
                             </div>
                             <div class="card-body">
 

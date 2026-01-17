@@ -93,7 +93,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="container-xl">
     <div class="row g-2 align-items-center">
       <div class="col">
-        <h2 class="page-title">Usuários</h2>
+        <h1 class="page-title">Usuários</h1>
         <div class="text-secondary mt-1">Aqui estão os usuários cadastrados no sistema.</div>
       </div>
       <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
@@ -135,7 +135,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
 
           <div class="card-header">
-            <h4 class="card-title">Usuários Cadastrados</h4>
+            <h2 class="card-title">Usuários Cadastrados</h2>
           </div>
 
           <div class="card-body border-bottom py-3">

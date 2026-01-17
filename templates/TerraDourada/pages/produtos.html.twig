@@ -75,7 +75,8 @@
         </div>
     </div>
     -->
-    
+
+<h1 class="visually-hidden">Produtos</h1>
 
 <div class="page-header d-print-none mt-0 py-2" style="background: #F7EFE6;">
     <div class="container-xl">
@@ -140,7 +141,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h1 class="text-terra fs-1">Nossos produtos</h1>
+                    <h2 class="text-terra fs-1">Nossos produtos</h2>
                     <div class="text-secondary mt-1">
 {#                        {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
@@ -189,9 +190,6 @@
     <div class="page-body p-2">
         <div class="container-xl">
             <div class="row g-4">
-                <h2 class="visually-hidden">
-                    Lista de produtos
-                </h2>
 
                 {% if produtos %}
                     <div class="col-md-12">

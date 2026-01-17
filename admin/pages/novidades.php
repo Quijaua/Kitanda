@@ -126,9 +126,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Novidades
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Mensagens enviadas a todos os clientes.</div>
             </div>
             <!-- Page title actions -->
@@ -168,9 +168,9 @@
                                 <a href="#" onclick='modalToggle(<?php echo json_encode($res["title"]); ?>, <?php echo json_encode($date); ?>, <?php echo json_encode($res["body"]); ?>)' style="text-decoration: none;">
                                     <div class="row">
                                         <div class="col">
-                                            <h3 class="text-truncate text-dark mb-0">
+                                            <h2 class="text-truncate text-dark mb-0">
                                                 <?php echo $res['title']; ?>
-                                            </h3>
+                                            </h2>
                                             <div class="text-secondary">
                                                 <span data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo $date; ?>">
                                                     <?php echo $time; ?> atrás
@@ -186,7 +186,7 @@
                             <?php endforeach; ?>
 
                             <?php if (!$resultados): ?>
-                                <h3 class="card-title mb-0">Você não possui nenhum envio de E-mail em massa registrado.</h3>
+                                <h2 class="card-title mb-0">Você não possui nenhum envio de E-mail em massa registrado.</h2>
                             <?php endif; ?>
 
                         </div>

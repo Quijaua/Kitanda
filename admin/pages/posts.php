@@ -97,9 +97,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Posts
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui estão as posts do sistema.</div>
             </div>
             <!-- Page title actions -->
@@ -127,7 +127,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Posts</h4>
+                        <h2 class="card-title">Posts</h2>
                     </div>
 
                     <div class="card-body border-bottom py-3">

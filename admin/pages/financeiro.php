@@ -88,9 +88,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Vendas
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Suas vendas e relatórios financeiros</div>
             </div>
         </div>
@@ -112,7 +112,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Informações</h4>
+                        <h2 class="card-title">Informações</h2>
                         <div class="ms-auto lh-1">
                             <div class="dropdown">
                                 <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

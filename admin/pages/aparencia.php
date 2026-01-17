@@ -11,9 +11,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Aparência
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Área para alterar cores na página principal.</div>
             </div>
         </div>
@@ -52,7 +52,7 @@
 
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
                         <div class="card-header">
-                            <h4 class="card-title">Cores</h4>
+                            <h2 class="card-title">Cores</h2>
                         </div>
                         <div class="card-body">
 
@@ -243,7 +243,7 @@
 
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
                         <div class="card-header">
-                            <h4 class="card-title">Cores</h4>
+                            <h2 class="card-title">Cores</h2>
                         </div>
                         <div class="card-body">
 
@@ -332,7 +332,7 @@
 
                     <form action="<?= INCLUDE_PATH_ADMIN ?>back-end/update.php" method="post">
                         <div class="card-header">
-                            <h4 class="card-title">Tema</h4>
+                            <h2 class="card-title">Tema</h2>
                         </div>
                         <div class="card-body">
                             <div class="row g-2">
@@ -394,7 +394,7 @@
 
                                     <!-- Ankara -->
                                     <div class="theme-options" data-theme="Ankara" style="display: <?= ($current_theme == 'Ankara') ? 'block' : 'none' ?>;">
-                                        <h4 class="card-title">Configurações de Conteúdo da Home Ankara</h4>
+                                        <h2 class="card-title">Configurações de Conteúdo da Home Ankara</h2>
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" type="checkbox" id="toggle-hero" name="ankara_hero" <?= ($ankara_hero) ? "checked" : ""; ?>>
                                             <label class="form-check-label" for="toggle-hero">
@@ -434,7 +434,7 @@
 
                                     <!-- Terra Dourada -->
                                     <div class="theme-options" data-theme="TerraDourada" style="display: <?= ($current_theme == 'TerraDourada') ? 'block' : 'none' ?>;">
-                                        <h4 class="card-title">Configurações de Conteúdo da Home Terra Dourada</h4>
+                                        <h2 class="card-title">Configurações de Conteúdo da Home Terra Dourada</h2>
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" type="checkbox" id="toggle-hero-td" name="td_hero" <?= $td_hero ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="toggle-hero-td">

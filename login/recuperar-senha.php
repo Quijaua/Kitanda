@@ -276,7 +276,7 @@
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
                     <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
-			            <h1>Kitanda</h1>
+			            <p class="fs-1">Kitanda</p>
                         <!-- <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
                     </a>
                 </div>
@@ -289,7 +289,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <h2 class="card-title text-center mb-4">Esqueceu a senha?</h2>
+                        <h1 class="card-title text-center mb-4">Esqueceu a senha?</h1>
                         <p class="text-secondary mb-4">Digite seu endereço de e-mail e sua senha será redefinida e enviada para o seu e-mail.</p>
                         <div class="mb-4">
                             <label for="email" class="form-label">Endereço de e-mail</label>

@@ -45,9 +45,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Editar Usuário
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Edite as informações do usuário e sua função.</div>
             </div>
             <div class="col-auto ms-auto d-print-none">
@@ -106,7 +106,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Erro!</h4>
+                                <h4 class="alert-title">Erro!</h2>
                                 <div class="text-secondary"><?php echo $_SESSION['error_msg']; ?></div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Informações do Usuário</h4>
+                                <h2 class="card-title">Informações do Usuário</h2>
                             </div>
                             <div class="card-body">
                                 <div class="row">

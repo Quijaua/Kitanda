@@ -42,9 +42,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Compra #<?= $pedido['pedido_id']; ?>
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Detalhes da compra.</div>
             </div>
             <!-- Page title actions -->

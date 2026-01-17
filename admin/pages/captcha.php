@@ -60,9 +60,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Configuração de CAPTCHA
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Configure os CAPTCHA's que você quer usar em sua aplicação.</div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                         <div class="card">
 
                             <div class="card-header">
-                                <h4 class="card-title">Configurar Captcha</h4>
+                                <h2 class="card-title">Configurar Captcha</h2>
                             </div>
 
                             <div class="card-body border-bottom py-3">

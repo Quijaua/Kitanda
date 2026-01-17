@@ -197,13 +197,13 @@
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
                     <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
-			<h1>Kitanda</h1>
+			<p class="fs-1">Kitanda</p>
 <!--                        <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
                     </a>
                 </div>
                 <div class="card card-md">
                     <div class="card-body">
-                        <h2 class="h2 text-center mb-4">Atualizar Senha</h2>
+                        <h1 class="h2 text-center mb-4">Atualizar Senha</h1>
 
                         <?php if (isset($_SESSION['msg'])): ?>
                             <div id="password-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">

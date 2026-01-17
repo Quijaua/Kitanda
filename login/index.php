@@ -120,7 +120,7 @@
                 </div>
                 <div class="card card-md">
                     <div class="card-body">
-                        <h2 class="h2 text-center mb-4">Entrar na sua conta</h2>
+                        <h1 class="h2 text-center mb-4">Entrar na sua conta</h1>
 
                         <?php if (isset($_SESSION['msg'])): ?>
                             <div id="login-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">

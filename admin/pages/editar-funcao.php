@@ -60,7 +60,7 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">Editar Função</h2>
+                <h1 class="page-title">Editar Função</h1>
                 <div class="text-secondary mt-1">Altere as informações da função e suas permissões.</div>
             </div>
             <div class="col-auto ms-auto d-print-none">
@@ -125,7 +125,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Erro!</h4>
+                                <h4 class="alert-title">Erro!</h2>
                                 <div class="text-secondary"><?php echo $_SESSION['error_msg']; ?></div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Informações principais</h4>
+                                <h2 class="card-title">Informações principais</h2>
                             </div>
                             <div class="card-body">
                                 <!-- Campo para o nome da função -->
@@ -254,7 +254,7 @@
                         ?>
 
                         <div class="card-header">
-                            <h4 class="card-title">Usuários que estão usando esta função</h4>
+                            <h2 class="card-title">Usuários que estão usando esta função</h2>
                         </div>
 
                         <div class="card-table table-responsive">

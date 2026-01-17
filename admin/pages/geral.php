@@ -11,9 +11,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Geral
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Altere configurações do site.</div>
             </div>
         </div>
@@ -57,7 +57,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                                 <div class="card-header">
-                                    <h4 class="card-title">Configurações Gerais do Site</h4>
+                                    <h2 class="card-title">Configurações Gerais do Site</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3 row">
@@ -93,7 +93,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                                 <div class="card-header">
-                                    <h4 class="card-title">Vitrine do Site</h4>
+                                    <h2 class="card-title">Vitrine do Site</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3 row">
@@ -130,7 +130,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
                                 <div class="card-header">
-                                    <h4 class="card-title">Logo</h4>
+                                    <h2 class="card-title">Logo</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="row my-3">
