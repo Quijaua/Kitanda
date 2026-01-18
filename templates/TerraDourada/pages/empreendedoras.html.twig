@@ -38,7 +38,7 @@
                                           style="background-image: url({{ e.imagem }});"></span>
                                 </div>
                                 <div class="col d-flex flex-column justify-content-center">
-                                    <h3 class="card-title mb-0">{{ e.nome }}</h3>
+                                    <h2 class="card-title mb-0 fs-3">{{ e.nome }}</h2>
                                     <p class="d-inline-flex align-items-center text-yellow lh-1 mb-4">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              width="24" height="24"
@@ -60,7 +60,7 @@
                                     </p>
                                     <div class="d-flex">
                                         <a href="{{ INCLUDE_PATH }}empreendedora?id={{ e.id }}"
-                                           class="btn btn-6 btn-yellow btn-pill">
+                                           class="btn btn-6 btn-terra btn-pill">
                                             Ver mais
                                         </a>
                                     </div>
@@ -74,7 +74,7 @@
             {# Botão “Ver mais” #}
             <div class="col-12" id="load-more-wrapper">
                 <div class="d-flex justify-content-center">
-                    <button id="btn-load-more" class="btn btn-6 btn-outline-yellow btn-pill btn-lg">
+                    <button id="btn-load-more" class="btn btn-6 btn-outline-warning btn-pill btn-lg">
                         Ver mais
                     </button>
                 </div>
@@ -138,7 +138,7 @@
                               </p>\
                               <div class="d-flex">\
                                 <a href="{{ INCLUDE_PATH }}empreendedora?id=' + e.id + '" \
-                                   class="btn btn-6 btn-outline-dark btn-pill">Ver mais</a>\
+                                   class="btn btn-6 btn-terra btn-pill">Ver mais</a>\
                               </div>\
                             </div>\
                           </div>\

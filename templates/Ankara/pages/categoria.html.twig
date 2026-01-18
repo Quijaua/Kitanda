@@ -9,7 +9,7 @@
 
 {% if not_found %}
     {# ----------- Page header (breadcrumb) ----------- #}
-    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+    <div class="page-header vermelho d-print-none mt-0 py-8">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -19,7 +19,7 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <p class="h2 text-yellow mb-0">Categoria</p>
                     <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Categoria não encontrada</h1>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <p class="alert-title">Alerta do Sistema</p>
                                 <div class="text-secondary">Não encontramos esta categoria.</div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
 
 {% else %}
     {# ----------- Breadcrumb ----------- #}
-    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+    <div class="page-header vermelho d-print-none mt-0 py-8">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -70,7 +70,7 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <p class="h2 text-yellow mb-0">Categoria</p>
                     <h1 class="text-white" style="font-size: 3rem; line-height: normal;">{{ categoria.nome }}</h1>
                 </div>
             </div>
@@ -85,7 +85,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h1 class="text-terra fs-1">Nossos produtos</h1>
+                    <h2 class="text-terra fs-1">Nossos produtos</h2>
                     <div class="text-secondary mt-1">
                         {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
@@ -116,7 +116,12 @@
                                          stroke-width="2"
                                          stroke-linecap="round"
                                          stroke-linejoin="round"
-                                         class="icon icon-1">
+                                         class="icon icon-1"
+                                         aria-hidden="true" focusable="false">
+
+                                        <title>Ícone de pesquisa</title>
+                                        <descr>Ícone de lupa representando a busca do site</descr>
+
                                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                         <path d="M21 21l-6 -6"></path>
                                     </svg>
@@ -152,20 +157,20 @@
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="card card-terra">
-                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block img-wcag">
                                             <img src="{{ produto.imagem }}"
                                                  class="card-img-top"
-                                                 alt="{{ produto.titulo }}">
+                                                 alt="{% if produto.alt %}{{ produto.alt }}{% else %}{{ produto.titulo }}{% if produto.empreendedora %} - Produzido por {{ produto.empreendedora }}{% endif %}{% if produto.codigo_produto %} - Código {{ produto.codigo_produto }}{% endif %}{% endif %}">
                                         </a>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
-                                                    <h3>{{ produto.codigo_produto }}</h3>
+                                                    <h3 class="h1 mb-1">{{ produto.titulo }}</h3>
+                                                    <p class="h3">{{ produto.codigo_produto }}</p>
                                                     <p>Produzido por: {{ produto.empreendedora }}</p>
-                                                    <h2 class="text-yellow">
+                                                    <p class="h2 text-yellow">
                                                         R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    </p>
                                                     <button 
                                                         class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
@@ -246,7 +251,7 @@
                         success: function(response) {
                             if (response.status === "sucesso") {
                                 // Atualiza badge do carrinho
-                                $("#cart-count")
+                                $(".cart-count")
                                     .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
                                     .show();
                                 // Exibe modal de sucesso

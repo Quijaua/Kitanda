@@ -1,18 +1,28 @@
 :root {
 --background: #FFFFFF;
---tblr-red: #CC2229;
+--tblr-red: #cc2229;
 --tblr-red-rgb: 204, 34, 41;
---tblr-yellow: #FFD216;
+--bg-red: #81161a;
+--tblr-yellow: #ffd216;
 --tblr-yellow-rgb: 255, 210, 22;
 --tblr-breadcrumb-divider: "|";
 --tblr-breadcrumb-divider-color: #FFFFFF;
---primary-red: #d32f2f;
+--primary-red: #7e1b1b;
+--secondary-red: #7f1a1a;
 --primary-yellow: #ffd216; 
 --text-dark: #333;
 }
 
+a.img-wcag {
+    color: #000;
+}
+
 .breadcrumb a {
-color: var(--tblr-red);
+color: #AE0000 !important;
+font-weight: var(--tblr-breadcrumb-item-active-font-weight);
+}
+.vermelho .breadcrumb a {
+color: rgba(var(--tblr-yellow-rgb),var(--tblr-text-opacity))!important;
 font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 }
 
@@ -20,8 +30,11 @@ font-weight: var(--tblr-breadcrumb-item-active-font-weight);
 font-weight: normal !important;
 }
 
+.vermelho .breadcrumb-item+.breadcrumb-item::before {
+color: var(--primary-yellow) !important;
+}
 .breadcrumb-item+.breadcrumb-item::before {
-color: #FFFFFF !important;
+color: var(--primary-red) !important;
 }
 .product-breadcrumb .breadcrumb-item+.breadcrumb-item::before,
 .cart-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
@@ -29,17 +42,28 @@ color: #000000 !important;
 }
 
 .pagination-ankara .page-item.active .page-link {
-background-color: #FFD216;
-border-color: #FFD216;
-color: #CC2229;
+background-color: #ffd216 !important;
+border-color: #ffd216 !important;
+color: #254362 !important;
+}
+.pagination-ankara .page-item .page-link {
+    color: #3e5676 !important;
 }
 
 .navbar-brand img {
 height: 40px;
 }
+.navbar .navbar-nav .nav-link .badge {
+    color: #f9fbfe !important;
+    background-color: #b10000 !important;
+}
+.nav.nav-vertical a.nav-link {
+    color: #445a79 !important;
+}
 
 .hero-section {
-background: linear-gradient(135deg, var(--primary-red) 0%, #c62828 100%);
+background-color: var(--primary-red);
+background-image: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
 color: white;
 position: relative;
 overflow: hidden;
@@ -75,6 +99,10 @@ padding: 0;
 background: var(--primary-red);
 color: white;
 padding: 60px 0;
+}
+
+#entrepreneurs.section-padding {
+background-color: var(--secondary-red);
 }
 
 .colorful-icon {
@@ -115,10 +143,43 @@ justify-content: center;
 color: #999;
 }
 
+.text-red {color: #b60000 !important}
+.text-danger {color: #b60000 !important}
+.text-warning {color: #8F3C04 !important}
+.text-muted {color: #4F596A !important}
+.text-secondary {color: #4b5567 !important}
+.page-item span {color: #43566F !important}
+
+#input-terms-error.text-danger {color: #9e0000 !important;}
+
+.card.bg-dark-lt .text-muted,
+.card.bg-dark-lt .text-secondary {
+    color: #414d60 !important;
+}
+
+.card.bg-dark-lt a {
+    color: #044C90 !important;
+}
+
+.form-floating label {
+    color: #474D55 !important;
+}
+
+caption {
+    color: #434d5a !important;
+}
+table thead th {
+    color: #314e71 !important;
+}
+
+.steps .step-item {
+    color: #2c587d !important;
+}
+
 .btn-yellow {
 background: var(--primary-yellow);
 border: none;
-color: var(--text-dark);
+color: var(--primary-red) !important;
 font-weight: 600;
 padding: 12px 30px;
 border-radius: 25px;
@@ -126,13 +187,17 @@ border-radius: 25px;
 
 .btn-yellow:hover {
 background: #ffcc02;
-color: var(--text-dark);
+color: var(--primary-red) !important;
 }
 
 .blog-card {
 border-radius: 12px;
 overflow: hidden;
 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-terra .text-yellow {
+    color: #6B5600 !important;
 }
 
 .blog-image {
@@ -153,6 +218,15 @@ font-weight: 500;
 color: var(--primary-red) !important;
 }
 
+@media (max-width: 768px) {
+    .navbar-collapse.collapse:not(.show) a {
+    pointer-events: none !important;
+    }
+    .navbar-collapse.collapse:not(.show) a:focus {
+    outline: none !important;
+    }
+}
+
 .menu {
 list-style: none;
 text-align: center;
@@ -165,6 +239,7 @@ margin: 0;
 
 .cor-ankara-1 {color: var(--primary-red)}
 .cor-ankara-2 {color: var(--primary-yellow)}
+.pre-titulo {font-size:14px!important;font-weight:normal!important;}
 .sub-titulo {font-size:25pt}
 .descricao {font-size:14pt}
 
@@ -243,6 +318,8 @@ right: calc(-1rem + -28px) !important;
 }
 
 .verde {background-color: #788f22}
+
+.vermelho {background-color: var(--bg-red);}
 
 .section-padding {
     padding: 80px 0;

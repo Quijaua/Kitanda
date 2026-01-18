@@ -14,18 +14,20 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Cadastrar Função
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui você pode cadastrar novas funções e suas permissões.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
-                    <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>funcoes">Funções</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Cadastrar Função</li>
-                    </ol>
+                    <nav aria-label="Caminho de navegação">
+                        <ol class="breadcrumb breadcrumb-muted">
+                            <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>funcoes">Funções</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cadastrar Função</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -71,7 +73,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Erro!</h4>
+                                <h4 class="alert-title">Erro!</h2>
                                 <div class="text-secondary"><?php echo $_SESSION['error_msg']; ?></div>
                             </div>
                         </div>
@@ -84,7 +86,7 @@
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Informações principais</h4>
+                                <h2 class="card-title">Informações principais</h2>
                             </div>
                             <div class="card-body">
 

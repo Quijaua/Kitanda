@@ -43,10 +43,10 @@ $e['address'] = $address;
 
 // 4) Busca os produtos “Destaques” dessa empreendedora (limit 6)
 $stmt = $conn->prepare("
-    SELECT p.*, pi.imagem
+    SELECT p.*, pi.imagem, pi.alt
     FROM tb_produtos p
     LEFT JOIN (
-        SELECT produto_id, MIN(imagem) AS imagem
+        SELECT produto_id, MIN(imagem) AS imagem, MIN(alt) AS alt
         FROM tb_produto_imagens
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id

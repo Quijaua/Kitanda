@@ -49,7 +49,7 @@ const theme = {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal"><span aria-hidden="true">&times;</span></button>
                      <h4 class="modal-title" id="%sLabel">%s</h4>
                 </div>
                 <div class="modal-body">
@@ -96,7 +96,7 @@ const theme = {
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="%sLabel">%s</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -144,7 +144,7 @@ const theme = {
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="%sLabel">%s</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -294,10 +294,10 @@ const theme = {
                 </div>
               </div>
 
-              <button class="waves-effect waves-light button" data-close aria-label="Close modal" type="button">
+              <button class="waves-effect waves-light button" data-close aria-label="Fechar modal" type="button">
                 <span aria-hidden="true">%s</span>
               </button>
-              <button class="waves-effect waves-light button multi-sort-order-button" data-close aria-label="Order" type="button">
+              <button class="waves-effect waves-light button multi-sort-order-button" data-close aria-label="Alterar ordem de classificação" type="button">
                   <span aria-hidden="true">%s</span>
               </button>
             </div>

@@ -3,7 +3,7 @@
 $logoHtml = '';
 
 if (!empty($logo)){
-    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="Logo da Loja">';
+    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="' . $project['name'] . '">';
 } else {
     $logoHtml = '<h1 class="mb-0">' . $project['name'] . '</h1>';
 }
@@ -142,7 +142,7 @@ $message = '
                                                                     <table class="text-center text-muted" cellspacing="0" cellpadding="0">
                                                                         <tr>
                                                                             <td class="pt-md">
-                                                                                <img src="data:image/png;base64,' . $content['content']['pix']['encodedImage'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="200" height="200" alt="layout-grid" />
+                                                                                <img src="data:image/png;base64,' . $content['content']['pix']['encodedImage'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="200" height="200" alt="QR Code para realizar o pagamento via Pix" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>

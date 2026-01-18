@@ -95,7 +95,7 @@ $.BootstrapTable = class extends $.BootstrapTable {
             <div class="export ${this.constants.classes.buttonsDropdown}"
             data-type="${exportTypes[0]}">
             <button class="${this.constants.buttonsClass}"
-            aria-label="Export"
+            aria-label="Exportar dados"
             type="button"
             title="${o.formatExport()}">
             ${o.showButtonIcons ? Utils.sprintf(this.constants.html.icon, o.iconsPrefix, o.icons.export) : ''}
@@ -105,7 +105,7 @@ $.BootstrapTable = class extends $.BootstrapTable {
           ` : `
             <div class="export ${this.constants.classes.buttonsDropdown}">
             <button class="${this.constants.buttonsClass} dropdown-toggle"
-            aria-label="Export"
+            aria-label="Exportar dados"
             data-toggle="dropdown"
             type="button"
             title="${o.formatExport()}">

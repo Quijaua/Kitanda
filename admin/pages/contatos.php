@@ -11,9 +11,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Contatos
-                </h2>
+                </h1>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
 
                     <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                         <div class="card-body">
-                            <h3 class="card-title">Dúvidas e Privacidade</h3>
+                            <h2 class="card-title">Dúvidas e Privacidade</h2>
                             <div class="mb-3 row">
                                 <label for="privacidade" class="col-3 col-form-label">Política de privacidade</label>
                                 <div class="col">
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
 
-                            <h3 class="card-title">Links</h3>
+                            <h2 class="card-title">Links</h2>
                             <div class="mb-3 row">
                                 <label for="facebook" class="col-3 col-form-label">Facebook</label>
                                 <div class="col">
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                            <h3 class="card-title">Contato</h3>
+                            <h2 class="card-title">Contato</h2>
                             <div class="mb-3 row">
                                 <label for="telefone" class="col-3 col-form-label">Telefone</label>
                                 <div class="col">
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <h3 class="card-title">Endereço</h3>
+                            <h2 class="card-title">Endereço</h2>
                             <div class="mb-3 row">
                                 <label for="cep" class="col-3 col-form-label">CEP</label>
                                 <div class="col">

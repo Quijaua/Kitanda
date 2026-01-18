@@ -3,7 +3,7 @@
 $logoHtml = '';
 
 if (!empty($logo)){
-    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="Logo da Loja">';
+    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="' . $project['name'] . '">';
 } else {
     $logoHtml = '<h1 class="mb-0">' . $project['name'] . '</h1>';
 }
@@ -171,7 +171,7 @@ $message = '
 
                                                                     foreach ($produtos as $p) {
                                                                         $message .= '<tr>
-                                                                            <td><div style="display: flex; align-items: center;"><img src="' . $p['imagem'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="48" height="48" alt="layout-grid" />' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '</div></td>
+                                                                            <td><div style="display: flex; align-items: center;"><img src="' . $p['imagem'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="48" height="48" alt="' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '" />' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '</div></td>
                                                                             <td class="text-center">' . (int) $p['quantidade'] . '</td>
                                                                             <td class="text-right">
                                                                                 R$ ' . number_format($p['preco'], 2, ',', '.') . '

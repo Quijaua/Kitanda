@@ -25,10 +25,10 @@ $total_paginas = ceil($total_produtos / $limite);
 
 // Consulta para buscar os produtos paginados (com busca)
 $sql = "
-    SELECT p.*, pi.imagem, c.nome AS empreendedora 
+    SELECT p.*, pi.imagem, pi.alt, c.nome AS empreendedora 
     FROM tb_produtos p
     LEFT JOIN (
-        SELECT produto_id, MIN(imagem) AS imagem
+        SELECT produto_id, MIN(imagem) AS imagem, MIN(alt) AS alt
         FROM tb_produto_imagens 
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id
@@ -52,62 +52,134 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Função para criar os links de paginação
 function criarPaginacao($pagina_atual, $total_paginas, $limite) {
+
     if ($total_paginas <= 1) {
-        return '<div class="d-flex">
-                    <ul class="pagination ms-auto mb-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
-                                Anterior
-                            </a>
-                        </li>
-                        <div class="d-flex">
-                            <ul class="pagination ms-auto mb-0">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            </ul>
-                        </div>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-disabled="true">
-                                Próximo
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>';
+        return '
+        <nav aria-label="Paginação">
+            <ul class="pagination ms-auto mb-0">
+
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
+                        <span class="d-none d-md-inline-flex">Anterior</span>
+                    </span>
+                </li>
+
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">1</span>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">
+                        <span class="d-none d-md-inline-flex">Próximo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
+                    </span>
+                </li>
+
+            </ul>
+        </nav>';
     }
 
-    $html = '<div class="d-flex">
+    $html = '<nav aria-label="Paginação">
                 <ul class="pagination ms-auto mb-0">';
 
-    // Botão "Anterior"
-    $prev_disabled = ($pagina_atual == 1) ? 'disabled' : '';
-    $prev_link = $pagina_atual > 1 ? '?pagina=' . ($pagina_atual - 1) . '&limite=' . $limite : '#';
-    $html .= '<li class="page-item ' . $prev_disabled . '">
-                <a class="page-link" href="' . $prev_link . '" tabindex="-1" aria-disabled="' . ($pagina_atual == 1 ? 'true' : 'false') . '">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6"></path></svg>
-                    Anterior
-                </a>
-              </li>';
-
-    // Criar botões de página
-    for ($i = 1; $i <= $total_paginas; $i++) {
-        $active = $pagina_atual == $i ? 'active' : '';
-        $html .= '<li class="page-item ' . $active . '">
-                    <a class="page-link" href="?pagina=' . $i . '&limite=' . $limite . '">' . $i . '</a>
-                  </li>';
+    /** ANTERIOR **/
+    if ($pagina_atual > 1) {
+        $html .= '
+        <li class="page-item">
+            <a class="page-link"
+               href="?pagina=' . ($pagina_atual - 1) . '&limite=' . $limite . '"
+               aria-label="Ir para a página anterior">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
+                <span class="d-none d-md-inline-flex">Anterior</span>
+            </a>
+        </li>';
+    } else {
+        $html .= '
+        <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para página anterior</title><descr>Ícone decorativo indicando o botão de ir para a página anterior</descr><path d="M15 6l-6 6l6 6"></path></svg>
+                <span class="d-none d-md-inline-flex">Anterior</span>
+            </span>
+        </li>';
     }
 
-    // Botão "Próximo"
-    $next_disabled = ($pagina_atual == $total_paginas) ? 'disabled' : '';
-    $next_link = $pagina_atual < $total_paginas ? '?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite : '#';
-    $html .= '<li class="page-item ' . $next_disabled . '">
-                <a class="page-link" href="' . $next_link . '" aria-disabled="' . ($pagina_atual == $total_paginas ? 'true' : 'false') . '">
-                    Próximo
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6"></path></svg>
-                </a>
-              </li>';
+    /** LÓGICA DE PÁGINAS **/
+    $showPages = [];
 
-    $html .= '</ul></div>';
+    if ($total_paginas <= 7) {
+        for ($i = 1; $i <= $total_paginas; $i++) {
+            $showPages[] = $i;
+        }
+    } else {
+        $showPages[] = 1;
+
+        if ($pagina_atual <= 3) {
+            for ($i = 2; $i <= 4; $i++) {
+                $showPages[] = $i;
+            }
+            $showPages[] = '...';
+        } elseif ($pagina_atual >= $total_paginas - 2) {
+            $showPages[] = '...';
+            for ($i = $total_paginas - 3; $i < $total_paginas; $i++) {
+                $showPages[] = $i;
+            }
+        } else {
+            $showPages[] = '...';
+            $showPages[] = $pagina_atual - 1;
+            $showPages[] = $pagina_atual;
+            $showPages[] = $pagina_atual + 1;
+            $showPages[] = '...';
+        }
+
+        $showPages[] = $total_paginas;
+    }
+
+    foreach ($showPages as $p) {
+        if ($p === '...') {
+            $html .= '
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">…</span>
+            </li>';
+        } elseif ($p == $pagina_atual) {
+            $html .= '
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">' . $p . '</span>
+            </li>';
+        } else {
+            $html .= '
+            <li class="page-item">
+                <a class="page-link"
+                   href="?pagina=' . $p . '&limite=' . $limite . '"
+                   aria-label="Ir para a página ' . $p . '">
+                    ' . $p . '
+                </a>
+            </li>';
+        }
+    }
+
+    /** PRÓXIMO **/
+    if ($pagina_atual < $total_paginas) {
+        $html .= '
+        <li class="page-item">
+            <a class="page-link"
+               href="?pagina=' . ($pagina_atual + 1) . '&limite=' . $limite . '"
+               aria-label="Ir para a próxima página">
+                <span class="d-none d-md-inline-flex">Próxima</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
+            </a>
+        </li>';
+    } else {
+        $html .= '
+        <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">
+                <span class="d-none d-md-inline-flex">Próxima</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true" focusable="false"><title>Seta para próxima página</title><descr>Ícone decorativo indicando o botão de ir para a próxima página</descr><path d="M9 6l6 6l-6 6"></path></svg>
+            </span>
+        </li>';
+    }
+
+    $html .= '</ul></nav>';
 
     return $html;
 }

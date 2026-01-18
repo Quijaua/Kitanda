@@ -9,7 +9,7 @@
 
 {% if not_found %}
     {# ----------- Page header (breadcrumb) ----------- #}
-    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+    <div class="page-header vermelho d-print-none mt-0 py-8">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -20,8 +20,8 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
-                    <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Categoria não encontrada</h1>
+                    <h1 class="h2 text-yellow mb-0">Categoria</h1>
+                    <p class="h1 text-white" style="font-size: 3rem; line-height: normal;">Categoria não encontrada</p>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <h2 class="alert-title">Alerta do Sistema</h2>
                                 <div class="text-secondary">Não encontramos esta categoria.</div>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
 
 {% else %}
     {# ----------- Breadcrumb ----------- #}
-    <div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+    <div class="page-header vermelho d-print-none mt-0 py-8">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -72,7 +72,7 @@
                     </ol>
                 </div>
                 <div class="mt-8">
-                    <h2 class="text-yellow mb-0">Categoria</h2>
+                    <p class="h2 text-yellow mb-0">Categoria</p>
                     <h1 class="text-white" style="font-size: 3rem; line-height: normal;">{{ categoria.nome }}</h1>
                 </div>
             </div>
@@ -94,6 +94,10 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row g-4">
+
+                <h2 class="visually-hidden">
+                    Artigos da categoria {{ categoria.nome }}
+                </h2>
 
                 {% if posts is not empty %}
                     <div class="col-md-12">
@@ -120,7 +124,7 @@
 
                                                     {# Data formatada já veio no contexto #}
                                                     <small>{{ post.data_publicacao }}</small>
-                                                    <h1 id="title-preview">{{ post.titulo }}</h1>
+                                                    <h3 id="title-preview" class="h1">{{ post.titulo }}</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +163,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="alert-title">Alerta do Sistema</h4>
+                                    <h2 class="alert-title">Alerta do Sistema</h2>
                                     <div class="text-secondary">
                                         Não encontramos nenhum artigo nesta categoria.
                                     </div>
@@ -223,7 +227,7 @@
                                   <div>' +
                                     badgesHTML + '\
                                     <small>' + dataFormatada + '</small>\
-                                    <h3 id="title-preview">' + p.titulo + '</h3>\
+                                    <h3 id="title-preview" class="h1">' + p.titulo + '</h3>\
                                   </div>\
                                 </div>\
                               </div>\

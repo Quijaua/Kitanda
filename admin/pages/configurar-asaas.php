@@ -3,9 +3,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Configurações da Loja
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Altere as informações da sua loja aqui!</div>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="row g-0">
                 <div class="col-12 col-md-3 border-end">
                     <div class="card-body">
-                        <h4 class="subheader">Configurações da loja</h4>
+                        <h2 class="subheader">Configurações da loja</h2>
                         <div class="list-group list-group-transparent">
                             <a href="<?= INCLUDE_PATH_ADMIN; ?>minha-loja" class="list-group-item list-group-item-action d-flex align-items-center">Minha loja</a>
                             <a href="<?= INCLUDE_PATH_ADMIN; ?>meu-endereco" class="list-group-item list-group-item-action d-flex align-items-center">Meu endereço</a>
@@ -42,7 +42,7 @@
                 <div class="col-12 col-md-9 d-flex flex-column">
                     <form id="updateAddress" action="<?= INCLUDE_PATH_ADMIN; ?>back-end/update-store.php" method="post" enctype="multipart/form-data">
                         <div class="card-body">
-                            <h2 class="mb-4">Configurações Asaas</h2>
+                            <h2 class="mb-4">Configurações Asaas</h1>
                             <h3 class="card-title mb-0">Conta</h3>
 
                             <div id="fields-container" class="row align-items-center mb-4">
@@ -148,7 +148,7 @@
 
                             // Caso contrário, exibe a mensagem de erro
                             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                         }
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
@@ -158,7 +158,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#updateAddress #fields-container").before('<div class="alert alert-danger alert-dismissible fade show w-100 mb-0 mt-3" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

@@ -42,18 +42,20 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Compra #<?= $pedido['pedido_id']; ?>
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Detalhes da compra.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
-                    <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_USER; ?>compras">Compras</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Detalhes da Compra</li>
-                    </ol>
+                    <nav aria-label="Caminho de navegação">
+                        <ol class="breadcrumb breadcrumb-muted">
+                            <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_USER; ?>compras">Compras</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Detalhes da Compra</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -217,7 +219,7 @@
                         <div class="text-center">
                         <p>Pagamento via Pix pendente. Use o QR Code abaixo para pagar:</p>
                         <?php if(!empty($pedido['pix_encodedImage'])): ?>
-                            <img src="data:image/png;base64,<?= $pedido['pix_encodedImage']; ?>" alt="QR Code Pix" style="max-width: 200px;">
+                            <img src="data:image/png;base64,<?= $pedido['pix_encodedImage']; ?>" alt="QR Code para realizar o pagamento via Pix deste pedido" style="max-width: 200px;">
                         <?php else: ?>
                             <p>QR Code não disponível.</p>
                         <?php endif; ?>

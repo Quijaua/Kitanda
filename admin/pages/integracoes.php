@@ -54,9 +54,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Integrações
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Área para inserir os códigos de restreamento/analytics das rede sociais.</div>
             </div>
         </div>

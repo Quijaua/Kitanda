@@ -1,10 +1,10 @@
 {# templates/_fallback/pages/produto.html.twig #}
 {# ----------- Modais de Sucesso / Erro ----------- #}
-<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-success-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                    aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -14,7 +14,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
-                <h3>Salvo com sucesso!</h3>
+                <h2 id="modal-success-title" class="h3">Salvo com sucesso!</h2>
                 <div class="text-secondary">
                     O produto foi adicionado ao seu carrinho.
                 </div>
@@ -41,7 +41,7 @@
 </div>
 
 {# ----------- Modais de Depoimento / Erro ----------- #}
-<div class="modal modal-blur fade" id="modal-depoimento" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-depoimento" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-depoimento-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-status bg-success"></div>
@@ -53,7 +53,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
-                <h3>Salvo com sucesso!</h3>
+                <h2 id="modal-depoimento-title" class="h3">Salvo com sucesso!</h2>
                 <div class="text-secondary">
                     <p id="msg-depoimento"></p>
                 </div>
@@ -73,11 +73,11 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-error" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-error-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                    aria-label="Fechar modal"></button>
             <div class="modal-status bg-danger"></div>
             <div class="modal-body text-center py-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -91,7 +91,7 @@
                              l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
                     <path d="M12 16h.01" />
                 </svg>
-                <h3>Erro ao salvar o produto no carrinho!</h3>
+                <h2 id="modal-error-title" class="h3">Erro ao salvar o produto no carrinho!</h2>
                 <div class="text-secondary">
                     Ocorreu um erro ao tentar adicionar o item ao seu carrinho.
                     Por favor, tente novamente mais tarde.
@@ -204,15 +204,15 @@
 
             {# Coluna Direita: Detalhes do Produto #}
             <div class="col-md-6">
-                <h3 style="font-size: 2.5rem; line-height: normal;">
+                <h1 style="font-size: 2.5rem; line-height: normal;">
                     {{ produto.nome }}
-                </h3>
-                <h3>{{ produto.codigo_produto }}</h3>
-                <h3 class="h1 mb-6 text-red">
+                </h1>
+                <p class="h1">{{ produto.codigo_produto }}</p>
+                <h2 class="h1 mb-6 text-red">
                     R$ {{ produto.preco }}
-                </h3>
+                </h2>
 
-                <p class="h3 mb-2">Descrição:</p>
+                <h3 class="h3 mb-2">Descrição:</h3>
                 <div class="fs-2 text-secondary mb-7">
                     {{ produto.descricao|raw }}
                     {% if produto.estoque %}
@@ -301,7 +301,7 @@
                 <div class="row row-0">
                     <div class="col-12 col-md-2 mb-4">
                         <!-- Photo -->
-                        <img src="{{ e.imagem }}" class="w-100 h-100 object-cover card-img-start card-img-top" alt="Imagem {{ e.nome }}">
+                        <img src="{{ e.imagem }}" class="w-100 h-100 object-cover card-img-start card-img-top" alt="{{ e.nome }}">
                     </div>
                     <div class="col-12 col-md-10">
                         <div class="d-flex align-items-center justify-content-between w-100 ms-0 ms-md-4">
@@ -397,9 +397,9 @@
         </style>
 
         <div class="my-6 position-relative">
-            <div class="related-products">
+            <div class="related-products py-4">
                 <div class="container-xl">
-                    <h1 class="mb-5">Mais produtos</h1>
+                    <h2 class="h1 mb-5">Mais produtos</h2>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row row-cards">
@@ -414,10 +414,10 @@
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="w-100">
-                                                        <h2 class="mb-0">{{ p.titulo }}</h2>
-                                                        <h2 class="text-red">
+                                                        <h3 class="h2 mb-0">{{ p.titulo }}</h3>
+                                                        <p class="h2 text-red">
                                                             R$ {{ p.preco }}
-                                                        </h2>
+                                                        </p>
                                                         <button class="btn btn-yellow text-red fw-bold btn-pill w-100">Adicionar ao carrinho</button>
                                                     </div>
                                                 </div>
@@ -467,7 +467,7 @@
                 },
                 success: function(response) {
                     if (response.status == "sucesso") {
-                        $("#cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
+                        $(".cart-count").text(response.numero_itens > 9 ? '9+' : response.numero_itens).show();
                         var myModal = new bootstrap.Modal(document.getElementById('modal-success'));
                         myModal.show();
                     } else {

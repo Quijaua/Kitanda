@@ -22,11 +22,11 @@
     </style>
 
     {# ----------- Modais de Sucesso / Erro ----------- #}
-    <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-success-title">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                        aria-label="Fechar modal"></button>
                 <div class="modal-status bg-success"></div>
                 <div class="modal-body text-center py-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -36,7 +36,7 @@
                         <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                         <path d="M9 12l2 2l4 -4" />
                     </svg>
-                    <h3>Salvo com sucesso!</h3>
+                    <h2 id="modal-success-title" class="h3">Salvo com sucesso!</h2>
                     <div id="modalMsg" class="text-secondary"></div>
                 </div>
                 <div class="modal-footer">
@@ -75,51 +75,58 @@
         </div>
     </div>
     -->
-    
+
+<h1 class="visually-hidden">Produtos</h1>
 
 <div class="page-header d-print-none mt-0 py-2" style="background: #F7EFE6;">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col-12">
+                <h2 class="visually-hidden">Categorias de produtos</h2>
+
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center gap-3 gap-md-4 gap-lg-5 mb-0">
                     <li class="text-center">
-                        <a href="/categoria?id=1" class="text-decoration-none">
+                        <a href="/categoria?id=1" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/decoracao.png" 
-                                 alt="Categoria Decoração em Artesanato" 
+                                 alt="" 
+                                 aria-hidden="true"
                                  title="Decoração em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</p>
+                            <h3 class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Decoração</h3>
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=2" class="text-decoration-none">
+                        <a href="/categoria?id=2" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/joias.png" 
-                                 alt="Categoria Biojóias em Artesanato" 
+                                 alt="" 
+                                 aria-hidden="true"
                                  title="Biojóias em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</p>
+                            <h3 class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Biojóias</h3>
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=3" class="text-decoration-none">
+                        <a href="/categoria?id=3" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/acessorios.png" 
-                                 alt="Categoria Acessórios em Artesanato" 
+                                 alt="" 
+                                 aria-hidden="true"
                                  title="Acessórios em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 120px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</p>
+                            <h3 class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Acessórios</h3>
                         </a>
                     </li>
                     <li class="text-center">
-                        <a href="/categoria?id=4" class="text-decoration-none">
+                        <a href="/categoria?id=4" class="text-decoration-none d-block">
                             <img src="/assets/TerraDourada/images/utilitarios.png" 
-                                 alt="Categoria Utilitários em Artesanato" 
+                                 alt="" 
+                                 aria-hidden="true"
                                  title="Utilitários em Artesanato"
                                  class="img-fluid mb-2"
                                  style="max-width: 105px;" />
-                            <p class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</p>
+                            <h3 class="text-yellow fw-bold fs-1 fs-md-4 fs-lg-3 mb-0">Utilitários</h3>
                         </a>
                     </li>
                 </ul>
@@ -134,7 +141,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h1 class="text-terra fs-1">Nossos produtos</h1>
+                    <h2 class="text-terra fs-1">Nossos produtos</h2>
                     <div class="text-secondary mt-1">
 {#                        {% if total_produtos > 0 %}
                             {{ ((pagina_atual - 1) * limite + 1) ~ '-' ~
@@ -163,7 +170,12 @@
                                          stroke-width="2"
                                          stroke-linecap="round"
                                          stroke-linejoin="round"
-                                         class="icon icon-1">
+                                         class="icon icon-1"
+                                         aria-hidden="true" focusable="false">
+
+                                        <title>Ícone de pesquisa</title>
+                                        <descr>Ícone de lupa representando a busca do site</descr>
+
                                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                         <path d="M21 21l-6 -6"></path>
                                     </svg>
@@ -197,22 +209,22 @@
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="card card-terra">
-                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block img-wcag">
                                             <img src="{{ imagemUrl }}"
                                                  class="card-img-top"
-                                                 alt="{{ produto.titulo }}">
+                                                 alt="{% if produto.alt %}{{ produto.alt }}{% else %}{{ produto.titulo }}{% if produto.empreendedora %} - Produzido por {{ produto.empreendedora }}{% endif %}{% if produto.codigo_produto %} - Código {{ produto.codigo_produto }}{% endif %}{% endif %}">
                                         </a>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h1 class="mb-1">{{ produto.titulo }}</h1>
+                                                    <h3 class="h1 mb-1">{{ produto.titulo }}</h3>
                                                     <p class="fs-4 text-muted">{{ produto.codigo_produto }}</p>
                                                     <p>Produzido por: {{ produto.empreendedora }}</p>
-                                                    <h2 class="text-yellow">
+                                                    <p class="h2 text-yellow">
                                                         R$ {{ precoFormatado }}
-                                                    </h2>
+                                                    </p>
                                                     <button 
-                                                        class="btn btn-yellow fw-bold btn-pill w-100 add-to-cart"
+                                                        class="btn btn-terra fw-bold btn-pill w-100 add-to-cart"
                                                         data-produto-id="{{ produto.id }}"
                                                         data-produto-estoque="{{ produto.estoque }}"
                                                     >
@@ -262,9 +274,9 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="alert-title">Nenhum Produto (TerraDourada)</h4>
+                                    <h4 class="alert-title">Nenhum Produto (Terra Dourada)</h4>
                                     <div class="text-secondary">
-                                        O tema TerraDourada não encontrou produtos para exibir.
+                                        O tema Terra Dourada não encontrou produtos para exibir.
                                     </div>
                                 </div>
                             </div>
@@ -300,7 +312,7 @@
                 success: function(response) {
                     if (response.status === "sucesso") {
                         // Atualiza badge do carrinho
-                        $("#cart-count")
+                        $(".cart-count")
                             .text(response.numero_itens > 9 ? '9+' : response.numero_itens)
                             .show();
                         // Exibe modal de sucesso

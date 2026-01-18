@@ -48,9 +48,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Bem-vindo <?php echo $usuario['nome']; ?>
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Dados pessoais.</div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 <div class="card">
                     <form class="">
                         <div class="card-header">
-                            <h4 class="card-title">Conta</h4>
+                            <h2 class="card-title">Conta</h2>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Informações pessoais</h3>

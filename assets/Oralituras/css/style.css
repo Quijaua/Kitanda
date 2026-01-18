@@ -2,6 +2,7 @@
     --background: #BCC1BF;
     --tblr-red: #400F19;
     --tblr-red-rgb: 204, 34, 41;
+    --bg-red: #81161A;
     --tblr-yellow: #400F19;
     --tblr-yellow-rgb: 64, 15, 25;
     --tblr-breadcrumb-divider: "|";
@@ -14,6 +15,15 @@
     --tblr-btn-active-bg: var(--tblr-yellow-darken);
     --tblr-btn-color: #FFFFFF !important;
     --tblr-btn-color: var(--tblr-yellow-fg);
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse.collapse:not(.show) a {
+    pointer-events: none !important;
+    }
+    .navbar-collapse.collapse:not(.show) a:focus {
+    outline: none !important;
+    }
 }
 
 
@@ -42,3 +52,5 @@
 }
 
 .steps {--tblr-steps-color: var(--tblr-btn-hover-bg) !important}
+
+.bg-red {background: var(--bg-red);}

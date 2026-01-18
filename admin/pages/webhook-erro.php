@@ -5,7 +5,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="mb-0">Erro na Configuração do Webhook</h4>
+                        <h4 class="mb-0">Erro na Configuração do Webhook</h2>
                     </div>
                     <div class="card-body">
                         <p class="lead">Para configurar o Webhook corretamente, você precisa inserir o <strong>Token de autenticação da API do Asaas</strong>.</p>

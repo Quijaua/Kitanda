@@ -20,7 +20,7 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <ol class="breadcrumb breadcrumb-muted">
-                    <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}" class="text-yellow">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}" class="text-yellow-dark">Home</a></li>
                     <li class="breadcrumb-item active">Blog</li>
                 </ol>
             </div>
@@ -70,7 +70,7 @@
                             {# Botão “anterior” #}
                             <button
                                 class="glider-prev btn btn-icon btn-lg"
-                                aria-label="Anterior">
+                                aria-label="Anterior" aria-controls="glider-categorias" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      width="24" height="24"
                                      viewBox="0 0 24 24" fill="none"
@@ -87,7 +87,7 @@
                                 {% for categoria in categorias %}
                                     <div class="me-2">
                                         <a href="{{ INCLUDE_PATH }}blog-categoria?id={{ categoria.id }}"
-                                           class="btn btn-6 btn-yellow btn-pill btn-lg w-100 ms-1">
+                                           class="btn btn-6 btn-terra btn-pill btn-lg w-100 ms-1">
                                             {{ categoria.nome }}
                                         </a>
                                     </div>
@@ -97,7 +97,7 @@
                             {# Botão “próximo” #}
                             <button
                                 class="glider-next btn btn-icon btn-lg"
-                                aria-label="Próximo">
+                                aria-label="Próximo" aria-controls="glider-categorias" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      width="24" height="24"
                                      viewBox="0 0 24 24" fill="none"
@@ -144,7 +144,7 @@
                         {% for post in posts %}
                             <div class="col-sm-6 col-lg-6 d-grid">
                                 <div class="card card-sm">
-                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block">
+                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block img-wcag">
                                         <img src="{{ post.imagem }}" class="card-img-top" alt="{{ post.titulo }}">
                                     </a>
                                     <div class="card-body">
@@ -165,7 +165,7 @@
                                                 <small>
                                                     {{ post.data_publicacao|date("d/m/Y") }}
                                                 </small>
-                                                <h1 id="title-preview">{{ post.titulo }}</h1>
+                                                <h2 class="fs-1" id="title-preview">{{ post.titulo }}</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                         {# Wrapper do botão “Ver mais” #}
                         <div class="col-12" id="load-more-wrapper">
                             <div class="d-flex justify-content-center">
-                                <button id="btn-load-more" class="btn btn-6 btn-outline-yellow btn-pill btn-lg">
+                                <button id="btn-load-more" class="btn btn-6 btn-outline-warning btn-pill btn-lg">
                                     Ver mais
                                 </button>
                             </div>
@@ -225,18 +225,45 @@
     {# 4.1) Carrega o JS do Glider.js #}
     <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        new Glider(document.querySelector(".glider"), {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          draggable: true,
-          arrows: {
-            prev: ".glider-prev",
-            next: ".glider-next"
-          }
+        document.addEventListener("DOMContentLoaded", function () {
+            const gliderEl = document.querySelector(".glider");
+            const btnPrev = document.querySelector(".glider-prev");
+            const btnNext = document.querySelector(".glider-next");
+
+            if (!gliderEl) return;
+
+            const glider = new Glider(gliderEl, {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                draggable: true,
+                arrows: {
+                    prev: btnPrev,
+                    next: btnNext
+                }
+            });
+
+            function updateArrowState() {
+                const prevDisabled = btnPrev.classList.contains("disabled");
+                const nextDisabled = btnNext.classList.contains("disabled");
+
+                // Botão anterior
+                btnPrev.disabled = prevDisabled;
+                btnPrev.setAttribute("aria-disabled", prevDisabled.toString());
+
+                // Botão próximo
+                btnNext.disabled = nextDisabled;
+                btnNext.setAttribute("aria-disabled", nextDisabled.toString());
+            }
+
+            // Atualiza ao iniciar
+            updateArrowState();
+
+            // Atualiza sempre que o glider muda
+            gliderEl.addEventListener("glider-animated", updateArrowState);
+            gliderEl.addEventListener("glider-refresh", updateArrowState);
         });
-      });
     </script>
+
 
     {# 4.2) Carrega o AJAX de “Ver mais posts” (usa jQuery) #}
     <script>
@@ -277,7 +304,7 @@
                     var card = '\
                       <div class="col-sm-6 col-lg-6 d-grid">\
                         <div class="card card-sm">\
-                          <a href="{{ INCLUDE_PATH }}post?id=' + p.id + '" class="d-block">\
+                          <a href="{{ INCLUDE_PATH }}post?id=' + p.id + '" class="d-block img-wcag">\
                             <img src="' + p.imagem + '" class="card-img-top" alt="' + p.titulo + '">\
                           </a>\
                           <div class="card-body">\
@@ -285,7 +312,7 @@
                               <div>' +
                                 badgesHTML + '\
                                 <small>' + dataFormatada + '</small>\
-                                <h3 id="title-preview">' + p.titulo + '</h3>\
+                                <h2 class="fs-1" id="title-preview">' + p.titulo + '</h2>\
                               </div>\
                             </div>\
                           </div>\

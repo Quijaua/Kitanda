@@ -158,6 +158,9 @@
     .dz-progress {
         display: none;
     }
+    .dropzone .dz-preview {
+        max-width: 150px;
+    }
 
     .preview-product {
         position: absolute;
@@ -171,18 +174,20 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Editar Produto
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui você pode editar um produto.</div>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="d-flex">
-                    <ol class="breadcrumb breadcrumb-muted" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>produtos">Produtos</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Editar Produto</li>
-                    </ol>
+                    <nav aria-label="Caminho de navegação">
+                        <ol class="breadcrumb breadcrumb-muted">
+                            <li class="breadcrumb-item"><a href="<?= INCLUDE_PATH_ADMIN; ?>produtos">Produtos</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Editar Produto</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -229,7 +234,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Erro!</h4>
+                                <h4 class="alert-title">Erro!</h2>
                                 <div class="text-secondary"><?php echo $_SESSION['error_msg']; ?></div>
                             </div>
                         </div>
@@ -242,7 +247,7 @@
                     <div class="col-lg-12 mt-0">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Informações principais</h4>
+                                <h2 class="card-title">Informações principais</h2>
                             </div>
                             <div class="card-body">
 
@@ -309,7 +314,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Descrição do produto</h4>
+                                <h2 class="card-title">Descrição do produto</h2>
                             </div>
                             <div class="card-body">
 
@@ -328,7 +333,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Imagens</h4>
+                                <h2 class="card-title">Imagens</h2>
                             </div>
                             <div class="card-body">
 
@@ -358,7 +363,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Preço</h4>
+                                <h2 class="card-title">Preço</h2>
                             </div>
                             <div class="card-body">
 
@@ -384,7 +389,7 @@
                         <div class="card">
 
                             <div class="card-header">
-                                <h4 class="card-title">Frete</h4>
+                                <h2 class="card-title">Frete</h2>
                             </div>
                             <div class="card-body">
                                 <div class="mb-0 row">
@@ -445,7 +450,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Categorias do produto</h4>
+                                <h2 class="card-title">Categorias do produto</h2>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -492,7 +497,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Vendedora</h4>
+                                <h2 class="card-title">Vendedora</h2>
                             </div>
                             <div class="card-body">
                                 <div class="mb-0 row">
@@ -542,7 +547,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Google / SEO</h4>
+                                <h2 class="card-title">Google / SEO</h2>
                             </div>
                             <div class="card-body">
 
@@ -593,7 +598,7 @@
                         <div class="card card-sm">
                             <div class="d-block">
                                 <span class="badge bg-light text-light-fg preview-product">Prévia do Produto</span>
-                                <img src=" <?= (!empty($produto['imagem'])) ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['imagem']) : INCLUDE_PATH . "assets/preview-image/product.jpg"; ?> " class="card-img-top" id="card-img-preview">
+                                <img src="<?= (!empty($produto['imagem'])) ? str_replace(' ', '%20', INCLUDE_PATH . "files/produtos/" . $produto['id'] . "/" . $produto['imagem']) : INCLUDE_PATH . "assets/preview-image/product.jpg"; ?>" alt="" aria-hidden="true" class="card-img-top" id="card-img-preview">
                             </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -656,6 +661,33 @@
                             };
 
                             dropzoneInstance.displayExistingFile(mockFile, mockFile.dataURL);
+
+                            // Evita duplicar o ALT (só cria se ainda não existir)
+                            if (!mockFile.previewElement.querySelector('.alt-input')) {
+
+                                // adiciona campo ALT já preenchido
+                                let altInput = document.createElement("input");
+                                altInput.type = "text";
+                                altInput.placeholder = "Descrição alternativa (ALT)";
+                                altInput.classList.add("form-control", "alt-input");
+                                altInput.style.marginTop = "8px";
+                                altInput.style.width = "100%";
+                                altInput.value = image.alt || "";
+                                altInput.disabled = true;
+
+                                mockFile.altText = image.alt || "";
+
+                                altInput.addEventListener("input", function() {
+                                    mockFile.altText = this.value;
+                                });
+
+                                mockFile.previewElement.appendChild(altInput);
+                            } else {
+                                let altInput = mockFile.previewElement.querySelector('.alt-input');
+                                altInput.value = image.alt || "";
+                                altInput.disabled = true;
+                            }
+
                             uploadedFiles++;
                         });
 
@@ -684,6 +716,25 @@
                     });
 
                     file.previewElement.appendChild(removeButton);
+
+                    // Evita duplicar o ALT (só cria se ainda não existir)
+                    if (!file.previewElement.querySelector('.alt-input')) {
+                        // ADICIONAR ALT
+                        let altInput = document.createElement("input");
+                        altInput.type = "text";
+                        altInput.placeholder = "Descrição alternativa (ALT)";
+                        altInput.classList.add("form-control", "alt-input");
+                        altInput.style.marginTop = "8px";
+                        altInput.style.width = "100%";
+
+                        file.altText = "";
+
+                        altInput.addEventListener("input", function() {
+                            file.altText = this.value;
+                        });
+
+                        file.previewElement.appendChild(altInput);
+                    }
                 });
 
                 // Corrigindo erro ao remover arquivo
@@ -831,8 +882,13 @@
 
                 // Adiciona imagens ao formulário
                 myDropzone.files.forEach(file => {
-                    formData.append('imagens[]', file); // Adiciona cada imagem ao FormData
+                    if (!file.dataURL) {
+                        formData.append('imagens[]', file);
+                        formData.append('alts[]', file.altText || '');
+                    }
                 });
+
+                formData.append('imagens_removidas', document.getElementById("imagens_removidas").value);
 
                 // Realiza o AJAX para enviar os dados
                 $.ajax({
@@ -850,7 +906,7 @@
 
                             // Caso contrário, exibe a mensagem de erro
                             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                            $("#updateProduct").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#updateProduct").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                         }
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
@@ -860,7 +916,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#updateProduct").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#updateProduct").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

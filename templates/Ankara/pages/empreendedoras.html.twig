@@ -7,17 +7,17 @@
 #}
 
 {# ----------- Page header (breadcrumb) ----------- #}
-<div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+<div class="page-header vermelho d-print-none mt-0 py-8">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
                 <ol class="breadcrumb breadcrumb-muted text-white">
                     <li class="breadcrumb-item"><a href="{{ INCLUDE_PATH }}">Home</a></li>
-                    <li class="breadcrumb-item active">Empreendedoras</li>
+                    <li class="breadcrumb-item text-dark active">Empreendedoras</li>
                 </ol>
             </div>
             <div class="mt-8">
-                <h2 class="text-yellow mb-0">Palavra-chave</h2>
+                <p class="h2 text-yellow mb-0">Palavra-chave</p>
                 <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Empreendedoras</h1>
             </div>
         </div>
@@ -28,6 +28,7 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row row-cards">
+            <h2 class="visually-hidden">Lista de empreendedoras</h2>
 
             {# Loop inicial de empreendedoras #}
             {% for e in empreendedoras %}
@@ -140,7 +141,7 @@
                               </p>\
                               <div class="d-flex">\
                                 <a href="{{ INCLUDE_PATH }}empreendedora?id=' + e.id + '" \
-                                   class="btn btn-6 btn-outline-dark btn-pill">Ver mais</a>\
+                                   class="btn btn-6 btn-yellow text-red btn-pill">Ver mais</a>\
                               </div>\
                             </div>\
                           </div>\

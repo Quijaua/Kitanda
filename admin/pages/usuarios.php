@@ -49,7 +49,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="modal modal-blur fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
     <div class="modal-content">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
       <div class="modal-status bg-danger"></div>
       <div class="modal-body text-center py-4">
         <!-- Ícone de alerta -->
@@ -93,7 +93,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="container-xl">
     <div class="row g-2 align-items-center">
       <div class="col">
-        <h2 class="page-title">Usuários</h2>
+        <h1 class="page-title">Usuários</h1>
         <div class="text-secondary mt-1">Aqui estão os usuários cadastrados no sistema.</div>
       </div>
       <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
@@ -135,7 +135,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
 
           <div class="card-header">
-            <h4 class="card-title">Usuários Cadastrados</h4>
+            <h2 class="card-title">Usuários Cadastrados</h2>
           </div>
 
           <div class="card-body border-bottom py-3">
@@ -198,7 +198,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td class="text-end">
                       <div class="d-flex flex-wrap gap-2 align-items-center">
                           <!-- Botão Visualizar -->
-                          <a href="<?= INCLUDE_PATH_ADMIN . "editar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
+                          <a href="<?= INCLUDE_PATH_ADMIN . "visualizar-usuario?id={$usuario['id']}"; ?>" target="_blank" class="btn btn-6 btn-outline-primary d-flex align-items-center gap-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler-external-link">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                   <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />

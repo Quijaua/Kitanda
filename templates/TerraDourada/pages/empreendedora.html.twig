@@ -27,19 +27,20 @@
 
             {# Coluna da imagem de perfil #}
             <div class="col-md-4">
-                <a id="mainImageLink" data-fslightbox="gallery" href="{{ e.imagem }}">
-                    <div id="mainImage"
-                         class="img-responsive img-responsive-1x1 rounded-3 border"
-                         style="background-image: url({{ e.imagem }}); cursor: pointer;">
-                    </div>
+                <a id="mainImageLink" data-fslightbox="gallery" href="{{ e.imagem }}" class="img-wcag">
+                    <img
+                        src="{{ e.imagem }}"
+                        alt="{{ e.nome }}"
+                        class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                    >
                 </a>
             </div>
 
             {# Coluna das informações da empreendedora #}
             <div class="col-md-8">
-                <h3 style="font-size: 2.5rem; line-height: normal;">
+                <h1 style="font-size: 2.5rem; line-height: normal;">
                     {{ e.nome }}
-                </h3>
+                </h1>
 
                 <div class="markdown mt-4">
                     <p class="d-inline-flex align-items-center text-yellow lh-1 mb-4">
@@ -133,19 +134,19 @@
                             {% for produto in produtos %}
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="card card-ankara">
-                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block">
+                                        <a href="{{ INCLUDE_PATH }}p/{{ produto.link }}" class="d-block img-wcag">
                                             <img src="{{ produto.imagem }}"
                                                     class="card-img-top"
-                                                    alt="{{ produto.titulo }}">
+                                                    alt="{% if produto.alt %}{{ produto.alt }}{% else %}{{ produto.titulo }}{% if produto.empreendedora %} - Produzido por {{ produto.empreendedora }}{% endif %}{% if produto.codigo_produto %} - Código {{ produto.codigo_produto }}{% endif %}{% endif %}">
                                         </a>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <h2 class="mb-0">{{ produto.titulo }}</h2>
-                                                    <h2>
+                                                    <h3 class="fs-2 mb-0">{{ produto.titulo }}</h3>
+                                                    <p class="fs-2">
                                                         R$ {{ produto.preco }}
-                                                    </h2>
-                                                    <button class="btn btn-yellow fw-bold btn-pill w-100">Adicionar ao carrinho</button>
+                                                    </p>
+                                                    <button class="btn btn-terra fw-bold btn-pill w-100">Adicionar ao carrinho</button>
                                                 </div>
                                             </div>
                                         </div>

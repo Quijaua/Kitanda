@@ -55,9 +55,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Política de Privacidade
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Área para personalizar a política de privacidade/termos do sistema.</div>
             </div>
         </div>

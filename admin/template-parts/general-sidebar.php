@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
 
-            <h4 class="subheader">Principais</h4>
+            <h2 class="subheader">Principais</h2>
             <div class="list-group list-group-transparent">
 
                 <a class="list-group-item list-group-item-action <?= activeSidebarLink('geral'); ?>" href="<?= INCLUDE_PATH_ADMIN; ?>geral">

@@ -8,9 +8,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Novo email em massa
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Área para disparar emails em massa.</div>
             </div>
         </div>
@@ -33,7 +33,7 @@
 
                     <form id="bulk_email_form" action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/bulk_email_send.php" method="post">
                         <div class="card-header">
-                            <h4 class="card-title">Disparar email em massa</h4>
+                            <h2 class="card-title">Disparar email em massa</h2>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">

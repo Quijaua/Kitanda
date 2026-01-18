@@ -7,7 +7,7 @@
 #}
 
 {# ----------- Page header (breadcrumb) ----------- #}
-<div class="page-header d-print-none mt-0 py-8" style="background: #CC2229;">
+<div class="page-header vermelho d-print-none mt-0 py-8">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
@@ -17,7 +17,7 @@
                 </ol>
             </div>
             <div class="mt-8">
-                <h2 class="text-yellow mb-0">Palavra-chave</h2>
+                <p class="h2 text-yellow mb-0">Palavra-chave</p>
                 <h1 class="text-white" style="font-size: 3rem; line-height: normal;">Blog</h1>
             </div>
         </div>
@@ -111,7 +111,7 @@
                         {% for post in posts %}
                             <div class="col-sm-6 col-lg-6 d-grid">
                                 <div class="card card-sm">
-                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block">
+                                    <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="d-block img-wcag">
                                         <img src="{{ post.imagem }}" class="card-img-top" alt="{{ post.titulo }}">
                                     </a>
                                     <div class="card-body">
@@ -132,7 +132,7 @@
                                                 <small>
                                                     {{ post.data_publicacao|date("d/m/Y") }}
                                                 </small>
-                                                <h1 id="title-preview">{{ post.titulo }}</h1>
+                                                <h2 id="title-preview">{{ post.titulo }}</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +171,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <h2 class="alert-title">Alerta do Sistema</h2>
                                 <div class="text-secondary">
                                     Não encontramos nenhum artigo cadastrado na plataforma.
                                 </div>
@@ -250,7 +250,7 @@
                               <div>' +
                                 badgesHTML + '\
                                 <small>' + dataFormatada + '</small>\
-                                <h3 id="title-preview">' + p.titulo + '</h3>\
+                                <h2 id="title-preview">' + p.titulo + '</h2>\
                               </div>\
                             </div>\
                           </div>\
