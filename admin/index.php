@@ -345,16 +345,6 @@ $resultado_8 = $stmt_8->fetchAll(PDO::FETCH_ASSOC);
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096685" defer></script>
          <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js?1738096685" defer></script>
 
-		<link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-a11y.min.css" rel="stylesheet"/>
-		<script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler-a11y.min.js" defer></script>
-		<script>
-		window.addEventListener('DOMContentLoaded', () => {
-			new TablerA11y({
-				position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
-			});
-		});
-		</script>
-
         <?php if (isset($_SESSION['msg'])): ?>
         <script>
             // Espera o carregamento da página
