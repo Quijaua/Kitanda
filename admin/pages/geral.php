@@ -11,9 +11,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Geral
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Altere configurações do site.</div>
             </div>
         </div>
@@ -57,7 +57,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                                 <div class="card-header">
-                                    <h4 class="card-title">Configurações Gerais do Site</h4>
+                                    <h2 class="card-title">Configurações Gerais do Site</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3 row">
@@ -93,7 +93,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post">
                                 <div class="card-header">
-                                    <h4 class="card-title">Vitrine do Site</h4>
+                                    <h2 class="card-title">Vitrine do Site</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3 row">
@@ -130,7 +130,7 @@
 
                             <form action="<?php echo INCLUDE_PATH_ADMIN; ?>back-end/update.php" method="post" enctype="multipart/form-data">
                                 <div class="card-header">
-                                    <h4 class="card-title">Logo</h4>
+                                    <h2 class="card-title">Logo</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="row my-3">
@@ -141,11 +141,13 @@
                                             <div class="row align-items-center mt-0">
                                                 <div class="col-3 row g-2 g-md-3 mt-0">
                                                     <div class="col-12 mt-0">
-                                                        <a data-fslightbox="gallery" href="<?php echo INCLUDE_PATH . 'assets/img/' . $logo; ?>" id="preview-link">
+                                                        <a data-fslightbox="gallery" href="<?php echo INCLUDE_PATH . 'assets/img/' . $logo; ?>" id="preview-link" aria-label="Abrir imagem ampliada da logo">
                                                             <!-- Photo -->
-                                                            <div id="preview-container" class="img-responsive img-responsive-1x1 rounded-3 border" 
-                                                                style="background-image: url(<?php echo INCLUDE_PATH . 'assets/img/' . $logo; ?>); background-size: cover; background-position: center;">
-                                                            </div>
+                                                            <img
+                                                                src="<?php echo INCLUDE_PATH . 'assets/img/' . $logo; ?>"
+                                                                alt="Kitanda"
+                                                                class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                                                            >
                                                         </a>
                                                     </div>
                                                 </div>

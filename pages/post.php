@@ -72,10 +72,10 @@ $dataFormatada = date("d/m/Y", strtotime($post["data_publicacao"]));
 
 // 7) Busca 3 produtos para exibir na sidebar
 $stmtSidebar = $conn->prepare("
-    SELECT p.id, p.titulo, p.descricao, p.link, pi.imagem
+    SELECT p.id, p.titulo, p.descricao, p.link, pi.imagem, pi.alt
     FROM tb_produtos p
     LEFT JOIN (
-        SELECT produto_id, MIN(imagem) AS imagem
+        SELECT produto_id, MIN(imagem) AS imagem, MIN(alt) AS alt
         FROM tb_produto_imagens
         GROUP BY produto_id
     ) pi ON p.id = pi.produto_id

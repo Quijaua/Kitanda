@@ -3,7 +3,7 @@
 $logoHtml = '';
 
 if (!empty($logo)){
-    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="Logo da Loja">';
+    $logoHtml = '<img class="logo" src="' . htmlspecialchars($project['logo'], ENT_QUOTES, 'UTF-8') . '" width="114" height="32" alt="' . $project['name'] . '">';
 } else {
     $logoHtml = '<h1 class="mb-0">' . $project['name'] . '</h1>';
 }
@@ -137,7 +137,7 @@ ZdRJ6c2TnvlKNXKxoDBdZJnwDNqm0IIxZYpA31AwpwwAaO60Hr7EcpyTVPj+Y21QU0lwiH6wTFWe
 J4sjJc4oz5OFNsawZBondmh5FmxiBwyDEzu0ofdZZKzSik9XZcSeEgpOV2WwtvWw5337N6TVVahj
 TIkz6irUczX0hOsZSXjTy0yEb4AJl4Wf25O5vVgRA0qcsb1YEb6JZ55iwsV9K6pLlOFtYo3qEmX4
 9h2IpE51bk9mAr+Tugr1vM1U8P9q0mPwJrRM+rHgG1j9eBPaif1Y8M3dQVjYrfahWNh/fEgG/Ase
-+QbmAHKFdgAAAABJRU5ErkJggg==" alt="Carrinho" />
++QbmAHKFdgAAAABJRU5ErkJggg==" alt="" aria-hidden="true" />
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -197,7 +197,7 @@ TIkz6irUczX0hOsZSXjTy0yEb4AJl4Wf25O5vVgRA0qcsb1YEb6JZ55iwsV9K6pLlOFtYo3qEmX4
 
                                                                     foreach ($produtos as $p) {
                                                                         $message .= '<tr>
-                                                                            <td><div style="display: flex; align-items: center;"><img src="' . $p['imagem'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="48" height="48" alt="layout-grid" />' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '</div></td>
+                                                                            <td><div style="display: flex; align-items: center;"><img src="' . $p['imagem'] . '" class="va-middle" style="padding: 4px; margin-right: 8px;" width="48" height="48" alt="' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '" />' . htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') . '</div></td>
                                                                             <td class="text-center">' . (int) $p['quantidade'] . '</td>
                                                                             <td class="text-right">
                                                                                 R$ ' . number_format($p['preco'], 2, ',', '.') . '

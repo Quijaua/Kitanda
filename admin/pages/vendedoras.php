@@ -120,7 +120,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="modal modal-blur fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
     <div class="modal-content">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
       <div class="modal-status bg-danger"></div>
       <div class="modal-body text-center py-4">
         <!-- Ícone de alerta -->
@@ -164,7 +164,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="container-xl">
     <div class="row g-2 align-items-center">
       <div class="col">
-        <h2 class="page-title">Vendedoras</h2>
+        <h1 class="page-title">Vendedoras</h1>
       </div>
       <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
       <div class="col-auto ms-auto d-print-none">
@@ -204,7 +204,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
 
           <div class="card-header">
-            <h4 class="card-title">Vendedoras Cadastradas</h4>
+            <h2 class="card-title">Vendedoras Cadastradas</h2>
           </div>
 
           <div class="card-body border-bottom py-3">

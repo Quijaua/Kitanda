@@ -4,10 +4,12 @@
     <div class="page-header d-print-none mt-0 py-8" style="background: #FFD216;">
         <div class="container-xl">
             <div class="row text-center">
+                <h2 class="mb-2" style="font-size: 2rem; line-height: normal;">
+                    Ankara Moda Afro — Tecnologia que transforma realidades
+                </h2>
                 <p style="font-size: 2rem; line-height: normal;">
-		Ankara Moda Afro — Tecnologia que transforma realidades<br />
-		Clique para saber mais sobre o projeto que está gerando oportunidade, renda e inclusão digital a partir da cultura afro-brasileira.
-		</p>
+                    Clique para saber mais sobre o projeto que está gerando oportunidade, renda e inclusão digital a partir da cultura afro-brasileira.
+                </p>
             </div>
         </div>
     </div>
@@ -17,11 +19,11 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-4">
-                    <img src="/assets/Ankara/imagens/home-3-imagem.webp">
+                    <img src="/assets/Ankara/imagens/home-3-imagem.webp" alt="Carliene Silva">
                 </div>
                 <div class="col-lg-8">
-                    <p class="text-uppercase mb-2 cor-ankara-1">Nossa História</p>
-                    <h2 class="fw-bold mb-4 sub-titulo">Carliene Silva – Guardiã das Águas e dos Saberes Ancestrais</h2>
+                    <h2 class="pre-titulo text-uppercase mb-1 cor-ankara-1">Nossa História</h2>
+                    <h3 class="fw-bold mb-4 sub-titulo" style="line-height:1.75rem;">Carliene Silva – Guardiã das Águas e dos Saberes Ancestrais</h3>
 			<p>Nascida em 06 de abril de 1981, Carliene Silva cresceu entre cânticos, tambores e axé. Desde menina, acompanhava seus pais no Ilê Asé Odejun Queá, onde aprendeu o valor da fé, da coletividade e da força das tradições afro-brasileiras. Por volta dos anos 2000, seu caminho espiritual se firmou definitivamente.</p>
 			<p>Foi escolhida para servir a Yemanjá, tornando-se Ekedi, uma das mais nobres funções do Candomblé, símbolo de confiança, zelo e dedicação.</p>
 			<p>Com serenidade e firme propósito, Carliene se tornou uma presença essencial na vida do Ilê Asé Odejun Queá e da Casa de Cultura Afro Gerais (CCAG), em Pirapora/MG. Transmite saberes, acolhe, orienta e inspira, fortalecendo o axé que une gerações. Guardiã dos rituais, da memória e das tradições, ela representa a continuidade viva do legado ancestral. Uma mulher de fé, coragem e amor que transforma sua devoção em serviço e sua história em luz para o caminho de muitos...</p>
@@ -31,10 +33,10 @@
     </section>
     {% endif %}
 
-    <div class="row text-center">
+    <div class="row text-center mx-0">
         <div class="col-12 mb-4 text-sm-center">
-	  <a href="https://moverse.ceweb.br" target="_blank">
-            <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
+	  <a href="https://moverse.ceweb.br" target="_blank" class="img-wcag">
+            <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" class="img-wcag" />
 	  </a>
         </div>
     </div>
@@ -51,7 +53,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card blog-card">
                             <div class="blog-image">
-                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}">
+                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="img-wcag">
                                     <img 
                                         src="{{ post.imagem }}" 
                                         alt="{{ post.titulo }}" 
@@ -71,11 +73,11 @@
                                 {% endif %}
 
                                 {# Título e link para o artigo #}
-                                <p class="card-title">
+                                <h3 class="card-title">
                                     <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="text-decoration-none text-dark">
                                         {{ post.titulo }}
                                     </a>
-                                </p>
+                                </h3>
 
                                 {# Data de publicação #}
                                 <small class="text-muted">
@@ -106,20 +108,20 @@
                 </ul>
 
                 <div class="social-net mt-6">
-                    <img src="{{ INCLUDE_PATH }}assets/img/security.webp" alt="ambiente seguro" />
+                    <img src="{{ INCLUDE_PATH }}assets/img/security.webp" alt="Site com ambiente seguro e protegido" />
                     <a class="p-2"
                        href="https://transparencyreport.google.com/safe-browsing/search?
                              url={{ INCLUDE_PATH }}"
                        target="_blank" rel="noreferrer">
                         <img src="{{ INCLUDE_PATH }}assets/img/selo-google.png"
-                             width="150" height="42" alt="Safe Browsing">
+                             width="150" height="42" alt="Selo Google Safe Browsing — site verificado como seguro">
                     </a>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="social-net mt-2 mb-4">
-                    <img src="/assets/Ankara/imagens/ankara-logo.png">             
+                    <img src="/assets/Ankara/imagens/ankara-logo.png" alt="Loja Ankara">             
                 </div>
             </div>
 

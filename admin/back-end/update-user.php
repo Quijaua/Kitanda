@@ -145,10 +145,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditUser'])) {
         $stmtUpdate->execute();
 
         // Atualiza a função do usuário na tabela tb_permissao_usuario
-        $stmtUpdatePerm = $conn->prepare("
-            UPDATE tb_permissao_usuario SET permissao_id = :funcao_id
-            WHERE usuario_id = :user_id
-        ");
+        // Verifica se existe permissão para o usuário
+        $stmtCheckPerm = $conn->prepare("SELECT id FROM tb_permissao_usuario WHERE usuario_id = :user_id");
+        $stmtCheckPerm->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmtCheckPerm->execute();
+
+        if ($stmtCheckPerm->rowCount() > 0) {
+            // Atualiza
+            $stmtUpdatePerm = $conn->prepare("
+                UPDATE tb_permissao_usuario SET permissao_id = :funcao_id
+                WHERE usuario_id = :user_id
+            ");
+        } else {
+            // Insere
+            $stmtUpdatePerm = $conn->prepare("
+                INSERT INTO tb_permissao_usuario (usuario_id, permissao_id)
+                VALUES (:user_id, :funcao_id)
+            ");
+        }
+
         $stmtUpdatePerm->bindParam(':funcao_id', $funcao_id, PDO::PARAM_INT);
         $stmtUpdatePerm->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmtUpdatePerm->execute();

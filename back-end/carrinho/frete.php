@@ -112,7 +112,7 @@ foreach ($cart as $item) {
 }
 
 //Caso o frete seja fixo
-if( $type && $type === 'fixed' && $value > 0 ) {
+if( isset($type) && $type === 'fixed' && $value > 0 ) {
     $options[] = [
         'id'             => 'fixed_total',
         'name'           => 'Frete Fixo (total)',

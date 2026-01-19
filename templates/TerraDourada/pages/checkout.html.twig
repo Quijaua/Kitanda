@@ -12,14 +12,14 @@
     }
     #stepMain .step-item.active::before,
     #stepMain .step-item.active::after {
-        background: #AD5202 !important;
+        background: #8a4000 !important;
     }
 
     #stepMain .step-item {
         color: #E4BBA1 !important;
     }
     #stepMain .step-item.active {
-        color: #AD5202 !important;
+        color: #8a4000 !important;
     }
 
     .card-wrapper {
@@ -31,15 +31,15 @@
 </style>
 
 <!-- Modal Sucesso -->
-<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <!-- Ícone de sucesso -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
-                <h3>Tem certeza?</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg" aria-hidden="true" focusable="false"><title>Ícone de sucesso</title><descr>Ícone decorativo indicando que a ação foi concluída com sucesso.</descr><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <h3 id="modal-delete-title">Tem certeza?</h3>
                 <div class="text-secondary">Deseja remover o produto do seu carrinho?</div>
             </div>
             <div class="modal-footer">
@@ -59,14 +59,14 @@
 </div>
 
 <!-- Modal Validar -->
-<div class="modal modal-blur fade" id="modal-validar" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-validar" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="msg-modal-validar-titulo">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <!-- Ícone de sucesso -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-green icon-lg" aria-hidden="true" focusable="false"><title>Ícone de sucesso</title><descr>Ícone decorativo indicando que a ação foi concluída com sucesso.</descr><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
                 <h3 id="msg-modal-validar-titulo"></h3>
                 <div id="msg-modal-validar" class="text-secondary"></div>
             </div>
@@ -102,6 +102,7 @@
 <div class="page-body">
     <div class="container-xl">
         <div class="row g-4 p-2">
+            <h1 class="visually-hidden">Finalizar compra</h1>
 
             <div id="alert-container"></div>
 
@@ -111,7 +112,7 @@
                 <div class="card bg-dark-lt">
                     <div class="card-body row">
                         <div class="col-md-6">
-                            <h3 class="card-title">Informações pessoais</h3>
+                            <h2 class="card-title">Informações pessoais</h2>
 
                             <div class="row">
 
@@ -126,6 +127,7 @@
                                             placeholder="nome@exemplo.com"
                                             value="{{ sessionUser.email|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-email">Seu e-mail</label>
                                     </div>
@@ -148,6 +150,7 @@
                                             placeholder="Primeiro nome"
                                             value="{{ sessionUser.name|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-name">Nome completo</label>
                                     </div>
@@ -167,6 +170,7 @@
                                             placeholder="CPF"
                                             value="{{ sessionUser.cpf|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-cpf">CPF/CNPJ</label>
                                     </div>
@@ -186,6 +190,7 @@
                                             placeholder="(99) 99999-9999"
                                             value="{{ sessionUser.birthDate|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-birth-date">Data de Nascimento</label>
                                     </div>
@@ -205,6 +210,7 @@
                                             placeholder="(99) 99999-9999"
                                             value="{{ sessionUser.phone|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-phone">Telefone</label>
                                     </div>
@@ -233,6 +239,7 @@
                                             placeholder="CEP endereço"
                                             value="{{ sessionUser.zipcode|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-zipcode">CEP</label>
                                     </div>
@@ -252,6 +259,7 @@
                                             placeholder="Endereço"
                                             value="{{ sessionUser.street|default('') }}"
                                             required
+                                            aria-required="true"
                                         >
                                         <label for="field-street">Endereço</label>
                                     </div>
@@ -274,6 +282,7 @@
                                                     placeholder="Número endereço"
                                                     value="{{ sessionUser.streetNumber|default('') }}"
                                                     required
+                                                    aria-required="true"
                                                 >
                                                 <label for="field-street-number">Número</label>
                                             </div>
@@ -314,6 +323,7 @@
                                                     placeholder="Bairro endereço"
                                                     value="{{ sessionUser.district|default('') }}"
                                                     required
+                                                    aria-required="true"
                                                 >
                                                 <label for="field-district">Bairro</label>
                                             </div>
@@ -333,6 +343,7 @@
                                                     placeholder="Cidade endereço"
                                                     value="{{ sessionUser.city|default('') }}"
                                                     required
+                                                    aria-required="true"
                                                 >
                                                 <label for="field-city">Cidade</label>
                                             </div>
@@ -352,6 +363,7 @@
                                                     placeholder="UF"
                                                     value="{{ sessionUser.state|default('') }}"
                                                     required
+                                                    aria-required="true"
                                                 >
                                                 <label for="field-state">UF</label>
                                             </div>
@@ -394,6 +406,7 @@
                                         name="terms"
                                         {% if user.terms %}checked{% endif %}
                                         required
+                                        aria-describedby="terms-error" aria-invalid="false"
                                     >
                                     <span class="form-check-label">
                                         Declaro que li e aceito as
@@ -401,7 +414,7 @@
                                         <a href="/politica-de-privacidade/" target="_blank">políticas de cancelamento</a> e os
                                         <a href="/politica-de-privacidade/" target="_blank">Termos de Uso</a> da plataforma, estando de acordo com todos os termos das tarifas e serviços oferecidos por {{ title ?: nome }}.
                                     </span>
-                                    <div id="input-terms-error" class="text-danger d-none">
+                                    <div id="input-terms-error" class="text-danger d-none" role="alert">
                                         <small>Por favor, aceite os termos de uso para prosseguir</small>
                                     </div>
                                 </label>
@@ -426,7 +439,7 @@
         
                                 <div class="col-md-12 mb-3">
                                     <div class="form-floating">
-                                        <input type="disabled-email" class="form-control" name="disabled-email" id="saved-email" value="-" disabled>
+                                        <input type="disabled-email" class="form-control" name="disabled-email" id="saved-email" value="-" disabled aria-required="true">
                                         <label for="disabled-email">Seu e-mail</label>
                                     </div>
                                 </div>
@@ -473,7 +486,7 @@
         
                                 {% if not pedido %}
                                     <div class="d-flex align-items-center justify-content-between mt-3" id="usuario-info">
-                                        <button type="button" id="btn-edit-info" class="btn btn-yellow btn-pill">Alterar informações</button>
+                                        <button type="button" id="btn-edit-info" class="btn btn-terra btn-pill">Alterar informações</button>
                                         <a href="#" id="link-not-me" class="text-muted">Não sou eu</a>
                                     </div>
                                 {% endif %}
@@ -491,7 +504,7 @@
                                         <div class="col-md-12">
                                             <div class="form-floating">
                                                 <input type="coupon" class="form-control" name="coupon" id="field-coupon" placeholder="Código do Cupom">
-                                                <label for="coupon">Código do Cupom</label>
+                                                <label for="field-coupon">Código do Cupom</label>
                                             </div>
                                         </div>
         
@@ -502,14 +515,14 @@
                             <div class="col-md-12" id="shipping-step">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
-                                        <h3 class="card-title">Método de Envio</h3>
+                                        <h2 class="card-title">Método de envio</h2>
                                         <!-- container onde os radios serão inseridos -->
                                         <div id="shipping-options" class="d-flex flex-column gap-2">
                                             <!-- radios serão gerados aqui -->
                                             <div class="text-muted">Carregando opções...</div>
                                         </div>
                                         <!-- Botão para avançar para a etapa de pagamento -->
-                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
+                                        <button type="button" id="btn-step-shipping-continue" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mt-3 d-none">Selecionar</button>
                                         <div id="change-shipping-button" class="d-none text-center">
                                             <a href="#" id="change-shipping-option" class="text-muted">Alterar</a>
                                         </div>
@@ -520,29 +533,31 @@
                             <div class="col-md-12 d-none" id="payment-section-form">
                                 <div class="card bg-dark-lt">
                                     <div class="card-body">
-                                        <h3 class="card-title">Forma de pagamento</h3>
+                                        <fieldset>
+                                            <legend class="card-title">Forma de pagamento</legend>
 
-                                        <div>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-credit-card" type="radio" value="100">
-                                                <span class="form-check-label">Cartão de Crédito</span>
-                                            </label>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-bank-slip" type="radio" value="101">
-                                                <span class="form-check-label">Boleto Bancário</span>
-                                            </label>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment" id="payment-pix" type="radio" value="102">
-                                                <span class="form-check-label">PIX</span>
-                                            </label>
-                                        </div>
+                                            <div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment" id="payment-credit-card" value="100">
+                                                    <label class="form-check-label" for="payment-credit-card">Cartão de Crédito</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment" id="payment-bank-slip" value="101">
+                                                    <label class="form-check-label" for="payment-bank-slip">Boleto Bancário</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment" id="payment-pix" value="102">
+                                                    <label class="form-check-label" for="payment-pix">PIX</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
 
-                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3 d-none">
-                                            <span>Avançar</span>
+                                        <button type="button" id="btn-step2-continue" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mt-3 d-none">
+                                            <span aria-live="polite" id="payment-action-text">Avançar</span>
                                             <!-- Download SVG icon from http://tabler.io/icons/icon/arrow-narrow-right -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-2 icon-tabler icons-tabler-outline ms-1 icon-tabler-arrow-narrow-right" aria-hidden="true" focusable="false"><title>Ícone de seta para avançar</title><descr>Ícone decorativo indicando avanço no fluxo de pagamento</descr><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
                                         </button>
-                                        <div class="progress progress-subscription mt-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress progress-subscription text-white mt-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;">
                                             <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
                                                 Processando requisição...
                                             </div>
@@ -591,7 +606,7 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-floating">
-                                                        <select class="form-select" name="installments" id="card-installments" aria-label="Floating label select">
+                                                        <select class="form-select" name="installments" id="card-installments" aria-label="Parcelas do cartão de crédito">
                                                             <option selected="">Selecione uma parcela</option>
                                                             <option value="1">A vista 1x - R$ {{ total|number_format(2, ',', '.') }}</option>
                                                         </select>
@@ -603,7 +618,7 @@
                                         </div>
 
                                         <div id="confirm-payment" class="d-none text-center">
-                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mb-3">CONFIRMAR PAGAMENTO</button>
+                                            <button type="button" id="confirm-payment-checkout" class="btn btn-6 btn-terra btn-pill w-100 confirm-checkout mb-3">CONFIRMAR PAGAMENTO</button>
                                             <div class="progress progress-subscription mb-3 d-none" role="progressbar" style="height: 36px; border-radius: 18px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated progress-active text-dark fs-4 fw-bold w-100">
                                                     Processando requisição...
@@ -632,7 +647,12 @@
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"
                                                 class="icon icon-3 icon-tabler icons-tabler-outline icon-tabler-circle-check"
-                                                style="width: 4rem; height: 3rem;">
+                                                style="width: 4rem; height: 3rem;"
+                                                aria-hidden="true" focusable="false">
+
+                                                <title>Ícone de confirmação de pagamento</title>
+                                                <descr>Ícone decorativo indicando que o pedido foi realizado com sucesso</descr>
+
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                 <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                                                 <path d="M9 12l2 2l4 -4" />
@@ -650,7 +670,7 @@
 
                                         <p>Acesse seu e-mail para ver os detalhes do pedido</p>
 
-                                        <h3 class="card-title mb-0">
+                                        <h2 class="card-title mb-0">
                                             Forma de pagamento:
                                             <span id="paymentMethodText" class="fw-normal">
                                                 {% if pedido and pedido.forma_pagamento == 'PIX' %}
@@ -661,7 +681,7 @@
                                                     Cartão de crédito
                                                 {% endif %}
                                             </span>
-                                        </h3>
+                                        </h2>
 
                                         {# Boleto Section #}
                                         <div id="boleto-section"
@@ -671,7 +691,7 @@
 
                                                 <p>Agora é só pagar o boleto para finalizar sua compra.</p>
 
-                                                <h3 class="card-title">Clique para copiar o código de barras:</h3>
+                                                <h2 class="card-title">Clique para copiar o código de barras:</h2>
 
                                                 <textarea class="form-control text-center mb-3"
                                                         id="boleto-text" rows="2"
@@ -682,7 +702,7 @@
 
                                                 <a href="{{ pedido and pedido.forma_pagamento == 'BOLETO' ? pedido.link_boleto : '#' }}"
                                                 target="_blank"
-                                                class="btn btn-6 btn-yellow btn-pill w-100"
+                                                class="btn btn-6 btn-terra btn-pill w-100"
                                                 id="boleto-link">
                                                     Visualizar boleto
                                                 </a>
@@ -722,12 +742,12 @@
                                                 {% if pedido and pedido.forma_pagamento == 'PIX' %}
                                                     <img class="w-100 p-5"
                                                         src="data:image/png;base64,{{ pedido.pix_encodedImage }}"
-                                                        alt="QR Code"
+                                                        alt="QR Code para realizar o pagamento via Pix deste pedido"
                                                         id="pix-qrcode">
                                                 {% else %}
                                                     <img class="w-100 p-5"
                                                         src="#"
-                                                        alt="QR Code"
+                                                        alt="QR Code para realizar o pagamento via Pix deste pedido"
                                                         id="pix-qrcode">
                                                 {% endif %}
 
@@ -748,7 +768,12 @@
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                         class="icon icon-2 icon-tabler icon-tabler-check"
-                                                        style="display: none;">
+                                                        style="display: none;"
+                                                        aria-hidden="true" focusable="false">
+
+                                                        <title>Ícone de confirmação</title>
+                                                        <descr>Ícone decorativo para indicar que o código foi copiado com sucesso</descr>
+
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                         <path d="M5 12l5 5l10 -10" />
                                                     </svg>
@@ -769,81 +794,92 @@
             <div class="col-md-4">
                 <div class="card bg-dark-lt">
                     <div class="card-body">
-                    <h3 class="card-title">Seu pedido</h3>
+                    <h2 class="card-title">Resumo do pedido</h2>
 
                     {# Tabela de itens com id para facilitar o JS #}
                     <table class="table table-sm table-borderless">
+                        <caption class="visually-hidden">
+                            Itens do pedido: produto, quantidade e subtotal
+                        </caption>
                         <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th class="w-1 text-center">Quant.</th>
-                            <th class="text-center">Subtotal</th>
-                            {# Se já existe “pedido” (confirmação), não mostra coluna de exclusão #}
-                            {% if not isPedido %}
-                            <th class="w-1 text-center"></th>
-                            {% endif %}
-                        </tr>
-                        </thead>
-                        <tbody id="checkout-items">
-                        {% if checkoutItems is not empty %}
-                            {% for item in checkoutItems %}
-                            <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.id }}">
-                                <td>{{ item.produto_nome|e }}</td>
-                                <td class="w-1 text-center">{{ item.quantidade }}</td>
-                                <td class="text-center">
-                                R$ {{ (item.produto_preco * item.quantidade)|number_format(2, ',', '.') }}
-                                </td>
-                                {# Mostra ícone de lixeira apenas se NÃO há “pedido” #}
-                                {% if not pedido %}
-                                <td class="w-1 text-center">
-                                    <a href="#" class="text-muted remove-checkout-item" data-item-id="{{ item.id }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-1 icon-tabler icon-tabler-trash">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <path d="M4 7l16 0" />
-                                        <path d="M10 11l0 6" />
-                                        <path d="M14 11l0 6" />
-                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                    </svg>
-                                    </a>
-                                </td>
+                            <tr>
+                                <th id="th-produto" scope="col">Produto</th>
+                                <th id="th-quantidade" scope="col" class="w-1 text-center">Quant.</th>
+                                <th id="th-subtotal" scope="col" class="text-center">Subtotal</th>
+                                {% if not isPedido %}
+                                    <th id="th-acoes" scope="col" class="w-1 text-center">Ações</th>
                                 {% endif %}
                             </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                            <td colspan="{% if not pedido %}4{% else %}3{% endif %}" class="text-center">
-                                Nenhum item adicionado.
-                            </td>
-                            </tr>
-                        {% endif %}
+                        </thead>
+                        <tbody id="checkout-items">
+                            {% if checkoutItems is not empty %}
+                                {% for item in checkoutItems %}
+                                <tr data-product-id="{{ item.produto_id }}" id="checkout-item-{{ item.id }}">
+                                    <th id="row-{{ item.id }}" scope="row">{{ item.produto_nome|e }}</th>
+                                    <td headers="th-quantidade row-{{ item.id }}" class="text-center">{{ item.quantidade }}</td>
+                                    <td headers="th-subtotal row-{{ item.id }}" class="text-center">
+                                        R$ {{ (item.produto_preco * item.quantidade)|number_format(2, ',', '.') }}
+                                    </td>
+                                    {% if not pedido %}
+                                        <td headers="th-acoes row-{{ item.id }}" class="w-1 text-center">
+                                            <a href="#" class="text-muted remove-checkout-item" data-item-id="{{ item.id }}" aria-label="Remover item do pedido">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-1 icon-tabler icon-tabler-trash"
+                                                    aria-hidden="true" focusable="false">
+
+                                                    <title>Ícone de remover item</title>
+                                                    <descr>Ícone decorativo para o botão remover item do pedido</descr>
+
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 7l16 0" />
+                                                    <path d="M10 11l0 6" />
+                                                    <path d="M14 11l0 6" />
+                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="{% if not pedido %}4{% else %}3{% endif %}" class="text-center">
+                                        Nenhum item adicionado.
+                                    </td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
+
 
                     <hr class="my-3">
 
                     {# Valores de frete e desconto com data-value para uso no JS #}
                     <table class="table table-sm table-borderless">
+                        <caption class="visually-hidden">
+                            Valores adicionais do pedido
+                        </caption>
                         <tbody>
-                        <tr>
-                            <td class="fw-bold">Frete</td>
-                            <td id="frete_valor"
-                                class="w-10 fw-bold text-end"
-                                data-value="{{ frete }}">
-                            R$ {{ frete|number_format(2, ',', '.') }}
-                            </td>
-                        </tr>
-                        <!-- <tr>
-                            <td class="fw-bold">Desconto</td>
-                            <td id="desconto_valor"
-                                class="w-10 fw-bold text-end"
-                                data-value="{{ desconto }}">
-                            R$ {{ desconto|number_format(2, ',', '.') }}
-                            </td>
-                        </tr> -->
+                            <tr>
+                                <th id="th-frete" scope="row" class="fw-bold">Frete</th>
+                                <td headers="th-frete" 
+                                    id="frete_valor"
+                                    class="w-10 fw-bold text-end"
+                                    data-value="{{ frete }}">
+                                R$ {{ frete|number_format(2, ',', '.') }}
+                                </td>
+                            </tr>
+                            {# <tr>
+                                <td class="fw-bold">Desconto</td>
+                                <td id="desconto_valor"
+                                    class="w-10 fw-bold text-end"
+                                    data-value="{{ desconto }}">
+                                    R$ {{ desconto|number_format(2, ',', '.') }}
+                                </td>
+                            </tr> #}
                         </tbody>
                     </table>
 
@@ -851,15 +887,19 @@
 
                     {# Total geral, também com data-value para JS #}
                     <table class="table table-sm table-borderless mb-0">
+                        <caption class="visually-hidden">
+                            Valor total do pedido
+                        </caption>
                         <tbody>
-                        <tr>
-                            <td class="fs-3 fw-bold">TOTAL</td>
-                            <td id="total_valor"
-                                class="fs-3 w-10 fw-bold text-end"
-                                data-value="{{ total }}">
-                            R$ {{ total|number_format(2, ',', '.') }}
-                            </td>
-                        </tr>
+                            <tr>
+                                <th id="th-total" scope="row" class="fs-3 fw-bold">TOTAL</th>
+                                <td headers="th-total" 
+                                    id="total_valor"
+                                    class="fs-3 w-10 fw-bold text-end"
+                                    data-value="{{ total }}">
+                                    R$ {{ total|number_format(2, ',', '.') }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -867,13 +907,13 @@
                     {% if not pedido %}
                         <button type="button"
                                 id="btn-step1-continue"
-                                class="btn btn-6 btn-yellow btn-pill w-100 confirm-checkout mt-3">
+                                class="btn btn-6 btn-yellow text-red btn-pill w-100 confirm-checkout mt-3">
                         Continuar
                         </button>
                     {% endif %}
                     </div>
                 </div>
-                </div>
+            </div>
 
         </div>
     </div>
@@ -1011,7 +1051,7 @@ $('#btn-step-shipping-continue').on('click', function() {
 
     if (selected.length === 0) {
         $(".alert").remove();
-        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        $("#shipping-options").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione uma opção de frete.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
         return;
     }
 
@@ -1240,9 +1280,9 @@ $(document).ready(function() {
                             });
                             // Atualiza ou remove o contador do carrinho
                             if (res.numero_itens > 0) {
-                                $("#cart-count").text(res.numero_itens).show();
+                                $(".cart-count").text(res.numero_itens).show();
                             } else {
-                                $("#cart-count").fadeOut();
+                                $(".cart-count").fadeOut();
                             }
                         } else {
                             // Exibe o modal de validação
@@ -1449,6 +1489,9 @@ $(document).ready(function() {
 
                 if (!value && ($('#field-'+key).prop('required') || $('#'+key).prop('required'))) {
 
+                    $('#terms').attr('aria-invalid', 'true');
+                    $('#terms-error').removeClass('d-none');
+
                     $('#field-'+key).addClass('is-invalid');
                     $('#input-'+key+'-error').removeClass('d-none');
                     $('#field-'+key).on('blur', function() {
@@ -1519,6 +1562,8 @@ $(document).ready(function() {
                         // Oculta a Etapa 1 e exibe a Etapa 2
                         $('#step-1').addClass('d-none');
                         $('#step-2').removeClass('d-none');
+
+                        $('#btn-edit-info').focus();
 
                         if (pedidoExiste) {
                             $('#step-item-1').removeClass('active');
@@ -1820,7 +1865,7 @@ $(document).ready(function() {
                     $("#btn-step2-continue").addClass('d-block').removeClass('d-none');
 
                     $(".alert").remove();
-                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                 }
             })
             .fail(function(xhr, status, error) {
@@ -1828,7 +1873,7 @@ $(document).ready(function() {
                 console.error("Server Response:", xhr.responseText);
 
                 $(".alert").remove();
-                $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                 //Remove botão carregando
                 $(".progress-subscription").addClass('d-none').removeClass('d-flex');
@@ -2012,12 +2057,12 @@ $(document).ready(function() {
 
                 $(".alert").remove();
                 if (response.error) {
-                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                 }
 
                 if (response.errors) {
                     response.errors.forEach((error) => {
-                        $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + error.description + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + error.description + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                     })
                 }
 
@@ -2027,7 +2072,7 @@ $(document).ready(function() {
             console.error("Erro no AJAX:", status, error);
 
             $(".alert").remove();
-            $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            $("#alert-container").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
             //Remove botão carregando
             $("#confirm-payment .progress-subscription").addClass('d-none').removeClass('d-flex');

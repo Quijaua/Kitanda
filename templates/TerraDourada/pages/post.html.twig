@@ -46,7 +46,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="alert-title">Alerta do Sistema</h4>
+                                <h1 class="alert-title">Post não encontrado</h1>
                                 <div class="text-secondary">Não encontramos este post.</div>
                             </div>
                         </div>
@@ -78,9 +78,11 @@
         <div class="container-xl">
             <div class="row g-4">
                 <div class="col-md-8 col-12">
-                    <h3 style="font-size: 2.5rem; line-height: normal;">{{ post.titulo }}</h3>
+                    <h1 style="font-size: 2.5rem; line-height: normal;">{{ post.titulo }}</h1>
 
                     {# Badges de categoria do post #}
+                    <h2 class="visually-hidden">Categorias do post</h2>
+
                     {% if categorias is not empty %}
                         <div class="mb-3">
                             {% for categoria in categorias %}
@@ -98,9 +100,15 @@
                     {% endif %}
 
                     {# Resumo do post (conteúdo HTML pronto) #}
-                    <div id="post-conteudo" class="mt-3 mb-4 fs-2">
-                        {{ post.resumo|raw }}
-                    </div>
+                    <section aria-labelledby="post-content-title">
+                        <h2 id="post-content-title" class="visually-hidden">
+                            Conteúdo do post
+                        </h2>
+
+                        <div id="post-conteudo" class="mt-3 mb-4 fs-2">
+                            {{ post.resumo|raw }}
+                        </div>
+                    </section>
 
                     {# Data de publicação formatada #}
                     <p class="fs-3"><strong>Publicado em:</strong> {{ data_publicacao }}</p>
@@ -113,47 +121,53 @@
                 {% if prev_post is not empty or next_post is not empty %}
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <ul class="pagination">
-                                {% if prev_post %}
-                                    <li class="page-item page-prev">
-                                        <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="text-decoration-none">
-                                            <div class="page-item-subtitle">anterior</div>
-                                            <div class="page-item-title">{{ prev_post.titulo }}</div>
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item page-prev disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                            <div class="page-item-subtitle">anterior</div>
-                                            <div class="page-item-title">{{ post.titulo }}</div>
-                                        </a>
-                                    </li>
-                                {% endif %}
+                        <section aria-labelledby="post-navigation-title">
+                            <div class="card-body">
+                                <h2 id="post-navigation-title" class="visually-hidden">
+                                    Navegação entre posts
+                                </h2>
 
-                                {% if next_post %}
-                                    <li class="page-item page-prev">
-                                        <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="text-decoration-none text-end">
-                                            <div class="page-item-subtitle">próximo</div>
-                                            <div class="page-item-title">{{ next_post.titulo }}</div>
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item page-next disabled">
-                                        <a class="page-link" href="#">
-                                            <div class="page-item-subtitle">próximo</div>
-                                            <div class="page-item-title">{{ post.titulo }}</div>
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </div>
+                                <ul class="pagination">
+                                    {% if prev_post %}
+                                        <li class="page-item page-prev">
+                                            <a href="{{ INCLUDE_PATH }}post?id={{ prev_post.id }}" class="page-link text-decoration-none">
+                                                <div class="page-item-subtitle">anterior</div>
+                                                <div class="page-item-title">{{ prev_post.titulo }}</div>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item page-prev disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                                <div class="page-item-subtitle">anterior</div>
+                                                <div class="page-item-title">{{ post.titulo }}</div>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% if next_post %}
+                                        <li class="page-item page-prev">
+                                            <a href="{{ INCLUDE_PATH }}post?id={{ next_post.id }}" class="page-link text-decoration-none text-end">
+                                                <div class="page-item-subtitle">próximo</div>
+                                                <div class="page-item-title">{{ next_post.titulo }}</div>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item page-next disabled">
+                                            <a class="page-link" href="#">
+                                                <div class="page-item-subtitle">próximo</div>
+                                                <div class="page-item-title">{{ post.titulo }}</div>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </section>
                     </div>
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-3 col-12 p-4">
-                <p class="h1 text-yellow">Conheça nossa loja</p>
+            <div id="list-posts" class="col-md-3 col-12 p-4">
+                <h2 class="text-yellow">Conheça nossa loja</h2>
 
                 {% for produto in sidebar_produtos %}
                     {% set imagemUrl = produto.imagem is not empty 

@@ -20,19 +20,19 @@
 <!-- Sidebar -->
 <aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Abrir menu de navegação">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-brand navbar-brand-autodark">
             <a href="<?= INCLUDE_PATH_ADMIN; ?>painel">
 <!--                <h1><?php echo $project['title'];  ?></h1> -->
-<!--                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
-                <img src="<?php echo $project['logo']; ?>" alt="Logo <?php echo $project['name']; ?>" style="width: 220px;">
+<!--                <img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+                <img src="<?php echo $project['logo']; ?>" alt="<?php echo $project['name']; ?>" style="width: 220px;">
             </a>
         </div>
         <div class="navbar-nav flex-row d-lg-none">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Abrir menu do usuário">
                     <span class="avatar avatar-sm" style="background-image: url(<?= $usuario['imagem']; ?>)"></span>
                     <div class="d-none d-xl-block ps-2">
                         <div><?php echo $nome; ?></div>

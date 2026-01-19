@@ -65,6 +65,11 @@
         $hcaptcha_secret = $_ENV['HCAPTCHA_CHAVE_SECRETA'];
         $turnstile_secret = $_ENV['TURNSTILE_CHAVE_SECRETA'];
 
+        if (empty($dados['email'])) {
+            $_SESSION['captcha_error'] = true;
+            $_SESSION['msg'] = "Por favor, preencha o campo de e-mail";
+        }
+
         // Consulta à tabela tb_page_captchas para verificar qual captcha usar
         $query = "
             SELECT 
@@ -108,6 +113,7 @@
                 $result = file_get_contents($url, false, $context);
                 $response = json_decode($result, true);
             } else {
+                $_SESSION['captcha_error'] = true;
                 $_SESSION['msg'] = "Falha na validação do " . $captcha['name'] . ".";
             }
 
@@ -136,6 +142,7 @@
                 $response = json_decode($result, true);
 
             } else {
+                $_SESSION['captcha_error'] = true;
                 $_SESSION['msg'] = "Falha na validação do " . $captcha['name'] . ".";
             }
 
@@ -216,6 +223,7 @@
             }
 
         } else {
+            $_SESSION['captcha_error'] = true;
             $_SESSION['msg'] = "Por favor preencha o " . $captcha['name'] . " para continuar.";
         }
     }
@@ -241,6 +249,17 @@
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/tabler-marketing.min.css?1738096682" rel="stylesheet"/>
         <link href="<?php echo INCLUDE_PATH; ?>dist/css/kitanda.min.css?1738096682" rel="stylesheet"/>
 
+        <style>
+            .alert.alert-danger:focus-visible {
+                outline: 3px solid #d63939;
+                outline-offset: 2px;
+            }
+            .alert.alert-success:focus-visible {
+                outline: 3px solid #2fb344;
+                outline-offset: 2px;
+            }
+        </style>
+
         <?php if (isset($hcaptcha)): ?>
             <!-- hCaptcha -->
             <script src="https://hcaptcha.com/1/api.js" async defer></script>
@@ -257,28 +276,27 @@
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
                     <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
-			<h1>Kitanda</h1>
-<!--                        <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo <?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+			            <p class="fs-1">Kitanda</p>
+                        <!-- <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
                     </a>
                 </div>
                 <form class="card card-md" action="<?php echo INCLUDE_PATH; ?>login/recuperar-senha.php" method="post">
                     <div class="card-body">
 
-                        <p class="text-danger mb-3">
-                            <?php
-                                if(isset($_SESSION['msg'])){
-                                    echo $_SESSION['msg'];
-                                    unset($_SESSION['msg']);
-                                    echo "<br>";
-                                }
-                            ?>
-                        </p>
+                        <?php if (isset($_SESSION['msg'])): ?>
+                            <div id="recup-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">
+                                <?= $_SESSION['msg']; ?>
+                            </div>
+                        <?php endif; ?>
 
-                        <h2 class="card-title text-center mb-4">Esqueceu a senha?</h2>
+                        <h1 class="card-title text-center mb-4">Esqueceu a senha?</h1>
                         <p class="text-secondary mb-4">Digite seu endereço de e-mail e sua senha será redefinida e enviada para o seu e-mail.</p>
                         <div class="mb-4">
                             <label for="email" class="form-label">Endereço de e-mail</label>
-                            <input name="email" id="email" type="email" class="form-control" placeholder="Digite o e-mail" required>
+                            <input name="email" id="email" type="email" placeholder="Digite o e-mail"  
+                                class="form-control <?php echo isset($_SESSION['msg']) && !$_SESSION['captcha_error'] ? 'is-invalid' : ''; ?>"
+                                aria-invalid="<?php echo isset($_SESSION['msg']) && !$_SESSION['captcha_error'] ? 'true' : 'false'; ?>"
+                                <?php if (isset($_SESSION['msg']) && !$_SESSION['captcha_error']): ?>aria-describedby="recup-error"<?php endif; ?> required>
                         </div>
                         <?php if (isset($hcaptcha)): ?>
                             <div class="h-captcha" data-sitekey="<?php echo $hcaptcha['public_key']; ?>"></div>
@@ -304,6 +322,15 @@
         <!-- Tabler Core -->
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/tabler.min.js?1738096682" defer></script>
         <script src="<?php echo INCLUDE_PATH; ?>dist/js/kitanda.min.js?1738096682" defer></script>
+
+        <?php if (isset($_SESSION['msg'])): ?>
+            <script>
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('recup-error').focus();
+                });
+            </script>
+        <?php unset($_SESSION['msg'], $_SESSION['captcha_error']); ?>
+        <?php endif; ?>
 
     </body>
 </html>

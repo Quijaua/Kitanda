@@ -55,9 +55,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Categorias
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui estão as categorias do sistema.</div>
             </div>
             <!-- Page title actions -->
@@ -85,7 +85,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Categorias</h4>
+                        <h2 class="card-title">Categorias</h2>
                     </div>
 
                     <div class="card-body border-bottom py-3">
@@ -93,7 +93,7 @@
                             <div class="text-secondary">
                                 Exibir
                                 <div class="mx-2 d-inline-block">
-                                    <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
+                                    <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas">
                                         <option value="10" selected>10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>

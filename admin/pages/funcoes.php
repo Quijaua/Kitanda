@@ -46,7 +46,7 @@
 <div class="modal modal-blur fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-danger"></div>
             <div class="modal-body text-center py-4">
                 <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
@@ -81,9 +81,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Funções
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui estão as funções do sistema.</div>
             </div>
             <?php if (getNomePermissao($_SESSION['user_id'], $conn) === 'Administrador'): ?>
@@ -126,7 +126,7 @@
                         <div class="card">
 
                             <div class="card-header">
-                                <h4 class="card-title">Funções</h4>
+                                <h2 class="card-title">Funções</h2>
                             </div>
 
                             <div class="card-body border-bottom py-3">
@@ -134,7 +134,7 @@
                                     <div class="text-secondary">
                                         Exibir
                                         <div class="mx-2 d-inline-block">
-                                            <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
+                                            <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas">
                                                 <option value="10" selected>10</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
@@ -325,7 +325,7 @@
             <div class="toast show align-items-center bg-${color}-lt border-${type}" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body">${message}</div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar notificação"></button>
                 </div>
             </div>
         </div>`;

@@ -20,7 +20,7 @@ const theme = {
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">%s</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -49,7 +49,7 @@ const theme = {
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">%s</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -78,7 +78,7 @@ const theme = {
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">%s</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar modal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -107,7 +107,7 @@ const theme = {
           <div class="modal-card">
             <header class="modal-card-head">
               <p class="modal-card-title">%s</p>
-              <button class="delete" aria-label="close"></button>
+              <button class="delete" aria-label="Fechar modal"></button>
             </header>
             <section class="modal-card-body" id="avdSearchModalContent_%s"></section>
             <footer class="modal-card-foot">
@@ -129,7 +129,7 @@ const theme = {
           <div id="avdSearchModalContent_%s">
 
           </div>
-          <button class="close-button" data-close aria-label="Close modal" type="button">
+          <button class="close-button" data-close aria-label="Fechar modal" type="button">
             <span aria-hidden="true">&times;</span>
           </button>
 

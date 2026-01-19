@@ -76,6 +76,7 @@ if (isset($_GET["token"])) {
                     $result = file_get_contents($url, false, $context);
                     $response = json_decode($result, true);
                 } else {
+                    $_SESSION['captcha_error'] = true;
                     $_SESSION['msgcad'] = "Falha na validação do " . $captcha['name'] . ".";
                 }
             } elseif ($captcha['type'] == 'turnstile') {
@@ -96,6 +97,7 @@ if (isset($_GET["token"])) {
                     $result = file_get_contents($url, false, $context);
                     $response = json_decode($result, true);
                 } else {
+                    $_SESSION['captcha_error'] = true;
                     $_SESSION['msgcad'] = "Falha na validação do " . $captcha['name'] . ".";
                 }
             }
@@ -133,6 +135,7 @@ if (isset($_GET["token"])) {
                     $_SESSION['msgcad'] = "Erro: Tente novamente!";
                 }
             } else {
+                $_SESSION['captcha_error'] = true;
                 $_SESSION['msgcad'] = "Por favor, preencha o " . $captcha['name'] . " para continuar.";
             }
         }
@@ -174,36 +177,46 @@ if (isset($_GET["token"])) {
         <div class="container container-tight py-4">
             <div class="text-center mb-4">
                 <a href="<?php echo INCLUDE_PATH_ADMIN; ?>" class="navbar-brand navbar-brand-autodark">
-			<h1>Kitanda</h1>
-<!--                    <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="Logo" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
+			<p class="fs-1">Kitanda</p>
+<!--                    <img src="<?= INCLUDE_PATH_ADMIN; ?>images/logo-inverse.png" alt="<?php echo $project['name']; ?>" class="navbar-brand-image" style="width: 149px; height: 21px;"> -->
                 </a>
             </div>
             <div class="card card-md">
                 <div class="card-body">
-                    <h2 class="h2 text-center mb-4">Finalizar Cadastro</h2>
-                    <p id="message" class="text-danger mb-3">
-                        <?php
-                        if(isset($_SESSION['msgcad'])){
-                            echo $_SESSION['msgcad'];
-                            unset($_SESSION['msgcad']);
-                        }
-                        ?>
-                    </p>
-                    <form action="?token=<?php echo $token; ?>" method="post">
+                    <h1 class="h2 text-center mb-4">Finalizar Cadastro</h1>
+
+                    <?php if (isset($_SESSION['msgcad'])): ?>
+                        <div id="password-error" tabindex="-1" class="alert alert-danger mb-3" role="alert" aria-live="assertive">
+                            <?= $_SESSION['msgcad']; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form action="?token=<?php echo $token; ?>" method="post" onsubmit="return validatePasswordOnSubmit()">
+                        <div id="form-error" class="alert alert-danger" role="alert" aria-live="assertive"></div>
+
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <!-- Campo editável para o nome -->
-                            <input name="nome" id="nome" type="text" class="form-control" value="<?php echo htmlspecialchars($row_usuario['nome']); ?>" required>
+                            <input name="nome" id="nome" type="text" value="<?php echo htmlspecialchars($row_usuario['nome']); ?>" 
+                                class="form-control <?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'is-invalid' : ''; ?>"
+                                aria-invalid="<?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'true' : 'false'; ?>"
+                                <?php if (isset($_SESSION['msgcad']) && !$_SESSION['captcha_error']): ?>aria-describedby="form-error"<?php endif; ?> required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
                             <!-- Campo editável para o e-mail -->
-                            <input name="email" id="email" type="email" class="form-control" value="<?php echo htmlspecialchars($row_usuario['email']); ?>" required>
+                            <input name="email" id="email" type="email" value="<?php echo htmlspecialchars($row_usuario['email']); ?>" 
+                                class="form-control <?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'is-invalid' : ''; ?>"
+                                aria-invalid="<?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'true' : 'false'; ?>"
+                                <?php if (isset($_SESSION['msgcad']) && !$_SESSION['captcha_error']): ?>aria-describedby="form-error"<?php endif; ?> required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha</label>
                             <div class="input-group input-group-flat">
-                                <input name="password" id="password" type="password" class="form-control" placeholder="Crie sua senha" onblur="validatePassword()" required>
+                                <input name="password" id="password" type="password" placeholder="Crie sua senha" oninput="validatePassword()" 
+                                    class="form-control <?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'is-invalid' : ''; ?>"
+                                    aria-invalid="<?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'true' : 'false'; ?>"
+                                    <?php if (isset($_SESSION['msgcad']) && !$_SESSION['captcha_error']): ?>aria-describedby="form-error"<?php endif; ?> required>
                                 <span class="input-group-text">
                                     <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('password', this); return false;">
                                         <i class="ti ti-eye icon icon-1"></i>
@@ -214,7 +227,10 @@ if (isset($_GET["token"])) {
                         <div class="mb-2">
                             <label for="confirmPassword" class="form-label">Confirmar Senha</label>
                             <div class="input-group input-group-flat">
-                                <input name="confirmPassword" id="confirmPassword" type="password" class="form-control" placeholder="Confirme sua senha" onblur="validatePassword()" required>
+                                <input name="confirmPassword" id="confirmPassword" type="password" placeholder="Confirme sua senha" oninput="validatePassword()" 
+                                    class="form-control <?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'is-invalid' : ''; ?>"
+                                    aria-invalid="<?php echo isset($_SESSION['msgcad']) && !$_SESSION['captcha_error'] ? 'true' : 'false'; ?>"
+                                    <?php if (isset($_SESSION['msgcad']) && !$_SESSION['captcha_error']): ?>aria-describedby="form-error"<?php endif; ?> required>
                                 <span class="input-group-text">
                                     <a href="#" class="link-secondary" title="Mostrar senha" data-bs-toggle="tooltip" onclick="togglePassword('confirmPassword', this); return false;">
                                         <i class="ti ti-eye icon icon-1"></i>
@@ -246,6 +262,17 @@ if (isset($_GET["token"])) {
 
     <!-- Exibir/Ocultar Senha -->
     <script>
+        function validatePasswordOnSubmit() {
+            const feedback = document.getElementById("form-error");
+
+            if (feedback.textContent !== "") {
+                feedback.focus();
+                return false;
+            }
+
+            return true;
+        }
+
         function togglePassword(inputId, toggleLink) {
             var input = document.getElementById(inputId);
             var icon = toggleLink.querySelector('i');
@@ -254,19 +281,29 @@ if (isset($_GET["token"])) {
                 toggleLink.title = "Ocultar senha";
                 toggleLink.setAttribute("aria-label", "Ocultar senha");
                 toggleLink.setAttribute("data-bs-original-title", "Ocultar senha");
+                // Altera o ícone para "eye-off"
                 if (icon) {
                     icon.classList.remove("ti-eye");
                     icon.classList.add("ti-eye-off");
                 }
+                toggleLink.setAttribute(
+                    "aria-pressed",
+                    input.type === "text" ? "true" : "false"
+                );
             } else {
                 input.type = "password";
                 toggleLink.title = "Mostrar senha";
                 toggleLink.setAttribute("aria-label", "Mostrar senha");
                 toggleLink.setAttribute("data-bs-original-title", "Mostrar senha");
+                // Altera o ícone para "eye"
                 if (icon) {
                     icon.classList.remove("ti-eye-off");
                     icon.classList.add("ti-eye");
                 }
+                toggleLink.setAttribute(
+                    "aria-pressed",
+                    input.type === "text" ? "true" : "false"
+                );
             }
         }
     </script>
@@ -274,25 +311,44 @@ if (isset($_GET["token"])) {
     <!-- Validar Senha -->
     <script>
         function validatePassword() {
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
-            var SendNewPassword = document.getElementById("SendNewPassword");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const feedback = document.getElementById("form-error");
+            const button = document.getElementById("SendNewPassword");
 
-            if (password.length < 7) {
-                document.getElementById("message").innerHTML = "A senha deve ter no mínimo 8 caracteres";
-                document.getElementById("message").style.color = "red";
-                SendNewPassword.disabled = true;
-            } else {
-                if (password !== confirmPassword) {
-                    document.getElementById("message").innerHTML = "As senhas não coincidem";
-                    document.getElementById("message").style.color = "red";
-                    SendNewPassword.disabled = true;
-                } else {
-                    document.getElementById("message").innerHTML = "";
-                    SendNewPassword.disabled = false;
-                }
+            password.setAttribute("aria-invalid", "false");
+            confirmPassword.setAttribute("aria-invalid", "false");
+
+            if (password.value.length < 8) {
+                feedback.textContent = "A senha deve ter no mínimo 8 caracteres.";
+                password.setAttribute("aria-invalid", "true");
+                button.disabled = true;
+                return;
             }
+
+            if (password.value !== confirmPassword.value) {
+                feedback.textContent = "As senhas não coincidem.";
+                password.setAttribute("aria-invalid", "true");
+                confirmPassword.setAttribute("aria-invalid", "true");
+                button.disabled = true;
+                return;
+            }
+
+            feedback.textContent = "";
+            button.disabled = false;
         }
     </script>
+
+    <?php if (isset($_SESSION['msgcad'])): ?>
+        <?php if (!isset($_SESSION['msg'])): ?>
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('password-error').focus();
+            });
+        </script>
+        <?php endif; ?>
+    <?php unset($_SESSION['msgcad'], $_SESSION['captcha_error']); ?>
+    <?php endif; ?>
+
 </body>
 </html>

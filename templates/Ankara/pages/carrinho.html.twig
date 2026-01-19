@@ -6,10 +6,10 @@
 #}
 
 {# --------------------- Modal de confirmação de remoção --------------------- #}
-<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
                     <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
                     <path d="M9 12l2 2l4 -4"/>
                 </svg>
-                <h3>Tem certeza?</h3>
+                <h2 id="modal-delete-title" class="h3">Tem certeza?</h2>
                 <div class="text-secondary">Deseja remover o produto do seu carrinho?</div>
             </div>
             <div class="modal-footer">
@@ -50,6 +50,8 @@
 
 {# --------------------------- Page header (breadcrumb) -------------------------- #}
 <div class="page-header d-print-none">
+    <h1 class="visually-hidden">Meu Carrinho</h1>
+
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
@@ -68,9 +70,9 @@
         <div class="row g-4">
 
             <div class="col-md-12">
-                <h3 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
+                <h2 style="font-size: 2.5rem; line-height: normal; font-weight: 800;">
                     Meu Carrinho
-                </h3>
+                </h2>
             </div>
 
             {# ----------------------------- Lista de Itens ----------------------------- #}
@@ -82,10 +84,14 @@
                                 <div class="col-3 row g-2 g-md-3 mt-0">
                                     <div class="col-12 mt-0">
                                         <a data-fslightbox="gallery"
-                                           href="{{ item.produto_imagem }}">
-                                            <div class="img-responsive img-responsive-1x1 rounded-3 border"
-                                                 style="background-image: url({{ item.produto_imagem }});">
-                                            </div>
+                                           href="{{ item.produto_imagem }}"
+                                           class="img-wcag"
+                                           aria-label="Abrir imagem ampliada do produto {{ item.produto_nome }}">
+                                            <img
+                                                src="{{ item.produto_imagem }}"
+                                                alt="{% if item.produto_alt %}{{ item.produto_alt }}{% else %}{{ item.titulo }}{% if item.empreendedora %} - Produzido por {{ item.empreendedora }}{% endif %}{% if item.codigo_produto %} - Código {{ item.codigo_produto }}{% endif %}{% endif %}"
+                                                class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                                            >
                                         </a>
                                     </div>
                                 </div>
@@ -103,9 +109,9 @@
                                                 </a>
                                                 <p class="text-secondary mb-0 me-4">Estoque: {{ item.produto_estoque }}</p>
                                             </div>
-                                            <h3 class="h2 mb-4">
+                                            <p class="h2 mb-4">
                                                 R$ {{ item.produto_preco|number_format(2, ',', '.') }}
-                                            </h3>
+                                            </p>
                                             <a href="#" class="text-muted remove-item"
                                                data-item-id="{{ item.carrinho_id }}"
                                                data-produto-id="{{ item.produto_id }}">
@@ -115,7 +121,9 @@
                                     </div>
                                     <div class="col-2">
                                         <input type="number"
+                                               id="quantidade-produto-{{ item.carrinho_id }}"
                                                class="form-control quantidade-produto"
+                                               aria-label="Quantidade do produto"
                                                value="{{ item.quantidade }}"
                                                min="1"
                                                max="{{ item.produto_estoque ? item.produto_estoque : NULL }}"
@@ -137,7 +145,7 @@
             <div class="col-md-4">
                 <div class="card bg-dark-lt">
                     <div class="card-body">
-                        <h3 class="card-title">Resumo do pedido</h3>
+                        <h2 class="h2 card-title">Resumo do pedido</h2>
 
                         {% set total = 0 %}
                         {% for item in cartItems %}
@@ -145,9 +153,12 @@
                         {% endfor %}
 
                         <table class="table table-sm table-borderless">
+                            <caption class="visually-hidden">
+                                Itens do carrinho de compras
+                            </caption>
                             <tbody>
                                 <tr>
-                                    <td>Itens do carrinho</td>
+                                    <th scope="row">Itens do carrinho</th>
                                     <td id="cart-total" class="w-10 fw-bold text-end">
                                         R$ {{ total|number_format(2, ',', '.') }}
                                     </td>
@@ -162,9 +173,12 @@
                         <hr class="my-2">
 
                         <table class="table table-sm table-borderless">
+                            <caption class="visually-hidden">
+                                Valor total do carrinho de compras
+                            </caption>
                             <tbody>
                                 <tr>
-                                    <td class="fw-bold">TOTAL</td>
+                                    <th scope="row" class="fw-bold">TOTAL</th>
                                     <td id="cart-total-final" class="w-10 fw-bold text-end">
                                         R$ {{ total|number_format(2, ',', '.') }}
                                     </td>
@@ -251,7 +265,7 @@
                     try {
                         var res = JSON.parse(response);
                         if (res.status === 'sucesso') {
-                            $('#cart-count').text(res.numero_itens);
+                            $('.cart-count').text(res.numero_itens);
                         } else {
                             alert("Erro: " + res.mensagem);
                         }
@@ -287,9 +301,9 @@
                                     atualizarTotalCarrinho();
                                 });
                                 if (res.numero_itens > 0) {
-                                    $("#cart-count").text(res.numero_itens).show();
+                                    $(".cart-count").text(res.numero_itens).show();
                                 } else {
-                                    $("#cart-count").fadeOut();
+                                    $(".cart-count").fadeOut();
                                 }
                             } else {
                                 alert("Erro: " + res.mensagem);

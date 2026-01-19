@@ -13,9 +13,9 @@
             <a href="{{ INCLUDE_PATH }}">
                 {% if logo %}
                     <img class="navbar-brand-image-disable"
-                         src="{{ INCLUDE_PATH }}assets/img/{{ logo }}" alt="Logo da Loja">
+                         src="{{ INCLUDE_PATH }}assets/img/{{ logo }}" alt="{{ nome }}">
                 {% else %}
-                    <h1 class="mb-0">Kitanda</h1>
+                    <h1 class="mb-0">{{ nome }}</h1>
                 {% endif %}
             </a>
         </div>

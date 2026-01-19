@@ -9,7 +9,7 @@
 <div class="modal modal-blur fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -82,10 +82,13 @@
                                 <div class="col-3 row g-2 g-md-3 mt-0">
                                     <div class="col-12 mt-0">
                                         <a data-fslightbox="gallery"
-                                           href="{{ item.produto_imagem }}">
-                                            <div class="img-responsive img-responsive-1x1 rounded-3 border"
-                                                 style="background-image: url({{ item.produto_imagem }});">
-                                            </div>
+                                           href="{{ item.produto_imagem }}"
+                                           aria-label="Abrir imagem ampliada do produto {{ item.produto_nome }}">
+                                            <img
+                                                src="{{ item.produto_imagem }}"
+                                                alt="{{ item.produto_nome }}"
+                                                class="img-responsive img-responsive-1x1 rounded-3 border pt-0"
+                                            >
                                         </a>
                                     </div>
                                 </div>

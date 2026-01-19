@@ -58,7 +58,7 @@
 <div class="modal modal-blur fade" id="uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button> -->
             <div class="modal-status bg-info"></div>
             <div class="modal-body text-center py-4">
                 <!-- Download SVG icon from https://tabler.io/icons/icon/cloud-up -->
@@ -97,7 +97,7 @@
 <div class="modal modal-blur fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             <div class="modal-status bg-danger"></div>
             <div class="modal-body text-center py-4">
                 <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
@@ -136,9 +136,9 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <h2 class="page-title">
+                <h1 class="page-title">
                     Arquivos
-                </h2>
+                </h1>
                 <div class="text-secondary mt-1">Aqui estão os arquivos do sistema.</div>
             </div>
             <!-- Page title actions -->
@@ -166,14 +166,14 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4 class="card-title">Arquivos</h4>
+                        <h2 class="card-title">Arquivos</h2>
                     </div>
 
                     <div class="row row-cards">
                         <?php foreach($arquivos as $arquivo) : ?>
                         <div class="col-sm-6 col-lg-4">
                             <div class="card card-sm">
-                                <img src="<?php echo INCLUDE_PATH; ?>files/arquivos/<?php echo $arquivo['criado_por']; ?>/<?php echo $arquivo['nome']; ?>" class="card-img-top"/>
+                                <img src="<?php echo INCLUDE_PATH; ?>files/arquivos/<?php echo $arquivo['criado_por']; ?>/<?php echo $arquivo['nome']; ?>" class="card-img-top" alt="" aria-hidden="true"/>
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
@@ -190,7 +190,7 @@
                                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-file-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm3.707 10.293a1 1 0 0 0 -1.414 0l-3.293 3.292l-1.293 -1.292a1 1 0 1 0 -1.414 1.414l2 2a1 1 0 0 0 1.414 0l4 -4a1 1 0 0 0 0 -1.414m-.707 -9.294l4 4.001h-4z" /></svg>
                                             </span>
 
-                                            <a href="javascript:void(0)" id="deletaArquivo" class="text-danger btn-delete" data-id="<?php echo $arquivo['id']; ?>" data-folder="<?php echo $arquivo['criado_por']; ?>" data-name="<?php echo $arquivo['nome']; ?>">
+                                            <a href="javascript:void(0)" id="deletaArquivo" class="text-danger btn-delete" aria-label="Excluir arquivo <?php echo $arquivo['nome']; ?>" data-id="<?php echo $arquivo['id']; ?>" data-folder="<?php echo $arquivo['criado_por']; ?>" data-name="<?php echo $arquivo['nome']; ?>">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/eye -->
                                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-file-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005h5zm-1.489 9.14a1 1 0 0 0 -1.301 1.473l.083 .094l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.403 1.403l.094 -.083l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.403 -1.403l-.083 -.094l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.403 -1.403l-.094 .083l-1.293 1.292l-1.293 -1.292l-.094 -.083l-.102 -.07z" /><path d="M19 7h-4l-.001 -4.001z" /></svg>
                                             </a>
@@ -304,7 +304,7 @@
 
                             // Caso contrário, exibe a mensagem de erro
                             $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                            $("#createPost").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#createPost").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                         }
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
@@ -314,7 +314,7 @@
 
                         // Caso haja erro na requisição, exibe uma mensagem de erro
                         $(".alert").remove(); // Remove qualquer mensagem de erro anterior
-                        $("#createPost").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $("#createPost").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Ocorreu um erro, tente novamente mais tarde.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

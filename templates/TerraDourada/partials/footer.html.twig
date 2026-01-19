@@ -10,7 +10,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card news-card">
                             <div class="blog-image">
-                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}">
+                                <a href="{{ INCLUDE_PATH }}post?id={{ post.id }}" class="img-wcag">
                                     <img
                                         src="{{ post.imagem }}"
                                         alt="{{ post.titulo }}"
@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 {# Categoria principal (ou múltiplas) #}
                                 {% if post.categorias is not empty %}
-                                    <p class="text-danger text-uppercase mb-2">
+                                    <p class="text-yellow text-uppercase mb-2">
                                         {{ post.categorias[0].nome }}
                                     </p>
                                 {% else %}
@@ -52,9 +52,9 @@
     </section>
     {% endif %}
 
-    <div class="row text-center">
+    <div class="row text-center mx-0">
         <div class="col-12 mb-4 text-sm-center">
-	 <a href="https://moverse.ceweb.br" target="_blank">
+	 <a href="https://moverse.ceweb.br" target="_blank" class="img-wcag">
             <img src="/assets/img/Banner-site_648x60.png" alt="Este projeto é fomentado pelo Mover-se na Web" title="Este projeto é fomentado pelo Mover-se na Web" />
 	 </a>
         </div>
@@ -62,17 +62,19 @@
 
     <!-- Footer -->
     <footer id="TerraDourada-rodape" class="footer marrom">
+        <h2 class="visually-hidden">Rodapé do site</h2>
+
         <div class="container">
             <div class="row text-center">
                 {% if (td_footer_info and is_home) or not td_footer_info %}
                 <div class="col-lg-3 mb-4 text-sm-center">
-                    <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Mulheres Empreendedoras da Amazônia" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
+                    <img src="/assets/TerraDourada/images/Logo-MEA.png" alt="Loja Terra Dourada" aria-hidden="true" title="Mulheres Empreendedoras da Amazônia" class="mb-2" />
                     <p>Empoderando mulheres da Amazônia através do empreendedorismo sustentável.</p>
                 </div>
                 {% endif %}
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3 h2">Fale com a gente</p>
+                    <h3 class="fs-3">Fale com a gente</h3>
                     <p><a href="{{ whatsapp ? 'https://web.whatsapp.com/send/?phone=55' ~ whatsapp ~ '&text=Ol%C3%A1!&type=phone_number&app_absent=0' : '#' }}" target="_blank"><i class="fab fa-2x fa-whatsapp me-2"></i> WhatsApp</a></p>
                     {% if (td_footer_socials and is_home) or not td_footer_socials %}
                     <p class="mt-4 fs-3 h2">Siga-nos</p>
@@ -107,7 +109,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3 h2">Informações gerais</p>
+                    <h3 class="fs-3">Informações gerais</h3>
                     <ul class="list-unstyled">
                         <li><a href="#">Política de fretamento</a></li>
                         <li><a href="#">Termos e condições</a></li>
@@ -136,7 +138,7 @@
                 </div>
                 
                 <div class="col-lg-3 mb-4">
-                    <p class="fs-3 h2">Contato</p>
+                    <h3 class="fs-3">Contato</h3>
                     <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ email }}">{{ email }}</a></p>
                     
                     <p class="fs-3 mt-4"><strong>Formas de pagamento</strong></p>

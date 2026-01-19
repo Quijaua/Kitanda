@@ -51,7 +51,7 @@
       <div class="modal-header">
         <!-- Título que será atualizado com o ID da compra -->
         <h5 class="modal-title" id="modal-track-title">Rastrear Compra #</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
       </div>
       <div class="modal-body">
         <!-- A timeline será preenchida dinamicamente -->
@@ -95,7 +95,7 @@
                             <div class="text-secondary">
                                 Exibir
                                 <div class="mx-2 d-inline-block">
-                                    <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas" w>
+                                    <select class="form-control form-control-sm" id="entries-select" aria-label="Contagem de faturas">
                                         <option value="10" selected>10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>

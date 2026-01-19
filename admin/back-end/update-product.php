@@ -17,6 +17,7 @@ function uploadImagens($produto_id, $conn) {
 
     foreach ($_FILES['imagens']['name'] as $key => $arquivo) {
         $extensao = pathinfo($arquivo, PATHINFO_EXTENSION);
+        $alt = $_POST['alts'][$key] ?? '';
         if (!in_array(strtolower($extensao), $_UP['extensoes'])) {
             echo json_encode(['status' => 'error', 'message' => 'A extensão da imagem é inválida.']);
             continue;
@@ -30,9 +31,10 @@ function uploadImagens($produto_id, $conn) {
         $nome_final = $_UP['renomeia'] ? date('YmdHis') . "_imagem_" . $key . "." . $extensao : $_FILES['imagens']['name'][$key];
 
         if (move_uploaded_file($_FILES['imagens']['tmp_name'][$key], $_UP['pasta'] . $nome_final)) {
-            $stmt = $conn->prepare("INSERT INTO $tabela (produto_id, imagem) VALUES (:produto_id, :imagem)");
+            $stmt = $conn->prepare("INSERT INTO $tabela (produto_id, imagem, alt) VALUES (:produto_id, :imagem, :alt)");
             $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
             $stmt->bindParam(':imagem', $nome_final, PDO::PARAM_STR);
+            $stmt->bindParam(':alt', $alt, PDO::PARAM_STR);
             $stmt->execute();
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Erro ao fazer upload da imagem.']);
@@ -80,6 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         if (!$conn) {
             throw new Exception("Conexão inválida com o banco de dados.");
         }
+
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+        exit;
 
         $conn->beginTransaction();
 
@@ -138,6 +145,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
 
         // Remover imagens se houver alguma na lista
+        if (!empty($_POST['alts_existentes'])) {
+            $altsExistentes = json_decode($_POST['alts_existentes'], true);
+
+            foreach ($altsExistentes as $imagem => $alt) {
+                $stmtAlt = $conn->prepare("UPDATE tb_produto_imagens SET alt = :alt WHERE produto_id = :produto_id AND imagem = :imagem");
+                $stmtAlt->bindParam(':alt', $alt, PDO::PARAM_STR);
+                $stmtAlt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
+                $stmtAlt->bindParam(':imagem', $imagem, PDO::PARAM_STR);
+                $stmtAlt->execute();
+            }
+        }
+
         if (!empty($_POST['imagens_removidas'])) {
             $imagens_removidas = json_decode($_POST['imagens_removidas'], true);
 

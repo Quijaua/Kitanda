@@ -87,7 +87,7 @@ if (!empty($pedido_id)) {
         foreach ($rows as $item) {
             // Formata URL da imagem se houver
             $stmtImg = $conn->prepare("
-                SELECT imagem 
+                SELECT imagem, alt 
                 FROM tb_produto_imagens 
                 WHERE produto_id = ? 
                 ORDER BY imagem ASC 
@@ -111,7 +111,8 @@ if (!empty($pedido_id)) {
                 'produto_preco'  => (float) $item['produto_preco'],
                 'preco_unitario' => (float) $item['preco_unitario'],
                 'quantidade'     => (int) $item['quantidade'],
-                'imagem'         => $imagemUrl
+                'imagem'         => $imagemUrl,
+                'alt'            => $item['alt']
             ];
 
             // Soma ao subtotal: usamos produto_preco * quantidade
@@ -177,7 +178,7 @@ if (!$isPedido) {
     foreach ($rows as $item) {
         // Busca imagem do produto (primeira disponível)
         $stmtImg = $conn->prepare("
-            SELECT imagem 
+            SELECT imagem, alt 
             FROM tb_produto_imagens 
             WHERE produto_id = ?
             ORDER BY imagem ASC
@@ -201,7 +202,8 @@ if (!$isPedido) {
             'produto_preco'  => (float) $item['produto_preco'],
             'preco_unitario' => (float) $item['produto_preco'],
             'quantidade'     => (int) $item['quantidade'],
-            'imagem'         => $imagemUrl
+            'imagem'         => $imagemUrl,
+            'alt'            => $item['alt']
         ];
 
         // Somatório de subtotal
